@@ -23,7 +23,7 @@ require_once('./includes/fckeditor/fckeditor.php');
 <title>欢迎光临<?php echo $board_name;?></title>
 </head>
 
-<body><!-- background sound start--><bgsound src="http://www.rainyjune.cn/music/thisnight.wma" /><!--background sound end-->
+<body>
 <div id="container">
 <h1>欢迎留言</h1>
 <table id="table1">
