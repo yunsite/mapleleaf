@@ -105,15 +105,15 @@ if($check_reply==true)
 }
 // generate proper content for users
 echo "<tr class='message'><td class='left'>";
-if(htmlspecialchars_decode($message[1])=='Admin')
+if($message[1]=='Admin')
 {
 	echo '<font color="red">Admin</font>';
 }
 else
 {
-	echo filter_words(htmlspecialchars_decode($message[1]));
+	echo filter_words($message[1]);
 }
-echo "</td><td class='left'>".filter_words(htmlspecialchars_decode($message[2]));
+echo "</td><td class='left'>".filter_words($message[2]);
 // display relevant reply for current message
 if($reply_info!=array())
 {
@@ -121,7 +121,7 @@ if($reply_info!=array())
 	{
 		echo '<br/>';
 	}
-	echo '<font color="red">Admin于'.date('m-d H:i',(int)$reply_info[2]).'回复：</font>'.htmlspecialchars_decode($reply_info[1]);
+	echo '<font color="red">Admin于'.date('m-d H:i',(int)$reply_info[2]).'回复：</font>'.$reply_info[1];
 }
 echo "</td>
 	  <td class='left'>".date('Y-m-d H:i',(int)$message[3])."</td></tr>";
