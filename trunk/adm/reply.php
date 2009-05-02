@@ -28,7 +28,7 @@ if(!isset($mid))
 <?php
 		$myFCKeditor = new FCKeditor('reply_content') ;
 		$myFCKeditor->BasePath		=	"../includes/fckeditor/" ;
-		$myFCKeditor->ToolbarSet	=	"Default";
+		$myFCKeditor->ToolbarSet	=	"Basic";
 		$myFCKeditor->Config['EnterMode'] = 	'br';
 		$myFCKeditor->Value			=	'' ;
 		$myFCKeditor->Create() ;
