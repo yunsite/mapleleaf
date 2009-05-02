@@ -167,7 +167,7 @@ function showerror($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
 			  </head>
 			  <body>\n\n";
 		echo"<table style='TABLE-LAYOUT:fixed;WORD-WRAP: break-word'><tr><td>$msg";
-		echo"<br><br><b>You Can Get Help In</b>:<br><a target=_blank href=http://www.rainyjune.cn/>www.rainyjune.cn</a>";
+		echo"<br><br><b>You Can Get Help In</b>:<br><a target=_blank href=http://maple.dreamneverfall.cn/>maple.dreamneverfall.cn</a>";
 		echo"</td></tr></table></body></html>";
 		exit;
 }
