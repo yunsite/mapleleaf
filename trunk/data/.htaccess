@@ -1,9 +1,0 @@
-<Files "gb.txt">
-Order Allow,Deny
-Deny from All
-</Files>
-
-<Files "reply.txt">
-Order Allow,Deny
-Deny from All
-</Files>
