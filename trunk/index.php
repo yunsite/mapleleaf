@@ -1,13 +1,4 @@
 <?php
-/**
- *
- * @package mapleleaf
- * @version 2009-01-15
- * @copyright (c) 2009 mapleleaf Group
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- *
- */
-
 // start session
 session_start();
 define('IN_MP',true);
@@ -51,11 +42,7 @@ include('smileys/smileys.php');
 	$reply_data=readover($file_reply);
 
 	//if replies is not null,check one message has one reply or none
-	$check_reply=true;
-	if(!$reply_data)
-	{
-		$check_reply=false;
-	}
+	$check_reply=$reply_data?true:false;
 
 
 	// about pagination
