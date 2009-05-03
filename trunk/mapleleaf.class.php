@@ -1,4 +1,10 @@
 <?php
+/**
+ * 有点不知道怎么写了，你先不要去管这个文件，
+ * 
+ *
+ */
+
 
 class guestbook
 {
@@ -54,11 +60,12 @@ class guestbook
 
 	/**
 	 * 回复指定的留言
+	 * @param $content 留言的内容
 	 * @param $number 指定的留言
 	 */
-	function reply($number)
+	function reply($number, $content)
 	{
-			
+		
 	}
 }
 
@@ -120,7 +127,7 @@ class db
 	 */
 	function limit($limit)
 	{
-
+		
 	}
 
 	/**
@@ -130,7 +137,18 @@ class db
 	 */
 	function offset($offset)
 	{
-		
+
+	}
+
+	/**
+	 * 修改留言
+	 * @param $number 指定的留言
+	 * @param $data  array，保存要修改内容的数组
+	 * @return unknown_type
+	 */
+	function alter($number, $data)
+	{
+
 	}
 }
 
@@ -188,6 +206,7 @@ class text_db extends db
 	function limit($limit)
 	{
 		$this->limit = $limit;
+		return $this;
 	}
 
 	/**
@@ -198,6 +217,18 @@ class text_db extends db
 	function offset($offset)
 	{
 		$this->offset = $offset;
+		return $this;
+	}
+
+	/**
+	 * 修改留言
+	 * @param $number 指定的留言
+	 * @param $data  array，保存要修改内容的数组
+	 * @return unknown_type
+	 */
+	function alter($number, $data)
+	{
+
 	}
 }
 

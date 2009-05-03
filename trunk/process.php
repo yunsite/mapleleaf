@@ -39,7 +39,7 @@ if($valid_code_open==1)
 $user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
 // $content=str_replace("\n",' ',trim($_POST['content']));
 $content = nl2br(trim($_POST['content']));
-$content=str_replace(array("\n", "\n\r", "\r", "\r\n"),'',$content);
+$content=htmlspecialchars(str_replace(array("\n", "\n\r", "\r", "\r\n"),'',$content));
 $time=time();
 if(!isset($_SESSION['admin']) && ($user=='Admin' || $user=='admin' || $user=='root' || $user=='administrator' || $user=='管理员'))
 {
