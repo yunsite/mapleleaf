@@ -16,6 +16,13 @@
 		<td class="m">留言</td>
 		<td>时间</td>
 	</tr>
+    {foreach value=m from=$data}
+    <tr class='message'>
+    	<td class='left'>{$m.1}</td>
+        <td class='left'>{$m.2}<br />{if $m.reply}{$m.reply.1} Time:{$m.reply.2}{/if}</td>
+        <td class='left'>{$m.3|date:"n/j/Y g:ia"}</td>
+    </tr>
+    {/foreach}
 </table>
 <br />
 
@@ -26,7 +33,11 @@
 <table id="table1">
 	<tr>
 		<td class="l">昵称</td>
-		<td class="s">
+		<td class="s">{if $admin == true}
+        				<input name="user" id="user" type="hidden" maxlength="10"  onfocus="clear_user()" value="Admin" /><font color="red">Admin</font>
+						{else}
+                        <input name="user" id="user" type="text" maxlength="10"  onfocus="clear_user()" value="anonymous" />
+					{/if}
 		</td>
 		<td class="left">&nbsp;
 		<div id="user_msg"></div>
