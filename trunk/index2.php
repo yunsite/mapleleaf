@@ -28,7 +28,10 @@ $check_reply=$reply_data?true:false;
 $reply_num=count($reply_data);
 //若分页开启
 $nums=count($data);
-if($page_on==1)
+//初始化总页数
+$pages=1;
+
+/*if($page_on==1)
 {
 	$pages=ceil($nums/$num_perpage);
 	$page_current=0;
@@ -46,7 +49,7 @@ if($page_on==1)
 	}
 	$start=$page_current*$num_perpage;
 	$data=array_slice($data,$start,$num_perpage);
-}
+}*/
 //检索相关留言和回复
 //foreach($data as $message)
 for($i=0;$i<$nums;$i++)
@@ -66,19 +69,46 @@ for($i=0;$i<$nums;$i++)
 			}
 		}
 	}
+	else
+	{
+		break;
+	}
 }
-echo '<pre>';
+if($page_on==1)
+{
+	$pages=ceil($nums/$num_perpage);
+	$page_current=0;
+	if(isset($_GET['pid']))
+	{
+		$page_current=(int)$_GET['pid'];
+	}
+	if($page_current>=$pages)
+	{
+		$page_current=$pages-1;
+	}
+	if($page_current<0)
+	{
+		$page_current=0;
+	}
+	$start=$page_current*$num_perpage;
+	$data=array_slice($data,$start,$num_perpage);
+}
+/*echo '<pre>';
 var_dump($data);
-echo '</pre>';
+echo '</pre>';*/
 //exit;
 $admin=isset($_SESSION['admin'])?true:false;
 $tpl = new Template_Lite;
 $tpl->compile_dir = "./compiled/";
 $tpl->template_dir = "./templates/";
 $tpl->assign('admin',$admin);
+$tpl->assign('pages',$pages);
 $tpl->assign('data',$data);
+$tpl->assign('nums',$nums);
+$tpl->assign('page_on',$page_on);
 $tpl->assign("title",$board_name);
 $tpl->assign("admin_email",$admin_email);
 $tpl->assign("copyright_info",$copyright_info);
+$tpl->assign('valid_code_open',$valid_code_open);
 $tpl->display("index.tpl");
 ?>
