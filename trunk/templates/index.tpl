@@ -23,6 +23,14 @@
         <td class='left'>{$m.3|date:"n/j/Y g:ia"}</td>
     </tr>
     {/foreach}
+    {if $page_on}
+		<tr><td colspan='3'>共 {$pages} 页 {$nums} 条留言
+		{ for start=0 stop=$pages step=1 value=current}
+			<a href='index2.php?pid={$current}'>{math equation="x + 1" x=$current}</a>&nbsp;
+        { /for }
+
+		</td></tr>
+	{/if}
 </table>
 <br />
 
@@ -56,7 +64,7 @@
 		
 		</td>
 	</tr>
-	
+	{if $valid_code_open}
 	<tr>
 		<td class="l">验证码</td>
 		<td class="left"><input type="text" name="valid_code" size="4"
@@ -64,7 +72,7 @@
 			border="0" align="absbottom" /></td>
 		<td class="left">&nbsp;</td>
 	</tr>
-	
+	{/if}
 	<tr>
 		<td>&nbsp;</td>
 		<td colspan="2" class="left"><input name="submit" type="submit"
