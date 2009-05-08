@@ -261,6 +261,6 @@ echo "<tr><td colspan='5' align='left'><input type='submit' value='删除所选'
 </DIV>
 </DIV>
 </DIV>
-<div id="botton">Powered by <a href="http://www.rainyjune.cn">MapleLeaf</a>&nbsp;&copy; 2009 mapleleaf Group</div>
+<div id="botton">Powered by <a href="http://maple.dreamneverfall.cn">MapleLeaf</a>&nbsp;&copy; 2009 mapleleaf Group</div>
 </body>
 </html>
