@@ -31,25 +31,6 @@ $nums=count($data);
 //初始化总页数
 $pages=1;
 
-/*if($page_on==1)
-{
-	$pages=ceil($nums/$num_perpage);
-	$page_current=0;
-	if(isset($_GET['pid']))
-	{
-		$page_current=(int)$_GET['pid'];
-	}
-	if($page_current>=$pages)
-	{
-		$page_current=$pages-1;
-	}
-	if($page_current<0)
-	{
-		$page_current=0;
-	}
-	$start=$page_current*$num_perpage;
-	$data=array_slice($data,$start,$num_perpage);
-}*/
 //检索相关留言和回复
 //foreach($data as $message)
 for($i=0;$i<$nums;$i++)
