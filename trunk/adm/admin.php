@@ -1,13 +1,4 @@
 <?php
-/**
-*
-* @package mapleleaf
-* @version 2009-01-15 
-* @copyright (c) 2008 mapleleaf Group
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
-
 // start session
 session_start();
 define('IN_MP',true);
@@ -42,9 +33,6 @@ if(isset($_GET['subtab']))
 </head>
 
 <body>
-<!-- 背景音乐-->
-<bgsound src="http://www.rainyjune.cn/music/thisnight.wma" />
-<!--背景音乐结束-->
 <div id="admin_header">
 	<a href="../">首页</a>&nbsp;<a href="logout.php" title="注销"><img src="<?php echo $mp_root_path.'style/images/icon_logout.gif';?>"  alt="注销" border="0" /></a>
 </div>
