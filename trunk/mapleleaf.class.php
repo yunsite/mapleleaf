@@ -90,11 +90,13 @@ class db
 
 
 	/**
-	 * 删除指定的节点
-	 * @param $number
+	 * 在指定的表中删除指定的行
+	 * delete from table where $data
+	 * @param $table 指定的table
+	 * @param $data 指定的行
 	 * @return unknown_type
 	 */
-	function delete($number)
+	function delete($table, $data)
 	{
 
 	}

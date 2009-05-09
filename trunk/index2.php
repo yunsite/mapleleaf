@@ -35,6 +35,9 @@ $pages=1;
 //foreach($data as $message)
 for($i=0;$i<$nums;$i++)
 {
+	// 转换表情符号，只对留言进行转换，没有对回复进行转化
+	$data[$i][2] = parse_smileys($data[$i][2], "./smileys/images/", $smileys);
+	
 	// if we need retrieve reply for the message
 	if($check_reply==true)
 	{
