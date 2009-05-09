@@ -1,13 +1,4 @@
 <?php
-/**
-*
-* @package mapleleaf
-* @version 2009-01-15 
-* @copyright (c) 2008 mapleleaf Group
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
-
 if(!defined('IN_MP'))
 {
 	exit;
@@ -104,6 +95,7 @@ function mp_del($filename,$type,$id)
 	{
 		$num_use=$num-1;
 	}
+	$sp='NONE';
 	for($i=0;$i<$num_use;$i++)//得到当前要删除的留言是数组的行数
 	{
 		$row=$all[$i];//类型为 字符串!
@@ -115,7 +107,10 @@ function mp_del($filename,$type,$id)
 			break;
 		}
 	}
-	unset($all[$sp]);//把此行从数组中删除
+	if ($sp=='NONE')
+	{
+		unset($all[$sp]);//把此行从数组中删除
+	}
 	$outputing=implode('',$all);
 	writeover($filename,$outputing,'wb');
 }
