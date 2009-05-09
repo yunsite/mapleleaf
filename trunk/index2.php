@@ -31,13 +31,13 @@ $nums=count($data);
 //初始化总页数
 $pages=1;
 
-//检索相关留言和回复
+//检索相关留言和回复,并转化表情符号
 //foreach($data as $message)
 for($i=0;$i<$nums;$i++)
 {
 	// 转换表情符号，只对留言进行转换，没有对回复进行转化
 	$data[$i][2] = parse_smileys($data[$i][2], "./smileys/images/", $smileys);
-	
+
 	// if we need retrieve reply for the message
 	if($check_reply==true)
 	{
@@ -52,10 +52,6 @@ for($i=0;$i<$nums;$i++)
 				break;
 			}
 		}
-	}
-	else
-	{
-		break;
 	}
 }
 if($page_on==1)
@@ -94,5 +90,5 @@ $tpl->assign("title",$board_name);
 $tpl->assign("admin_email",$admin_email);
 $tpl->assign("copyright_info",$copyright_info);
 $tpl->assign('valid_code_open',$valid_code_open);
-$tpl->display("index.tpl");
+$tpl->display("index.html");
 ?>

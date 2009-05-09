@@ -66,5 +66,5 @@ $input=implode('',$input);
 $input.="$index_num".'"'.$user.'"'.$content.'"'.$time."\n$next_num\n";
 
 writeover($file_name,$input);
-header("Location:index.php");
+header("Location:index2.php");
 ?>
