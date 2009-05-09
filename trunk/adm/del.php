@@ -1,13 +1,4 @@
 <?php
-/**
-*
-* @package mapleleaf
-* @version 2009-01-15 
-* @copyright (c) 2008 mapleleaf Group
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
-
 // start session
 session_start();
 define('IN_MP',true);
@@ -32,7 +23,7 @@ if(isset($_SESSION['admin']))
 		$reply_file=$mp_root_path."data/reply.txt";
 		mp_del($reply_file,'reply',$mid);
 	}
-	header("Location:admin.php?subtab=message&randomvalue=".rand());
+	header("Location:admin2.php?subtab=message&randomvalue=".rand());
 }
 else // Or, direct to the index.php
 {
