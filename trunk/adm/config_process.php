@@ -30,5 +30,5 @@ if(!isset($_SESSION['admin']))
 	
 	//write it into site.conf.php
 	writeover('site.conf.php',$data);
-	header("location:admin.php");
+	header("location:admin2.php");
 ?>
