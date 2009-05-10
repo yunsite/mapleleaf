@@ -16,7 +16,7 @@ if(isset($_SESSION['admin']))
 <?php
 if($old_user)
 {
-	echo '<meta http-equiv="Refresh" content="5;URL=../index.php" />';
+	echo '<meta http-equiv="Refresh" content="5;URL=../index2.php" />';
 }
 ?>
 <style type="text/css">
@@ -66,7 +66,7 @@ else
 {
 echo "您没有登录，所以您无需退出。 <img src='../includes/fckeditor/editor/images/smiley/msn/wink_smile.gif'>";
 ?>
-<a href="../index.php">返回留言板首页</a>
+<a href="../index2.php">返回留言板首页</a>
 <?php
 }
 ?>
