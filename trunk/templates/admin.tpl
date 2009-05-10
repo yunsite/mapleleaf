@@ -9,7 +9,7 @@
 
 <body>
 <div id="admin_header">
-	<a href="../">首页</a>&nbsp;<a href="logout.php" title="注销"><img src="../style/images/icon_logout.gif"  alt="注销" border="0" /></a>
+	<a href="../index2.php">首页</a>&nbsp;<a href="logout.php" title="注销"><img src="../style/images/icon_logout.gif"  alt="注销" border="0" /></a>
 </div>
 <div id="con">
 <ul id="tags">
