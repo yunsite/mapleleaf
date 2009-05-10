@@ -18,9 +18,9 @@
 	</tr>
     {foreach value=m from=$data}
     <tr class='message'>
-    	<td class='left'>{$m.1}</td>
-        <td class='left'>{$m.2}<br />{if $m.reply}{$m.reply.1} Time:{$m.reply.2}{/if}</td>
-        <td class='left'>{$m.3|date:"n/j/Y g:ia"}</td>
+    	<td class='left'>{$m.1|replace:"Admin":"<font color='red'>Admin</font>" }</td>
+        <td class='left'>{$m.2}<br />{if $m.reply}<font color='red'>Admin于{$m.reply.2|date:"m-d H:i"}回复：</font>{$m.reply.1} {/if}</td>
+        <td class='left'>{$m.3|date:"m-d H:i"}</td>
     </tr>
     {/foreach}
     {if $page_on}
