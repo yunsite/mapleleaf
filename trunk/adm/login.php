@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>管理员登陆</title>
+<title>Login</title>
 <link rel="stylesheet" type="text/css" href="../style/login.css"  />
 <script type="text/javascript" src="../includes/login.js"></script>
 </head>
@@ -12,19 +12,19 @@
 	<div class="main">
 	
 		<div class="title">
-			管理登陆
+			Login
 		</div>
 
 		<div class="login">
 		<form action="loginprocess.php" method="post" onsubmit="return login_check()">
             <div class="inputbox">
 				<dl>
-					<dt>用户名：</dt>
+					<dt>Username</dt>
 					<dd><input type="text" name="user" id="user" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 					</dd>
 				</dl>
 				<dl>
-					<dt>密码：</dt>
+					<dt>Password</dt>
 					<dd><input type="password" id="password" name="password" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 					</dd>
 				</dl>
