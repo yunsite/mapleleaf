@@ -127,7 +127,7 @@
 	
 {foreach value=m from=$data}
 <tr class='admin_message'>
-	<td><input type='checkbox' name='select_mid[]' value='{$m.0}' /></td>
+	<td><input type='checkbox' name='select_mid[]' value='{$m.0}' /><input type='hidden' name='del_r_mid[]' value='{if $m.reply}1{else}0{/if}' /></td>
 	<td class='left'>	{$m.1}</td>
 	<td class='left'>{$m.2}<br />时间：{$m.3} {if $m.reply==true}  <br /><font color="red">您回复：</font> {$m.reply.1} Time:{$m.reply.2}{/if}</td>
 	<td><a href='del.php?mid={$m.0}&reply={if $m.reply}1{else}0{/if}'>删除</a></td>
