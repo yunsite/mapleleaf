@@ -11,13 +11,17 @@ if(!isset($_SESSION['admin']))
 	header("location:login.php");
 	exit;
 }
-$del_ids=array();
+/*$del_ids=array();
+$del_r_mid=array();
 $del_ids=$_POST['select_mid'];
-$del_r_mid=$_POST['del_r_mid'];
+$del_r_mid=$_POST['del_r_mid'];*/
+
+@$del_ids=$_POST['select_mid']?$_POST['select_mid']:array();
+@$del_r_mid=$_POST['del_r_mid']?$_POST['del_r_mid']:array();
 // Check whether admin had selected some options
-if($del_ids==array())
+if($del_ids==array()|| $del_r_mid==array())
 {
-	header("location:admin.php?subtab=message");
+	header("location:admin2.php?subtab=message");
 	exit;
 }
 
