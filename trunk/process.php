@@ -57,7 +57,7 @@ $file_name='./data/gb.txt';
 $file_data=array_reverse(file($file_name));
 //var_dump($file_data);
 //echo var_dump((int)$file_data[0]);
-$index_num=(int)trim($file_data[0]);
+@$index_num=(int)trim($file_data[0]);
 $next_num=$index_num+1;
 //echo $index_num.'--'.$next_num;
 $input=file($file_name);
