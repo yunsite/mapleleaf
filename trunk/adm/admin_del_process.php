@@ -21,7 +21,7 @@ $del_r_mid=$_POST['del_r_mid'];*/
 // Check whether admin had selected some options
 if($del_ids==array()|| $del_r_mid==array())
 {
-	header("location:admin2.php?subtab=message");
+	header("location:admin.php?subtab=message");
 	exit;
 }
 
@@ -46,5 +46,5 @@ for($i=0;$i<$del_num;$i++)
 	}
 }
 
-header("Location:admin2.php?subtab=message&randomvalue=".rand());
+header("Location:admin.php?subtab=message&randomvalue=".rand());
 ?>
