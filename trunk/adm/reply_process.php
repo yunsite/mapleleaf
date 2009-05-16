@@ -2,7 +2,7 @@
 session_start();
 define('IN_MP',true);
 require_once('../common.php');
-if(!isset($_SESSION['admin']))//若通过验证，则执行删除
+if(!isset($_SESSION['admin']))
 {
 	header("location:index.php");
 	exit;
