@@ -4,7 +4,7 @@ include "../common.php";
 session_start();
 if(isset($_SESSION['admin']) && $_SESSION['admin']==$admin)
 {
-	header("location:admin2.php");
+	header("location:admin.php");
 	exit;
 }
 if(isset($_POST['user']) && isset($_POST['password']))
@@ -12,7 +12,7 @@ if(isset($_POST['user']) && isset($_POST['password']))
 	if($_POST['user']==$admin && $_POST['password']==$password)
 	{
 		$_SESSION['admin']=$_POST['user'];
-		header("Location:admin2.php");
+		header("Location:admin.php");
 		exit;
 	}
 	else 
