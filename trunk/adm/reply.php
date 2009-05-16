@@ -2,7 +2,6 @@
 session_start();
 define('IN_MP',true);
 require_once('../common.php');
-require_once('../includes/fckeditor/index.php');
 if(!isset($_SESSION['admin']))//若通过验证，则执行删除
 {
 	header("location:index.php");
@@ -25,15 +24,8 @@ if(!isset($mid))
 <body>
 <form action="reply_process.php" method="post">
 <input type="hidden" name="mid" value="<?php echo $mid;?>" />
-<?php
-		$myFCKeditor = new FCKeditor('reply_content') ;
-		$myFCKeditor->BasePath		=	"../includes/fckeditor/" ;
-		$myFCKeditor->ToolbarSet	=	"Basic";
-		$myFCKeditor->Config['EnterMode'] = 	'br';
-		$myFCKeditor->Value			=	'' ;
-		$myFCKeditor->Create() ;
-		?>
-
+<textarea name="reply_content" cols="40" rows="9"></textarea>
+<br />
 <input type="submit" name="Submit" value="回复" /><input type="button" name="cancel" value="取消" onclick="javascript:window.open('index.php','_self')" />
 </form>
 </body>

@@ -24,6 +24,6 @@ $time=time();
 $input=$mid.'"'.$reply_content.'"'.$time."\n";
 $file_name='../data/reply.txt';
 writeover($file_name,$input,'ab');
-header("Location:admin2.php?subtab=message");
+header("Location:admin.php?subtab=message");
 ?>
 
