@@ -73,10 +73,7 @@ if($page_on==1)
 	$start=$page_current*$num_perpage;
 	$data=array_slice($data,$start,$num_perpage);
 }
-/*echo '<pre>';
-var_dump($data);
-echo '</pre>';*/
-//exit;
+
 $admin=isset($_SESSION['admin'])?true:false;
 $tpl = new Template_Lite;
 $tpl->compile_dir = "./compiled/";

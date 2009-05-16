@@ -1,14 +1,5 @@
 <?php
 /**
-*
-* @package mapleleaf
-* @version common.php 2009-01-15 
-* @copyright (c) 2008 mapleleaf Group
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
-
-/**
 * @ignore
 */
 if(!defined('IN_MP'))
