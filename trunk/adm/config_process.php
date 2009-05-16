@@ -1,13 +1,4 @@
 <?php
-/**
-*
-* @package mapleleaf
-* @version 2009-01-15 
-* @copyright (c) 2008 mapleleaf Group
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
-
 //session start
 session_start();
 define('IN_MP',true);
@@ -30,5 +21,5 @@ if(!isset($_SESSION['admin']))
 	
 	//write it into site.conf.php
 	writeover('site.conf.php',$data);
-	header("location:admin2.php");
+	header("location:admin.php");
 ?>

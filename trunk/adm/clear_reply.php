@@ -15,5 +15,5 @@ $r_file_name=$mp_root_path.'data/reply.txt';
 
 // Clear all replies
 writeover($r_file_name,'');
-header("location:admin2.php?subtab=message");
+header("location:admin.php?subtab=message");
 ?>

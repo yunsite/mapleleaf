@@ -23,7 +23,7 @@ if(isset($_SESSION['admin']))
 		$reply_file=$mp_root_path."data/reply.txt";
 		mp_del($reply_file,'reply',$mid);
 	}
-	header("Location:admin2.php?subtab=message&randomvalue=".rand());
+	header("Location:admin.php?subtab=message&randomvalue=".rand());
 }
 else // Or, direct to the index.php
 {
