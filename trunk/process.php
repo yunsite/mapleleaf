@@ -1,13 +1,4 @@
 <?php
-/**
-*
-* @package mapleleaf
-* @version 2009-01-15 
-* @copyright (c) 2008 mapleleaf Group
-* @license http://opensource.org/licenses/gpl-license.php GNU Public License
-*
-*/
-
 // start session
 session_start();
 define('IN_MP',true);
@@ -66,5 +57,5 @@ $input=implode('',$input);
 $input.="$index_num".'"'.$user.'"'.$content.'"'.$time."\n$next_num\n";
 
 writeover($file_name,$input);
-header("Location:index2.php");
+header("Location:index.php");
 ?>
