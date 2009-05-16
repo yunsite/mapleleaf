@@ -42,7 +42,7 @@ text-align:center;
 <?php
 if($old_user)
 {
-	echo "您已成功退出.<img src='../includes/fckeditor/editor/images/smiley/msn/regular_smile.gif'>";
+	echo "您已成功退出.<img src='../smileys/images/smile.gif'>";
 ?>
 您将在 <span id="sss"></span> 秒后返回主页
 <script type="text/javascript">
