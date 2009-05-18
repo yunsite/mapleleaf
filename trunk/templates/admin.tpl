@@ -118,7 +118,7 @@
 {/if}
  >
 <div id="container2">
-<!--<h1>留言管理</h1>-->
+<!-- 留言管理 -->
 <form action="admin_del_process.php" method="post">
 <table id="table2">
 	<tr class="header">
@@ -127,7 +127,9 @@
 	
 {foreach value=m from=$data}
 <tr class='admin_message'>
-	<td><input type='checkbox' name='select_mid[]' value='{$m.0}' /><input type='hidden' name='del_r_mid[]' value='{if $m.reply}1{else}0{/if}' /></td>
+	<td><input type='checkbox' name='select_mid[]' value='{$m.0}' />
+		<input type='hidden' name='{$m.0}' value='{if $m.reply}1{else}0{/if}' />
+	</td>
 	<td class='left'>	{$m.1}</td>
 	<td class='left'>{$m.2}<br />时间：{$m.3|date:"m-d H:i"} {if $m.reply==true}  <br /><font color="red">您回复：</font> {$m.reply.1} Time:{$m.reply.2|date:"m-d H:i"}{/if}</td>
 	<td><a href='del.php?mid={$m.0}&reply={if $m.reply}1{else}0{/if}'>删除</a></td>
