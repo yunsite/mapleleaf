@@ -79,6 +79,7 @@ $admin=isset($_SESSION['admin'])?true:false;
 $tpl = new Template_Lite;
 $tpl->compile_dir = "./compiled/";
 $tpl->template_dir = "./templates/";
+$tpl->assign('theme',$theme);
 $tpl->assign('admin',$admin);
 $tpl->assign('pages',$pages);
 $tpl->assign('data',$data);
