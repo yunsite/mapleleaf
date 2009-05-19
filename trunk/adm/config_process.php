@@ -17,7 +17,8 @@ if(!isset($_SESSION['admin']))
 	$valid_code_open=(int)$_POST['valid_code_open'];
 	$page_on=(int)$_POST['page_on'];
 	$num_perpage=(int)$_POST['num_perpage'];
-	$data=sprintf("<?php \n\t \$board_name='%s';\n\t \$admin_email='%s';\n\t \$copyright_info='%s';\n\t \$filter_words='%s';\n\t \$valid_code_open=%d;\n\t \$page_on=%d;\n\t \$num_perpage=%d;\n?>",$board_name,$admin_email,$copyright_info,$filter_words,$valid_code_open,$page_on,$num_perpage);
+	$theme=$_POST['theme'];
+	$data=sprintf("<?php \n\t \$board_name='%s';\n\t \$admin_email='%s';\n\t \$copyright_info='%s';\n\t \$filter_words='%s';\n\t \$valid_code_open=%d;\n\t \$page_on=%d;\n\t \$num_perpage=%d;\n\t \$theme='%s';\n?>",$board_name,$admin_email,$copyright_info,$filter_words,$valid_code_open,$page_on,$num_perpage,$theme);
 	
 	//write it into site.conf.php
 	writeover('site.conf.php',$data);

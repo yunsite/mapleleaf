@@ -24,6 +24,18 @@ if(isset($_GET['subtab']))
 	}
 }
 
+//theme
+$themes=array();
+$d=dir('../themes');
+while(false!==($entry=$d->read()))
+{
+	if(substr($entry,0,1)!='.')
+	{
+		$themes[$entry]=$entry;
+	}
+}
+$d->close();
+
 /*****************************************************
 				检索数据
 ******************************************************/
@@ -94,6 +106,8 @@ $tpl = new Template_Lite;
 $tpl->compile_dir = "../compiled/";
 $tpl->template_dir = "../templates/";
 
+$tpl->assign('theme',$theme);
+
 $tpl->assign('current_tab',$current_tab);
 $tpl->assign('m_num',$nums);
 $tpl->assign('r_num',$reply_num);
@@ -112,7 +126,8 @@ $tpl->assign('filter_words',$filter_words);
 $tpl->assign('valid_code_open',$valid_code_open);
 $tpl->assign('page_on',$page_on);
 $tpl->assign('num_perpage',$num_perpage);
-
+$tpl->assign('themes',$themes);
+$tpl->assign('selected_theme',$theme);
 $tpl->assign('data',$data);
 $tpl->display("admin.tpl");
 ?>
