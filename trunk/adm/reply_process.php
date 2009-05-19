@@ -9,7 +9,10 @@ if(!isset($_SESSION['admin']))
 }
 $mid=0;
 $mid=(int)$_POST['mid'];
-$reply_content=htmlspecialchars(str_replace("\n",' ',trim($_POST['reply_content'])),ENT_COMPAT,'UTF-8');
+//$reply_content=htmlspecialchars(str_replace("\n",' ',trim($_POST['reply_content'])),ENT_COMPAT,'UTF-8');
+$reply_content = htmlspecialchars(trim($_POST['reply_content']));
+$reply_content = nl2br($reply_content);
+$reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
 if($reply_content=='')
 {
 	showerror("您回复为空？！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
