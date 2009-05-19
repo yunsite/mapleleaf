@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link type="text/css" rel="stylesheet" href="../style/admin.css" />
+<link type="text/css" rel="stylesheet" href="../themes/{$theme}/admin.css" />
 <script type="text/javascript" src="../includes/admin.js"></script>
 <title>管理员控制面板首页</title>
 </head>
 
 <body>
 <div id="admin_header">
-	<a href="../index.php">首页</a>&nbsp;<a href="logout.php" title="注销"><img src="../style/images/icon_logout.gif"  alt="注销" border="0" /></a>
+	<a href="../index.php">首页</a>&nbsp;<a href="logout.php" title="注销"><img src="../themes/{$theme}/images/icon_logout.gif"  alt="注销" border="0" /></a>
 </div>
 <div id="con">
 <ul id="tags">
@@ -85,6 +85,9 @@
 	</tr>
 	<tr>
 		<td>版权信息:</td><td align="left"><textarea name="copyright_info" cols="20" rows="3">{$copyright_info}</textarea></td>
+	</tr>
+	<tr>
+		<td>外观主题:</td><td align="left">{html_options name=theme options=$themes selected=$selected_theme}</td>
 	</tr>
 </table>
 </fieldset>
