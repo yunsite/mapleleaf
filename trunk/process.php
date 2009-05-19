@@ -28,9 +28,6 @@ if($valid_code_open==1)
 	}
 }
 $user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
-// $content=str_replace("\n",' ',trim($_POST['content']));
-// $content = nl2br(trim($_POST['content']));
-// $content=htmlspecialchars(str_replace(array("\n", "\n\r", "\r", "\r\n"),'',$content));
 $content = htmlspecialchars(trim($_POST['content']));
 $content = nl2br($content);
 $content = str_replace(array("\n", "\r\n", "\r"), '', $content);
