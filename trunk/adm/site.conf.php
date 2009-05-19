@@ -6,4 +6,5 @@
 	 $valid_code_open=0;
 	 $page_on=0;
 	 $num_perpage=1;
+	 $theme='simple';
 ?>
