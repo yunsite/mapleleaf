@@ -3,7 +3,7 @@
 session_start();
 define('IN_MP',true);
 require('../common.php');
-$mp_root_path='../';
+require_once('../maple.class.php');
 
 // if current visitor is admin,show this page,or direct to login.php
 if(!isset($_SESSION['admin']))
@@ -11,9 +11,7 @@ if(!isset($_SESSION['admin']))
 	header("location:login.php");
 	exit;
 }
-$r_file_name=$mp_root_path.'data/reply.txt';
-
-// Clear all replies
-writeover($r_file_name,'');
+$maple=new Maple($board_name,$admin_email,$copyright_info,$filter_words,$valid_code_open,$page_on,$num_perpage,$theme,'yes');
+$maple->clear_reply();
 header("location:admin.php?subtab=message");
 ?>

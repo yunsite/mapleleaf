@@ -5,6 +5,6 @@
 	 $filter_words='fuck,TMD,西藏,台湾,北京';
 	 $valid_code_open=0;
 	 $page_on=0;
-	 $num_perpage=1;
+	 $num_perpage=3;
 	 $theme='default';
 ?>

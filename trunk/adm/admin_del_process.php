@@ -2,6 +2,7 @@
 session_start();
 define('IN_MP',true);
 include "../common.php";
+require_once('../maple.class.php');
 $mp_root_path='../';
 
 if(!isset($_SESSION['admin']))
@@ -18,18 +19,17 @@ if($del_ids==array())
 	exit;
 }
 
-// Operation
-$file=$mp_root_path."data/gb.txt";
-$reply_file=$mp_root_path."data/reply.txt";
+$maple=new Maple($board_name,$admin_email,$copyright_info,$filter_words,$valid_code_open,$page_on,$num_perpage,$theme,'yes');
 
 $del_num=count($del_ids);
+
 for($i=0;$i<$del_num;$i++)
 {
 	$deleted_id=(int)$del_ids[$i];
-	mp_del($file,'message',$deleted_id);
+	$maple->mp_del($maple->_m_file,'message',$deleted_id);
 	if ($_POST[$deleted_id]==1)
 	{
-		mp_del($reply_file,'reply',$deleted_id);
+		$maple->mp_del($maple->_r_file,'reply',$deleted_id);
 	}
 }
 
