@@ -1,29 +1,30 @@
 <?php
-// start session
 session_start();
 define('IN_MP',true);
 require_once('common.php');
-
+require('./maple.class.php');
 // short variable
 $user=$_POST['user'];
 $content=$_POST['content'];
 
+$maple=new Maple($board_name,$admin_email,$copyright_info,$filter_words,$valid_code_open,$page_on,$num_perpage,$theme);
+
 // perform some checks
 if(empty($user) or empty($content))
 {	
-	showerror("你没有填写完成,现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+	$maple->showerror("你没有填写完成,现在正在<a href='./index.php'>返回</a>...",true,'index.php');
     exit;
 }
 if(strlen($content)>580)
 {
-     showerror("您的话语太多了，现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+     $maple->showerror("您的话语太多了，现在正在<a href='./index.php'>返回</a>...",true,'index.php');
      exit;
 }
 if($valid_code_open==1)
 {
 	if(!checkImgcode())
 	{
-		showerror("验证码错误，正在<a href='index.php'>返回</a>...",true,'index.php');
+		$maple->showerror("验证码错误，正在<a href='index.php'>返回</a>...",true,'index.php');
 		exit;
 	}
 }
@@ -38,21 +39,8 @@ if(!isset($_SESSION['admin']) && ($user=='Admin' || $user=='admin' || $user=='ro
 	$user='anonymous';
 }
 
-// write the message into gb.txt
 $input=$user.'"'.$content.'"'.$time."\n";
-$file_name='./data/gb.txt';
- 
-$file_data=array_reverse(file($file_name));
-//var_dump($file_data);
-//echo var_dump((int)$file_data[0]);
-@$index_num=(int)trim($file_data[0]);
-$next_num=$index_num+1;
-//echo $index_num.'--'.$next_num;
-$input=file($file_name);
-array_pop($input);
-$input=implode('',$input);
-$input.="$index_num".'"'.$user.'"'.$content.'"'.$time."\n$next_num\n";
 
-writeover($file_name,$input);
+$maple->add_message($input);
 header("Location:index.php");
 ?>

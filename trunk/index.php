@@ -3,77 +3,14 @@ session_start();
 define('IN_MP',true);
 require_once('common.php');
 require('./includes/template_lite/class.template.php');
-include('smileys/smileys.php');
+require('./maple.class.php');
+$maple=new Maple($board_name,$admin_email,$copyright_info,$filter_words,$valid_code_open,$page_on,$num_perpage,$theme);
 
-/*****************************************************
-				检索数据
-******************************************************/
-$file="./data/gb.txt";
-$file_reply='./data/reply.txt';
+$current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
+$data=$maple->get_data($current_page);
+$nums=$maple->count_messages();
+$pages=ceil($nums/$maple->_num_perpage);
 
-//初始化变量
-$data=array();
-$reply_data=array();
-
-//得到所有的留言
-$data=readover($file);
-array_pop($data);
-$data=array_reverse($data);
-
-//得到所有回复
-$reply_data=readover($file_reply);
-$check_reply=$reply_data?true:false;
-
-//分页数目
-$reply_num=count($reply_data);
-//若分页开启
-$nums=count($data);
-//初始化总页数
-$pages=1;
-
-//检索相关留言和回复,并转化表情符号
-//foreach($data as $message)
-for($i=0;$i<$nums;$i++)
-{
-	// 转换表情符号，只对留言进行转换，没有对回复进行转化
-	$data[$i][2]=str_replace(array('&gt;:(','&gt;:-('),array('>:(','>:-('),$data[$i][2]);
-	$data[$i][2] = parse_smileys($data[$i][2], "./smileys/images/", $smileys);
-
-	// if we need retrieve reply for the message
-	if($check_reply==true)
-	{
-		for($j=0;$j<$reply_num;$j++)
-		{
-			$reply_current_search=$reply_data[$j];
-			$mid=$data[$i][0];
-			$reply_index=$reply_current_search[0];
-			if($reply_index==$mid)
-			{
-				$data[$i]['reply']=$reply_data[$j];
-				break;
-			}
-		}
-	}
-}
-if($page_on==1)
-{
-	$pages=ceil($nums/$num_perpage);
-	$page_current=0;
-	if(isset($_GET['pid']))
-	{
-		$page_current=(int)$_GET['pid'];
-	}
-	if($page_current>=$pages)
-	{
-		$page_current=$pages-1;
-	}
-	if($page_current<0)
-	{
-		$page_current=0;
-	}
-	$start=$page_current*$num_perpage;
-	$data=array_slice($data,$start,$num_perpage);
-}
 
 $admin=isset($_SESSION['admin'])?true:false;
 $tpl = new Template_Lite;

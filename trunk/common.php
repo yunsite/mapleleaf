@@ -1,7 +1,4 @@
 <?php
-/**
-* @ignore
-*/
 if(!defined('IN_MP'))
 {
 	exit;
@@ -16,7 +13,7 @@ require($mp_root_path.'/config.php');
 require($mp_root_path.'/includes/functions.php');
 require($mp_root_path.'/adm/site.conf.php');
 @set_magic_quotes_runtime(0);
-ini_set('date.timezone','Asia/Shanghai');//timezone set
+ini_set('date.timezone','Asia/Shanghai');
 /*
 * Remove variables created by register_globals from the global scope
 * Thanks to Matt Kavanagh
