@@ -21,95 +21,7 @@ function checkImgcode() {
      $imgcode =new  FLEA_Helper_ImgCode();
      return $imgcode->check($_POST['valid_code']);
 }
-/**
- *  read .txt file and get relevant info
- *
- * @param string $filename
- * @param string $method
- * @return array
- */
-function readover($filename,$method='rb'){
-	//strpos($filename,'..')!==false && exit('Forbidden');//判断文件名中是否含有‘..’
-	$filedata = array();
-	if ($handle = @fopen($filename,$method)) {
-		flock($handle,LOCK_SH);
-//		$filedata = @fread($handle,filesize($filename));
-		while(!feof($handle)){
-						 $row=fgets($handle,999);
-						 if(is_string($row))
-						 {
-							 $filedata[]=explode('"',$row);
-						 }
-			}
-		flock($handle,LOCK_UN);//解除锁定
-		fclose($handle);
-	}
-	else
-	{
-		showerror("暂时不能打开文件，请稍候再试。");
-		exit;
-	}
-	return $filedata;
-}
-/**
- * write data into file
- *
- * @param string $filename
- * @param string $data
- * @param string $method
- * @param int $iflock
- * @param int $check
- * @param int $chmod
- */
-function writeover($filename,$data,$method="rb+",$iflock=1,$check=0,$chmod=0){
- $check && strpos($filename,'..')!==false && exit('Forbidden');
-// touch($filename);
- $handle=@fopen($filename,$method);
- if(!$handle)
- {
- 	showerror("暂时不能打开文件，请稍候再试。");
-	exit;
- }
- if($iflock){
-  flock($handle,LOCK_EX);
- }
- fwrite($handle,$data);
- if($method=="rb+") ftruncate($handle,strlen($data));
- flock($handle,LOCK_UN);
- fclose($handle);
- $chmod && @chmod($filename,0777);
-}
 
-/**
- * delelte specify messages or replies
- *  @param string $filename
- *	@param string $type
- *	@param int $id
- */
-function mp_del($filename,$type,$id)
-{
-	$all=file($filename);//把留言内容转化为一个数组
-	$num=count($all);
-	$num_use=$num;
-	if($type=='message')
-	{
-		$num_use=$num-1;
-	}
-	for($i=0;$i<$num_use;$i++)//得到当前要删除的留言是数组的行数
-	{
-		$row=$all[$i];//类型为 字符串!
-		$m_array=array();
-		$m_array=explode('"',$row);
-		if($m_array[0]==$id)
-		{
-			$sp=$i;
-			break;
-		}
-	}
-		unset($all[$sp]);//把此行从数组中删除
-	$outputing=implode('',$all);
-	writeover($filename,$outputing,'wb');
-}
 /**
  * Word censoring
  *
@@ -136,32 +48,6 @@ function fix_filter_string($filter_words)
 	return $new_string;
 }
 
-/**
- * show info,such as error info,notice...
- */
-function showerror($msg,$redirect=false,$redirect_url='index.php',$time_delay=3) 
-{
-		@ob_end_clean();
-		function_exists('ob_gzhandler') ? ob_start('ob_gzhandler') : ob_start();
-		echo"<html>
-			 	<head><title>错误信息</title>";
-		if($redirect==true)		
-		{
-			echo "<meta http-equiv='Refresh' content='$time_delay;URL=$redirect_url' />";
-		}
-		echo "<style type='text/css'>
-			  P,BODY{FONT-FAMILY:tahoma,arial,sans-serif;FONT-SIZE:11px;}
-			  A { TEXT-DECORATION: none;}
-			  a:hover{ text-decoration: underline;}
-			  TD { BORDER-RIGHT: 1px; BORDER-TOP: 0px; FONT-SIZE: 16pt; COLOR: #000000;}
-			  </style>
-			  </head>
-			  <body>\n\n";
-		echo"<table style='TABLE-LAYOUT:fixed;WORD-WRAP: break-word'><tr><td>$msg";
-		echo"<br><br><b>You Can Get Help In</b>:<br><a target=_blank href=http://maple.dreamneverfall.cn/>maple.dreamneverfall.cn</a>";
-		echo"</td></tr></table></body></html>";
-		exit;
-}
 /**
 * Checks if a path ($path) is absolute or relative
 *
@@ -461,6 +347,24 @@ if (!function_exists("htmlspecialchars_decode")) {
    
                   //   Otherwise,   just   return   the   array  
                   return   $result;  
-          }  
-  }   
+          }
+ 
+  }
+  function show_smileys_table()
+{
+	echo <<<EOF
+		<table border="0" cellpadding="4" cellspacing="0">
+		<tr>
+		<td><a href="javascript:void(0);" onClick="insert_smiley(':-)')"><img src="./smileys/images/grin.gif" width="19" height="19" alt="grin" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':lol:')"><img src="./smileys/images/lol.gif" width="19" height="19" alt="LOL" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':cheese:')"><img src="./smileys/images/cheese.gif" width="19" height="19" alt="cheese" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':)')"><img src="./smileys/images/smile.gif" width="19" height="19" alt="smile" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(';-)')"><img src="./smileys/images/wink.gif" width="19" height="19" alt="wink" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':smirk:')"><img src="./smileys/images/smirk.gif" width="19" height="19" alt="smirk" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':roll:')"><img src="./smileys/images/rolleyes.gif" width="19" height="19" alt="rolleyes" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':-S')"><img src="./smileys/images/confused.gif" width="19" height="19" alt="confused" style="border:0;" /></a></td></tr>
+		<tr>
+		<td><a href="javascript:void(0);" onClick="insert_smiley(':wow:')"><img src="./smileys/images/surprise.gif" width="19" height="19" alt="surprised" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':bug:')"><img src="./smileys/images/bigsurprise.gif" width="19" height="19" alt="big surprise" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':-P')"><img src="./smileys/images/tongue_laugh.gif" width="19" height="19" alt="tongue laugh" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley('%-P')"><img src="./smileys/images/tongue_rolleye.gif" width="19" height="19" alt="tongue rolleye" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(';-P')"><img src="./smileys/images/tongue_wink.gif" width="19" height="19" alt="tongue wink" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':P')"><img src="./smileys/images/raspberry.gif" width="19" height="19" alt="raspberry" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':blank:')"><img src="./smileys/images/blank.gif" width="19" height="19" alt="blank stare" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':long:')"><img src="./smileys/images/longface.gif" width="19" height="19" alt="long face" style="border:0;" /></a></td></tr>
+		<tr>
+		<td><a href="javascript:void(0);" onClick="insert_smiley(':ohh:')"><img src="./smileys/images/ohh.gif" width="19" height="19" alt="ohh" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':grrr:')"><img src="./smileys/images/grrr.gif" width="19" height="19" alt="grrr" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':gulp:')"><img src="./smileys/images/gulp.gif" width="19" height="19" alt="gulp" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley('8-/')"><img src="./smileys/images/ohoh.gif" width="19" height="19" alt="oh oh" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':down:')"><img src="./smileys/images/downer.gif" width="19" height="19" alt="downer" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':red:')"><img src="./smileys/images/embarrassed.gif" width="19" height="19" alt="red face" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':sick:')"><img src="./smileys/images/sick.gif" width="19" height="19" alt="sick" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':shut:')"><img src="./smileys/images/shuteye.gif" width="19" height="19" alt="shut eye" style="border:0;" /></a></td></tr>
+		<tr>
+		<td><a href="javascript:void(0);" onClick="insert_smiley(':-/')"><img src="./smileys/images/hmm.gif" width="19" height="19" alt="hmmm" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley('>:(')"><img src="./smileys/images/mad.gif" width="19" height="19" alt="mad" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley('>:-(')"><img src="./smileys/images/angry.gif" width="19" height="19" alt="angry" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':zip:')"><img src="./smileys/images/zip.gif" width="19" height="19" alt="zipper" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':kiss:')"><img src="./smileys/images/kiss.gif" width="19" height="19" alt="kiss" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':ahhh:')"><img src="./smileys/images/shock.gif" width="19" height="19" alt="shock" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':coolsmile:')"><img src="./smileys/images/shade_smile.gif" width="19" height="19" alt="cool smile" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':coolsmirk:')"><img src="./smileys/images/shade_smirk.gif" width="19" height="19" alt="cool smirk" style="border:0;" /></a></td></tr>
+		<tr>
+		<td><a href="javascript:void(0);" onClick="insert_smiley(':coolgrin:')"><img src="./smileys/images/shade_grin.gif" width="19" height="19" alt="cool grin" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':coolhmm:')"><img src="./smileys/images/shade_hmm.gif" width="19" height="19" alt="cool hmm" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':coolmad:')"><img src="./smileys/images/shade_mad.gif" width="19" height="19" alt="cool mad" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':coolcheese:')"><img src="./smileys/images/shade_cheese.gif" width="19" height="19" alt="cool cheese" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':vampire:')"><img src="./smileys/images/vampire.gif" width="19" height="19" alt="vampire" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':snake:')"><img src="./smileys/images/snake.gif" width="19" height="19" alt="snake" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':exclaim:')"><img src="./smileys/images/exclaim.gif" width="19" height="19" alt="excaim" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':question:')"><img src="./smileys/images/question.gif" width="19" height="19" alt="question" style="border:0;" /></a></td></tr>
+		</table>
+EOF;
+}    
 ?>
