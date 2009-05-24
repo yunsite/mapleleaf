@@ -72,7 +72,7 @@
 </table>
 </DIV>
 <div class="tagContent" id="tagContent1">
-<form action="config_process.php" method="post">
+<form action="admin_process.php" method="post">
 <input type="hidden" name="process_type" value="config_set" />
 <fieldset>
 <legend>整体设置</legend>
@@ -122,7 +122,8 @@
  >
 <div id="container2">
 <!-- 留言管理 -->
-<form action="admin_del_process.php" method="post">
+<form action="admin_process.php" method="post">
+<input type="hidden" name="process_type" value="admin_del_process">
 <table id="table2">
 	<tr class="header">
 		<td>选择</td><td class="ls">昵称</td><td class="m">留言</td><td>删除</td><td>回复</td>
@@ -135,12 +136,12 @@
 	</td>
 	<td class='left'>	{$m.1}</td>
 	<td class='left'>{$m.2}<br />时间：{$m.3|date:"m-d H:i"} {if $m.reply==true}  <br /><font color="red">您回复：</font> {$m.reply.1} Time:{$m.reply.2|date:"m-d H:i"}{/if}</td>
-	<td><a href='del.php?mid={$m.0}&reply={if $m.reply}1{else}0{/if}'>删除</a></td>
+	<td><a href='admin_process.php?process_type=del&mid={$m.0}&reply={if $m.reply}1{else}0{/if}'>删除</a></td>
 	<td><a href='reply.php?mid={$m.0}'>回复</a></td>
 </tr>
 {/foreach}
 
-<tr><td colspan='5' align='left'><input type='submit' value='删除所选' />&nbsp;<input type='button' value='清空所有留言'  onclick="javascript:if(window.confirm('你确实要删除所有留言吗？同时会删除所有回复'))window.open('clear_message.php','_self')" />&nbsp;<input type='button' value='清空所有回复' onclick="javascript:if(window.confirm('你确实要删除所有回复？'))window.open('clear_reply.php','_self')" /></td></tr>
+<tr><td colspan='5' align='left'><input type='submit' value='删除所选' />&nbsp;<input type='button' value='清空所有留言'  onclick="javascript:if(window.confirm('你确实要删除所有留言吗？同时会删除所有回复'))window.open('admin_process.php?process_type=clear_message','_self')" />&nbsp;<input type='button' value='清空所有回复' onclick="javascript:if(window.confirm('你确实要删除所有回复？'))window.open('admin_process.php?process_type=clear_reply','_self')" /></td></tr>
 
 </table>
 </form>
