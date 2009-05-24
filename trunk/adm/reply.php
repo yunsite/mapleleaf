@@ -22,7 +22,8 @@ if(!isset($mid))
 </head>
 
 <body>
-<form action="reply_process.php" method="post">
+<form action="admin_process.php" method="post">
+<input type="hidden" name="process_type" value="reply_process" />
 <input type="hidden" name="mid" value="<?php echo $mid;?>" />
 <textarea name="reply_content" cols="40" rows="9"></textarea>
 <br />
