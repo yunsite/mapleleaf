@@ -2,7 +2,6 @@
 session_start();
 define('IN_MP',true);
 require_once('common.php');
-require('./maple.class.php');
 // short variable
 $user=$_POST['user'];
 $content=$_POST['content'];

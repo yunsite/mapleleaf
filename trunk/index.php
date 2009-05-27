@@ -1,11 +1,9 @@
 <?php
 session_start();
 define('IN_MP',true);
-require_once('common.php');
-require('./includes/template_lite/class.template.php');
-require('./maple.class.php');
-$maple=new Maple();
+require_once('./common.php');
 
+$maple=new Maple();
 $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
 $data=$maple->get_data($current_page);
 $nums=$maple->count_messages();
