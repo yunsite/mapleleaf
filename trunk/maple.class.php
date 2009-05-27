@@ -60,13 +60,14 @@ class Maple
 		':question:'	=>	array('question.gif',		'19',	'19',	'question') // no comma after last item
 		);
 	
-	function Maple($board_name,$admin_email,$copyright_info,$filter_words,$valid_code_open,$page_on,$num_perpage,$theme,$relative='no')
+	function Maple($relative='no')
 	{
 		$mp_root_path=dirname(str_replace(DIRECTORY_SEPARATOR, '/', __FILE__));
 		$this->_m_file=$mp_root_path.'/data/gb.txt';
 		$this->_r_file=$mp_root_path.'/data/reply.txt';
-		$this->_site_conf_file='./adm/site.conf.php';
+		$this->_site_conf_file=$mp_root_path.'/adm/site.conf.php';
 		$this->_smileys_dir='./smileys/images/';
+		
 		if ($relative=='yes')
 		{
 			$this->_smileys_dir='../smileys/images/';
@@ -79,6 +80,7 @@ class Maple
 		{
 			die('gb.txt 或 reply.txt不可写');
 		}
+		require($this->_site_conf_file);
 		$this->_board_name=$board_name;
 		$this->_admin_email=$admin_email;
 		$this->_copyright_info=$copyright_info;

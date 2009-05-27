@@ -9,7 +9,7 @@ if(!isset($_SESSION['admin']))
 	header("location:login.php");
 	exit;
 }
-$maple=new Maple($board_name,$admin_email,$copyright_info,$filter_words,$valid_code_open,$page_on,$num_perpage,$theme,'yes');
+$maple=new Maple('yes');
 switch ($_REQUEST['process_type'])
 {
 	case 'config_set':

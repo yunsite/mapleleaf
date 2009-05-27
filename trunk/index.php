@@ -4,7 +4,7 @@ define('IN_MP',true);
 require_once('common.php');
 require('./includes/template_lite/class.template.php');
 require('./maple.class.php');
-$maple=new Maple($board_name,$admin_email,$copyright_info,$filter_words,$valid_code_open,$page_on,$num_perpage,$theme);
+$maple=new Maple();
 
 $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
 $data=$maple->get_data($current_page);

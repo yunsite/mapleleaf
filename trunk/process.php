@@ -7,7 +7,7 @@ require('./maple.class.php');
 $user=$_POST['user'];
 $content=$_POST['content'];
 
-$maple=new Maple($board_name,$admin_email,$copyright_info,$filter_words,$valid_code_open,$page_on,$num_perpage,$theme);
+$maple=new Maple();
 
 // perform some checks
 if(empty($user) or empty($content))
