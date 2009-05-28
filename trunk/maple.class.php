@@ -210,10 +210,8 @@ function mp_del($filename,$type,$id)
 	function add_message($new_message)
 	{
 		$file_data=array_reverse(file($this->_m_file));
-		//var_dump($file_data);
 		@$index_num=(int)trim($file_data[0]);
 		$next_num=$index_num+1;
-		//echo $index_num.'--'.$next_num;
 		$input=file($this->_m_file);
 		array_pop($input);
 		$input=implode('',$input);
@@ -249,13 +247,19 @@ function mp_del($filename,$type,$id)
 	}
 	function add_message_check()
 	{
+		//session_start();
 		$user=$_POST['user'];
 		$content=$_POST['content'];
 		$user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
+		$admin_name_array=array('admin','root','administrator','管理员');
+		if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
+		{
+			$user='anonymous';
+		}
 		$content = htmlspecialchars(trim($_POST['content']));
 		$content = nl2br($content);
 		$content = str_replace(array("\n", "\r\n", "\r"), '', $content);
-		//echo $user.'-'.$content;exit;
+		$time=time();
 		if(empty($user) or empty($content))
 		{	
 			$this->showerror("你没有填写完成,现在正在<a href='./index.php'>返回</a>...",true,'index.php');
@@ -270,6 +274,7 @@ function mp_del($filename,$type,$id)
 		{
 			$this->checkImgcode();
 		}
+		return $user.'"'.$content.'"'.$time."\n";
 	}
 	
 	function readover($filename,$method='rb'){
