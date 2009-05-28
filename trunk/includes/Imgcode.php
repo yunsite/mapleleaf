@@ -7,40 +7,6 @@
  * @package Core
  * @version $Id: ImgCode.php 972 2007-10-09 20:56:54Z qeeyuan $
  */
-
-/**
- * FLEA_Helper_ImgCode 类实现了一个简单的图像验证码生成器，并带有检查验证方法
- *
- * 当启用了 session 时，验证码会保存在 session 中。用法：
- *
- * 模版页面中，在需要显示验证码的地方使用
- * <code>
- * <img src="<?php echo $this->_url('imgcode'); ?>" />
- * </code>
- *
- * 接下来为显示验证码的控制器编写 imgcode 方法：
- * <code>
- * function actionImgcode() {
- *     $imgcode =& FLEA::getSingleton('FLEA_Helper_ImgCode');
- *     $imgcode->image();
- * }
- * </code>
- *
- * 最后，对于用户提交的表单做如下验证：
- * <code>
- * function actionSubmit() {
- *     $imgcode =& FLEA::getSingleton('FLEA_Helper_ImgCode');
- *     // 假定验证码在表单中的字段名是 imgcode
- *     if ($imgcode->check($_POST['imgcode'])) {
- *         // 验证通过
- *     }
- * }
- * </code>
- *
- * @package Core
- * @author 起源科技 (www.qeeyuan.com)
- * @version 1.0
- */
 class FLEA_Helper_ImgCode
 {
     /**

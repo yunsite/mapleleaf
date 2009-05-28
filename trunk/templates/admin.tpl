@@ -15,10 +15,11 @@
 <ul id="tags">
 	<li {if $current_tab=='overview'} class="selectTag"{/if}><a id="overview" onclick="selectTag('tagContent0',this)" 
   href="javascript:void(0)">综合</a> </li>
-  <LI><A onClick="selectTag('tagContent1',this)" 
-  href="javascript:void(0)">站点设置</A> </LI>
- <li {if $current_tab=='message'} class="selectTag"{/if}><A id="message_m" onClick="selectTag('tagContent2',this)" 
-  href="javascript:void(0)">留言管理</A> </li></UL>
+  <li><a onClick="selectTag('tagContent1',this)" 
+  href="javascript:void(0)">站点设置</a> </li>
+ <li {if $current_tab=='message'} class="selectTag"{/if}><a id="message_m" onClick="selectTag('tagContent2',this)" 
+  href="javascript:void(0)">留言管理</a> </li>
+ </ul>
 <div id="tagContent">
 <div id="tagContent0" 
 {if $current_tab=='overview'}
@@ -89,6 +90,9 @@
 	<tr>
 		<td>外观主题:</td><td align="left">{html_options name=theme options=$themes selected=$selected_theme}</td>
 	</tr>
+	<tr>
+		<td>使用时区:</td><td align="left">{html_options name=timezone options=$timezones selected=$selected_timezone}</td>
+	</tr>
 </table>
 </fieldset>
 <fieldset>
@@ -106,6 +110,14 @@
 	</tr>
 	<tr>
 		<td>每页显示留言数：</td><td align="left"><input name="num_perpage" type="text" value="{$num_perpage}" />(当分页启用后，此设置起效)</td>
+	</tr>
+</table>
+</fieldset>
+<fieldset>
+<legend>管理员帐户</legend>
+<table cellpadding="0" cellspacing="0" width="600px">
+	<tr>
+		<td>修改密码:</td><td align="left"><input name="password" type="password" value="{$password}" /></td>
 	</tr>
 </table>
 </fieldset>

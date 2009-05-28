@@ -1,4 +1,6 @@
 <?php
+$mp_root_path=dirname(str_replace(DIRECTORY_SEPARATOR, '/', __FILE__));
+require_once($mp_root_path.'/includes/Imgcode.php');
 class Maple
 {
 	var	$_m_file;
@@ -13,6 +15,7 @@ class Maple
 	var $_num_perpage;
 	var $_theme;
 	var $_smileys_dir;
+	var $_imgcode;
 	var $smileys = array(
 		//	smiley			image name						width	height	alt
 		':-)'			=>	array('grin.gif',			'19',	'19',	'grin'),
@@ -63,6 +66,7 @@ class Maple
 	function Maple($relative='no')
 	{
 		$mp_root_path=dirname(str_replace(DIRECTORY_SEPARATOR, '/', __FILE__));
+		$this->_imgcode=new  FLEA_Helper_ImgCode();
 		$this->_m_file=$mp_root_path.'/data/gb.txt';
 		$this->_r_file=$mp_root_path.'/data/reply.txt';
 		$this->_site_conf_file=$mp_root_path.'/adm/site.conf.php';
@@ -133,7 +137,11 @@ class Maple
 		// 转换表情符号，只对留言进行转换，没有对回复进行转化
 			$data[$i][2]=str_replace(array('&gt;:(','&gt;:-('),array('>:(','>:-('),$data[$i][2]);
 			$data[$i][2] = $this->parse_smileys($data[$i][2], $this->_smileys_dir, $this->smileys);
-
+			//过滤显示一些敏感词语
+			if ($mode=='front')
+			{
+				$data[$i][2]=$this->filter_words($data[$i][2]);
+			}
 			// if we need retrieve reply for the message
 			if($check_reply==true)
 			{
@@ -239,6 +247,30 @@ function mp_del($filename,$type,$id)
 	{
 		$this->writeover($this->_r_file,'');
 	}
+	function add_message_check()
+	{
+		$user=$_POST['user'];
+		$content=$_POST['content'];
+		$user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
+		$content = htmlspecialchars(trim($_POST['content']));
+		$content = nl2br($content);
+		$content = str_replace(array("\n", "\r\n", "\r"), '', $content);
+		//echo $user.'-'.$content;exit;
+		if(empty($user) or empty($content))
+		{	
+			$this->showerror("你没有填写完成,现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+		    exit;
+		}
+		if(strlen($content)>580)
+		{
+		     $this->showerror("您的话语太多了，现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+		     exit;
+		}
+		if($this->_valid_code_open==1)
+		{
+			$this->checkImgcode();
+		}
+	}
 	
 	function readover($filename,$method='rb'){
 	//strpos($filename,'..')!==false && exit('Forbidden');//判断文件名中是否含有‘..’
@@ -328,6 +360,41 @@ function showerror($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
 		echo"</td></tr></table></body></html>";
 		exit;
 }
-	
+  function show_smileys_table()
+{
+	return  <<<EOF
+		<table border="0" cellpadding="4" cellspacing="0">
+		<tr>
+		<td><a href="javascript:void(0);" onClick="insert_smiley(':-)')"><img src="./smileys/images/grin.gif" width="19" height="19" alt="grin" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':lol:')"><img src="./smileys/images/lol.gif" width="19" height="19" alt="LOL" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':cheese:')"><img src="./smileys/images/cheese.gif" width="19" height="19" alt="cheese" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':)')"><img src="./smileys/images/smile.gif" width="19" height="19" alt="smile" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(';-)')"><img src="./smileys/images/wink.gif" width="19" height="19" alt="wink" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':smirk:')"><img src="./smileys/images/smirk.gif" width="19" height="19" alt="smirk" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':roll:')"><img src="./smileys/images/rolleyes.gif" width="19" height="19" alt="rolleyes" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':-S')"><img src="./smileys/images/confused.gif" width="19" height="19" alt="confused" style="border:0;" /></a></td></tr>
+		<tr>
+		<td><a href="javascript:void(0);" onClick="insert_smiley(':wow:')"><img src="./smileys/images/surprise.gif" width="19" height="19" alt="surprised" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':bug:')"><img src="./smileys/images/bigsurprise.gif" width="19" height="19" alt="big surprise" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':-P')"><img src="./smileys/images/tongue_laugh.gif" width="19" height="19" alt="tongue laugh" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley('%-P')"><img src="./smileys/images/tongue_rolleye.gif" width="19" height="19" alt="tongue rolleye" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(';-P')"><img src="./smileys/images/tongue_wink.gif" width="19" height="19" alt="tongue wink" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':P')"><img src="./smileys/images/raspberry.gif" width="19" height="19" alt="raspberry" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':blank:')"><img src="./smileys/images/blank.gif" width="19" height="19" alt="blank stare" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':long:')"><img src="./smileys/images/longface.gif" width="19" height="19" alt="long face" style="border:0;" /></a></td></tr>
+		<tr>
+		<td><a href="javascript:void(0);" onClick="insert_smiley(':ohh:')"><img src="./smileys/images/ohh.gif" width="19" height="19" alt="ohh" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':grrr:')"><img src="./smileys/images/grrr.gif" width="19" height="19" alt="grrr" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':gulp:')"><img src="./smileys/images/gulp.gif" width="19" height="19" alt="gulp" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley('8-/')"><img src="./smileys/images/ohoh.gif" width="19" height="19" alt="oh oh" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':down:')"><img src="./smileys/images/downer.gif" width="19" height="19" alt="downer" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':red:')"><img src="./smileys/images/embarrassed.gif" width="19" height="19" alt="red face" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':sick:')"><img src="./smileys/images/sick.gif" width="19" height="19" alt="sick" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':shut:')"><img src="./smileys/images/shuteye.gif" width="19" height="19" alt="shut eye" style="border:0;" /></a></td></tr>
+		<tr>
+		<td><a href="javascript:void(0);" onClick="insert_smiley(':-/')"><img src="./smileys/images/hmm.gif" width="19" height="19" alt="hmmm" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley('>:(')"><img src="./smileys/images/mad.gif" width="19" height="19" alt="mad" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley('>:-(')"><img src="./smileys/images/angry.gif" width="19" height="19" alt="angry" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':zip:')"><img src="./smileys/images/zip.gif" width="19" height="19" alt="zipper" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':kiss:')"><img src="./smileys/images/kiss.gif" width="19" height="19" alt="kiss" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':ahhh:')"><img src="./smileys/images/shock.gif" width="19" height="19" alt="shock" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':coolsmile:')"><img src="./smileys/images/shade_smile.gif" width="19" height="19" alt="cool smile" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':coolsmirk:')"><img src="./smileys/images/shade_smirk.gif" width="19" height="19" alt="cool smirk" style="border:0;" /></a></td></tr>
+		<tr>
+		<td><a href="javascript:void(0);" onClick="insert_smiley(':coolgrin:')"><img src="./smileys/images/shade_grin.gif" width="19" height="19" alt="cool grin" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':coolhmm:')"><img src="./smileys/images/shade_hmm.gif" width="19" height="19" alt="cool hmm" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':coolmad:')"><img src="./smileys/images/shade_mad.gif" width="19" height="19" alt="cool mad" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':coolcheese:')"><img src="./smileys/images/shade_cheese.gif" width="19" height="19" alt="cool cheese" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':vampire:')"><img src="./smileys/images/vampire.gif" width="19" height="19" alt="vampire" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':snake:')"><img src="./smileys/images/snake.gif" width="19" height="19" alt="snake" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':exclaim:')"><img src="./smileys/images/exclaim.gif" width="19" height="19" alt="excaim" style="border:0;" /></a></td><td><a href="javascript:void(0);" onClick="insert_smiley(':question:')"><img src="./smileys/images/question.gif" width="19" height="19" alt="question" style="border:0;" /></a></td></tr>
+		</table>
+EOF;
+}
+function userImgcode() {
+     $this->_imgcode->image();
+}
+
+function checkImgcode() {
+     return $this->_imgcode->check($_POST['valid_code']);
+}
+function filter_words($input)
+{
+	$filter_array=explode(',',$this->_filter_words);
+	$input=str_ireplace($filter_array,'***',$input);
+	return $input;
+}
+function fix_filter_string($filter_words)
+{
+	$new_string=trim($filter_words,',');
+	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
+	return $new_string;
+}
 }
 ?>
