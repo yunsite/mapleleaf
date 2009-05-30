@@ -272,7 +272,9 @@ function mp_del($filename,$type,$id)
 		}
 		if($this->_valid_code_open==1)
 		{
-			$this->checkImgcode();
+			//$this->checkImgcode();
+			echo 'valid_code_open';
+			exit;
 		}
 		return $user.'"'.$content.'"'.$time."\n";
 	}
