@@ -274,7 +274,7 @@ function mp_del($filename,$type,$id)
 		{
 			if(!$this->checkImgcode())
 			{
-				$this->showerror("Error.现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+				$this->showerror("验证码错误.现在正在<a href='./index.php'>返回</a>...",true,'index.php');
 				exit;
 			}
 		}
