@@ -9,33 +9,16 @@
  */
 class FLEA_Helper_ImgCode
 {
-    /**
-     * 生成的验证码
-     *
-     * @var string
-     */
-    var $_code;
-
-    /**
-     * 验证码过期时间
-     *
-     * @var string
-     */
+     // 生成的验证码
+    var $_code;    
+     // 验证码过期时间
     var $_expired;
-
-    /**
-     * 验证码图片的类型（默认为 jpeg）
-     *
-     * @var string
-     */
+     // 验证码图片的类型（默认为 jpeg）
     var $imagetype = 'jpeg';
-
     /**
      * 指示是否在生成验证码图片时保留已有的验证码
-     *
      * 保留已有的验证码可以让用户在各个不同的页面都看到一致的验证码。
      * 只有这个验证码使用后，已有的验证码才会失效。
-     *
      * @var boolean
      */
     var $keepCode = false;
@@ -55,19 +38,13 @@ class FLEA_Helper_ImgCode
 
     /**
      * 检查图像验证码是否有效
-     *
      * @param string $code
-     *
      * @return boolean
      */
     function check($code)
     {
-    	//echo $code.'<br />';
-    	//echo $this->_code;
         $time = time();
         if ($time >= $this->_expired || strtoupper($code) != strtoupper($this->_code)) {
-       //if (strtoupper($code) != strtoupper($this->_code))
-       //{
             return false;
        }
         return true;
@@ -75,9 +52,7 @@ class FLEA_Helper_ImgCode
 
     /**
      * 检查图像验证码是否有效（区分大小写）
-     *
      * @param string $code
-     *
      * @return boolean
      */
     function checkCaseSensitive($code)
@@ -223,9 +198,7 @@ class FLEA_Helper_ImgCode
 
     /**
      * 将 16 进制颜色值转换为 rgb 值
-     *
      * @param string $hex
-     *
      * @return array
      */
     function _hex2rgb($color, $defualt = 'ffffff')
