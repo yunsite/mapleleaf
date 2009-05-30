@@ -91,5 +91,5 @@ $tpl->assign('themes',$themes);
 $tpl->assign('selected_theme',$theme);
 $tpl->assign('data',$data);
 $tpl->assign('password',$password);
-$tpl->display("admin.tpl");
+$tpl->display("admin.html");
 ?>
