@@ -3,7 +3,8 @@ if(!defined('IN_MP'))
 {
 	exit;
 }
-error_reporting(E_ALL);
+error_reporting(E_ALL ^ E_NOTICE);
+//error_reporting(E_ALL);
 
 $mp_root_path=dirname(str_replace(DIRECTORY_SEPARATOR, '/', __FILE__));
 $mapleleaf_version='1.5';
