@@ -352,6 +352,7 @@ function showerror($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
 		function_exists('ob_gzhandler') ? ob_start('ob_gzhandler') : ob_start();
 		echo"<html>
 			 	<head><title>错误信息</title>";
+		echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >';
 		if($redirect==true)		
 		{
 			echo "<meta http-equiv='Refresh' content='$time_delay;URL=$redirect_url' />";
