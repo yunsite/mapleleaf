@@ -31,7 +31,7 @@ if(get_magic_quotes_gpc())
 }
 
 //设置时区
-ini_set('date.timezone','Asia/Shanghai');
+ini_set('date.timezone',$timezone);
 
 /**
  * 反设置所有被禁止的全局变量.
