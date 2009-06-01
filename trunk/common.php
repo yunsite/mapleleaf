@@ -7,7 +7,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 //error_reporting(E_ALL);
 
 $mp_root_path=dirname(str_replace(DIRECTORY_SEPARATOR, '/', __FILE__));
-$mapleleaf_version='1.5';
+$mapleleaf_version='1.6';
 
 require($mp_root_path.'/includes/functions.php');
 require($mp_root_path.'/adm/site.conf.php');
