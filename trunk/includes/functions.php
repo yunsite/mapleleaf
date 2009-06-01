@@ -4,21 +4,6 @@ if (!function_exists("htmlspecialchars_decode")) {
         return strtr($string, array_flip(get_html_translation_table(HTML_SPECIALCHARS, $quote_style)));
     }
 }
-  if (!function_exists('array_map')) {
-    function array_map($callback, $array) {
-      if (is_array($array)) {
-        $_new_array = array();
-        reset($array);
-        while (list($key, $value) = each($array)) {
-          $_new_array[$key] = array_map($callback, $array[$key]);
-        }
-        return $_new_array;
-      } else {
-        return $callback($array);
-      }
-    }
-  }
-
 /**  
  *   Replace   str_ireplace()  
  *  
