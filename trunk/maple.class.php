@@ -74,11 +74,11 @@ class Maple
 		$this->_imgcode=new  FLEA_Helper_ImgCode();
 		if(!file_exists($this->_m_file) || !file_exists($this->_r_file))
 		{
-			die('gb.txt 或 reply.txt不存在');
+			$this->showerror('gb.txt 或 reply.txt不存在,请确认 data/gb.txt 和 data/reply.txt 是否存在。若不存在请手工创建');
 		}
 		if(!is_writable($this->_m_file) || !is_writable($this->_r_file))
 		{
-			die('gb.txt 或 reply.txt不可写');
+			$this->showerror('gb.txt 或 reply.txt不可写，请赋予 data/gb.txt 和 reply.txt 写入权限');
 		}
 		
 		require($this->_site_conf_file);
