@@ -386,7 +386,7 @@ function showerror($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
 EOF;
 }
 function userImgcode() {
-     $this->_imgcode->image();
+     $this->_imgcode->image(0,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
 }
 
 function checkImgcode() {
