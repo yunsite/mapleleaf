@@ -296,7 +296,7 @@ function mp_del($filename,$type,$id)
 	}
 	else
 	{
-		showerror("暂时不能打开文件，请稍候再试。");
+		$this->showerror("暂时不能打开文件，请稍候再试。");
 		exit;
 	}
 	return $filedata;
@@ -308,7 +308,7 @@ function mp_del($filename,$type,$id)
 	$handle=@fopen($filename,$method);
 	if(!$handle)
 	{
-		showerror("暂时不能打开文件，请稍候再试。");
+		$this->showerror("暂时不能打开文件，请稍候再试。");
 		exit;
 	}
 	if($iflock){
