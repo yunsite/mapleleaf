@@ -109,6 +109,16 @@ switch ($action)
 		}
 		header("Location:index.php?action=admin&subtab=message&randomvalue=".rand());
 		break;
+		
+	case 'delete_reply':
+		is_admin();
+		$mid=$_GET['mid'];
+		if(isset($mid))
+		{
+			$maple->mp_del_new($maple->_r_file,'reply',$mid);
+		}
+		header("Location:index.php?action=admin&subtab=message&randomvalue=".rand());
+		break;
 
 	case 'delete_m':
 		is_admin();
