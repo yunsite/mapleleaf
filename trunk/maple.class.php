@@ -66,7 +66,6 @@ class Maple
 	function Maple()
 	{
 		$mp_root_path=dirname(str_replace(DIRECTORY_SEPARATOR, '/', __FILE__));
-		//echo $mp_root_path;exit;
 		$this->_m_file=$mp_root_path.'/data/gb.txt';
 		$this->_r_file=$mp_root_path.'/data/reply.txt';
 		$this->_site_conf_file=$mp_root_path.'/adm/site.conf.php';
@@ -277,30 +276,38 @@ function mp_del($filename,$type,$id)
 		return $user.'"'.$content.'"'.$time."\n";
 	}
 	
-	function readover($filename,$method='rb'){
-	//strpos($filename,'..')!==false && exit('Forbidden');//判断文件名中是否含有‘..’
-	$filedata = array();
-	$handle = @fopen($filename,$method);
-	if ($handle) {
-		flock($handle,LOCK_SH);
-//		$filedata = @fread($handle,filesize($filename));
-		while(!feof($handle)){
-						 $row=fgets($handle,999);
-						 if(is_string($row))
-						 {
-							 $filedata[]=explode('"',$row);
-						 }
-			}
-		flock($handle,LOCK_UN);//解除锁定
-		fclose($handle);
-	}
-	else
+	/**
+	 *	读取数据
+	 * 	@param $filename;
+	 *  @param $method;
+	 *  @return $filedata;
+	 */
+	function readover($filename,$method='rb')
 	{
-		$this->showerror("暂时不能打开文件，请稍候再试。");
-		exit;
+		$filedata = array();
+		$handle = @fopen($filename,$method);
+		if($handle) 
+		{
+			flock($handle,LOCK_SH);
+			while(!feof($handle))
+			{
+				$row=fgets($handle,999);
+				if(is_string($row))
+				{
+					$filedata[]=explode('"',$row);
+				}
+			}
+			flock($handle,LOCK_UN);
+			fclose($handle);
+		}
+		else
+		{
+			$this->showerror("暂时不能打开文件 $filename，请稍候再试。");
+			exit;
+		}
+		return $filedata;
 	}
-	return $filedata;
-}
+	
 	//function writeover($filename,$data,$method="rb+",$iflock=1,$check=0,$chmod=0){
 	function writeover($filename,$data,$method="rb+",$iflock=1){
 	//$check && strpos($filename,'..')!==false && exit('Forbidden');
