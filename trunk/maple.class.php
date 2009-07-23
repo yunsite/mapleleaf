@@ -178,30 +178,54 @@ class Maple
 			return $data;
 	}
 	
-function mp_del($filename,$type,$id)
-{
-	$all=file($filename);//把留言内容转化为一个数组
-	$num=count($all);
-	$num_use=$num;
-	if($type=='message')
+	function mp_del($filename,$type,$id)
 	{
-		$num_use=$num-1;
-	}
-	for($i=0;$i<$num_use;$i++)//得到当前要删除的留言是数组的行数
-	{
-		$row=$all[$i];//类型为 字符串!
-		$m_array=array();
-		$m_array=explode('"',$row);
-		if($m_array[0]==$id)
+		$all=file($filename);//把留言内容转化为一个数组
+		$num=count($all);
+		$num_use=$num;
+		if($type=='message')
 		{
-			$sp=$i;
-			break;
+			$num_use=$num-1;
 		}
-	}
-		unset($all[$sp]);//把此行从数组中删除
-	$outputing=implode('',$all);
-	$this->writeover($filename,$outputing,'wb');
-}	
+		for($i=0;$i<$num_use;$i++)//得到当前要删除的留言是数组的行数
+		{
+			$row=$all[$i];//类型为 字符串!
+			$m_array=array();
+			$m_array=explode('"',$row);
+			if($m_array[0]==$id)
+			{
+				$sp=$i;
+				break;
+			}
+		}
+			unset($all[$sp]);//把此行从数组中删除
+		$outputing=implode('',$all);
+		$this->writeover($filename,$outputing,'wb');
+	}	
+	/**   
+	 *  经过测试，此函数比mp_del()执行速度更快   (测试不严格，且数据量非常小)
+	 *  机制是：打开文件后，将指针指向要删除的留言的开始位置,   
+	 *         然后,开始写入数据，写入的数据是要删除的留言的后面的需要保留的文字,   
+	 *         最后，使用ftruncate()截取为需要的长度。   
+	 *  @param $filename;制定文件名
+	 *  @param $type;文件类型，目前可有可无
+	 *  @param $id;id号码
+	 */ 
+	function mp_del_new($filename,$type,$id)  
+	{      
+		$all=file_get_contents($filename);      
+		$all_len=strlen($all);      
+		$del_begin_pos=strpos($all,$id.'"');      
+		$pattern='/'.$id.'"(.)+\n/';      
+		preg_match($pattern,$all,$matches);      
+		$del_str=$matches[0];      
+		$del_str_len=strlen($del_str);      
+		$write_str_begin=$del_begin_pos+$del_str_len;      
+		$write_str=substr($all,$write_str_begin);      
+		$new_len=$all_len-$del_str_len;            
+		$this->writeover($filename,$write_str,'rb+',1,$del_begin_pos,$new_len);  
+	} 
+	
 	function add_message($new_message)
 	{
 		$file_data=array_reverse(file($this->_m_file));
@@ -308,24 +332,36 @@ function mp_del($filename,$type,$id)
 		return $filedata;
 	}
 	
-	//function writeover($filename,$data,$method="rb+",$iflock=1,$check=0,$chmod=0){
-	function writeover($filename,$data,$method="rb+",$iflock=1){
-	//$check && strpos($filename,'..')!==false && exit('Forbidden');
-	// touch($filename);
-	$handle=@fopen($filename,$method);
-	if(!$handle)
+	function writeover($filename,$data,$method="rb+",$iflock=1,$fseek_offset_value=0,$ftruncate_value=0)
 	{
-		$this->showerror("暂时不能打开文件，请稍候再试。");
-		exit;
-	}
-	if($iflock){
-	flock($handle,LOCK_EX);
-	}
-	fwrite($handle,$data);
-	if($method=="rb+") ftruncate($handle,strlen($data));
-	flock($handle,LOCK_UN);
-	fclose($handle);
-	//$chmod && @chmod($filename,0777);
+		$handle=@fopen($filename,$method);
+		if(!$handle)
+		{
+			$this->showerror("暂时不能打开文件，请稍候再试。");
+			exit;
+		}
+		if($iflock)
+		{
+			flock($handle,LOCK_EX);
+		}
+		if($fseek_offset_value!=0)  
+		{      
+			fseek($handle,$fseek_offset_value);  
+		}  
+		fwrite($handle,$data);
+		if($method=="rb+") 
+		{
+			if($ftruncate_value!=0)
+			{
+				ftruncate($handle,$ftruncate_value);
+			}
+			else
+			{
+				ftruncate($handle,strlen($data));
+			}
+		}
+		flock($handle,LOCK_UN);
+		fclose($handle);
 	}
 	
 	function parse_smileys($str = '', $image_url = '', $smileys = NULL)
