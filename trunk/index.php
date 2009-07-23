@@ -93,23 +93,23 @@ switch ($action)
 		$input=$mid.'"'.$reply_content.'"'.$time."\n";
 		$maple->add_reply($mid,$input);
 		header("Location:index.php?action=admin&subtab=message");
-	//ok
+
 	case 'delete':
 		is_admin();
 		$mid=$_GET['mid'];
 		if(isset($mid))
 		{
-			$maple->mp_del($maple->_m_file,'message',$mid);
+			$maple->mp_del_new($maple->_m_file,'message',$mid);
 		}
 		//若回复中有关于此留言的记录，执行删除回复操作
 		$reply_del=(int)$_GET['reply'];
 		if($reply_del==1)
 		{
-			$maple->mp_del($maple->_r_file,'reply',$mid);
+			$maple->mp_del_new($maple->_r_file,'reply',$mid);
 		}
 		header("Location:index.php?action=admin&subtab=message&randomvalue=".rand());
 		break;
-	//ok
+
 	case 'delete_m':
 		is_admin();
 		@$del_ids=$_POST['select_mid']?$_POST['select_mid']:array();
@@ -123,10 +123,10 @@ switch ($action)
 		for($i=0;$i<$del_num;$i++)
 		{
 			$deleted_id=(int)$del_ids[$i];
-			$maple->mp_del($maple->_m_file,'message',$deleted_id);
+			$maple->mp_del_new($maple->_m_file,'message',$deleted_id);
 			if ($_POST[$deleted_id]==1)
 			{
-				$maple->mp_del($maple->_r_file,'reply',$deleted_id);
+				$maple->mp_del_new($maple->_r_file,'reply',$deleted_id);
 			}
 		}
 		header("Location:index.php?action=admin&subtab=message&randomvalue=".rand());
