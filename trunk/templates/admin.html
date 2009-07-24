@@ -145,7 +145,7 @@
 		<input type='hidden' name='{$m.0}' value='{if $m.reply}1{else}0{/if}' />
 	</td>
 	<td class='left'>	{$m.1}</td>
-	<td class='left' onmouseover="document.getElementById('del_div_{$m.0}').style.display=''" onmouseout="document.getElementById('del_div_{$m.0}').style.display='none'">{$m.2}<br />时间：{$m.3|date:"m-d H:i"} {if $m.reply==true}  <br /><font color="red">您回复：</font> {$m.reply.1} Time:{$m.reply.2|date:"m-d H:i"}<span id='del_div_{$m.0}'  style="display:none" >&nbsp;<a href="index.php?action=delete_reply&mid={$m.0}">删除回复</a></span>{/if}</td>
+	<td class='left' {if $m.reply==true} onmouseover="document.getElementById('del_div_{$m.0}').style.display=''" onmouseout="document.getElementById('del_div_{$m.0}').style.display='none'" {/if}>{$m.2}<br />时间：{$m.3|date:"m-d H:i"} {if $m.reply==true}  <br /><font color="red">您回复：</font> {$m.reply.1} Time:{$m.reply.2|date:"m-d H:i"}<span id='del_div_{$m.0}'  style="display:none" >&nbsp;<a href="index.php?action=delete_reply&mid={$m.0}">删除回复</a></span>{/if}</td>
 	<td><a href='index.php?action=delete&mid={$m.0}&reply={if $m.reply}1{else}0{/if}'>删除</a></td>
 	<td><a href='index.php?action=reply_window&mid={$m.0}'>回复</a></td>
 </tr>
