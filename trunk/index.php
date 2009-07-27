@@ -81,6 +81,22 @@ switch ($action)
 		$tpl->assign('mid',$mid);
 		$tpl->display('reply.html');
 		break;
+	case 'update_message':
+		is_admin();
+		$mid=isset($_GET['mid'])?(int)$_GET['mid']:0;
+		if(!isset($mid))
+		{
+			header("location:index.php");
+			exit;
+		}
+		$tpl->assign('mid',$mid);
+		$message_info=$maple->getmessagebyid($mid);
+		//var_dump($message_info);exit;
+		$tpl->assign('author',$message_info[1]);
+		$tpl->assign('update_content',$message_info[2]);
+		$tpl->assign('m_time',$message_info[3]);
+		$tpl->display('update_message.html');
+		break;
 	//ok
 	case 'reply':
 		is_admin();
@@ -93,7 +109,20 @@ switch ($action)
 		$input=$mid.'"'.$reply_content.'"'.$time."\n";
 		$maple->add_reply($mid,$input);
 		header("Location:index.php?action=admin&subtab=message");
-
+		break;
+	case 'update':
+		is_admin();
+		$mid=0;
+		$mid=(int)$_POST['mid'];
+		$author=$_POST['author'];
+		$m_time=$_POST['m_time'];
+		$update_content = htmlspecialchars(trim($_POST['update_content']));
+		$update_content = nl2br($update_content);
+		$update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
+		$input=$mid.'"'.$author.'"'.$update_content.'"'.$m_time;
+		$maple->update($mid,$input);
+		header("Location:index.php?action=admin&subtab=message");
+		break;
 	case 'delete':
 		is_admin();
 		$mid=$_GET['mid'];
@@ -185,7 +214,7 @@ switch ($action)
 			}
 		}
 		
-		//exit;
+
 		//theme
 		$themes=array();
 		$d=dir('./themes');
@@ -202,7 +231,7 @@ switch ($action)
 		$nums=$maple->count_messages();
 		$reply_num=$maple->count_reply();
 		$gd_info=gd_info();
-		//exit;
+
 		if (defined(GD_VERSION))
 		{
 		$gd_version=GD_VERSION;

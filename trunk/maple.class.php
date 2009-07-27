@@ -216,7 +216,7 @@ class Maple
 		$all=file_get_contents($filename);      
 		$all_len=strlen($all);      
 		$del_begin_pos=strpos($all,$id.'"');      
-		$pattern='/'.$id.'"(.)+\n/';      
+		$pattern='/\b'.$id.'"(.)+"(.)+"[0-9]+\n/';      
 		preg_match($pattern,$all,$matches);      
 		$del_str=$matches[0];      
 		$del_str_len=strlen($del_str);      
@@ -226,6 +226,74 @@ class Maple
 		$this->writeover($filename,$write_str,'rb+',1,$del_begin_pos,$new_len);  
 	} 
 	
+	function update($id,$input)
+	{
+		$string=file_get_contents($this->_m_file);
+		$len=strlen($string);
+		//echo '$id:'.$id."<br />";
+		
+		//echo nl2br($string);
+		//echo "<hr />";
+		//exit;
+		//$id=2;
+		preg_match('/\b'.$id.'"(.)+"(.)+"[0-9]+\n/',$string,$matches);
+		//echo '<pre>';
+		//var_dump($matches);
+		//echo '</pre>';
+		
+		//var_dump($matches[0]);
+		//echo '<hr />';
+		$del_str_len=strlen($matches[0]);
+		//echo '要修改的字符串的长度：'.$del_str_len."<br />";
+		
+		$pos=strpos($string,$matches[0]);
+		//echo '开始写的位置：'.$pos."<br />";
+		
+		$lt=substr($string,$pos+strlen($matches[0]));
+		//echo '要连接的字符串：'."<br />".nl2br($lt)."<br />";
+		
+		$write_data=trim($input)."\n".($lt);
+		//$input=$id.'"Admin"aaa"1247638340'."\n";
+		//echo '要写入的字符串:'."<br />".nl2br($write_data);
+		//exit;
+		
+		
+		$all_len=$len-$del_str_len+strlen($input)-1;
+		$this->writeover($this->_m_file,$write_data,'rb+',1,$pos,$all_len);
+		//$this->writeover('name','data','method','iflock','fseek_offset_value','ftruncate_value');;
+	}
+	
+	function getmessagebyid($mid)
+	{
+		$filedata = array();
+		$handle = @fopen($this->_m_file,'rb+');
+		if($handle) 
+		{
+			flock($handle,LOCK_SH);
+			while(!feof($handle))
+			{
+				$row=fgets($handle,999);
+				if(is_string($row))
+				{
+					$filedata=explode('"',$row);
+					if ($filedata[0]==$mid)
+					{
+						break;
+					}
+				}
+			}
+			flock($handle,LOCK_UN);
+			fclose($handle);
+		}
+		else
+		{
+			$this->showerror("暂时不能打开文件 $filename，请稍候再试--。");
+			exit;
+		}
+		return $filedata;
+		
+		
+	}
 	function add_message($new_message)
 	{
 		$file_data=array_reverse(file($this->_m_file));
