@@ -208,7 +208,7 @@ class Maple
 	 *         然后,开始写入数据，写入的数据是要删除的留言的后面的需要保留的文字,   
 	 *         最后，使用ftruncate()截取为需要的长度。   
 	 *  @param $filename;制定文件名
-	 *  @param $type;文件类型，目前可有可无
+	 *  @param $type;文件类型
 	 *  @param $id;id号码
 	 */ 
 	function mp_del_new($filename,$type,$id)  
@@ -216,7 +216,11 @@ class Maple
 		$all=file_get_contents($filename);      
 		$all_len=strlen($all);      
 		$del_begin_pos=strpos($all,$id.'"');      
-		$pattern='/\b'.$id.'"(.)+"(.)+"[0-9]+\n/';      
+		$pattern='/\b'.$id.'"(.)+"(.)+"[0-9]+\n/';
+		if($type=='reply')      
+		{
+			$pattern='/\b'.$id.'"(.)+"[0-9]+\n/';
+		}
 		preg_match($pattern,$all,$matches);      
 		$del_str=$matches[0];      
 		$del_str_len=strlen($del_str);      

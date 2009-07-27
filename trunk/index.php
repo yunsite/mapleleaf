@@ -105,6 +105,10 @@ switch ($action)
 		$reply_content = htmlspecialchars(trim($_POST['reply_content']));
 		$reply_content = nl2br($reply_content);
 		$reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
+		if (trim($reply_content)=='')
+		{
+			$maple->showerror('回复不可以为空',true,'index.php?action=admin&subtab=message',3);
+		}
 		$time=time();
 		$input=$mid.'"'.$reply_content.'"'.$time."\n";
 		$maple->add_reply($mid,$input);
