@@ -55,7 +55,7 @@
 		<td class="l" valign="top">留言</td>
 		<td class="left">
 
-		<textarea id="content" name="content" cols="40" rows="9"></textarea></td>
+		<textarea id="content" name="content" cols="40" rows="9" onkeyup="javascript:return ctrlEnter(event);"></textarea></td>
 		<td class="left">
 		
 		<!-- begin 表情表格 -->
@@ -75,8 +75,8 @@
 	{/if}
 	<tr>
 		<td>&nbsp;</td>
-		<td colspan="2" class="left"><input name="submit" type="submit"
-			value="提交留言" /></td>
+		<td colspan="2" class="left"><input id="submit" name="submit" type="submit"
+			value="提交留言" /><font color="green" size="2">(Ctrl+Enter提交)</font></td>
 	</tr>
 
 </table>
