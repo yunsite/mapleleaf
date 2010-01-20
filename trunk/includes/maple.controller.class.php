@@ -224,7 +224,7 @@ class Maple_Controller
         }
     }
 
-    public function set_board_name()
+    private function set_board_name()
     {
         is_admin();
         $board_name=$_POST['board_name']?$this->maple_quotes($_POST['board_name']):'风舞六月';
@@ -246,7 +246,7 @@ class Maple_Controller
         }
     }
 
-    public function set_mb_open()
+    private function set_mb_open()
     {
         is_admin();
         $mb_open=$_POST['mb_open']?(int)$_POST['mb_open']:0;
@@ -267,7 +267,7 @@ class Maple_Controller
         }
     }
 
-    public function set_close_reason()
+    private function set_close_reason()
     {
         is_admin();
         $close_reason=$this->maple_quotes($_POST['close_reason']);
@@ -288,7 +288,7 @@ class Maple_Controller
         }
     }
 
-    public function set_admin_email()
+    private function set_admin_email()
     {
         is_admin();
         $admin_email=$_POST['admin_email']?$this->maple_quotes($_POST['admin_email']):'admin@rainyjune.cn';
@@ -308,10 +308,10 @@ class Maple_Controller
         }
     }
 
-    public function set_copyright_info()
+    private function set_copyright_info()
     {
         is_admin();
-        $copyright_info=$_POST['copyright_info']?$this->maple_quotes($_POST['copyright_info']):'Copyright &copy; 2009 rainyjune';
+        @$copyright_info=$_POST['copyright_info']?$this->maple_quotes($_POST['copyright_info']):'Copyright &copy; 2009 rainyjune';
         $str="\n\$copyright_info='$copyright_info';";
         $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
     }
@@ -328,7 +328,7 @@ class Maple_Controller
         }
     }
 
-    public function set_filter_words()
+    private function set_filter_words()
     {
         is_admin();
         $filter_words=$_POST['filter_words']?$this->fix_filter_string($_POST['filter_words']):'';
@@ -349,7 +349,7 @@ class Maple_Controller
         }
     }
 
-    public function set_valid_code_open()
+    private function set_valid_code_open()
     {
         is_admin();
         $valid_code_open=(int)$_POST['valid_code_open'];
@@ -369,7 +369,7 @@ class Maple_Controller
         }
     }
 
-    public function set_page_on()
+    private function set_page_on()
     {
         is_admin();
         $page_on=(int)$_POST['page_on'];
@@ -389,7 +389,7 @@ class Maple_Controller
         }
     }
 
-    public function set_num_perpage()
+    private function set_num_perpage()
     {
         is_admin();
         $num_perpage=(int)$_POST['num_perpage'];
@@ -410,7 +410,7 @@ class Maple_Controller
         }
     }
 
-    public function set_theme()
+    private function set_theme()
     {
         is_admin();
         $theme=in_array($_POST['theme'], $this->get_all_themes())?$_POST['theme']:'default';
@@ -432,10 +432,10 @@ class Maple_Controller
         }
     }
 
-    public function set_time_zone()
+    private function set_time_zone()
     {
         is_admin();
-        $timezone=$_POST['timezone'];
+        $timezone=isset ($_POST['timezone'])?$_POST['timezone']:'Asia/Shanghai';
         $str="\n\$timezone='$timezone';";
         $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
     }
@@ -452,7 +452,7 @@ class Maple_Controller
         }
     }
 
-    public function set_admin_name()
+    private function set_admin_name()
     {
         is_admin();
         $str="\n\$admin='admin';";
@@ -471,7 +471,7 @@ class Maple_Controller
         }
     }
 
-    public function set_admin_password()
+    private function set_admin_password()
     {
         is_admin();
         $password=isset($_POST['password']) && !empty($_POST['password'])?$this->maple_quotes($_POST['password']):$this->_admin_password;
@@ -1003,12 +1003,12 @@ EOF;
             $this->_model->_writeover($this->_r_file,$new_reply,'ab');
     }
 
-    function run()
-    {
-        $action=isset($_GET['action'])?$_GET['action']:'index';
-        if(!method_exists($this,$action)){$action='index';}
-        $this->$action();
-    }
+//    function run()
+//    {
+//        $action=isset($_GET['action'])?$_GET['action']:'index';
+//        if(!method_exists($this,$action)){$action='index';}
+//        $this->$action();
+//    }
 
     function get_all_data($parse_smileys=true,$filter_words=false)
     {
@@ -1097,6 +1097,16 @@ EOF;
                     $str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
             }
             return $str;
+    }
+}
+
+class MP_CONTROLLER extends Maple_Controller
+{
+    function run()
+    {
+        $action=isset($_GET['action'])?$_GET['action']:'index';
+        if(!method_exists($this,$action) || !is_callable(array($this,$action))){$action='index';}
+        parent::$action();
     }
 }
 ?>
