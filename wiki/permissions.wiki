@@ -1,6 +1,0 @@
-#此页面主要介绍枫叶留言板中目录及文件的权限设置。
-
-1.compiled
-2.data/gb.txt
-3.data/reply.txt
-4.adm/site.conf.php
