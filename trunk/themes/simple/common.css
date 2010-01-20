@@ -1,0 +1,103 @@
+@charset "utf-8";
+body{
+	text-align:center;
+	margin:0 auto;
+}
+p{
+	line-height: 16px;
+}
+#container{
+	background-color:white;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:80%;
+	margin:0 auto;
+}
+h1
+{
+	color:#CCCC99;
+	text-align:center;
+}
+
+#main_table{
+	width:700px;
+	margin-left:auto;
+	margin-right:auto;
+	border-collapse:collapse;
+	color:#333333;
+	border-left:none;
+	border-right:none;
+}
+#main_table tr.header
+{
+	background-color:#CCCC99;
+	font-size:18px;
+	font-weight:bolder;
+}
+#main_table tr.message
+{
+	font-size:14px;
+}
+#main_table td{
+	border-bottom:dotted 1px silver;
+	padding-bottom:5px;
+	padding-top:5px;
+}
+#main_table td.pager
+{
+	border-bottom:none;
+}
+#add_table{
+	width:700px;
+	border:solid 1px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:5px;
+	border-collapse:collapse;
+	color:#333333;
+}
+#add_table td.alignright
+{
+	text-align:right;
+	width:100px;
+}
+#main_table td.nickname
+{
+	width:100px;
+}
+#main_table td.message
+{
+	width:450px;
+}
+#add_table td.alignleft
+{
+	width:350px;
+	text-align:left;
+}
+.left
+{
+	text-align:left;
+}
+.center{
+	text-align:center;
+}
+.botton
+{
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:10px;
+	margin-top:10px;
+	font-size:12px;
+	text-align:center;
+}
+a:link
+{
+	color:silver;
+	text-decoration:none;
+}
+a:hover{
+	color:#FFCC33;
+}
+a:visited{
+	text-decoration:none;
+}
