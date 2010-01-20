@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="txt/html;charset=utf-8" />
+<title>管理退出</title>
+<link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/logout.css';?>"  />
+<script type="text/javascript" src="./includes/logout.js"></script>
+<?php if($old_user==true)
+{
+	?>
+        <meta http-equiv="Refresh" content="5;URL=index.php" />
+<?php }?>
+</head>
+<body>
+<div id="lay">
+<h1>退出管理</h1>
+<?php if($old_user==true){?>
+您已成功退出.<img src='./themes/smileys/smile.gif'alt="smile">
+您将在 <span id="sss"></span> 秒后返回主页
+<script type="text/javascript">
+counts();
+</script>
+<?php }else{?>
+您没有登录，所以您无需退出。 <img src='<?php echo $this->_smileys_dir;?>smile.gif'alt="smile">
+<a href="./index.php">返回留言板首页</a>
+<?php }?>
+
+</div>
+<div id="buttom_div">
+Powered by MapleLeaf <?php echo MP_VERSION;?> Copyright &copy;2009
+</div>
+</body>
+</html>

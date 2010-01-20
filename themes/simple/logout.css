@@ -1,0 +1,14 @@
+body{
+text-align:center;
+}
+#lay
+{
+margin: 0px auto;
+border:dashed #66CCFF;
+border-width:thin;
+margin-top:100px;
+margin-left:auto;
+margin-right:auto;
+width:600px;
+text-align:center;
+}

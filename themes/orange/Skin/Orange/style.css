@@ -1,0 +1,150 @@
+
+/*
+此文件原注释如下：
+	好心情多用户留言系统ver2.0(TM) GuestBook Theme Series
+	Type Name: Orange Harvesting (橘子熟了)
+	Author:    E路飞扬:xchngg@126.com
+	Home Page: 心情留言本 http://xchngg.126.com/
+	技术支持:  悦香论坛http://www.yuexiang.com.cn/bbs/
+	This CSS templet is used for version 3.0 (v20031120) or later
+*/
+
+body {font-size: 9.3pt; font-family: "宋体"; cursor: default; background-color: #FBB85E; background-image: url(bj.gif); /*scrollbar-face-color: #EDEDED; scrollbar-highlight-color: #E6E6E6; scrollbar-shadow-color: #FFFFFF; scrollbar-3dlight-color: #FFFFFF; scrollbar-arrow-color: #FAA532; scrollbar-track-color: #F5F5F5; scrollbar-darkshadow-color: #242930 */}
+td   {font-size: 9.3pt; color: #333333 }
+.text, input.text ,textarea,select, input.button {font-size: 9.2pt; border: 1px solid #7F9DB9; background-color: #FFFCF3}
+input.locktext { border: 1px solid #EFF1F3; background-color: #EFF1F3}
+A:link, A:visited {text-decoration: none; color: #003300 }
+A:hover, A:active {color: #006666; text-decoration: underline }
+
+#imgButton A:hover{position:relative; left:-4; top:-4; background-image: url('bgbtn.gif'); }
+
+.Revort {color: #003300}
+.MenuBar_B {background-color: #F3F3F3;}
+.MenuBar {color : #000000; height: 24px; background-image: url(MenuBar.gif); background-repeat: repeat-x; background-color: orange;}
+#MenuBar, #MenuBar a:link, #MenuBar a:visited {color: #FFFFFF; text-decoration: none;}
+#MenuBar a:hover,#MenuBar a:active {color: #666666}
+.Titles{ background-image: url('../titles.gif'); }
+.TitleBar {height: 24px;	background-image: url('TitleBar.gif'); background-repeat: repeat-x; background-color: #E9EEF6; border-top: 1px solid #C0C3CB; border-left: 1px solid #C0C3CB; border-right: 1px solid #C0C3CB;}
+.TitleBar_T {font-weight: bold; color: #000000;}
+.TitleBar_L {width: 1px;}
+.TitleBar_R {width: 1px;}
+.Hemline{
+	height: 1;
+	background-color: #F3F3F3;
+	background-image: url(bj.gif);
+}
+.Hemline_L {
+	width: 1;
+	background-color: #F3F3F3;
+	background-image: url(bj.gif);
+}
+.Hemline_R {
+	width:1;
+	background-color: #F3F3F3;
+	background-image: url(bj.gif);
+}
+
+.Border_R, .Border_L {
+	width: 1px;
+	 background-color: #C3C3C3;
+	background-image: url(bj.gif);
+}
+.TextBox_1 {background-color: #EFF1F3;}
+.TextBox_2 {background-color: #F6F9FD;}
+.bgLine {background-color: #AAAAAA;}
+.insist { color: #FF0000; }
+.ToolTip { border: 1px solid #999999; background-color: #F9F9F9; color:333333 }
+
+#container{
+	/*background-color:white;*/
+	padding-top:0px;
+	padding-bottom:0px;
+	width:730px;
+	margin:0 auto;
+}
+h1
+{
+	color:#CCCC99;
+	text-align:center;
+}
+
+#main_table{
+	width:700px;
+	margin-left:auto;
+	margin-right:auto;
+	border-collapse:collapse;
+	color:#333333;
+	border-left:none;
+	border-right:none;
+}
+#main_table tr.header
+{
+	background-color:#CCCC99;
+	font-size:18px;
+	font-weight:bolder;
+}
+#main_table tr.message
+{
+	font-size:14px;
+}
+#main_table td{
+	border-bottom:dotted 1px silver;
+	padding-bottom:5px;
+	padding-top:5px;
+}
+#main_table td.pager
+{
+	border-bottom:none;
+}
+#add_table{
+	width:700px;
+	border:solid 1px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:5px;
+	border-collapse:collapse;
+	color:#333333;
+}
+#add_table td.alignright
+{
+	text-align:right;
+	width:100px;
+}
+#main_table td.nickname
+{
+	width:100px;
+}
+#main_table td.message
+{
+	width:450px;
+}
+#add_table td.alignleft
+{
+	width:350px;
+	text-align:left;
+}
+.left
+{
+	text-align:left;
+}
+.center{
+	text-align:center;
+}
+.botton
+{
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:10px;
+	margin-top:10px;
+	font-size:12px;
+	text-align:center;
+}
+#table2
+{
+width:730px;
+margin-left:auto;
+margin-right:auto;
+border-bottom-style:inset;
+table-layout:fixed;
+background-color: white;
+}

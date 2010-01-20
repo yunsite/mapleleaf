@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+.smiley_table
+{
+	border:none;
+}
+.smiley_img
+{
+	border:none;
+	width:19px;
+	height:19px;
+	
+}
