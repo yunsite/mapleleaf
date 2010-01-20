@@ -9,6 +9,8 @@
 
 请按照如下指导安装:
   * 下载 *枫叶留言板 1.7*
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+  * 解压缩程序
+  * 将程序上传到服务器空间
+  * 若使用类Unix服务器：修改服务器上的目录data的属性为666,并循环应用到其中的子文件.修改文件config.php的属性为666。
+  * 登录管理界面，修改管理员(admin)的密码，默认是admin.设置站点各项信息
+  * 安装完成！
