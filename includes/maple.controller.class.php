@@ -814,6 +814,7 @@ class Maple_Controller
                                                         'Asia/Shanghai'=>'上海',
                                                         'Asia/Taipei'=>'台北',
                                                         'Asia/Urumqi'=>'乌鲁木齐');
+        echo $this->_theme;//exit;
         include 'themes/'.$this->_theme.'/templates/'."admin.php";
     }
 
