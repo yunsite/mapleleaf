@@ -814,7 +814,6 @@ class Maple_Controller
                                                         'Asia/Shanghai'=>'上海',
                                                         'Asia/Taipei'=>'台北',
                                                         'Asia/Urumqi'=>'乌鲁木齐');
-        echo $this->_theme;//exit;
         include 'themes/'.$this->_theme.'/templates/'."admin.php";
     }
 
@@ -1003,13 +1002,6 @@ EOF;
             }
             $this->_model->_writeover($this->_r_file,$new_reply,'ab');
     }
-
-//    function run()
-//    {
-//        $action=isset($_GET['action'])?$_GET['action']:'index';
-//        if(!method_exists($this,$action)){$action='index';}
-//        $this->$action();
-//    }
 
     function get_all_data($parse_smileys=true,$filter_words=false)
     {
