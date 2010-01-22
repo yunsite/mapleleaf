@@ -2,6 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="Cache-Control" content="no-cache,   must-revalidate" />
+        <meta http-equiv="expires"   content="0" />
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/admin.css';?>" />
 <script type="text/javascript" src="./includes/admin.js"></script>
 <title>管理员控制面板首页</title>

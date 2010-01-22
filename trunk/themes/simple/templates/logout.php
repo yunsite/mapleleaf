@@ -1,6 +1,9 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="txt/html;charset=utf-8" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="Cache-Control" content="no-cache,   must-revalidate" />
+        <meta http-equiv="expires"   content="0" />
 <title>管理退出</title>
 <link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/logout.css';?>"  />
 <script type="text/javascript" src="./includes/logout.js"></script>

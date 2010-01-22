@@ -1,6 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><title>欢迎光临<?php echo $this->_board_name; ?></title>
         <meta http-equiv=Content-Type content="text/html; charset=utf-8" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+        <meta http-equiv="Expires"   content="Sun, 19 Nov 1978 05:00:00 GMT" />
         <link href="<?php echo $this->_themes_directory; ?><?php echo $this->_theme; ?>/Skin/Orange/style.css" rel=stylesheet />
         <link rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/smiley_common.css';?>" type="text/css"/>
         <!--<script  type="text/javascript" src="lib/function.js"></script>-->
