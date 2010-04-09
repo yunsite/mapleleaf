@@ -137,7 +137,7 @@
             <div id="message_container">
             <!-- 留言管理 -->
             <form id="message_manage" action="index.php?action=delete_multi_messages" method="post">
-            <table id="table2">
+            <table class="table2">
                 <tr class="header">
                     <td width="51">选择</td><td width="55" class="nickname">昵称</td><td width="379" class="message">留言</td><td width="140">操作</td>
                 </tr>
@@ -149,10 +149,10 @@
                 </td>
                 <td class='left'>	<?php echo $m['user'];?></td>
                 <td class='left' <?php if(@$m['reply']==true){?> onmouseover="document.getElementById('del_div_<?php echo $m['id'];?>').style.display=''" onmouseout="document.getElementById('del_div_<?php echo $m['id'];?>').style.display='none'" <?php }?>><?php echo $m['content'];?><br />时间：<?php echo date('m-d H:i',$m['time']);?> <?php if(@$m['reply']==true){?>  <br /><font color="red">您回复：</font> <?php echo $m['reply']['reply_content']." Time:".date('m-d H:i',(int)$m['reply']['reply_time']);?><span id='del_div_<?php echo $m['id'];?>'  style="display:none" >&nbsp;<a href="index.php?action=delete_reply&mid=<?php echo $m['id'];?>">删除回复</a></span><?php }?></td>
-                <td><a href='index.php?action=delete_message&mid=<?php echo $m['id'];?>&reply=<?php if(@$m['reply']){ echo "1";}else{ echo "0";}?>'>删除</a>
-                <a href='index.php?action=reply_window&mid=<?php echo $m['id'];?>&reply=<?php if(@$m['reply']){echo "1";}else{echo "0";}?>'>回复</a>
-                <a href='index.php?action=update_message&mid=<?php echo $m['id'];?>'>更新</a>
-                <a href='index.php?action=ban&ip=<?php echo $m['ip'];?>'>屏蔽</a></td>
+                <td><a href='index.php?action=delete_message&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){ echo "1";}else{ echo "0";}?>'>删除</a>
+                <a href='index.php?action=reply_window&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){echo "1";}else{echo "0";}?>'>回复</a>
+                <a href='index.php?action=update_message&amp;mid=<?php echo $m['id'];?>'>更新</a>
+                <a href='index.php?action=ban&amp;ip=<?php echo $m['ip'];?>'>屏蔽</a></td>
             </tr>
            <?php }?>
             
@@ -166,7 +166,7 @@
             <div id="ip_container">
             <!-- IP管理 -->
                 <form id="banip_manage" action="index.php?action=ip_update" method="post">
-                <table id="table2">
+                <table class="table2">
                     <tr class="header">
                         <td>选择</td><td>被屏蔽的IP地址</td>
                     </tr>
