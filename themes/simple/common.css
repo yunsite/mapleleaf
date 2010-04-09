@@ -101,3 +101,6 @@ a:hover{
 a:visited{
 	text-decoration:none;
 }
+.pointer {
+	cursor:pointer;
+}
