@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="pragma" content="no-cache" />
-        <meta http-equiv="Cache-Control" content="no-cache,   must-revalidate" />
-        <meta http-equiv="expires"   content="0" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
+<meta http-equiv="expires" content="0" />
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/admin.css';?>" />
 <script type="text/javascript" src="./includes/admin.js"></script>
 <title>管理员控制面板首页</title>
@@ -148,7 +148,7 @@
                     <input type='hidden' name='<?php echo $m['id'];?>' value='<?php if(@$m['reply']){ echo "1";}else{echo "0";}?>' />
                 </td>
                 <td class='left'>	<?php echo $m['user'];?></td>
-                <td class='left' <?php if(@$m['reply']==true){?> onmouseover="document.getElementById('del_div_<?php echo $m['id'];?>').style.display=''" onmouseout="document.getElementById('del_div_<?php echo $m['id'];?>').style.display='none'" <?php }?>><?php echo $m['content'];?><br />时间：<?php echo date('m-d H:i',$m['time']);?> <?php if(@$m['reply']==true){?>  <br /><font color="red">您回复：</font> <?php echo $m['reply']['reply_content']." Time:".date('m-d H:i',(int)$m['reply']['reply_time']);?><span id='del_div_<?php echo $m['id'];?>'  style="display:none" >&nbsp;<a href="index.php?action=delete_reply&mid=<?php echo $m['id'];?>">删除回复</a></span><?php }?></td>
+                <td class='left'><?php echo $m['content'];?><br />时间：<?php echo date('m-d H:i',$m['time']);?> <?php if(@$m['reply']==true){?>  <br /><font color="red">您回复：</font> <?php echo $m['reply']['reply_content']." Time:".date('m-d H:i',(int)$m['reply']['reply_time']);?><span>&nbsp;<a href="index.php?action=delete_reply&amp;mid=<?php echo $m['id'];?>">删除回复</a></span><?php }?></td>
                 <td><a href='index.php?action=delete_message&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){ echo "1";}else{ echo "0";}?>'>删除</a>
                 <a href='index.php?action=reply_window&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){echo "1";}else{echo "0";}?>'>回复</a>
                 <a href='index.php?action=update_message&amp;mid=<?php echo $m['id'];?>'>更新</a>
