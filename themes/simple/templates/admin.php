@@ -7,6 +7,8 @@
 <meta http-equiv="expires" content="0" />
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/admin.css';?>" />
 <script type="text/javascript" src="./includes/admin.js"></script>
+<script type="text/javascript" src="./includes/jquery.js"></script>
+<script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/admin.js';?>"></script>
 <title>管理员控制面板首页</title>
 </head>
 
