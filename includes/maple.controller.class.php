@@ -100,13 +100,20 @@ class Maple_Controller
     {
         //check tables
         $tables_required=array($this->_message_table_name,$this->_reply_table_name,$this->_banedip_table_name);
-        foreach ($tables_required as $table)
+    	if(!is_writeable($this->_model->_db_root_dir.$this->_dbname))
         {
-            $tablepath=$this->_model->_db_root_dir.$this->_dbname."/".$table;
-            if(!$this->_model->maple_check_table_exist($tablepath))
-            {
-                $this->_errors[]="数据表 $table 不存在！";
-            }
+        	$this->_errors[]="你需要将 data 目录设置为 777 权限并运用到子目录和文件。";
+        }
+        else
+        {
+	        foreach ($tables_required as $table)
+	        {
+	            $tablepath=$this->_model->_db_root_dir.$this->_dbname."/".$table;
+	            if(!$this->_model->maple_check_table_exist($tablepath))
+	            {
+	                $this->_errors[]="数据表 $table 不存在！";
+	            }
+	        }
         }
         //check directories
         if (!is_dir($this->_themes_directory))
