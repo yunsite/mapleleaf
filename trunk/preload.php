@@ -3,6 +3,10 @@ if(!defined('IN_MP'))
 {
 	exit;
 }
+if(version_compare(PHP_VERSION,'5.1.0','<'))
+{
+	die('PHP Version 5.1.0+ required!');
+}
 //error_reporting(E_ALL & ~E_DEPRECATED);
 //若用于调试，请把上面一行注释掉，打开下面这一行
 error_reporting(E_ALL);
