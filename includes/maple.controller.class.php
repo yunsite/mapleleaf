@@ -617,7 +617,7 @@ class Maple_Controller
         {
                 $this->show_message('回复不可以为空',true,'index.php?action=control_panel&subtab=message',3);
         }
-        $time=time() + $this->_time_zone*60*60;
+        $time=time();
         $input=array($mid,$reply_content,$time);
         $this->_model->maple_db_modify($this->_dbname,$this->_reply_table_name,$mid,$input);
         header("Location:index.php?action=control_panel&subtab=message");
@@ -635,7 +635,7 @@ class Maple_Controller
         {
                 $this->show_message('回复不可以为空',true,'index.php?action=admin&subtab=message',3);
         }
-        $time=time() + $this->_time_zone*60*60;
+        $time=time();
         $input=$mid.'"'.$reply_content.'"'.$time."\n";
         $reply_filename=$this->_model->_db_root_dir.$this->_dbname."/{$this->_reply_table_name}".$this->_model->_data_ext.$this->_model->_ext;
         $this->_model->_writeover($reply_filename,$input,'ab');
@@ -801,9 +801,7 @@ class Maple_Controller
             }
         }
         else
-        {
             $gd_version='<font color="red">GD不支持</font>';
-        }
         $isSafeMode=$isSafeMode ? 'On' : 'Off';
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
@@ -956,7 +954,7 @@ EOF;
             $content =isset($_POST['content'])?htmlspecialchars(trim($_POST['content'])):'';
             $content = nl2br($content);
             $content = str_replace(array("\n", "\r\n", "\r"), '', $content);
-            $time=time() + $this->_time_zone*60*60;
+            $time=time();
             if(empty($user) or empty($content))
             {
                     $this->show_message("你没有填写完成,现在正在<a href='./index.php'>返回</a>...",true,'index.php');
