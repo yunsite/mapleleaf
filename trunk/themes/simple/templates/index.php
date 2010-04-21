@@ -25,8 +25,8 @@
 	<?php foreach($data as $m){?>
     <tr class='message'>
     	<td class='left'><?php echo str_replace('Admin',"<font color='red'>Admin</font>",$m['user']);?></td>
-        <td class='left'><?php echo htmlspecialchars_decode($m['content']);?><br /><?php if(@$m['reply']){?><font color='red'>Admin于<?php echo date('m-d H:i',(int)$m['reply']['reply_time']);?>回复：</font><?php echo $m['reply']['reply_content'];?> <?php }?></td>
-        <td class='center'><?php echo date('m-d H:i',$m['time']);?></td>
+        <td class='left'><?php echo htmlspecialchars_decode($m['content']);?><br /><?php if(@$m['reply']){?><font color='red'>Admin于<?php echo date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60);?>回复：</font><?php echo $m['reply']['reply_content'];?> <?php }?></td>
+        <td class='center'><?php echo date('m-d H:i',$m['time']+$this->_time_zone*60*60);?></td>
     </tr>
     <?php }?>
     <?php if($this->_page_on){?>
