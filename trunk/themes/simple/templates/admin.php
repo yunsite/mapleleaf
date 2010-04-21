@@ -101,7 +101,19 @@
                         <td>外观主题:</td><td align="left"><select name="theme"><?php foreach ($themes as $per_theme){?><option value="<?php echo $per_theme;?>" <?php if($per_theme==$this->_theme){echo 'selected="selected"';}?>><?php echo $per_theme;?></option><?php }?></select></td>
                     </tr>
                     <tr>
-                        <td>使用时区:</td><td align="left"><select name="timezone"><?php foreach ($timezone_array as $key=>$per_timezone){?><option value="<?php echo $key;?>" <?php if($key==$this->_time_zone){echo 'selected="selected"';}?>><?php echo $per_timezone;?></option><?php }?></select></td>
+                        <td>使用时区:</td>
+						<td align="left">
+							<select name="timezone">
+						
+						<?php foreach ($timezone_array as $key=>$per_timezone)
+							{
+						?>
+						<option value="<?php echo $key;?>" <?php if($key==$this->_time_zone){echo 'selected="selected"';}?>>
+						<?php echo $per_timezone;?></option>
+						<?php }?>
+						
+							</select>
+						</td>
                     </tr>
                 </table>
                 </fieldset>

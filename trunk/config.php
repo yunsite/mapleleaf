@@ -11,4 +11,4 @@ $num_perpage='4';
 $theme='simple';
 $admin='admin';
 $password='admin';
-$timezone='Asia/Harbin';
+$timezone='8';
