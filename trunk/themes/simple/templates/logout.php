@@ -17,7 +17,7 @@
 <div id="lay">
 <h1>退出管理</h1>
 <?php if($old_user==true){?>
-您已成功退出.<img src='./themes/smileys/smile.gif'alt="smile">
+您已成功退出.<img src='<?php echo $this->_smileys_dir;?>smile.gif'alt="smile">
 您将在 <span id="sss"></span> 秒后返回主页
 <script type="text/javascript">
 counts();
