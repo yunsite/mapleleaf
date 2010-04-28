@@ -96,4 +96,20 @@
         return $timezone;
 
     }
+	function mb_wordwrap($str, $width = 75, $break = "\n", $cut = false, $charset = null) 
+	{
+		if ($charset === null) $charset = mb_internal_encoding();
+
+		$pieces = explode($break, $str);
+		$result = array();
+		foreach ($pieces as $piece) {
+		  $current = $piece;
+		  while ($cut && mb_strlen($current) > $width) {
+			$result[] = mb_substr($current, 0, $width, $charset);
+			$current = mb_substr($current, $width, 2048, $charset);
+		  }
+		  $result[] = $current;
+		}
+		return implode($break, $result);
+	}
 ?>
