@@ -4,7 +4,7 @@
  * @author      rainyjune<rainyjune@live.cn>
  * @copyright   Copyright (c) 2008 - 2010 Maple Group. (http://maple.dreamneverfall.cn)
  * @license     GPL2
- * @version     2010-01-01
+ * @version     2010-04-28
  */
 include_once 'maple.data.class.php';
 include_once 'Imgcode.php';
@@ -36,50 +36,50 @@ class Maple_Controller
 
     public  $_smileys = array(
     //	smiley			image name						width	height	title
-            ':-)'			=>	array('grin.gif',			'19',	'19',	'grin'),
-            ':lol:'			=>	array('lol.gif',			'19',	'19',	'LOL'),
-            ':cheese:'		=>	array('cheese.gif',			'19',	'19',	'cheese'),
-            ':)'			=>	array('smile.gif',			'19',	'19',	'smile'),
-            ';-)'			=>	array('wink.gif',			'19',	'19',	'wink'),
-            ';)'			=>	array('wink.gif',			'19',	'19',	'wink'),
-            ':smirk:'		=>	array('smirk.gif',			'19',	'19',	'smirk'),
-            ':roll:'		=>	array('rolleyes.gif',		'19',	'19',	'rolleyes'),
-            ':-S'			=>	array('confused.gif',		'19',	'19',	'confused'),
-            ':wow:'			=>	array('surprise.gif',		'19',	'19',	'surprised'),
-            ':bug:'			=>	array('bigsurprise.gif',	'19',	'19',	'big surprise'),
-            ':-P'			=>	array('tongue_laugh.gif',	'19',	'19',	'tongue laugh'),
-            '%-P'			=>	array('tongue_rolleye.gif',	'19',	'19',	'tongue rolleye'),
-            ';-P'			=>	array('tongue_wink.gif',	'19',	'19',	'tongue wink'),
-            ':P'			=>	array('raspberry.gif',		'19',	'19',	'raspberry'),
-            ':blank:'		=>	array('blank.gif',			'19',	'19',	'blank stare'),
-            ':long:'		=>	array('longface.gif',		'19',	'19',	'long face'),
-            ':ohh:'			=>	array('ohh.gif',			'19',	'19',	'ohh'),
-            ':grrr:'		=>	array('grrr.gif',			'19',	'19',	'grrr'),
-            ':gulp:'		=>	array('gulp.gif',			'19',	'19',	'gulp'),
-            '8-/'			=>	array('ohoh.gif',			'19',	'19',	'oh oh'),
-            ':down:'		=>	array('downer.gif',			'19',	'19',	'downer'),
-            ':red:'			=>	array('embarrassed.gif',	'19',	'19',	'red face'),
-            ':sick:'		=>	array('sick.gif',			'19',	'19',	'sick'),
-            ':shut:'		=>	array('shuteye.gif',		'19',	'19',	'shut eye'),
-            ':-/'			=>	array('hmm.gif',			'19',	'19',	'hmmm'),
-            '&amp;gt;:('			=>	array('mad.gif',			'19',	'19',	'mad'),
-            ':mad:'			=>	array('mad.gif',			'19',	'19',	'mad'),
-            '&amp;gt;:-('			=>	array('angry.gif',			'19',	'19',	'angry'),
-            ':angry:'		=>	array('angry.gif',			'19',	'19',	'angry'),
-            ':zip:'			=>	array('zip.gif',			'19',	'19',	'zipper'),
-            ':kiss:'		=>	array('kiss.gif',			'19',	'19',	'kiss'),
-            ':ahhh:'		=>	array('shock.gif',			'19',	'19',	'shock'),
-            ':coolsmile:'	=>	array('shade_smile.gif',	'19',	'19',	'cool smile'),
-            ':coolsmirk:'	=>	array('shade_smirk.gif',	'19',	'19',	'cool smirk'),
-            ':coolgrin:'	=>	array('shade_grin.gif',		'19',	'19',	'cool grin'),
-            ':coolhmm:'		=>	array('shade_hmm.gif',		'19',	'19',	'cool hmm'),
-            ':coolmad:'		=>	array('shade_mad.gif',		'19',	'19',	'cool mad'),
-            ':coolcheese:'	=>	array('shade_cheese.gif',	'19',	'19',	'cool cheese'),
-            ':vampire:'		=>	array('vampire.gif',		'19',	'19',	'vampire'),
-            ':snake:'		=>	array('snake.gif',			'19',	'19',	'snake'),
-            ':exclaim:'		=>	array('exclaim.gif',		'19',	'19',	'excaim'),
-            ':question:'	=>	array('question.gif',		'19',	'19',	'question') // no comma after last item
-            );
+	':-)'			=>	array('grin.gif',			'19',	'19',	'grin'),
+	':lol:'			=>	array('lol.gif',			'19',	'19',	'LOL'),
+	':cheese:'		=>	array('cheese.gif',			'19',	'19',	'cheese'),
+	':)'			=>	array('smile.gif',			'19',	'19',	'smile'),
+	';-)'			=>	array('wink.gif',			'19',	'19',	'wink'),
+	';)'			=>	array('wink.gif',			'19',	'19',	'wink'),
+	':smirk:'		=>	array('smirk.gif',			'19',	'19',	'smirk'),
+	':roll:'		=>	array('rolleyes.gif',		'19',	'19',	'rolleyes'),
+	':-S'			=>	array('confused.gif',		'19',	'19',	'confused'),
+	':wow:'			=>	array('surprise.gif',		'19',	'19',	'surprised'),
+	':bug:'			=>	array('bigsurprise.gif',	'19',	'19',	'big surprise'),
+	':-P'			=>	array('tongue_laugh.gif',	'19',	'19',	'tongue laugh'),
+	'%-P'			=>	array('tongue_rolleye.gif',	'19',	'19',	'tongue rolleye'),
+	';-P'			=>	array('tongue_wink.gif',	'19',	'19',	'tongue wink'),
+	':P'			=>	array('raspberry.gif',		'19',	'19',	'raspberry'),
+	':blank:'		=>	array('blank.gif',			'19',	'19',	'blank stare'),
+	':long:'		=>	array('longface.gif',		'19',	'19',	'long face'),
+	':ohh:'			=>	array('ohh.gif',			'19',	'19',	'ohh'),
+	':grrr:'		=>	array('grrr.gif',			'19',	'19',	'grrr'),
+	':gulp:'		=>	array('gulp.gif',			'19',	'19',	'gulp'),
+	'8-/'			=>	array('ohoh.gif',			'19',	'19',	'oh oh'),
+	':down:'		=>	array('downer.gif',			'19',	'19',	'downer'),
+	':red:'			=>	array('embarrassed.gif',	'19',	'19',	'red face'),
+	':sick:'		=>	array('sick.gif',			'19',	'19',	'sick'),
+	':shut:'		=>	array('shuteye.gif',		'19',	'19',	'shut eye'),
+	':-/'			=>	array('hmm.gif',			'19',	'19',	'hmmm'),
+	'&amp;gt;:('	=>	array('mad.gif',			'19',	'19',	'mad'),
+	':mad:'			=>	array('mad.gif',			'19',	'19',	'mad'),
+	'&amp;gt;:-('	=>	array('angry.gif',			'19',	'19',	'angry'),
+	':angry:'		=>	array('angry.gif',			'19',	'19',	'angry'),
+	':zip:'			=>	array('zip.gif',			'19',	'19',	'zipper'),
+	':kiss:'		=>	array('kiss.gif',			'19',	'19',	'kiss'),
+	':ahhh:'		=>	array('shock.gif',			'19',	'19',	'shock'),
+	':coolsmile:'	=>	array('shade_smile.gif',	'19',	'19',	'cool smile'),
+	':coolsmirk:'	=>	array('shade_smirk.gif',	'19',	'19',	'cool smirk'),
+	':coolgrin:'	=>	array('shade_grin.gif',		'19',	'19',	'cool grin'),
+	':coolhmm:'		=>	array('shade_hmm.gif',		'19',	'19',	'cool hmm'),
+	':coolmad:'		=>	array('shade_mad.gif',		'19',	'19',	'cool mad'),
+	':coolcheese:'	=>	array('shade_cheese.gif',	'19',	'19',	'cool cheese'),
+	':vampire:'		=>	array('vampire.gif',		'19',	'19',	'vampire'),
+	':snake:'		=>	array('snake.gif',			'19',	'19',	'snake'),
+	':exclaim:'		=>	array('exclaim.gif',		'19',	'19',	'excaim'),
+	':question:'	=>	array('question.gif',		'19',	'19',	'question') // no comma after last item
+	);
 
     //构造函数
     function  __construct()
@@ -89,9 +89,7 @@ class Maple_Controller
         $this->load_config();//载入配置
         $this->get_all_info();//得到所有信息
         if($this->_errors)//若有错误显示错误信息
-        {
             $this->show_message($this->_errors);
-        }
         $this->is_baned($_SERVER['REMOTE_ADDR']);//检查是否被禁止登录
     }
 
@@ -101,42 +99,28 @@ class Maple_Controller
         //check tables
         $tables_required=array($this->_message_table_name,$this->_reply_table_name,$this->_banedip_table_name);
     	if(!is_writeable($this->_model->_db_root_dir.$this->_dbname))
-        {
         	$this->_errors[]="你需要将 data 目录设置为 777 权限并运用到子目录和文件。";
-        }
         else
         {
 	        foreach ($tables_required as $table)
 	        {
 	            $tablepath=$this->_model->_db_root_dir.$this->_dbname."/".$table;
 	            if(!$this->_model->maple_check_table_exist($tablepath))
-	            {
 	                $this->_errors[]="数据表 $table 不存在！";
-	            }
 	        }
         }
         //check directories
         if (!is_dir($this->_themes_directory))
-        {
             $this->_errors[]="您所指定的主题目录 {$this->_themes_directory} 不存在";
-        }
         if(!is_dir($this->_smileys_dir))
-        {
             $this->_errors[]="您所指定的表情图案目录 {$this->_smileys_dir} 不存在";
-        }
         //check config file
         if(!file_exists($this->_site_conf_file))
-        {
             $this->_errors[]="你所指定的配置文件 {$this->_site_conf_file} 不存在";
-        }
         if(!is_writable($this->_site_conf_file))
-        {
             $this->_errors[]="你所指定的配置文件 {$this->_site_conf_file} 不可写";
-        }
         if($this->_errors)
-        {
             $this->show_message($this->_errors);
-        }
     }
 
 
@@ -165,20 +149,16 @@ class Maple_Controller
         if (in_array($ip,$all_baned_ips))
         {
             if($check)
-            {
                 return TRUE;
-            }
             $this->show_message("你被管理员禁止登录！");
         }
     }
-
     
     function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
     {
         include 'themes/'.$this->_theme.'/templates/'."show_message.php";
         exit;
     }
-
 
     public function get_all_themes()
     {
@@ -187,9 +167,7 @@ class Maple_Controller
         while(false!==($entry=$d->read()))
         {
             if(substr($entry,0,1)!='.')
-            {
                 $themes[$entry]=$entry;
-            }
         }
         $d->close();
         return $themes;
@@ -222,13 +200,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($board_name))
-        {
             $this->_board_name=$board_name;
-        }
         else
-        {
             $this->_errors[]="留言板名称没有设置";
-        }
     }
 
     private function set_board_name()
@@ -244,13 +218,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($mb_open))
-        {
             $this->_mb_open=$mb_open;
-        }
         else
-        {
             $this->_errors[]="留言板状态没有设置";
-        }
     }
 
     private function set_mb_open()
@@ -265,13 +235,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($close_reason))
-        {
             $this->_close_reason=$close_reason;
-        }
         else
-        {
             $this->_errors[]="关闭原因没有设置";
-        }
     }
 
     private function set_close_reason()
@@ -286,13 +252,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($admin_email))
-        {
             $this->_admin_email=$admin_email;
-        }
         else
-        {
             $this->_errors[]="管理员Email没有填写";
-        }
     }
 
     private function set_admin_email()
@@ -306,13 +268,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if (isset ($copyright_info))
-        {
             $this->_copyright_info=$copyright_info;
-        }
         else
-        {
             $this->_errors[]="版权信息没有填写";
-        }
     }
 
     private function set_copyright_info()
@@ -326,13 +284,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($filter_words))
-        {
             $this->_filter_words=$filter_words;
-        }
         else
-        {
             $this->_errors[]="没有填写过滤词语";
-        }
     }
 
     private function set_filter_words()
@@ -347,13 +301,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($valid_code_open))
-        {
             $this->_valid_code_open=$valid_code_open;
-        }
         else
-        {
             $this->_errors[]="验证码状态没有正确设置";
-        }
     }
 
     private function set_valid_code_open()
@@ -367,13 +317,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($page_on))
-        {
             $this->_page_on=$page_on;
-        }
         else
-        {
             $this->_errors[]="分页状态没有正确设置";
-        }
     }
 
     private function set_page_on()
@@ -387,13 +333,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($num_perpage))
-        {
             $this->_num_perpage=$num_perpage;
-        }
         else
-        {
             $this->_errors[]="分页参数没有正确设置";
-        }
     }
 
     private function set_num_perpage()
@@ -408,13 +350,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($theme))
-        {
             $this->_theme=$theme;
-        }
         else
-        {
             $this->_errors[]="主题没有正确设置";
-        }
     }
 
     private function set_theme()
@@ -445,13 +383,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($admin))
-        {
             $this->_admin_name=$admin;
-        }
         else
-        {
             $this->_errors[]="管理员名字没有正确设置";
-        }
     }
 
     private function set_admin_name()
@@ -464,13 +398,9 @@ class Maple_Controller
     {
         include $this->_site_conf_file;
         if(isset ($password))
-        {
             $this->_admin_password=$password;
-        }
         else
-        {
             $this->_errors[]="管理员密码没有正确设置";
-        }
     }
 
     private function set_admin_password()
@@ -484,17 +414,12 @@ class Maple_Controller
     function index()
     {
         if ($this->_mb_open==1)
-        {
-                $this->show_message($this->_close_reason);
-        }
+            $this->show_message($this->_close_reason);
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
         $data=$this->get_all_data(TRUE,TRUE);
         $nums=$this->_model->maple_number_rows($data);
         if($this->_page_on)
-        {
             $data=$this->page_wrapper($data, $nums, $current_page);
-        }
-        //var_dump($data);
         $pages=ceil($nums/$this->_num_perpage);
         $smileys=$this->show_smileys_table();
         $admin=isset($_SESSION['admin'])?true:false;
@@ -505,13 +430,9 @@ class Maple_Controller
     {
         $pages=ceil($nums/$this->_num_perpage);
         if($current_page>=$pages)
-        {
-                $current_page=$pages-1;
-        }
+            $current_page=$pages-1;
         if($current_page<0)
-        {
-                $current_page=0;
-        }
+            $current_page=0;
         $start=$current_page*$this->_num_perpage;
         $data=array_slice($data,$start,$this->_num_perpage);
         return $data;
@@ -521,8 +442,8 @@ class Maple_Controller
     {
         if (isset($_SESSION['admin']))
         {
-                header("location:index.php?action=control_panel");
-                exit;
+            header("location:index.php?action=control_panel");
+            exit;
         }
         include 'themes/'.$this->_theme.'/templates/'."login.php";
     }
@@ -531,29 +452,28 @@ class Maple_Controller
     {
         if (isset($_SESSION['admin']))
         {
-                header("location:index.php?action=control_panel");
-                exit;
+            header("location:index.php?action=control_panel");
+            exit;
         }
         if(isset($_POST['user']) && isset($_POST['password']))
         {
-                if($_POST['user']==$this->_admin_name && htmlspecialchars($_POST['password'],ENT_QUOTES)==$this->_admin_password)
-                {
-                        $_SESSION['admin']=$_POST['user'];
-                        header("Location:index.php?action=control_panel");
-                        exit;
-                }
-                else
-                {
-                        $errormsg="错误：无效用户或密码.";
-                        include 'themes/'.$this->_theme.'/templates/'."login.php";
-                        exit;
-                }
-
+			if($_POST['user']==$this->_admin_name && htmlspecialchars($_POST['password'],ENT_QUOTES)==$this->_admin_password)
+			{
+					$_SESSION['admin']=$_POST['user'];
+					header("Location:index.php?action=control_panel");
+					exit;
+			}
+			else
+			{
+					$errormsg="错误：无效用户或密码.";
+					include 'themes/'.$this->_theme.'/templates/'."login.php";
+					exit;
+			}
         }
         else
         {
-                header("location:index.php?action=login_window");
-                exit;
+            header("location:index.php?action=login_window");
+            exit;
         }
     }
 
@@ -562,10 +482,10 @@ class Maple_Controller
         $old_user='';
         if(isset($_SESSION['admin']))
         {
-                $this->delete_backup_files();
-                $old_user=$_SESSION['admin'];
-                unset($_SESSION['admin']);
-                session_destroy();
+            $this->delete_backup_files();
+            $old_user=$_SESSION['admin'];
+            unset($_SESSION['admin']);
+            session_destroy();
         }
         include 'themes/'.$this->_theme.'/templates/'."logout.php";
     }
@@ -574,9 +494,7 @@ class Maple_Controller
     {
         $new_message=$this->add_message_check();
         if(!$this->_model->maple_db_insert($this->_dbname,$this->_message_table_name,$new_message))
-        {
             $this->show_message("写入失败",TRUE);
-        }
         header("Location:index.php");
         break;
     }
@@ -586,8 +504,8 @@ class Maple_Controller
         is_admin();
         if(!isset($_GET['mid']) || !isset($_GET['reply']))
         {
-                header("location:index.php?action=control_panel&subtab=message");
-                exit;
+            header("location:index.php?action=control_panel&subtab=message");
+            exit;
         }
         $mid=(int)$_GET['mid'];
         $if_replied=intval($_GET['reply']);
@@ -595,15 +513,11 @@ class Maple_Controller
         {
             $reply_data=$this->_model->maple_db_select_by_id($this->_dbname,$this->_reply_table_name,$mid);
             if(!$reply_data)
-            {
                 $this->show_message("查询出错",TRUE,'index.php?action=control_panel&subtab=message');
-            }
-                include 'themes/'.$this->_theme.'/templates/'."reply_update.php";
+            include 'themes/'.$this->_theme.'/templates/'."reply_update.php";
         }
         else
-        {
-                include 'themes/'.$this->_theme.'/templates/'."reply.php";
-        }
+            include 'themes/'.$this->_theme.'/templates/'."reply.php";
     }
     function reply_update()
     {
@@ -614,9 +528,7 @@ class Maple_Controller
         $reply_content = nl2br($reply_content);
         $reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
         if (trim($reply_content)=='')
-        {
-                $this->show_message('回复不可以为空',true,'index.php?action=control_panel&subtab=message',3);
-        }
+			$this->show_message('回复不可以为空',true,'index.php?action=control_panel&subtab=message',3);
         $time=time();
         $input=array($mid,$reply_content,$time);
         $this->_model->maple_db_modify($this->_dbname,$this->_reply_table_name,$mid,$input);
@@ -632,9 +544,7 @@ class Maple_Controller
         $reply_content = nl2br($reply_content);
         $reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
         if (trim($reply_content)=='')
-        {
-                $this->show_message('回复不可以为空',true,'index.php?action=admin&subtab=message',3);
-        }
+            $this->show_message('回复不可以为空',true,'index.php?action=admin&subtab=message',3);
         $time=time();
         $input=$mid.'"'.$reply_content.'"'.$time."\n";
         $reply_filename=$this->_model->_db_root_dir.$this->_dbname."/{$this->_reply_table_name}".$this->_model->_data_ext.$this->_model->_ext;
@@ -646,15 +556,11 @@ class Maple_Controller
     {
         is_admin();
         if (!isset ($_GET['mid']))
-        {
             header("location:index.php?action=control_panel&subtab=message");exit;
-        }
         $mid=intval($_GET['mid']);
         $message_info=$this->_model->maple_db_select_by_id($this->_dbname,$this->_message_table_name,$mid);
         if(!$message_info)
-        {
             $this->show_message("查询出错",TRUE,'index.php?action=control_panel&subtab=message');
-        }
         include 'themes/'.$this->_theme.'/templates/'."update_message.php";
     }
     function update()
@@ -670,13 +576,9 @@ class Maple_Controller
         $ip=$_POST['ip'];
         $input=array($mid,$author,$update_content,$m_time,$ip);
         if($this->_model->maple_db_modify($this->_dbname,$this->_message_table_name,$mid,$input))
-        {
             header("Location:index.php?action=control_panel&subtab=message");
-        }
         else
-        {
             $this->show_message($this->_model->_errors, TRUE, 'index.php?action=control_panel&subtab=message');
-        }
     }
 
     function delete_multi_messages()
@@ -686,18 +588,16 @@ class Maple_Controller
         // Check whether admin had selected some options
         if($del_ids==array())
         {
-                header("location:index.php?action=control_panel&subtab=message");
-                exit;
+            header("location:index.php?action=control_panel&subtab=message");
+            exit;
         }
         $del_num=count($del_ids);
         for($i=0;$i<$del_num;$i++)
         {
-                $deleted_id=(int)$del_ids[$i];
-                $this->delete_message($deleted_id);
-                if ($_POST[$deleted_id]==1)
-                {
-                    $this->delete_reply($deleted_id);
-                }
+            $deleted_id=(int)$del_ids[$i];
+            $this->delete_message($deleted_id);
+            if ($_POST[$deleted_id]==1)
+                $this->delete_reply($deleted_id);
         }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
@@ -705,23 +605,15 @@ class Maple_Controller
     {
         is_admin();
         if($from_function)
-        {
             $mid=$from_function;
-        }
         else
-        {
             $mid=intval($_GET['mid']);
-        }
         if(isset($mid))
-        {
             $this->_model->maple_db_modify($this->_dbname,$this->_message_table_name,$mid,array());
-        }
         //若回复中有关于此留言的记录，执行删除回复操作
         $reply_del=(int)$_GET['reply'];
         if($reply_del==1)
-        {
             $this->delete_reply($mid);
-        }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
 
@@ -729,17 +621,11 @@ class Maple_Controller
     {
         is_admin();
         if($from_delete_message)
-        {
             $mid=$from_delete_message;
-        }
         else
-        {
             $mid=intval($_GET['mid']);
-        }
         if(isset($mid))
-        {
-                $this->_model->maple_db_modify($this->_dbname,$this->_reply_table_name,$mid,array());
-        }
+			$this->_model->maple_db_modify($this->_dbname,$this->_reply_table_name,$mid,array());
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
 
@@ -771,10 +657,8 @@ class Maple_Controller
         $tabs_array=array('overview','siteset','message','ban_ip');
         if(isset($_GET['subtab']))
         {
-                if(in_array($_GET['subtab'],$tabs_array))
-                {
-                        $current_tab=$_GET['subtab'];
-                }
+			if(in_array($_GET['subtab'],$tabs_array))
+				$current_tab=$_GET['subtab'];
         }
         $themes=$this->get_all_themes();
         $data=$this->get_all_data();
@@ -786,18 +670,17 @@ class Maple_Controller
 
         if($gd_exist){
             $gd_info=gd_info();
-
             if (defined(GD_VERSION))
-            {
-            $gd_version=GD_VERSION;
-            }
+			{
+				$gd_version=GD_VERSION;
+			}
             elseif ($gd_info)
             {
-                    $gd_version=$gd_info['GD Version'];
+                $gd_version=$gd_info['GD Version'];
             }
             else
             {
-            $gd_version='<font color="red">未知</font>';
+				$gd_version='<font color="red">未知</font>';
             }
         }
         else
@@ -816,22 +699,19 @@ class Maple_Controller
         $dir="data/{$this->_dbname}/";
         if(!class_exists('ZipArchive'))
         {
-                $this->show_message("你的服务器不支持此功能！",true,'index.php?action=control_panel&subtab=message');
-                exit;
+            $this->show_message("你的服务器不支持此功能！",true,'index.php?action=control_panel&subtab=message');
+            exit;
         }
         $zip = new ZipArchive();
         $filename = $dir."backup-".date('Ymd',time()).".zip";
 
-        if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE) {
-           exit("cannot open <$filename>\n");
-        }
+        if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE)
+			exit("cannot open <$filename>\n");
         $d=dir($dir);
         while(false!==($entry=$d->read()))
         {
             if(substr($entry,0,1)!='.')
-            {
                 $zip->addFile($dir.$entry);
-            }
         }
         $d->close();
         $zip->close();
@@ -845,13 +725,13 @@ class Maple_Controller
         $ip=$_GET['ip'];
         if (!isset($ip) || $ip=="" || ip_valid($ip)==false)
         {
-                header("location:index.php?action=control_panel&subtab=message");
-                exit;
+            header("location:index.php?action=control_panel&subtab=message");
+            exit;
         }
         if($this->is_baned($ip,TRUE))
         {
-                header("location:index.php?action=control_panel&subtab=ban_ip");
-                exit;
+            header("location:index.php?action=control_panel&subtab=ban_ip");
+            exit;
         }
         $insert_string=$ip."\n";
         $ip_filename=$this->_model->_db_root_dir.$this->_dbname.'/'.$this->_banedip_table_name.$this->_model->_data_ext.$this->_model->_ext;
@@ -865,8 +745,8 @@ class Maple_Controller
         @$ip_update_array=$_POST['select_ip'];
         if(!$ip_update_array)
         {
-                header("location:index.php?action=control_panel&subtab=ban_ip");
-                exit;
+            header("location:index.php?action=control_panel&subtab=ban_ip");
+            exit;
         }
         $ip_array=$this->get_baned_ips();
         $new_ip_array=array_diff($ip_array,$ip_update_array);
@@ -912,9 +792,9 @@ EOF;
      */
     function fix_filter_string($filter_words)
     {
-            $new_string=trim($filter_words,',');
-            $new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
-            return $new_string;
+		$new_string=trim($filter_words,',');
+		$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
+		return $new_string;
     }
 
     /**
@@ -923,16 +803,12 @@ EOF;
     function get_baned_ips()
     {
         $baned_ip_table=$this->_model->_db_root_dir.$this->_dbname."/".$this->_banedip_table_name.$this->_model->_data_ext.$this->_model->_ext;
-            $ip_array=trim(file_get_contents($baned_ip_table));
-            if ($ip_array)
-            {
-                    $ip_array=explode("\n",$ip_array);
-            }
-            else
-            {
-                    $ip_array=array();
-            }
-            return $ip_array;
+		$ip_array=trim(file_get_contents($baned_ip_table));
+		if ($ip_array)
+			$ip_array=explode("\n",$ip_array);
+		else
+			$ip_array=array();
+		return $ip_array;
     }
 
     /**
@@ -943,37 +819,33 @@ EOF;
     function add_message_check()
     {
         $new_data=array();
-            $user=isset($_POST['user'])?$_POST['user']:'';
-            $current_ip=$_SERVER['REMOTE_ADDR'];
-            $user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
-            $admin_name_array=array('admin','root','administrator','管理员');
-            if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
-            {
-                    $user='anonymous';
-            }
-            $content =isset($_POST['content'])?htmlspecialchars(trim($_POST['content'])):'';
-            $content = nl2br($content);
-            $content = str_replace(array("\n", "\r\n", "\r"), '', $content);
-            $time=time();
-            if(empty($user) or empty($content))
-            {
-                    $this->show_message("你没有填写完成,现在正在<a href='./index.php'>返回</a>...",true,'index.php');
-                exit;
-            }
-            if(strlen($content)>580)
-            {
-                 $this->show_message("您的话语太多了，现在正在<a href='./index.php'>返回</a>...",true,'index.php');
-                 exit;
-            }
-            if($this->_valid_code_open==1)
-            {
-                    if(!$this->checkImgcode())
-                    {
-                            $this->show_message("验证码错误.现在正在<a href='./index.php'>返回</a>...",true,'index.php');
-                    }
-            }
-            $new_data=array($user,$content,$time,$current_ip);
-            return $new_data;
+		$user=isset($_POST['user'])?$_POST['user']:'';
+		$current_ip=$_SERVER['REMOTE_ADDR'];
+		$user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
+		$admin_name_array=array('admin','root','administrator','管理员');
+		if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
+			$user='anonymous';
+		$content =isset($_POST['content'])?htmlspecialchars(trim($_POST['content'])):'';
+		$content = nl2br($content);
+		$content = str_replace(array("\n", "\r\n", "\r"), '', $content);
+		$time=time();
+		if(empty($user) or empty($content))
+		{
+			$this->show_message("你没有填写完成,现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+			exit;
+		}
+		if(strlen($content)>580)
+		{
+			$this->show_message("您的话语太多了，现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+			exit;
+		}
+		if($this->_valid_code_open==1)
+		{
+			if(!$this->checkImgcode())
+				$this->show_message("验证码错误.现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+		}
+		$new_data=array($user,$content,$time,$current_ip);
+		return $new_data;
     }
     /**
      * 增加回复
@@ -983,17 +855,17 @@ EOF;
     function add_reply($mid,$new_reply)
     {
         is_admin();
-            if($new_reply=='')
-            {
-                    $this->show_message("您回复为空？！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
-                    exit;
-            }
-            if($mid < 0)
-            {
-                    $this->show_message("非法操作！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
-                    exit;
-            }
-            $this->_model->_writeover($this->_r_file,$new_reply,'ab');
+		if($new_reply=='')
+		{
+				$this->show_message("您回复为空？！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
+				exit;
+		}
+		if($mid < 0)
+		{
+				$this->show_message("非法操作！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
+				exit;
+		}
+		$this->_model->_writeover($this->_r_file,$new_reply,'ab');
     }
 
     function get_all_data($parse_smileys=true,$filter_words=false)
@@ -1004,22 +876,16 @@ EOF;
         foreach ($data as &$data_per)
         {
             if($filter_words)
-            {
                 $data_per['content']=$this->filter_words($data_per['content']);
-            }
             $mid=intval($data_per['id']);
             if(isset ($reply_data[$mid]))
             {
                 $data_per['reply']=$reply_data[$mid];
                 if($parse_smileys)
-                {
                     $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], $this->_smileys_dir,$this->_smileys);
-                }
             }          
             if($parse_smileys)
-            {
                 $data_per['content']=$this->parse_smileys($data_per['content'], $this->_smileys_dir,$this->_smileys);
-            }
         }
         $data=array_reverse($data);
         return $data;
@@ -1030,9 +896,9 @@ EOF;
      */
     function filter_words($input)
     {
-            $filter_array=explode(',',$this->_filter_words);
-            $input=str_ireplace($filter_array,'***',$input);
-            return $input;
+		$filter_array=explode(',',$this->_filter_words);
+		$input=str_ireplace($filter_array,'***',$input);
+		return $input;
     }
 
     /**
@@ -1040,16 +906,16 @@ EOF;
      */
     function delete_backup_files()
     {
-            $d=dir($this->_model->_db_root_dir.$this->_dbname);
-            while(false!==($entry=$d->read()))
-            {
-                    if (strlen($entry)==19)
-                    {
-                            $d_file=$this->_model->_db_root_dir.$this->_dbname.'/'.$entry;
-                            @unlink($d_file);
-                    }
-            }
-            $d->close();
+		$d=dir($this->_model->_db_root_dir.$this->_dbname);
+		while(false!==($entry=$d->read()))
+		{
+				if (strlen($entry)==19)
+				{
+						$d_file=$this->_model->_db_root_dir.$this->_dbname.'/'.$entry;
+						@unlink($d_file);
+				}
+		}
+		$d->close();
     }
 
     function get_all_reply()
@@ -1066,23 +932,19 @@ EOF;
      */
     function parse_smileys($str = '', $image_url = '', $smileys = NULL)
     {
-            if ($image_url == '')
-            {
-                    return $str;
-            }
+		if ($image_url == '')
+			return $str;
 
-            if ( ! is_array($smileys))
-            {
-                            return $str;
-            }
+		if (!is_array($smileys))
+			return $str;
 
-            // Add a trailing slash to the file path if needed
-            $image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
-            foreach ($smileys as $key => $val)
-            {
-                    $str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
-            }
-            return $str;
+		// Add a trailing slash to the file path if needed
+		$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
+		foreach ($smileys as $key => $val)
+		{
+				$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
+		}
+		return $str;
     }
 }
 
@@ -1095,4 +957,3 @@ class MP_CONTROLLER extends Maple_Controller
         parent::$action();
     }
 }
-?>
