@@ -538,10 +538,26 @@ class Maple_Controller
 		include 'themes/'.$this->_theme.'/templates/'."reply.php";
     }
 
-    function update_message()
+    function update()
     {
         is_admin();
-        if(!isset($_GET['mid']))
+		if(isset($_POST['Submit']))
+		{
+			$mid=0;
+			$mid=(int)$_POST['mid'];
+			$author=$_POST['author'];
+			$m_time=$_POST['m_time'];
+			$update_content = htmlspecialchars(trim($_POST['update_content']));
+			$update_content = nl2br($update_content);
+			$update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
+			$ip=$_POST['ip'];
+			$input=array($mid,$author,$update_content,$m_time,$ip);
+			if($this->_model->maple_db_modify($this->_dbname,$this->_message_table_name,$mid,$input))
+				header("Location:index.php?action=control_panel&subtab=message");
+			else
+				$this->show_message($this->_model->_errors, TRUE, 'index.php?action=control_panel&subtab=message');
+		}
+		if(!isset($_GET['mid']))
 		{
             header("location:index.php?action=control_panel&subtab=message");exit;
 		}
@@ -549,24 +565,7 @@ class Maple_Controller
         $message_info=$this->_model->maple_db_select_by_id($this->_dbname,$this->_message_table_name,$mid);
         if(!$message_info)
             $this->show_message("查询出错",TRUE,'index.php?action=control_panel&subtab=message');
-        include 'themes/'.$this->_theme.'/templates/'."update_message.php";
-    }
-    function update()
-    {
-        is_admin();
-        $mid=0;
-        $mid=(int)$_POST['mid'];
-        $author=$_POST['author'];
-        $m_time=$_POST['m_time'];
-        $update_content = htmlspecialchars(trim($_POST['update_content']));
-        $update_content = nl2br($update_content);
-        $update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
-        $ip=$_POST['ip'];
-        $input=array($mid,$author,$update_content,$m_time,$ip);
-        if($this->_model->maple_db_modify($this->_dbname,$this->_message_table_name,$mid,$input))
-            header("Location:index.php?action=control_panel&subtab=message");
-        else
-            $this->show_message($this->_model->_errors, TRUE, 'index.php?action=control_panel&subtab=message');
+        include 'themes/'.$this->_theme.'/templates/'."update.php";
     }
 
     function delete_multi_messages()
