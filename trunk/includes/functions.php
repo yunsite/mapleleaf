@@ -24,7 +24,7 @@
     {
             if (!isset($_SESSION['admin']))
             {
-                    header("location:index.php?action=login_window");
+                    header("location:index.php?action=login");
                     exit;
             }
     }
