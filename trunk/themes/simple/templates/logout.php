@@ -23,7 +23,7 @@
 counts();
 </script>
 <?php }else{?>
-您没有登录，所以您无需退出。 <img src='<?php echo $this->_smileys_dir;?>smile.gif'alt="smile">
+您没有登录，所以您无需退出。 <img src='<?php echo $this->_smileys_dir;?>wink.gif'alt="wink">
 <a href="./index.php">返回留言板首页</a>
 <?php }?>
 
