@@ -151,7 +151,6 @@ class Maple_Controller
             $this->show_message("你被管理员禁止登录！");
         }
     }
-    
 	/**
 	 * 显示信息
 	 */
@@ -160,7 +159,6 @@ class Maple_Controller
         include 'themes/'.$this->_theme.'/templates/'."show_message.php";
         exit;
     }
-
 	/**
 	 * 得到所有可用的主题
 	 */
@@ -442,16 +440,6 @@ class Maple_Controller
         return $data;
     }
     
-    function login_window()
-    {
-        if (isset($_SESSION['admin']))
-        {
-            header("location:index.php?action=control_panel");
-            exit;
-        }
-        include 'themes/'.$this->_theme.'/templates/'."login.php";
-    }
-    
     function login()
     {
         if (isset($_SESSION['admin']))
@@ -476,7 +464,7 @@ class Maple_Controller
         }
         else
         {
-            header("location:index.php?action=login_window");
+			include 'themes/'.$this->_theme.'/templates/'."login.php";
             exit;
         }
     }
@@ -503,57 +491,51 @@ class Maple_Controller
         break;
     }
 
-    function reply_window()
-    {
-        is_admin();
-        if(!isset($_GET['mid']) || !isset($_GET['reply']))
+	protected function loadModel()
+	{
+		if(!isset($_GET['mid']))
         {
             header("location:index.php?action=control_panel&subtab=message");
             exit;
         }
-        $mid=(int)$_GET['mid'];
-        $if_replied=intval($_GET['reply']);
-        if ($if_replied==1)
-        {
-            $reply_data=$this->_model->maple_db_select_by_id($this->_dbname,$this->_reply_table_name,$mid);
-            if(!$reply_data)
+		$mid=(int)$_GET['mid'];
+        $reply_data=$this->_model->maple_db_select_by_id($this->_dbname,$this->_reply_table_name,$mid);
+        if($reply_data===FALSE)
                 $this->show_message("查询出错",TRUE,'index.php?action=control_panel&subtab=message');
-            include 'themes/'.$this->_theme.'/templates/'."reply_update.php";
-        }
         else
-            include 'themes/'.$this->_theme.'/templates/'."reply.php";
-    }
-    function reply_update()
-    {
-        is_admin();
-        $mid=0;
-        $mid=(int)$_POST['mid'];
-        $reply_content = htmlspecialchars(trim($_POST['reply_content']));
-        $reply_content = nl2br($reply_content);
-        $reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
-        if (trim($reply_content)=='')
-			$this->show_message('回复不可以为空',true,'index.php?action=control_panel&subtab=message',3);
-        $time=time();
-        $input=array($mid,$reply_content,$time);
-        $this->_model->maple_db_modify($this->_dbname,$this->_reply_table_name,$mid,$input);
-        header("Location:index.php?action=control_panel&subtab=message");
-    }
-    
+			return $reply_data;
+	}
+	//Reply
     function reply()
     {
         is_admin();
-        $mid=0;
-        $mid=(int)$_POST['mid'];
-        $reply_content = htmlspecialchars(trim($_POST['reply_content']));
-        $reply_content = nl2br($reply_content);
-        $reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
-        if (trim($reply_content)=='')
-            $this->show_message('回复不可以为空',true,'index.php?action=admin&subtab=message',3);
-        $time=time();
-        $input=$mid.'"'.$reply_content.'"'.$time."\n";
-        $reply_filename=$this->_model->_db_root_dir.$this->_dbname."/{$this->_reply_table_name}".$this->_model->_data_ext.$this->_model->_ext;
-        $this->_model->_writeover($reply_filename,$input,'ab');
-        header("Location:index.php?action=control_panel&subtab=message");
+		//echo '<pre>';var_dump($reply_data);exit;
+		if(isset($_POST['Submit']))
+		{
+			$mid=0;
+			$mid=(int)$_POST['mid'];
+			$reply_content = htmlspecialchars(trim($_POST['reply_content']));
+			$reply_content = nl2br($reply_content);
+			$reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
+			$time=time();
+			if (trim($reply_content)=='')
+				$this->show_message('回复不可以为空',true,'index.php?action=admin&subtab=message',3);
+			if(isset($_POST['update']))
+			{
+				$input=array($mid,$reply_content,$time);
+				$this->_model->maple_db_modify($this->_dbname,$this->_reply_table_name,$mid,$input);
+			}
+			else
+			{
+				$input=$mid.'"'.$reply_content.'"'.$time."\n";
+				$reply_filename=$this->_model->_db_root_dir.$this->_dbname."/{$this->_reply_table_name}".$this->_model->_data_ext.$this->_model->_ext;
+				$this->_model->_writeover($reply_filename,$input,'ab');
+			}
+			header("Location:index.php?action=control_panel&subtab=message");
+		}
+		$reply_data=$this->loadModel();
+		$mid=(int)$_GET['mid'];
+		include 'themes/'.$this->_theme.'/templates/'."reply.php";
     }
 
     function update_message()
