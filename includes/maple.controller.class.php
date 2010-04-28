@@ -1,7 +1,7 @@
 <?php
 /**
- * 用于逻辑部分的类。
- * @author      rainyjune<rainyjune@live.cn>
+ * Controller
+ * @author      rainyjune<dreamneverfall@gmail.com>
  * @copyright   Copyright (c) 2008 - 2010 Maple Group. (http://maple.dreamneverfall.cn)
  * @license     GPL2
  * @version     2010-04-28
@@ -33,7 +33,6 @@ class Maple_Controller
     public  $_message_table_name='gb';//留言信息数据表名称
     public  $_reply_table_name='reply';//回复数据表名称
     public  $_banedip_table_name='ban';//被禁止的IP列表的数据表的名称
-
     public  $_smileys = array(
     //	smiley			image name						width	height	title
 	':-)'			=>	array('grin.gif',			'19',	'19',	'grin'),
@@ -123,7 +122,6 @@ class Maple_Controller
             $this->show_message($this->_errors);
     }
 
-
     function get_all_info()
     {
         $this->get_board_name();
@@ -154,12 +152,18 @@ class Maple_Controller
         }
     }
     
+	/**
+	 * 显示信息
+	 */
     function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
     {
         include 'themes/'.$this->_theme.'/templates/'."show_message.php";
         exit;
     }
 
+	/**
+	 * 得到所有可用的主题
+	 */
     public function get_all_themes()
     {
         $themes=array();
@@ -459,15 +463,15 @@ class Maple_Controller
         {
 			if($_POST['user']==$this->_admin_name && htmlspecialchars($_POST['password'],ENT_QUOTES)==$this->_admin_password)
 			{
-					$_SESSION['admin']=$_POST['user'];
-					header("Location:index.php?action=control_panel");
-					exit;
+				$_SESSION['admin']=$_POST['user'];
+				header("Location:index.php?action=control_panel");
+				exit;
 			}
 			else
 			{
-					$errormsg="错误：无效用户或密码.";
-					include 'themes/'.$this->_theme.'/templates/'."login.php";
-					exit;
+				$errormsg="错误：无效用户或密码.";
+				include 'themes/'.$this->_theme.'/templates/'."login.php";
+				exit;
 			}
         }
         else
@@ -555,8 +559,10 @@ class Maple_Controller
     function update_message()
     {
         is_admin();
-        if (!isset ($_GET['mid']))
+        if(!isset($_GET['mid']))
+		{
             header("location:index.php?action=control_panel&subtab=message");exit;
+		}
         $mid=intval($_GET['mid']);
         $message_info=$this->_model->maple_db_select_by_id($this->_dbname,$this->_message_table_name,$mid);
         if(!$message_info)
@@ -668,7 +674,8 @@ class Maple_Controller
         $nums=$this->_model->maple_number_rows($data);
         $reply_num=$this->_model->maple_number_rows($reply_data);
 
-        if($gd_exist){
+        if($gd_exist)
+		{
             $gd_info=gd_info();
             if (defined(GD_VERSION))
 			{
@@ -759,9 +766,9 @@ class Maple_Controller
 	/**
 	 * 显示表情
 	 */
-  function show_smileys_table()
-{
-	return  <<<EOF
+	function show_smileys_table()
+	{
+		return  <<<EOF
 		<table cellpadding="4" cellspacing="0">
 		<tr>
 		<td><a href="javascript:void(0);" onclick="insert_smiley(':-)')"><img src="{$this->_smileys_dir}grin.gif" alt="grin" title="grin" class="smiley_img" /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':lol:')"><img src="{$this->_smileys_dir}lol.gif" class="smiley_img" title="LOL" alt="lol"  /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':cheese:')"><img src="{$this->_smileys_dir}cheese.gif" title="cheese" alt="cheese" class="smiley_img" /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':)')"><img src="{$this->_smileys_dir}smile.gif" title="smile" alt="smile" class="smiley_img" /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(';-)')"><img src="{$this->_smileys_dir}wink.gif" title="wink" alt="wink" class="smiley_img" /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':smirk:')"><img src="{$this->_smileys_dir}smirk.gif" title="smirk" alt="smirk" class="smiley_img"/></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':roll:')"><img src="{$this->_smileys_dir}rolleyes.gif" title="rolleyes" alt="rolleyes" class="smiley_img" /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':-S')"><img src="{$this->_smileys_dir}confused.gif" title="confused" alt="confused" class="smiley_img" /></a></td></tr>
@@ -775,16 +782,15 @@ class Maple_Controller
 		<td><a href="javascript:void(0);" onclick="insert_smiley(':coolgrin:')"><img src="{$this->_smileys_dir}shade_grin.gif" class="smiley_img" title="cool grin" alt="cool grin"  /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':coolhmm:')"><img src="{$this->_smileys_dir}shade_hmm.gif" class="smiley_img" title="cool hmm" alt="cool hmm"  /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':coolmad:')"><img src="{$this->_smileys_dir}shade_mad.gif" class="smiley_img" title="cool mad" alt="cool mad"  /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':coolcheese:')"><img src="{$this->_smileys_dir}shade_cheese.gif" class="smiley_img" title="cool cheese" alt="cool cheese"  /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':vampire:')"><img src="{$this->_smileys_dir}vampire.gif" class="smiley_img" title="vampire" alt="vampire"  /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':snake:')"><img src="{$this->_smileys_dir}snake.gif" class="smiley_img" title="snake" alt="snake"  /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':exclaim:')"><img src="{$this->_smileys_dir}exclaim.gif" class="smiley_img" title="excaim" alt="excaim"  /></a></td><td><a href="javascript:void(0);" onclick="insert_smiley(':question:')"><img src="{$this->_smileys_dir}question.gif" class="smiley_img" title="question" alt="question"  /></a></td></tr>
 		</table>
 EOF;
-}
+	}
 
     /**
      * 检查验证码
      */
-    function checkImgcode() {
-         return $this->_imgcode->check($_POST['valid_code']);
+    function checkImgcode() 
+	{
+        return $this->_imgcode->check($_POST['valid_code']);
     }
-
-
 
     /**
      * 替换被过滤的词语
@@ -857,13 +863,13 @@ EOF;
         is_admin();
 		if($new_reply=='')
 		{
-				$this->show_message("您回复为空？！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
-				exit;
+			$this->show_message("您回复为空？！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
+			exit;
 		}
 		if($mid < 0)
 		{
-				$this->show_message("非法操作！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
-				exit;
+			$this->show_message("非法操作！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
+			exit;
 		}
 		$this->_model->_writeover($this->_r_file,$new_reply,'ab');
     }
@@ -909,11 +915,11 @@ EOF;
 		$d=dir($this->_model->_db_root_dir.$this->_dbname);
 		while(false!==($entry=$d->read()))
 		{
-				if (strlen($entry)==19)
-				{
-						$d_file=$this->_model->_db_root_dir.$this->_dbname.'/'.$entry;
-						@unlink($d_file);
-				}
+			if (strlen($entry)==19)
+			{
+				$d_file=$this->_model->_db_root_dir.$this->_dbname.'/'.$entry;
+				@unlink($d_file);
+			}
 		}
 		$d->close();
     }
@@ -942,7 +948,7 @@ EOF;
 		$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
 		foreach ($smileys as $key => $val)
 		{
-				$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
+			$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
 		}
 		return $str;
     }
