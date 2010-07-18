@@ -369,8 +369,8 @@ class JuneTxtDb
         return $data;
     }
     /**
-     * get fieldµÄdata
-     * Note:If the file was opened successfully,the value returned alwasy be an array¡£
+     * get fieldçš„data
+     * Note:If the file was opened successfully,the value returned alwasy be an arrayã€‚
                 But array() was returned if no record that match the conditon was found.
      * @param string $file
      * @param string $key
@@ -379,25 +379,25 @@ class JuneTxtDb
      */
     private function _select_by_field($file,$key,$value)
     {
-        $filedata = array();//³õÊ¼»¯±äÁ¿£¬ÓÃÓÚ´æ´¢Êı¾İ
-        $handle = @fopen($file,'rb+');//ÒÔrb+·½Ê½´ò¿ªÎÄ¼ş
-        if($handle)//ÈôÎÄ¼ş±»ÕıÈ·´ò¿ª
+        $filedata = array();//åˆå§‹åŒ–å˜é‡ï¼Œç”¨äºå­˜å‚¨æ•°æ®
+        $handle = @fopen($file,'rb+');//ä»¥rb+æ–¹å¼æ‰“å¼€æ–‡ä»¶
+        if($handle)//è‹¥æ–‡ä»¶è¢«æ­£ç¡®æ‰“å¼€
         {
-                flock($handle,LOCK_SH);//·ÖÏíËø¶¨£¨¶ÁÈ¡£©
-                while(!feof($handle))//ÈôÃ»ÓĞµ½´ïÎÄ¼ş½áÎ²
+                flock($handle,LOCK_SH);//åˆ†äº«é”å®šï¼ˆè¯»å–ï¼‰
+                while(!feof($handle))//è‹¥æ²¡æœ‰åˆ°è¾¾æ–‡ä»¶ç»“å°¾
                 {
-                        $row=fgets($handle,999);//µÃµ½Ò»ĞĞ¼ÇÂ¼
-                        if(is_string($row))//Èô´Ë¼ÇÂ¼ÊÇ×Ö·û´®
+                        $row=fgets($handle,999);//å¾—åˆ°ä¸€è¡Œè®°å½•
+                        if(is_string($row))//è‹¥æ­¤è®°å½•æ˜¯å­—ç¬¦ä¸²
                         {
-                                $row_data=explode('"',$row);//½«´ËĞĞ¼ÇÂ¼·ÖÀëÎªÒ»¸öÊı×é
-                                if ($row_data[$key]==$value)//ÈôÕÒµ½Ö¸¶¨ id µÄ¼ÇÂ¼£¬¶ÁÈ¡(²éÕÒ)½áÊø
+                                $row_data=explode('"',$row);//å°†æ­¤è¡Œè®°å½•åˆ†ç¦»ä¸ºä¸€ä¸ªæ•°ç»„
+                                if ($row_data[$key]==$value)//è‹¥æ‰¾åˆ°æŒ‡å®š id çš„è®°å½•ï¼Œè¯»å–(æŸ¥æ‰¾)ç»“æŸ
                                     $filedata[]=$row_data;
                         }
                 }
-                flock($handle,LOCK_UN);//È¡ÏûËø¶¨
-                fclose($handle);//¹Ø±ÕÖ¸Õë
+                flock($handle,LOCK_UN);//å–æ¶ˆé”å®š
+                fclose($handle);//å…³é—­æŒ‡é’ˆ
         }
-        else//ÈôÎÄ¼şÃ»ÓĞ±»ÕıÈ·´ò¿ª£¬´¥·¢´íÎó
+        else//è‹¥æ–‡ä»¶æ²¡æœ‰è¢«æ­£ç¡®æ‰“å¼€ï¼Œè§¦å‘é”™è¯¯
                 return FALSE;
         return $filedata;
     }
@@ -691,7 +691,7 @@ class JuneTxtDb
      * @param string $action:D=Delete,U=update
      * @param array $data;
      * @return boolean
-     * @bug:µ±²éÑ¯Ìõ¼şÖĞµÄ×Ö¶ÎÊÇ×îºóÒ»¸ö×Ö¶Î£¬²»»áÉ¾³ı´ËÌõ¼ÇÂ¼£¡
+     * @bug:å½“æŸ¥è¯¢æ¡ä»¶ä¸­çš„å­—æ®µæ˜¯æœ€åä¸€ä¸ªå­—æ®µï¼Œä¸ä¼šåˆ é™¤æ­¤æ¡è®°å½•ï¼
      */
     public function june_query_modify($tablename,$condition,$action='D',$data=array())
     {
@@ -765,7 +765,7 @@ class JuneTxtDb
 
     /**
      * modify record
-     * Note£ºalways return true if the file was opened successfully
+     * Noteï¼šalways return true if the file was opened successfully
      * @param string $filename
      * @param string $key
      * @param mixed $value
@@ -775,28 +775,28 @@ class JuneTxtDb
     function _modify($filename,$key,$value,$string)
     {
         $mode='rb+';
-        $filesize=filesize($filename);//µÃµ½ÎÄ¼şµÄsize
-        $str=file_get_contents($filename);//µÃµ½ÎÄ¼şÄÚÈİ
-        $handle=fopen($filename,$mode);//´ò¿ªÎÄ¼ş
-        if(!$handle)//ÈôÎŞ·¨´ò¿ªÎÄ¼ş£¬·µ»ØFALSE            
+        $filesize=filesize($filename);//å¾—åˆ°æ–‡ä»¶çš„size
+        $str=file_get_contents($filename);//å¾—åˆ°æ–‡ä»¶å†…å®¹
+        $handle=fopen($filename,$mode);//æ‰“å¼€æ–‡ä»¶
+        if(!$handle)//è‹¥æ— æ³•æ‰“å¼€æ–‡ä»¶ï¼Œè¿”å›FALSE            
         {
                 return FALSE;
         }
-        //$id_len=strlen($mid);//get the length of $mid´Ë´¦ĞèÒª¸üĞÂ
+        //$id_len=strlen($mid);//get the length of $midæ­¤å¤„éœ€è¦æ›´æ–°
         $file_point=array();
         $m_len=0;
         $find=FALSE;
         while(!feof($handle))
         {
-                $file_point[]=ftell($handle);//¼ÇÂ¼µ±Ç°µÄÖ¸ÕëÎ»ÖÃ
+                $file_point[]=ftell($handle);//è®°å½•å½“å‰çš„æŒ‡é’ˆä½ç½®
                 $str_line=fgets($handle,1024);
-                        if(is_string($str_line))//Èô´Ë¼ÇÂ¼ÊÇ×Ö·û´®
+                        if(is_string($str_line))//è‹¥æ­¤è®°å½•æ˜¯å­—ç¬¦ä¸²
                 {
-                        $row_data=explode('"',$str_line);//½«´ËĞĞ¼ÇÂ¼·ÖÀëÎªÒ»¸öÊı×é
-                    if ($row_data[$key]==$value)//ÈôÕÒµ½Ö¸¶¨ key µÄ¼ÇÂ¼£¬¶ÁÈ¡(²éÕÒ)½áÊø
+                        $row_data=explode('"',$str_line);//å°†æ­¤è¡Œè®°å½•åˆ†ç¦»ä¸ºä¸€ä¸ªæ•°ç»„
+                    if ($row_data[$key]==$value)//è‹¥æ‰¾åˆ°æŒ‡å®š key çš„è®°å½•ï¼Œè¯»å–(æŸ¥æ‰¾)ç»“æŸ
                     {
                         $find=TRUE;
-                        $m_len=strlen($str_line);//$m_len ´ú±íµ±Ç°ĞĞµÄ³¤¶È
+                        $m_len=strlen($str_line);//$m_len ä»£è¡¨å½“å‰è¡Œçš„é•¿åº¦
                         break;//break the while
                     }
                 }
@@ -807,17 +807,17 @@ class JuneTxtDb
         }
         $begin_point=end($file_point);// the start of modified line
         $offset=$begin_point+$m_len;//the lenth need to be modified
-        fseek($handle,$offset);//ÒÆ¶¯Ö¸Õëµ½ĞèÒªĞŞ¸ÄµÄÄÚÈİÖ®ºóÎŞĞèĞŞ¸ÄµÄ²¿·ÖµÄ¿ªÊ¼
-        $last_string=fread($handle,$filesize+1);//¶ÁÈ¡ºóÃæµÄÄÚÈİ
+        fseek($handle,$offset);//ç§»åŠ¨æŒ‡é’ˆåˆ°éœ€è¦ä¿®æ”¹çš„å†…å®¹ä¹‹åæ— éœ€ä¿®æ”¹çš„éƒ¨åˆ†çš„å¼€å§‹
+        $last_string=fread($handle,$filesize+1);//è¯»å–åé¢çš„å†…å®¹
    
-        $put_string=$string.$last_string;//ĞèÒªĞ´ÈëµÄÄÚÈİ£ºĞÂµÄ×Ö·û´®¼°Ô­À´ÎŞĞèĞŞ¸ÄµÄÄÚÈİ
+        $put_string=$string.$last_string;//éœ€è¦å†™å…¥çš„å†…å®¹ï¼šæ–°çš„å­—ç¬¦ä¸²åŠåŸæ¥æ— éœ€ä¿®æ”¹çš„å†…å®¹
    
-        fseek($handle,$begin_point);//ÒÆ¶¯Ö¸Õëµ½ĞèÒªĞŞ¸ÄµÄµØ·½
-        fwrite($handle,$put_string);//¿ªÊ¼Ğ´Èë
+        fseek($handle,$begin_point);//ç§»åŠ¨æŒ‡é’ˆåˆ°éœ€è¦ä¿®æ”¹çš„åœ°æ–¹
+        fwrite($handle,$put_string);//å¼€å§‹å†™å…¥
    
-        $new_all_len=$begin_point+strlen($put_string);//¼ÆËãÎÄ¼şµÄĞÂµÄ³¤¶È
+        $new_all_len=$begin_point+strlen($put_string);//è®¡ç®—æ–‡ä»¶çš„æ–°çš„é•¿åº¦
    
-        ftruncate($handle,$new_all_len);//½«ÎÄ¼ş½ØÈ¡µ½ĞÂµÄ³¤¶È
+        ftruncate($handle,$new_all_len);//å°†æ–‡ä»¶æˆªå–åˆ°æ–°çš„é•¿åº¦
         fclose($handle);
         return TRUE;
     }
