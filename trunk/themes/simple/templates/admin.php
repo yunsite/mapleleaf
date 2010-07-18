@@ -186,8 +186,8 @@
                     </tr>
                 <?php foreach($ban_ip_info as $m){?>    
                 <tr class='admin_message'>
-                    <td><input type='checkbox' name='select_ip[]' value='<?php echo $m;?>' /></td>
-                    <td><?php echo $m;?></td>
+                    <td><input type='checkbox' name='select_ip[]' value='<?php echo $m["ip"];?>' /></td>
+                    <td><?php echo $m["ip"];?></td>
                 </tr>
                 <?php }?>
                 
