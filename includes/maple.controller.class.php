@@ -6,7 +6,8 @@
  * @license     GPL2
  * @version     2010-04-28
  */
-include_once 'maple.data.class.php';
+//include_once 'maple.data.class.php';
+include_once 'JuneTxtDb.class.php';
 include_once 'Imgcode.php';
 class Maple_Controller
 {
@@ -84,33 +85,21 @@ class Maple_Controller
     function  __construct()
     {
         $this->_imgcode=new FLEA_Helper_ImgCode();
-        $this->_model=new Maple_Data_Processor();//实例化数据处理程序
+        $this->_model=new JuneTxtDb();
         $this->load_config();//载入配置
-        $this->get_all_info();//得到所有信息
+        //$this->get_all_info();//得到所有信息
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
-        $this->is_baned($_SERVER['REMOTE_ADDR']);//检查是否被禁止登录
+        //$this->is_baned($_SERVER['REMOTE_ADDR']);//检查是否被禁止登录
     }
 
     //载入配置
     function load_config()
     {
-        //check tables
-        $tables_required=array($this->_message_table_name,$this->_reply_table_name,$this->_banedip_table_name);
-    	if(!is_writeable($this->_model->_db_root_dir.$this->_dbname))
-        	$this->_errors[]="你需要将 data 目录设置为 777 权限并运用到子目录和文件。";
-        else
-        {
-	        foreach ($tables_required as $table)
-	        {
-	            $tablepath=$this->_model->_db_root_dir.$this->_dbname."/".$table;
-	            if(!$this->_model->maple_check_table_exist($tablepath))
-	                $this->_errors[]="数据表 $table 不存在！";
-	        }
-        }
         //check directories
         if (!is_dir($this->_themes_directory))
-            $this->_errors[]="您所指定的主题目录 {$this->_themes_directory} 不存在";
+        	die("您主题目录无效");
+        //var_dump($this->_errors);
         if(!is_dir($this->_smileys_dir))
             $this->_errors[]="您所指定的表情图案目录 {$this->_smileys_dir} 不存在";
         //check config file
@@ -118,8 +107,10 @@ class Maple_Controller
             $this->_errors[]="你所指定的配置文件 {$this->_site_conf_file} 不存在";
         if(!is_writable($this->_site_conf_file))
             $this->_errors[]="你所指定的配置文件 {$this->_site_conf_file} 不可写";
+        $this->get_all_info();
         if($this->_errors)
             $this->show_message($this->_errors);
+        //die('s2');
     }
 
     function get_all_info()
@@ -418,8 +409,9 @@ class Maple_Controller
         if ($this->_mb_open==1)
             $this->show_message($this->_close_reason);
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
+        //echo $current_page;
         $data=$this->get_all_data(TRUE,TRUE);
-        $nums=$this->_model->maple_number_rows($data);
+        $nums=$this->_model->june_num_rows($data);
         if($this->_page_on)
             $data=$this->page_wrapper($data, $nums, $current_page);
         $pages=ceil($nums/$this->_num_perpage);
@@ -652,8 +644,8 @@ class Maple_Controller
         $reply_data=$this->get_all_reply();
         $ban_ip_info=$this->get_baned_ips();
 
-        $nums=$this->_model->maple_number_rows($data);
-        $reply_num=$this->_model->maple_number_rows($reply_data);
+        $nums=$this->_model->june_num_rows($data);
+        $reply_num=$this->_model->june_num_rows($reply_data);
 
         if($gd_exist)
 		{
@@ -789,13 +781,33 @@ EOF;
      */
     function get_baned_ips()
     {
-        $baned_ip_table=$this->_model->_db_root_dir.$this->_dbname."/".$this->_banedip_table_name.$this->_model->_data_ext.$this->_model->_ext;
+    	if (!$this->_model->june_connect())
+		    die($this->_model->june_error());
+		//$dbname='tests';
+		if (!$this->_model->june_select_db($this->_dbname))
+		{
+		    die($this->_model->june_error());
+		}
+		//die('aaa');
+		//$tablename='test';
+		if(($result=$this->_model->june_query_select_all($this->_banedip_table_name))===FALSE)
+		{
+		    die($this->_model->june_error());
+		}
+		echo '<br />';
+		echo '被禁止的IP：';
+		var_dump($result);
+		//die('停止执行代码');
+		//exit;
+		//die('nnn');
+        /*$baned_ip_table='../../'.$this->_model->_db_root_dir.$this->_dbname."/".$this->_banedip_table_name.$this->_model->_data_ext;
 		$ip_array=trim(file_get_contents($baned_ip_table));
 		if ($ip_array)
 			$ip_array=explode("\n",$ip_array);
 		else
 			$ip_array=array();
-		return $ip_array;
+		return $ip_array;*/
+		return $result;
     }
 
     /**
@@ -858,9 +870,22 @@ EOF;
     function get_all_data($parse_smileys=true,$filter_words=false)
     {
         $data=array();
-        $data=$this->_model->maple_db_query($this->_dbname,$this->_message_table_name);
-        $reply_data=$this->get_all_reply();
-        foreach ($data as &$data_per)
+        //$data=$this->_model->maple_db_query($this->_dbname,$this->_message_table_name);
+        if (!$this->_model->june_connect())
+		    die($this->_model->june_error());
+		//$dbname='tests';
+		
+		if (!$this->_model->june_select_db($this->_dbname))
+		    die($this->_model->june_error());
+		//$tablename='test';
+		
+		if(($data=$this->_model->june_query_select_all($this->_message_table_name))===FALSE)
+		    die($this->_model->june_error());
+        //$reply_data=$this->get_all_reply();
+        //die('s');
+        if(($reply_data=$this->_model->june_query_select_all($this->_reply_table_name))===FALSE)
+		    die($this->_model->june_error());
+        /*foreach ($data as &$data_per)
         {
             if($filter_words)
                 $data_per['content']=$this->filter_words($data_per['content']);
@@ -873,8 +898,9 @@ EOF;
             }          
             if($parse_smileys)
                 $data_per['content']=$this->parse_smileys($data_per['content'], $this->_smileys_dir,$this->_smileys);
-        }
+        }*/
         $data=array_reverse($data);
+        //var_dump($data);
         return $data;
     }
     /**
@@ -908,7 +934,17 @@ EOF;
     function get_all_reply()
     {
         $reply_data=array();
-        $reply_data=$this->_model->maple_db_query($this->_dbname,$this->_reply_table_name);
+        //$reply_data=$this->_model->maple_db_query($this->_dbname,$this->_reply_table_name);
+        if (!$this->_model->june_connect())
+		    die($this->_model->june_error());
+		//$dbname='tests';
+		
+		if (!$this->_model->june_select_db($this->_dbname))
+		    die($this->_model->june_error());
+		//$tablename='test';
+		
+		if(($reply_data=$this->_model->june_query_select_all($this->_reply_table_name))===FALSE)
+		    die($this->_model->june_error());
         return $reply_data;
     }
     /**

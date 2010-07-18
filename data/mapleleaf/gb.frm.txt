@@ -1,0 +1,5 @@
+id
+user
+content
+time
+ip
