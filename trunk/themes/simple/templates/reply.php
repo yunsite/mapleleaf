@@ -16,7 +16,7 @@ if($reply_data)
 <?php
 }
 ?>
-<textarea name="reply_content" cols="40" rows="9"><?php echo @$reply_data[1];?></textarea>
+<textarea name="reply_content" cols="40" rows="9"><?php echo @$reply_data[0][1];?></textarea>
 <br />
 <input type="submit" name="Submit" value="回复" />
 <input type="button" name="cancel" value="取消" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />

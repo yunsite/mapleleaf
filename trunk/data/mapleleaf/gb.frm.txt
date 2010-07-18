@@ -1,4 +1,4 @@
-id
+id:auto_increment
 user
 content
 time
