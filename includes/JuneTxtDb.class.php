@@ -316,7 +316,7 @@ class JuneTxtDb
      */
     public function june_query_select_all($tablename)
     {
-    	echo '查询的表：'.$tablename.'<br />';
+    	//echo '查询的表：'.$tablename.'<br />';
         if (!$this->june_select_db($this->_currentDB))
             return FALSE;
         if(!$this->_table_exists($this->_currentDB,$tablename))
@@ -437,9 +437,9 @@ class JuneTxtDb
                         return array();
                 $frame_data=$this->_read_frame($dbname,$tablename);
                 //echo $dbname.'--'.$tablename;
-                echo '表'.$dbname.'.'.$tablename.'的结构是：';
-                var_dump($frame_data);//exit;
-                echo '<br />';
+                #echo '表'.$dbname.'.'.$tablename.'的结构是：';
+                #var_dump($frame_data);//exit;
+                #echo '<br />';
                 $data=$this->_array_combine($frame_data,$data);
                 return $data;          
     }

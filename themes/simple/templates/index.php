@@ -25,7 +25,7 @@
 	<?php foreach($data as $m){?>
     <tr class='message'>
     	<td class='left'><?php echo str_replace('Admin',"<font color='red'>Admin</font>",$m['user']);?></td>
-        <td class='left'><?php echo mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8');?><br /><?php if(@$m['reply']){?><font color='red'>Admin于<?php echo date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60);?>回复：</font><?php echo $m['reply']['reply_content'];?> <?php }?></td>
+        <td class='left'><?php echo $this->parse_smileys(mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8'),$this->_smileys_dir,$this->_smileys);?><br /><?php if(@$m['reply']){?><font color='red'>Admin于<?php echo date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60);?>回复：</font><?php echo $m['reply']['reply_content'];?> <?php }?></td>
         <td class='center'><?php echo date('m-d H:i',$m['time']+$this->_time_zone*60*60);?></td>
     </tr>
     <?php }?>

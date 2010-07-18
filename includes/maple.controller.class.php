@@ -477,8 +477,17 @@ class Maple_Controller
     function post()
     {
         $new_message=$this->add_message_check();
-        if(!$this->_model->maple_db_insert($this->_dbname,$this->_message_table_name,$new_message))
-            $this->show_message("写入失败",TRUE);
+        if (!$this->_model->june_connect())
+		    die($this->_model->june_error());
+		//$dbname='tests';
+		if (!$this->_model->june_select_db($this->_dbname))
+		    die($this->_model->june_error());
+		//$tablename='test';
+		//$data=array(NULL,'chenzhuo','hello',time());
+		if (!$this->_model->june_query_insert($this->_message_table_name,$new_message))
+		    die($this->_model->june_error());
+        /*if(!$this->_model->maple_db_insert($this->_dbname,$this->_message_table_name,$new_message))
+            $this->show_message("写入失败",TRUE);*/
         header("Location:index.php");
         break;
     }
@@ -491,8 +500,14 @@ class Maple_Controller
             exit;
         }
 		$mid=(int)$_GET['mid'];
-        $reply_data=$this->_model->maple_db_select_by_id($this->_dbname,$this->_reply_table_name,$mid);
-        if($reply_data===FALSE)
+        //$reply_data=$this->_model->maple_db_select_by_id($this->_dbname,$this->_reply_table_name,$mid);
+		if (!$this->_model->june_connect())
+		    die($this->_model->june_error());
+		if (!$this->_model->june_select_db($this->_dbname))
+		    die($this->_model->june_error());
+		$condition=array('id'=>$mid);
+		$reply_data=$this->_model->june_query_select_byCondition($this->_reply_table_name,$condition);
+		if ($reply_data===FALSE)
                 $this->show_message("查询出错",TRUE,'index.php?action=control_panel&subtab=message');
         else
 			return $reply_data;
@@ -515,17 +530,31 @@ class Maple_Controller
 			if(isset($_POST['update']))
 			{
 				$input=array($mid,$reply_content,$time);
-				$this->_model->maple_db_modify($this->_dbname,$this->_reply_table_name,$mid,$input);
+				//$this->_model->maple_db_modify($this->_dbname,$this->_reply_table_name,$mid,$input);
+				if (!$this->_model->june_connect())
+				    die($this->_model->june_error());
+				if (!$this->_model->june_select_db($this->_dbname))
+				    die($this->_model->june_error());
+				//$tablename='test';
+				$condition=array('id'=>$mid);
+				//$array=array('sss','ffff','dddd','hhhh');
+				if(!$this->_model->june_query_modify($this->_reply_table_name,$condition,'U',$input))
+				    die($this->_model->june_error());
 			}
 			else
 			{
-				$input=$mid.'"'.$reply_content.'"'.$time."\n";
-				$reply_filename=$this->_model->_db_root_dir.$this->_dbname."/{$this->_reply_table_name}".$this->_model->_data_ext.$this->_model->_ext;
-				$this->_model->_writeover($reply_filename,$input,'ab');
+				$input=array($mid,$reply_content,$time);
+				if (!$this->_model->june_connect())
+				    die($this->_model->june_error());
+				if (!$this->_model->june_select_db($this->_dbname))
+				    die($this->_model->june_error());
+				if (!$this->_model->june_query_insert($this->_reply_table_name,$input))
+    				die($this->_model->june_error());
 			}
 			header("Location:index.php?action=control_panel&subtab=message");
 		}
 		$reply_data=$this->loadModel();
+		var_dump($reply_data);
 		$mid=(int)$_GET['mid'];
 		include 'themes/'.$this->_theme.'/templates/'."reply.php";
     }
@@ -588,9 +617,17 @@ class Maple_Controller
         else
             $mid=intval($_GET['mid']);
         if(isset($mid))
-            $this->_model->maple_db_modify($this->_dbname,$this->_message_table_name,$mid,array());
+        {
+        	if (!$this->_model->june_connect())
+			    die($this->_model->june_error());
+			if (!$this->_model->june_select_db($this->_dbname))
+			    die($this->_model->june_error());
+			$condition=array('id'=>$mid);
+			if(!$this->_model->june_query_modify($this->_message_table_name,$condition,'D'))
+			    die($this->_model->june_error());
+        }
         //若回复中有关于此留言的记录，执行删除回复操作
-        $reply_del=(int)$_GET['reply'];
+        @$reply_del=(int)$_GET['reply'];
         if($reply_del==1)
             $this->delete_reply($mid);
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
@@ -604,7 +641,15 @@ class Maple_Controller
         else
             $mid=intval($_GET['mid']);
         if(isset($mid))
-			$this->_model->maple_db_modify($this->_dbname,$this->_reply_table_name,$mid,array());
+        {
+        	if (!$this->_model->june_connect())
+			    die($this->_model->june_error());
+			if (!$this->_model->june_select_db($this->_dbname))
+			    die($this->_model->june_error());
+			$condition=array('id'=>$mid);
+			if(!$this->_model->june_query_modify($this->_reply_table_name,$condition,'D'))
+			    die($this->_model->june_error());
+        }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
 
@@ -783,30 +828,14 @@ EOF;
     {
     	if (!$this->_model->june_connect())
 		    die($this->_model->june_error());
-		//$dbname='tests';
 		if (!$this->_model->june_select_db($this->_dbname))
 		{
 		    die($this->_model->june_error());
 		}
-		//die('aaa');
-		//$tablename='test';
 		if(($result=$this->_model->june_query_select_all($this->_banedip_table_name))===FALSE)
 		{
 		    die($this->_model->june_error());
 		}
-		echo '<br />';
-		echo '被禁止的IP：';
-		var_dump($result);
-		//die('停止执行代码');
-		//exit;
-		//die('nnn');
-        /*$baned_ip_table='../../'.$this->_model->_db_root_dir.$this->_dbname."/".$this->_banedip_table_name.$this->_model->_data_ext;
-		$ip_array=trim(file_get_contents($baned_ip_table));
-		if ($ip_array)
-			$ip_array=explode("\n",$ip_array);
-		else
-			$ip_array=array();
-		return $ip_array;*/
 		return $result;
     }
 
@@ -843,7 +872,7 @@ EOF;
 			if(!$this->checkImgcode())
 				$this->show_message("验证码错误.现在正在<a href='./index.php'>返回</a>...",true,'index.php');
 		}
-		$new_data=array($user,$content,$time,$current_ip);
+		$new_data=array(NULL,$user,$content,$time,$current_ip);
 		return $new_data;
     }
     /**
@@ -870,35 +899,30 @@ EOF;
     function get_all_data($parse_smileys=true,$filter_words=false)
     {
         $data=array();
-        //$data=$this->_model->maple_db_query($this->_dbname,$this->_message_table_name);
         if (!$this->_model->june_connect())
 		    die($this->_model->june_error());
-		//$dbname='tests';
 		
 		if (!$this->_model->june_select_db($this->_dbname))
 		    die($this->_model->june_error());
-		//$tablename='test';
 		
 		if(($data=$this->_model->june_query_select_all($this->_message_table_name))===FALSE)
 		    die($this->_model->june_error());
-        //$reply_data=$this->get_all_reply();
-        //die('s');
+		    
         if(($reply_data=$this->_model->june_query_select_all($this->_reply_table_name))===FALSE)
 		    die($this->_model->june_error());
-        /*foreach ($data as &$data_per)
+        foreach ($data as &$data_per)
         {
             if($filter_words)
                 $data_per['content']=$this->filter_words($data_per['content']);
-            $mid=intval($data_per['id']);
+            /*$mid=intval($data_per['id']);
             if(isset ($reply_data[$mid]))
             {
                 $data_per['reply']=$reply_data[$mid];
                 if($parse_smileys)
                     $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], $this->_smileys_dir,$this->_smileys);
-            }          
-            if($parse_smileys)
-                $data_per['content']=$this->parse_smileys($data_per['content'], $this->_smileys_dir,$this->_smileys);
-        }*/
+            }        
+            */  
+        }
         $data=array_reverse($data);
         //var_dump($data);
         return $data;
