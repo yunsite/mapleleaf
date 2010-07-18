@@ -1,13 +1,14 @@
 <?php
 /**
  * The Class used for access data,named JuneTxtDb.
- * 
+ *
  * @author Kang Chen <dreamneverfall@gmail.com>
- * @link http://dreamneverfall.cn
+ * @link http://dreamneverfall.cn/junetxtdb/
  * @copyright &copy; 2010 DreamNeverFall Team
  * @license GPL 2
- * @version 0.2 2010-04-25 
+ * @version 0.2 2010-07-07
  */
+
 class JuneTxtDb
 {
     private $_version='0.2';
@@ -29,39 +30,39 @@ class JuneTxtDb
      */
     protected $_currentDB;
     protected  $_charset='UTF-8';//Default to 'UTF-8'.
-    private $_supported_characters=array('ISO-8859-1','ISO-8859-15','UTF-8','cp866','cp1251','cp1252','KOI8-R','BIG5','GB2312','BIG5-HKSCS','Shift_JIS','EUC-JP',' 	ISO8859-1',' 	ISO8859-15','ibm866','866','Windows-1251','win-1251','1251','Windows-1252','1252','koi8-ru','koi8r','950','936','SJIS','932','EUCJP');
-	
-	/**
-	 * set database root directory
-	 * @param string $rootdir
-	 * @return void
-	 */
-	public function june_set_dbrootdir($rootdir)
-	{
-		$this->_db_root_dir=$rootdir;
-	}
-    
+    private $_supported_characters=array('ISO-8859-1','ISO-8859-15','UTF-8','cp866','cp1251','cp1252','KOI8-R','BIG5','GB2312','BIG5-HKSCS','Shift_JIS','EUC-JP','      ISO8859-1','    ISO8859-15','ibm866','866','Windows-1251','win-1251','1251','Windows-1252','1252','koi8-ru','koi8r','950','936','SJIS','932','EUCJP');
+       
+        /**
+         * set database root directory
+         * @param string $rootdir
+         * @return void
+         */
+        public function june_set_dbrootdir($rootdir)
+        {
+                $this->_db_root_dir=$rootdir;
+        }
+   
     /**
      * connect to the database,if no errors return TRUE,othewise FALSE
      * @return boolean
      */
     public function june_connect()
     {
-    	$errormsg='';
-    	if(!is_dir($this->_db_root_dir))
-    		$errormsg="$this->_db_root_dir is not a directory!";
-    	elseif (!is_readable($this->_db_root_dir))
-    		$errormsg="$this->_db_root_dir is not readable!";
-    	elseif (!is_writable($this->_db_root_dir))
-    		$errormsg="$this->_db_root_dir is not writable!"; 		
-    	elseif (!is_executable($this->_db_root_dir))
-    		$errormsg="$this->_db_root_dir is not executable!"; 
-    	if($errormsg)
-    	{
-    		$this->_trigger_error($errormsg);
-    		return FALSE;
-    	}
-    	return TRUE;
+        $errormsg='';
+        if(!is_dir($this->_db_root_dir))
+                $errormsg="$this->_db_root_dir is not a directory!";
+        elseif (!is_readable($this->_db_root_dir))
+                $errormsg="$this->_db_root_dir is not readable!";
+        elseif (!is_writable($this->_db_root_dir))
+                $errormsg="$this->_db_root_dir is not writable!";              
+        /*elseif (!is_executable($this->_db_root_dir))
+                $errormsg="$this->_db_root_dir is not executable!";*/
+        if($errormsg)
+        {
+                $this->_trigger_error($errormsg);
+                return FALSE;
+        }
+        return TRUE;
     }
 
     /**
@@ -71,21 +72,21 @@ class JuneTxtDb
      */
     public function june_create_db($dbname)
     {
-    	$error_string='';
+        $error_string='';
         if(is_dir($this->_db_path($dbname)))
-        	$error_string="The database `$dbname` already exists!";
+                $error_string="The database `$dbname` already exists!";
         elseif(!mkdir($this->_db_path($dbname), 0777, TRUE))
             $error_string="Could not create database `$dbname`,you should make the directory '$this->_db_root_dir' 777!";
         elseif(!chmod($this->_db_path($dbname),0777))
-        	$error_string="Could not chmod the directory '$this->_db_root_dir.$dbname' to 777!";
+                $error_string="Could not chmod the directory '$this->_db_root_dir.$dbname' to 777!";
         if($error_string)
         {
-        	$this->_trigger_error($error_string);
+                $this->_trigger_error($error_string);
             return false;
         }
         return true;
     }
-    
+   
     /**
      * Trigger error
      * @param string $errormsg
@@ -94,38 +95,25 @@ class JuneTxtDb
     {
         $this->_error=$errormsg;
     }
-    
+   
     /**
-     * drop database 
+     * drop database
      * @param string $dbname
      * @return boolean
      */
     public function june_drop_db($dbname)
     {
         if (!$this->june_select_db($dbname))
-    	    return FALSE;
-    	$tables=array();
-    	$table_exts=array($this->_index_ext,$this->_data_ext,$this->_frame_ext);
-    	$dbpath=$this->_db_root_dir.$dbname;
-    	$d=dir($dbpath);
-    	while($tmp=$d->read())
-    	{
-    		if(is_file($dbpath.'/'.$tmp))
-    		{
-    			if (!unlink($dbpath.'/'.$tmp))
-    			{
-    			    $errormsg="Could not drop database `$dbname` because of permisson denied!";
-    			    $this->_trigger_error($errormsg);
-    			    return FALSE;
-    			}   
-    		}
-    	}
-    	if (!rmdir($dbpath))
-    	{
-    	    $errormsg="The tables was deleted successfully,but could not remove directory $dbname ,you can remove it manually.";
-    		$this->_trigger_error($errormsg);
-    		return FALSE;
-    	}
+            return FALSE;
+        $tables=array();
+        $table_exts=array($this->_index_ext,$this->_data_ext,$this->_frame_ext);
+        $dbpath=$this->_db_root_dir.$dbname;
+        if (!rmdirs($dbpath))
+        {
+            $errormsg="The database `$dbname` could not drop,you can remove it manually.";
+                $this->_trigger_error($errormsg);
+                return FALSE;
+        }
         return TRUE;
     }
 
@@ -139,13 +127,13 @@ class JuneTxtDb
         if (!$dbname)
         {
             $errormsg="You shold select one database first! ";
-        	$this->_trigger_error($errormsg);
+                $this->_trigger_error($errormsg);
             return FALSE;
         }
         if(!$this->_db_exists($dbname))
         {
-        	$errormsg="Database `$dbname` not exists! ";
-        	$this->_trigger_error($errormsg);
+                $errormsg="Database `$dbname` not exists! ";
+                $this->_trigger_error($errormsg);
             return FALSE;
         }
         $this->_currentDB=$dbname;
@@ -156,7 +144,7 @@ class JuneTxtDb
      * @param string $tablename
      * @param array $fields
      * @example $fields=array(
-     * 	                 array('name'=>'mid','auto_increment'=>true),
+     *                   array('name'=>'mid','auto_increment'=>true),
      *                   array('name'=>'author'),
      *                   array('name'=>'body')
      *                   );
@@ -164,10 +152,10 @@ class JuneTxtDb
      */
     public function june_create_table($tablename,$fields)
     {
-    	//check if the database exists
-    	if(!$this->june_select_db($this->_currentDB))
-    		return FALSE;
-    	//check if the table exists
+        //check if the database exists
+        if(!$this->june_select_db($this->_currentDB))
+                return FALSE;
+        //check if the table exists
         if($this->_table_exists($this->_currentDB, $tablename))
         {
             $error_msg="`$this->_currentDB.$tablename` already exist!!";
@@ -194,20 +182,20 @@ class JuneTxtDb
         $data_status=touch($table_files['data']);
         if($frame_status && $index_status && $data_status)
         {
-        	if(chmod($table_files['frame'],0777) && chmod($table_files['index'],0777) && chmod($table_files['data'],0777))
-        		return TRUE;
+                if(chmod($table_files['frame'],0777) && chmod($table_files['index'],0777) && chmod($table_files['data'],0777))
+                        return TRUE;
             $errmsg="`$tablename` was created,but you need to chmod 777 to files:{$table_files['frame']},{$table_files['index']},{$table_files['data']}!";
-        	$this->_trigger_error($errmsg);
+                $this->_trigger_error($errmsg);
             return FALSE;
         }
         else
         {
-        	$errmsg="$tablename could not created properly!";
-        	$this->_trigger_error($errmsg);
+                $errmsg="$tablename could not created properly!";
+                $this->_trigger_error($errmsg);
             return FALSE;
         }
     }
-    
+   
     /**
      * get the filenames of one table
      * @param string $dbname
@@ -216,16 +204,17 @@ class JuneTxtDb
      */
     private function _table_files($dbname,$tablename)
     {
-    	$tbpath=$this->_table_path($dbname,$tablename);
-    	$tb_data_file=$tbpath.$this->_data_ext;
-    	$tb_index_file=$tbpath.$this->_index_ext;
-    	$tb_frm_file=$tbpath.$this->_frame_ext;
-    	$table=array();
-    	$table['index']=$tb_index_file;
-    	$table['frame']=$tb_frm_file;
-    	$table['data']=$tb_data_file;
-    	return $table;
+        $tbpath=$this->_table_path($dbname,$tablename);
+        $tb_data_file=$tbpath.$this->_data_ext;
+        $tb_index_file=$tbpath.$this->_index_ext;
+        $tb_frm_file=$tbpath.$this->_frame_ext;
+        $table=array();
+        $table['index']=$tb_index_file;
+        $table['frame']=$tb_frm_file;
+        $table['data']=$tb_data_file;
+        return $table;
     }
+
 
     /**
      * parse the Array to String ,so that we put it into frame file
@@ -262,63 +251,63 @@ class JuneTxtDb
     public function june_query_insert($tablename,$data)
     {
         if(!$this->june_select_db($this->_currentDB))
-    		return FALSE;
-    	$table_files=$this->_table_files($this->_currentDB,$tablename);
-    	$frmf=$table_files['frame'];
-    	$datf=$table_files['data'];
-    	$idxf=$table_files['index'];
-    	if(!$this->_table_exists($this->_currentDB,$tablename))
-    	{
-    		$errmsg="Table `$tablename` not exists!";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	if(!is_array($data))
-    	{
-    		$errmsg="The data you insert must be Array!";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	$frm=$this->_get_frame($this->_currentDB,$tablename);
-    	//check if all field was filled
-    	if(count($data)!=count($frm))
-    	{
-    		$errmsg="The number of your data does not match with the number of fields!";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	for ($i=0,$num=count($data);$i<$num;$i++)
-    	{
-    		//if one field was set to NULL
-    		if(@in_array('auto_increment',$frm[$i]))
-    			$data[$i]=NULL;
-    		if($data[$i]==NULL)
-    		{
-    			//check if the field is auto_increment
-    			if(!in_array('auto_increment',$frm[$i]))
-    			{
-    				$errmsg="The field `$frm[$i]` can not be NULL";
-    				$this->_trigger_error($errmsg);
-    				return FALSE;	
-    			}
-    			//replace NULL with the auto_inrement number,get from the index.txt
-    			$auto_num=(int)file_get_contents($idxf);
-    			$data[$i]=$auto_num;		
-    		}
-    		$data[$i]=$this->june_escape_string($data[$i]);
-    	}
-    	$insert_str=implode($this->_delimiter,$data);
-    	$insert_str.="\n";
-    	if(file_put_contents($datf,$insert_str,FILE_APPEND) && file_put_contents($idxf,$auto_num+1))
-    	{
-    	    $this->_insert_id=$auto_num;
-    	    return TRUE;
-    	}
-    	else 
-    	{
-    	    $errmsg='Data insert failed of permissions.';
-    	    return FALSE;
-    	}
+                return FALSE;
+        $table_files=$this->_table_files($this->_currentDB,$tablename);
+        $frmf=$table_files['frame'];
+        $datf=$table_files['data'];
+        $idxf=$table_files['index'];
+        if(!$this->_table_exists($this->_currentDB,$tablename))
+        {
+                $errmsg="Table `$tablename` not exists!";
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        if(!is_array($data))
+        {
+                $errmsg="The data you insert must be Array!";
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        $frm=$this->_get_frame($this->_currentDB,$tablename);
+        //check if all field was filled
+        if(count($data)!=count($frm))
+        {
+                $errmsg="The number of your data does not match with the number of fields!";
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        for ($i=0,$num=count($data);$i<$num;$i++)
+        {
+                //if one field was set to NULL
+                if(@in_array('auto_increment',$frm[$i]))
+                        $data[$i]=NULL;
+                if($data[$i]==NULL)
+                {
+                        //check if the field is auto_increment
+                        if(!in_array('auto_increment',$frm[$i]))
+                        {
+                                $errmsg="The field `$frm[$i]` can not be NULL";
+                                $this->_trigger_error($errmsg);
+                                return FALSE;  
+                        }
+                        //replace NULL with the auto_inrement number,get from the index.txt
+                        $auto_num=(int)file_get_contents($idxf);
+                        $data[$i]=$auto_num;            
+                }
+                $data[$i]=$this->june_escape_string($data[$i]);
+        }
+        $insert_str=implode($this->_delimiter,$data);
+        $insert_str.="\n";
+        if(file_put_contents($datf,$insert_str,FILE_APPEND) && file_put_contents($idxf,$auto_num+1))
+        {
+            $this->_insert_id=$auto_num;
+            return TRUE;
+        }
+        else
+        {
+            $errmsg='Data insert failed of permissions.';
+            return FALSE;
+        }
     }
     /**
      * execute query for select all data from one table
@@ -329,60 +318,60 @@ class JuneTxtDb
     {
         if (!$this->june_select_db($this->_currentDB))
             return FALSE;
-    	if(!$this->_table_exists($this->_currentDB,$tablename))
-    	{
-    		$errmsg="Table `$this->_currentDB.$tablename` does not exists!";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	$result=$this->_select_all_in_table($this->_currentDB,$tablename);
-    	return $result;    	
+        if(!$this->_table_exists($this->_currentDB,$tablename))
+        {
+                $errmsg="Table `$this->_currentDB.$tablename` does not exists!";
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        $result=$this->_select_all_in_table($this->_currentDB,$tablename);
+        return $result;        
     }
-    
+   
     /**
      * get data from one table specified by condition
      * @param string $tablename
-     * @param array $condition 
-	 * @example $condtion=array('id'=>1);$condition=array('author'=>'chen');
+     * @param array $condition
+         * @example $condtion=array('id'=>1);$condition=array('author'=>'chen');
      * @return mixed:Returns $data on success or FALSE on failure.
      */
     public function june_query_select_byCondition($tablename,$condition)
     {
         if (!$this->june_select_db($this->_currentDB))
             return FALSE;
-    	if (!$this->_table_exists($this->_currentDB,$tablename))
-    	{
-    		$errmsg="Table `$this->_currentDB.$tablename` does not exists!";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	if(!is_array($condition) || count($condition)!=1 )
-    	{
-    		$errmsg='$condition Must be an array and Only has ONE element!';
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	$field=key($condition);
-    	if ( ($key=$this->_field_exists($this->_currentDB,$tablename,$field)) === FALSE)
-    	{
-    		$errmsg="Field `$field` does not exists int table `$this->_currentDB.$tablename`";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;    			
-    	}
-    	$datf=$this->_table_path($this->_currentDB,$tablename).$this->_data_ext;
-    	$data=$this->_select_by_field($datf,$key,$condition[$field]);
-    	if($data===FALSE)
-    	{
-    		$errmsg="The table '$tablename' could not open now,please try again later.";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	return $data;
+        if (!$this->_table_exists($this->_currentDB,$tablename))
+        {
+                $errmsg="Table `$this->_currentDB.$tablename` does not exists!";
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        if(!is_array($condition) || count($condition)!=1 )
+        {
+                $errmsg='$condition Must be an array and Only has ONE element!';
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        $field=key($condition);
+        if ( ($key=$this->_field_exists($this->_currentDB,$tablename,$field)) === FALSE)
+        {
+                $errmsg="Field `$field` does not exists int table `$this->_currentDB.$tablename`";
+                $this->_trigger_error($errmsg);
+                return FALSE;                          
+        }
+        $datf=$this->_table_path($this->_currentDB,$tablename).$this->_data_ext;
+        $data=$this->_select_by_field($datf,$key,$condition[$field]);
+        if($data===FALSE)
+        {
+                $errmsg="The table '$tablename' could not open now,please try again later.";
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        return $data;
     }
     /**
-     * get fieldçš„data
-     * Note:If the file was opened successfully,the value returned alwasy be an arrayã€‚
-		But array() was returned if no record that match the conditon was found.
+     * get fieldµÄdata
+     * Note:If the file was opened successfully,the value returned alwasy be an array¡£
+                But array() was returned if no record that match the conditon was found.
      * @param string $file
      * @param string $key
      * @param mixed $value
@@ -390,25 +379,25 @@ class JuneTxtDb
      */
     private function _select_by_field($file,$key,$value)
     {
-        $filedata = array();//åˆå§‹åŒ–å˜é‡ï¼Œç”¨äºŽå­˜å‚¨æ•°æ®
-        $handle = @fopen($file,'rb+');//ä»¥rb+æ–¹å¼æ‰“å¼€æ–‡ä»¶
-        if($handle)//è‹¥æ–‡ä»¶è¢«æ­£ç¡®æ‰“å¼€
+        $filedata = array();//³õÊ¼»¯±äÁ¿£¬ÓÃÓÚ´æ´¢Êý¾Ý
+        $handle = @fopen($file,'rb+');//ÒÔrb+·½Ê½´ò¿ªÎÄ¼þ
+        if($handle)//ÈôÎÄ¼þ±»ÕýÈ·´ò¿ª
         {
-                flock($handle,LOCK_SH);//åˆ†äº«é”å®šï¼ˆè¯»å–ï¼‰
-                while(!feof($handle))//è‹¥æ²¡æœ‰åˆ°è¾¾æ–‡ä»¶ç»“å°¾
+                flock($handle,LOCK_SH);//·ÖÏíËø¶¨£¨¶ÁÈ¡£©
+                while(!feof($handle))//ÈôÃ»ÓÐµ½´ïÎÄ¼þ½áÎ²
                 {
-                        $row=fgets($handle,999);//å¾—åˆ°ä¸€è¡Œè®°å½•
-                        if(is_string($row))//è‹¥æ­¤è®°å½•æ˜¯å­—ç¬¦ä¸²
+                        $row=fgets($handle,999);//µÃµ½Ò»ÐÐ¼ÇÂ¼
+                        if(is_string($row))//Èô´Ë¼ÇÂ¼ÊÇ×Ö·û´®
                         {
-                                $row_data=explode('"',$row);//å°†æ­¤è¡Œè®°å½•åˆ†ç¦»ä¸ºä¸€ä¸ªæ•°ç»„
-                                if ($row_data[$key]==$value)//è‹¥æ‰¾åˆ°æŒ‡å®š id çš„è®°å½•ï¼Œè¯»å–(æŸ¥æ‰¾)ç»“æŸ
+                                $row_data=explode('"',$row);//½«´ËÐÐ¼ÇÂ¼·ÖÀëÎªÒ»¸öÊý×é
+                                if ($row_data[$key]==$value)//ÈôÕÒµ½Ö¸¶¨ id µÄ¼ÇÂ¼£¬¶ÁÈ¡(²éÕÒ)½áÊø
                                     $filedata[]=$row_data;
                         }
                 }
-                flock($handle,LOCK_UN);//å–æ¶ˆé”å®š
-                fclose($handle);//å…³é—­æŒ‡é’ˆ
+                flock($handle,LOCK_UN);//È¡ÏûËø¶¨
+                fclose($handle);//¹Ø±ÕÖ¸Õë
         }
-        else//è‹¥æ–‡ä»¶æ²¡æœ‰è¢«æ­£ç¡®æ‰“å¼€ï¼Œè§¦å‘é”™è¯¯
+        else//ÈôÎÄ¼þÃ»ÓÐ±»ÕýÈ·´ò¿ª£¬´¥·¢´íÎó
                 return FALSE;
         return $filedata;
     }
@@ -421,12 +410,12 @@ class JuneTxtDb
      */
     private function _field_exists($dbname,$tablename,$field)
     {
-    	$fields=$this->_read_frame($dbname,$tablename);
-    	if(($key=array_search($field,$fields,TRUE)) === FALSE )
-    		return FALSE;	
-    	return $key;
+        $fields=$this->_read_frame($dbname,$tablename);
+        if(($key=array_search($field,$fields,TRUE)) === FALSE )
+                return FALSE;  
+        return $key;
     }
-    
+   
     /**
      * get all data from one table
      * @param $dbname
@@ -435,26 +424,26 @@ class JuneTxtDb
      */
     public function _select_all_in_table($dbname,$tablename)
     {
-		$frmf=$this->_table_path($dbname,$tablename).$this->_frame_ext;
-		$datf=$this->_table_path($dbname,$tablename).$this->_data_ext;
-		$data=$this->_readover($datf);
-		if($data===FALSE){
-			$errmsg="Could not open file '$datf' now,please try later.";
-			$this->_trigger_error($errmsg);
-			return FALSE;
-		}
-		if ($data==array())
-			return array();
-		$frame_data=$this->_read_frame($dbname,$tablename);
-		$data=$this->_array_combine($frame_data,$data);
-		return $data;    	
+                $frmf=$this->_table_path($dbname,$tablename).$this->_frame_ext;
+                $datf=$this->_table_path($dbname,$tablename).$this->_data_ext;
+                $data=$this->_readover($datf);
+                if($data===FALSE){
+                        $errmsg="Could not open file '$datf' now,please try later.";
+                        $this->_trigger_error($errmsg);
+                        return FALSE;
+                }
+                if ($data==array())
+                        return array();
+                $frame_data=$this->_read_frame($dbname,$tablename);
+                $data=$this->_array_combine($frame_data,$data);
+                return $data;          
     }
-    
+   
     /**
      * combine array
      * @param array $a
      * @param array $b
-     * @return array 
+     * @return array
      */
     function _array_combine($a,$b)
     {
@@ -464,7 +453,7 @@ class JuneTxtDb
         }
         return $b;
     }
-    
+   
     /**
      * get FRAME of one table
      * @param string $dbname
@@ -473,17 +462,17 @@ class JuneTxtDb
      */
     private function _read_frame($dbname,$tablename)
     {
-    	$frm=$this->_get_frame($dbname,$tablename);
-    	foreach ($frm as &$f)
-    	{
-    		if(is_array($f))
-    			$f=$f[0];
-    	}
-    	return $frm;
+        $frm=$this->_get_frame($dbname,$tablename);
+        foreach ($frm as &$f)
+        {
+                if(is_array($f))
+                        $f=$f[0];
+        }
+        return $frm;
     }
     /**
-     *	read table
-     * 	@param $filename;
+     *  read table
+     *  @param $filename;
      *  @param $method;
      *  @return $filedata or FALSE;
      */
@@ -518,24 +507,25 @@ class JuneTxtDb
      */
     public function _get_frame($dbname,$tablename)
     {
-    	$tbpath=$this->_table_path($dbname,$tablename);
-    	$tbfr=$tbpath.$this->_frame_ext;
-    	$str=trim(file_get_contents($tbfr));
-    	$frm=explode("\n",$str);
-    	foreach ($frm as &$v)
-    	{
-    		$tmp_ar=explode(':',$v);
-    		if(count($tmp_ar)>1)
-    			$v=array($tmp_ar[0],$tmp_ar[1]);
-    	}
-    	return $frm;
+        $tbpath=$this->_table_path($dbname,$tablename);
+        $tbfr=$tbpath.$this->_frame_ext;
+        $str=trim(file_get_contents($tbfr));
+        $frm=explode("\n",$str);
+        foreach ($frm as &$v)
+        {
+                $tmp_ar=explode(':',$v);
+                if(count($tmp_ar)>1)
+                        $v=array($tmp_ar[0],$tmp_ar[1]);
+        }
+        return $frm;
     }
 
-	/**
-	 * drop database
-	 * @param string $dbname
-	 * @return boolean
-	 */
+
+        /**
+         * drop database
+         * @param string $dbname
+         * @return boolean
+         */
     public function _drop_db($dbname)
     {
         $dbpath=$this->_db_path($dbname);
@@ -579,11 +569,11 @@ class JuneTxtDb
      */
     public function _table_exists($dbname,$tablename)
     {
-    	$table_files=$this->_table_files($dbname,$tablename);
+        $table_files=$this->_table_files($dbname,$tablename);
         foreach ($table_files as $file)
         {
-        	if (!file_exists($file))
-        		return FALSE;		
+                if (!file_exists($file))
+                        return FALSE;          
         }
         return TRUE;
     }
@@ -592,7 +582,7 @@ class JuneTxtDb
      * return the path of table
      * @param string $dbname
      * @param string $tablename
-     * @return string 
+     * @return string
      */
     public function _table_path($dbname,$tablename)
     {
@@ -616,31 +606,31 @@ class JuneTxtDb
     {
         echo $this->_error;
     }
-    
+   
     /**
      * return the id just inserted
      */
     public function june_insert_id()
     {
-    	return $this->_insert_id;
+        return $this->_insert_id;
     }
-    
+   
     /**
      * List databases available on the server.
      * @return array $db
      */
     public function june_list_dbs()
     {
-    	$db=array();
-    	$d=dir($this->_db_root_dir);
-    	while ($tmp=$d->read())
-    	{
-    		if(is_dir($this->_db_root_dir.$tmp) && substr($tmp,0,1)!='.' )
-    			$db[]=$tmp;
-    	}	
-    	return $db;
+        $db=array();
+        $d=dir($this->_db_root_dir);
+        while ($tmp=$d->read())
+        {
+                if(is_dir($this->_db_root_dir.$tmp) && substr($tmp,0,1)!='.' )
+                        $db[]=$tmp;
+        }      
+        return $db;
     }
-    
+   
     /**
      * return tables of one database
      * @param string $dbname
@@ -649,23 +639,23 @@ class JuneTxtDb
     public function june_list_tables($dbname)
     {
         if (!$this->june_select_db($dbname))
-    	    return FALSE;
-    	$tables=array();
-    	$table_exts=array($this->_index_ext,$this->_data_ext,$this->_frame_ext);
-    	$dbpath=$this->_db_root_dir.$dbname;
-    	$d=dir($dbpath);
-    	while($tmp=$d->read())
-    	{
-    		if(is_file($dbpath.'/'.$tmp))
-    		{
-    			$tmp=str_replace($table_exts,'',$tmp);
-    			$tables[]=$tmp;	
-    		}
-    	}
-    	$tables=array_unique($tables);
-    	return $tables;
+            return FALSE;
+        $tables=array();
+        $table_exts=array($this->_index_ext,$this->_data_ext,$this->_frame_ext);
+        $dbpath=$this->_db_root_dir.$dbname;
+        $d=dir($dbpath);
+        while($tmp=$d->read())
+        {
+                if(is_file($dbpath.'/'.$tmp))
+                {
+                        $tmp=str_replace($table_exts,'',$tmp);
+                        $tables[]=$tmp;
+                }
+        }
+        $tables=array_unique($tables);
+        return $tables;
     }
-    
+   
     /**
      * drop table
      * @param $tablename
@@ -674,163 +664,164 @@ class JuneTxtDb
     public function june_drop_table($tablename)
     {
         if (!$this->june_select_db($this->_currentDB))
-    	    return FALSE;
-    	if(!$this->_table_exists($this->_currentDB,$tablename))
-    	{
-    		$errmsg="Table `$this->_currentDB.$tablename` does not exists!";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}	
-    	$table_files=$this->_table_files($this->_currentDB,$tablename);
-    	foreach ($table_files as $file)
-    	{
-    		if(!unlink($file))
-    		{
-    			$errmsg="table `$this->_currentDB.$tablename` does not deleted properly!";
-    			$this->_trigger_error($errmsg);
-    			return FALSE;
-    		}
-    	}
-    	return TRUE;
+            return FALSE;
+        if(!$this->_table_exists($this->_currentDB,$tablename))
+        {
+                $errmsg="Table `$this->_currentDB.$tablename` does not exists!";
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }      
+        $table_files=$this->_table_files($this->_currentDB,$tablename);
+        foreach ($table_files as $file)
+        {
+                if(!unlink($file))
+                {
+                        $errmsg="table `$this->_currentDB.$tablename` does not deleted properly!";
+                        $this->_trigger_error($errmsg);
+                        return FALSE;
+                }
+        }
+        return TRUE;
     }
-    
+   
     /**
-     * delete or update one record from table 
+     * delete or update one record from table
      * @param string $tablename
      * @param array $condition e.g:$condition=array('id'=>1)
      * @param string $action:D=Delete,U=update
      * @param array $data;
-     * @return boolean 
-     * @bug:å½“æŸ¥è¯¢æ¡ä»¶ä¸­çš„å­—æ®µæ˜¯æœ€åŽä¸€ä¸ªå­—æ®µï¼Œä¸ä¼šåˆ é™¤æ­¤æ¡è®°å½•ï¼
+     * @return boolean
+     * @bug:µ±²éÑ¯Ìõ¼þÖÐµÄ×Ö¶ÎÊÇ×îºóÒ»¸ö×Ö¶Î£¬²»»áÉ¾³ý´ËÌõ¼ÇÂ¼£¡
      */
     public function june_query_modify($tablename,$condition,$action='D',$data=array())
     {
         if (!$this->june_select_db($this->_currentDB))
             return FALSE;
-    	if(!$this->_table_exists($this->_currentDB,$tablename))
-    	{
-    		$errmsg="Table `$this->_currentDB.$tablename` does not exists!";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	if(!is_array($condition) || count($condition)!=1 )
-    	{
-    		$errmsg='$condition Must be an array and Only has ONE element!';
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	$field=key($condition);
-    	if ( ($key=$this->_field_exists($this->_currentDB,$tablename,$field)) === FALSE)
-    	{
-    		$errmsg="Field `$field` does not exists int table `$this->_currentDB.$tablename`";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;    			
-    	}
-    	$datf=$this->_table_path($this->_currentDB,$tablename).$this->_data_ext;	
+        if(!$this->_table_exists($this->_currentDB,$tablename))
+        {
+                $errmsg="Table `$this->_currentDB.$tablename` does not exists!";
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        if(!is_array($condition) || count($condition)!=1 )
+        {
+                $errmsg='$condition Must be an array and Only has ONE element!';
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        $field=key($condition);
+        if ( ($key=$this->_field_exists($this->_currentDB,$tablename,$field)) === FALSE)
+        {
+                $errmsg="Field `$field` does not exists int table `$this->_currentDB.$tablename`";
+                $this->_trigger_error($errmsg);
+                return FALSE;                          
+        }
+        $datf=$this->_table_path($this->_currentDB,$tablename).$this->_data_ext;        
         if(!is_array($data))
-    	{
-    		$errmsg="The data you insert must be Array!";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	if($action!='D')
-    		$action='U';
-    	if($action=='D')
-    		$data=array();
-    	if($action=='U' && $data==array())
-    	{
-    	    $errmsg="The data you updated Must NOT be array() !";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;	
-    	}
-    	if($data==array())
-    		$string='';
-    	else 
-    	{
-    		$frm=$this->_get_frame($this->_currentDB,$tablename);
-	    	//check if all field was filled
-	    	if(count($data)!=count($frm))
-	    	{
-	    		$errmsg="The number of your data does not match with the field num!";
-	    		$this->_trigger_error($errmsg);
-	    		return FALSE;
-	    	}
-	    	foreach($data as &$per_element)
-	        {
-	            $per_element=$this->june_escape_string($per_element);
-	        }
-	    	$string=implode($this->_delimiter,$data);
-	    	$string.="\n";
-    	}
-    	if(!$this->_modify($datf,$key,$condition[$field],$string))
-    	{
-    		$errmsg="Could not open the table `$this->_currentDB.$tablename` now,please try again later.";
-    		$this->_trigger_error($errmsg);
-    		return FALSE;
-    	}
-    	return TRUE;
+        {
+                $errmsg="The data you insert must be Array!";
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        if($action!='D')
+                $action='U';
+        if($action=='D')
+                $data=array();
+        if($action=='U' && $data==array())
+        {
+            $errmsg="The data you updated Must NOT be array() !";
+                $this->_trigger_error($errmsg);
+                return FALSE;  
+        }
+        if($data==array())
+                $string='';
+        else
+        {
+                $frm=$this->_get_frame($this->_currentDB,$tablename);
+                //check if all field was filled
+                if(count($data)!=count($frm))
+                {
+                        $errmsg="The number of your data does not match with the field num!";
+                        $this->_trigger_error($errmsg);
+                        return FALSE;
+                }
+                foreach($data as &$per_element)
+                {
+                    $per_element=$this->june_escape_string($per_element);
+                }
+                $string=implode($this->_delimiter,$data);
+                $string.="\n";
+        }
+        if(!$this->_modify($datf,$key,$condition[$field],$string))
+        {
+                $errmsg="Could not open the table `$this->_currentDB.$tablename` now,please try again later.";
+                $this->_trigger_error($errmsg);
+                return FALSE;
+        }
+        return TRUE;
     }
-    
+   
+
 
     /**
      * modify record
-     * Noteï¼šalways return true if the file was opened successfully
+     * Note£ºalways return true if the file was opened successfully
      * @param string $filename
      * @param string $key
      * @param mixed $value
      * @param string $string
-	 * @return boolean
+         * @return boolean
      */
     function _modify($filename,$key,$value,$string)
     {
-    	$mode='rb+';
-    	$filesize=filesize($filename);//å¾—åˆ°æ–‡ä»¶çš„size
-    	$str=file_get_contents($filename);//å¾—åˆ°æ–‡ä»¶å†…å®¹
-        $handle=fopen($filename,$mode);//æ‰“å¼€æ–‡ä»¶
-        if(!$handle)//è‹¥æ— æ³•æ‰“å¼€æ–‡ä»¶ï¼Œè¿”å›žFALSE            
+        $mode='rb+';
+        $filesize=filesize($filename);//µÃµ½ÎÄ¼þµÄsize
+        $str=file_get_contents($filename);//µÃµ½ÎÄ¼þÄÚÈÝ
+        $handle=fopen($filename,$mode);//´ò¿ªÎÄ¼þ
+        if(!$handle)//ÈôÎÞ·¨´ò¿ªÎÄ¼þ£¬·µ»ØFALSE            
         {
                 return FALSE;
         }
-        //$id_len=strlen($mid);//get the length of $midæ­¤å¤„éœ€è¦æ›´æ–°
+        //$id_len=strlen($mid);//get the length of $mid´Ë´¦ÐèÒª¸üÐÂ
         $file_point=array();
         $m_len=0;
         $find=FALSE;
         while(!feof($handle))
         {
-                $file_point[]=ftell($handle);//è®°å½•å½“å‰çš„æŒ‡é’ˆä½ç½®
+                $file_point[]=ftell($handle);//¼ÇÂ¼µ±Ç°µÄÖ¸ÕëÎ»ÖÃ
                 $str_line=fgets($handle,1024);
-        		if(is_string($str_line))//è‹¥æ­¤è®°å½•æ˜¯å­—ç¬¦ä¸²
+                        if(is_string($str_line))//Èô´Ë¼ÇÂ¼ÊÇ×Ö·û´®
                 {
-                	$row_data=explode('"',$str_line);//å°†æ­¤è¡Œè®°å½•åˆ†ç¦»ä¸ºä¸€ä¸ªæ•°ç»„
-                    if ($row_data[$key]==$value)//è‹¥æ‰¾åˆ°æŒ‡å®š key çš„è®°å½•ï¼Œè¯»å–(æŸ¥æ‰¾)ç»“æŸ
+                        $row_data=explode('"',$str_line);//½«´ËÐÐ¼ÇÂ¼·ÖÀëÎªÒ»¸öÊý×é
+                    if ($row_data[$key]==$value)//ÈôÕÒµ½Ö¸¶¨ key µÄ¼ÇÂ¼£¬¶ÁÈ¡(²éÕÒ)½áÊø
                     {
-                    	$find=TRUE;
-                    	$m_len=strlen($str_line);//$m_len ä»£è¡¨å½“å‰è¡Œçš„é•¿åº¦
+                        $find=TRUE;
+                        $m_len=strlen($str_line);//$m_len ´ú±íµ±Ç°ÐÐµÄ³¤¶È
                         break;//break the while
                     }
                 }
         }
         if(!$find)
         {
-        	return TRUE;
+                return TRUE;
         }
         $begin_point=end($file_point);// the start of modified line
         $offset=$begin_point+$m_len;//the lenth need to be modified
-        fseek($handle,$offset);//ç§»åŠ¨æŒ‡é’ˆåˆ°éœ€è¦ä¿®æ”¹çš„å†…å®¹ä¹‹åŽæ— éœ€ä¿®æ”¹çš„éƒ¨åˆ†çš„å¼€å§‹
-        $last_string=fread($handle,$filesize+1);//è¯»å–åŽé¢çš„å†…å®¹
-    
-        $put_string=$string.$last_string;//éœ€è¦å†™å…¥çš„å†…å®¹ï¼šæ–°çš„å­—ç¬¦ä¸²åŠåŽŸæ¥æ— éœ€ä¿®æ”¹çš„å†…å®¹
-    
-        fseek($handle,$begin_point);//ç§»åŠ¨æŒ‡é’ˆåˆ°éœ€è¦ä¿®æ”¹çš„åœ°æ–¹
-        fwrite($handle,$put_string);//å¼€å§‹å†™å…¥
-    
-        $new_all_len=$begin_point+strlen($put_string);//è®¡ç®—æ–‡ä»¶çš„æ–°çš„é•¿åº¦
-    
-        ftruncate($handle,$new_all_len);//å°†æ–‡ä»¶æˆªå–åˆ°æ–°çš„é•¿åº¦
+        fseek($handle,$offset);//ÒÆ¶¯Ö¸Õëµ½ÐèÒªÐÞ¸ÄµÄÄÚÈÝÖ®ºóÎÞÐèÐÞ¸ÄµÄ²¿·ÖµÄ¿ªÊ¼
+        $last_string=fread($handle,$filesize+1);//¶ÁÈ¡ºóÃæµÄÄÚÈÝ
+   
+        $put_string=$string.$last_string;//ÐèÒªÐ´ÈëµÄÄÚÈÝ£ºÐÂµÄ×Ö·û´®¼°Ô­À´ÎÞÐèÐÞ¸ÄµÄÄÚÈÝ
+   
+        fseek($handle,$begin_point);//ÒÆ¶¯Ö¸Õëµ½ÐèÒªÐÞ¸ÄµÄµØ·½
+        fwrite($handle,$put_string);//¿ªÊ¼Ð´Èë
+   
+        $new_all_len=$begin_point+strlen($put_string);//¼ÆËãÎÄ¼þµÄÐÂµÄ³¤¶È
+   
+        ftruncate($handle,$new_all_len);//½«ÎÄ¼þ½ØÈ¡µ½ÐÂµÄ³¤¶È
         fclose($handle);
         return TRUE;
     }
-    
+   
     /**
      * Escape string
      * @param  string $string
@@ -840,7 +831,7 @@ class JuneTxtDb
     {
         return htmlspecialchars(trim($string), ENT_QUOTES,$this->_charset);
     }
-    
+   
     /**
      * Sets the character set
      * @param $charset
@@ -851,16 +842,16 @@ class JuneTxtDb
         if (in_array($charset,$this->_supported_characters))
             $this->_charset=$charset;
     }
-    
+   
     /**
      * Returns the name of the character set
-     * @return string :Returns the character set name. 
+     * @return string :Returns the character set name.
      */
     public function june_get_charset()
     {
         return $this->_charset;
     }
-    
+   
     /**
      * return the version of JuneTxtDb
      * @return string
@@ -869,7 +860,7 @@ class JuneTxtDb
     {
         return $this->_version;
     }
-    
+   
     /**
      * Get number of rows in result
      * @param $result
@@ -877,7 +868,39 @@ class JuneTxtDb
      */
     public function june_num_rows($result)
     {
-        return count($result); 
+        return count($result);
+    }
+}
+/**
+ * @author FleaPHP Framework
+ * @link http://www.fleaphp.org/
+ * @copyright Copyright &copy; 2005 - 2008 QeeYuan China Inc. (http://www.qeeyuan.com)
+ * @license http://www.yiiframework.com/license/  
+ */
+function rmdirs($dir)
+{
+    $dir = realpath($dir);
+    if ($dir == '' || $dir == '/' ||  (strlen($dir) == 3 && substr($dir, 1) == ':\\'))
+    {
+        //we do not allowed to delete root directory.
+        return false;
+    }
+
+    if(false !== ($dh = opendir($dir))) {
+        while(false !== ($file = readdir($dh))) {
+            if($file == '.' || $file == '..') { continue; }
+            $path = $dir . DIRECTORY_SEPARATOR . $file;
+            if (is_dir($path)) {
+                if (!rmdirs($path)) { return false; }
+            } else {
+                unlink($path);
+            }
+        }
+        closedir($dh);
+        rmdir($dir);
+        return true;
+    } else {
+        return false;
     }
 }
 ?>
