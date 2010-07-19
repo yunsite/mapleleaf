@@ -88,7 +88,7 @@ class Maple_Controller
         $this->load_config();//载入配置
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
-        //$this->is_baned($_SERVER['REMOTE_ADDR']);//检查是否被禁止登录
+        $this->is_baned($_SERVER['REMOTE_ADDR']);//检查是否被禁止登录
     }
 
     //载入配置
@@ -130,7 +130,10 @@ class Maple_Controller
     {
         $all_baned_ips=array();
         $all_baned_ips=$this->get_baned_ips();
-        
+        for($i=0,$c=count($all_baned_ips);$i<$c;$i++)
+        {
+        	$all_baned_ips[$i]=trim($all_baned_ips[$i]["ip"]);
+        }
         if (in_array($ip,$all_baned_ips))
         {
             if($check)
@@ -474,17 +477,11 @@ class Maple_Controller
         $new_message=$this->add_message_check();
         if (!$this->_model->june_connect())
 		    die($this->_model->june_error());
-		//$dbname='tests';
 		if (!$this->_model->june_select_db($this->_dbname))
 		    die($this->_model->june_error());
-		//$tablename='test';
-		//$data=array(NULL,'chenzhuo','hello',time());
 		if (!$this->_model->june_query_insert($this->_message_table_name,$new_message))
 		    die($this->_model->june_error());
-        /*if(!$this->_model->maple_db_insert($this->_dbname,$this->_message_table_name,$new_message))
-            $this->show_message("写入失败",TRUE);*/
         header("Location:index.php");
-        break;
     }
 
 	protected function loadModel()
@@ -495,7 +492,6 @@ class Maple_Controller
             exit;
         }
 		$mid=(int)$_GET['mid'];
-        //$reply_data=$this->_model->maple_db_select_by_id($this->_dbname,$this->_reply_table_name,$mid);
 		if (!$this->_model->june_connect())
 		    die($this->_model->june_error());
 		if (!$this->_model->june_select_db($this->_dbname))
@@ -511,7 +507,6 @@ class Maple_Controller
     function reply()
     {
         is_admin();
-		//echo '<pre>';var_dump($reply_data);exit;
 		if(isset($_POST['Submit']))
 		{
 			$mid=0;
@@ -525,14 +520,11 @@ class Maple_Controller
 			if(isset($_POST['update']))
 			{
 				$input=array($mid,$reply_content,$time);
-				//$this->_model->maple_db_modify($this->_dbname,$this->_reply_table_name,$mid,$input);
 				if (!$this->_model->june_connect())
 				    die($this->_model->june_error());
 				if (!$this->_model->june_select_db($this->_dbname))
 				    die($this->_model->june_error());
-				//$tablename='test';
 				$condition=array('id'=>$mid);
-				//$array=array('sss','ffff','dddd','hhhh');
 				if(!$this->_model->june_query_modify($this->_reply_table_name,$condition,'U',$input))
 				    die($this->_model->june_error());
 			}
@@ -549,7 +541,6 @@ class Maple_Controller
 			header("Location:index.php?action=control_panel&subtab=message");
 		}
 		$reply_data=$this->loadModel();
-		var_dump($reply_data);
 		$mid=(int)$_GET['mid'];
 		include 'themes/'.$this->_theme.'/templates/'."reply.php";
     }
@@ -572,7 +563,6 @@ class Maple_Controller
 			    die($this->_model->june_error());
 			if (!$this->_model->june_select_db($this->_dbname))
 			    die($this->_model->june_error());
-			//$tablename='test';
 			$condition=array('id'=>$mid);
 			if(!$this->_model->june_query_modify($this->_message_table_name,$condition,'U',$input))
 			    die($this->_model->june_error());
@@ -665,7 +655,6 @@ class Maple_Controller
         $message_table_path=$this->_model->_db_root_dir.$this->_dbname."/".$this->_message_table_name;
         
         $message_filename=$message_table_path.$this->_model->_data_ext;
-        //echo $message_filename;exit;
         file_put_contents($message_filename, '');
         $this->clear_reply();
         header("location:index.php?action=control_panel&subtab=message");
@@ -767,7 +756,7 @@ class Maple_Controller
             exit;
         }
         $insert_string=$ip."\n";
-        $ip_filename=$this->_model->_db_root_dir.$this->_dbname.'/'.$this->_banedip_table_name.$this->_model->_data_ext.$this->_model->_ext;
+        $ip_filename=$this->_model->_db_root_dir.$this->_dbname.'/'.$this->_banedip_table_name.$this->_model->_data_ext;
         file_put_contents($ip_filename, $insert_string, FILE_APPEND | LOCK_EX);
         header("location:index.php?action=control_panel&subtab=ban_ip");
     }
@@ -782,10 +771,17 @@ class Maple_Controller
             exit;
         }
         $ip_array=$this->get_baned_ips();
+        for($i=0,$c=count($ip_array);$i<$c;$i++)
+        {
+        	$ip_array[$i]=trim($ip_array[$i]["ip"]);
+        }
         $new_ip_array=array_diff($ip_array,$ip_update_array);
+        var_dump($new_ip_array);//exit;
         $new_ip_string=implode("\n",$new_ip_array);
-        $new_ip_string.="\n";
-        $ip_filename=$this->_model->_db_root_dir.$this->_dbname.'/'.$this->_banedip_table_name.$this->_model->_data_ext.$this->_model->_ext;
+        var_dump($new_ip_string);//exit;
+        if ($new_ip_array) 
+        	$new_ip_string.="\n";;        
+        $ip_filename=$this->_model->_db_root_dir.$this->_dbname.'/'.$this->_banedip_table_name.$this->_model->_data_ext;
         file_put_contents($ip_filename, $new_ip_string);
         header("location:index.php?action=control_panel&subtab=ban_ip");
     }
@@ -843,7 +839,7 @@ EOF;
 		if(($result=$this->_model->june_query_select_all($this->_banedip_table_name))===FALSE)
 		{
 		    die($this->_model->june_error());
-		}
+		}		
 		return $result;
     }
 
@@ -924,9 +920,6 @@ EOF;
 			$new_key=$reply_data_item["id"];
 			$new_reply_data[$new_key]=$reply_data_item;
 		}
-		/*echo("<pre>");
-		var_dump($new_reply_data);
-		var_dump($data);*/
         foreach ($data as &$data_per)
         {
             if($filter_words)
@@ -975,14 +968,11 @@ EOF;
     function get_all_reply()
     {
         $reply_data=array();
-        //$reply_data=$this->_model->maple_db_query($this->_dbname,$this->_reply_table_name);
         if (!$this->_model->june_connect())
 		    die($this->_model->june_error());
-		//$dbname='tests';
 		
 		if (!$this->_model->june_select_db($this->_dbname))
 		    die($this->_model->june_error());
-		//$tablename='test';
 		
 		if(($reply_data=$this->_model->june_query_select_all($this->_reply_table_name))===FALSE)
 		    die($this->_model->june_error());
