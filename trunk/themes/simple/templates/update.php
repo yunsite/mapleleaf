@@ -8,10 +8,10 @@
 <body>
 <form action="index.php?action=update" method="post">
 <input type="hidden" name="mid" value="<?php echo $mid;?>" />
-<input type="hidden" name="author" value="<?php echo $message_info[1];?>" />
-<input type="hidden" name="m_time" value="<?php echo $message_info[3];?>" />
-<input type="hidden" name="ip" value="<?php echo trim($message_info[4]);?>" />
-<textarea name="update_content" cols="40" rows="9"><?php echo $message_info[2];?></textarea>
+<input type="hidden" name="author" value="<?php echo $message_info[0][1];?>" />
+<input type="hidden" name="m_time" value="<?php echo $message_info[0][3];?>" />
+<input type="hidden" name="ip" value="<?php echo trim($message_info[0][4]);?>" />
+<textarea name="update_content" cols="40" rows="9"><?php echo $message_info[0][2];?></textarea>
 <br />
 <input type="submit" name="Submit" value="更新" /><input type="button" name="cancel" value="取消" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
 </form>
