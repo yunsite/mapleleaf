@@ -4,9 +4,8 @@
  * @author      rainyjune<dreamneverfall@gmail.com>
  * @copyright   Copyright (c) 2008 - 2010 Maple Group. (http://maple.dreamneverfall.cn)
  * @license     GPL2
- * @version     2010-04-28
+ * @version     2010-07-19
  */
-//include_once 'maple.data.class.php';
 include_once 'JuneTxtDb.class.php';
 include_once 'Imgcode.php';
 class Maple_Controller
@@ -87,7 +86,6 @@ class Maple_Controller
         $this->_imgcode=new FLEA_Helper_ImgCode();
         $this->_model=new JuneTxtDb();
         $this->load_config();//载入配置
-        //$this->get_all_info();//得到所有信息
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
         //$this->is_baned($_SERVER['REMOTE_ADDR']);//检查是否被禁止登录
@@ -99,7 +97,6 @@ class Maple_Controller
         //check directories
         if (!is_dir($this->_themes_directory))
         	die("您主题目录无效");
-        //var_dump($this->_errors);
         if(!is_dir($this->_smileys_dir))
             $this->_errors[]="您所指定的表情图案目录 {$this->_smileys_dir} 不存在";
         //check config file
@@ -110,7 +107,6 @@ class Maple_Controller
         $this->get_all_info();
         if($this->_errors)
             $this->show_message($this->_errors);
-        //die('s2');
     }
 
     function get_all_info()
@@ -409,7 +405,6 @@ class Maple_Controller
         if ($this->_mb_open==1)
             $this->show_message($this->_close_reason);
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-        //echo $current_page;
         $data=$this->get_all_data(TRUE,TRUE);
         $nums=$this->_model->june_num_rows($data);
         if($this->_page_on)
@@ -573,17 +568,28 @@ class Maple_Controller
 			$update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
 			$ip=$_POST['ip'];
 			$input=array($mid,$author,$update_content,$m_time,$ip);
-			if($this->_model->maple_db_modify($this->_dbname,$this->_message_table_name,$mid,$input))
-				header("Location:index.php?action=control_panel&subtab=message");
+			if (!$this->_model->june_connect())
+			    die($this->_model->june_error());
+			if (!$this->_model->june_select_db($this->_dbname))
+			    die($this->_model->june_error());
+			//$tablename='test';
+			$condition=array('id'=>$mid);
+			if(!$this->_model->june_query_modify($this->_message_table_name,$condition,'U',$input))
+			    die($this->_model->june_error());
 			else
-				$this->show_message($this->_model->_errors, TRUE, 'index.php?action=control_panel&subtab=message');
+				header("Location:index.php?action=control_panel&subtab=message");
 		}
 		if(!isset($_GET['mid']))
 		{
             header("location:index.php?action=control_panel&subtab=message");exit;
 		}
         $mid=intval($_GET['mid']);
-        $message_info=$this->_model->maple_db_select_by_id($this->_dbname,$this->_message_table_name,$mid);
+        if (!$this->_model->june_connect())
+		    die($this->_model->june_error());
+		if (!$this->_model->june_select_db($this->_dbname))
+		    die($this->_model->june_error());
+		$condition=array('id'=>$mid);
+        $message_info=$this->_model->june_query_select_byCondition($this->_message_table_name,$condition);
         if(!$message_info)
             $this->show_message("查询出错",TRUE,'index.php?action=control_panel&subtab=message');
         include 'themes/'.$this->_theme.'/templates/'."update.php";
@@ -657,7 +663,9 @@ class Maple_Controller
     {
         is_admin();
         $message_table_path=$this->_model->_db_root_dir.$this->_dbname."/".$this->_message_table_name;
-        $message_filename=$message_table_path.$this->_model->_data_ext.$this->_model->_ext;
+        
+        $message_filename=$message_table_path.$this->_model->_data_ext;
+        //echo $message_filename;exit;
         file_put_contents($message_filename, '');
         $this->clear_reply();
         header("location:index.php?action=control_panel&subtab=message");
@@ -667,7 +675,7 @@ class Maple_Controller
     {
         is_admin();
         $reply_table_path=$this->_model->_db_root_dir.$this->_dbname."/".$this->_reply_table_name;
-        $reply_filename=$reply_table_path.$this->_model->_data_ext.$this->_model->_ext;
+        $reply_filename=$reply_table_path.$this->_model->_data_ext;
         file_put_contents($reply_filename,'');
         header("location:index.php?action=control_panel&subtab=message");
     }
@@ -910,18 +918,27 @@ EOF;
 		    
         if(($reply_data=$this->_model->june_query_select_all($this->_reply_table_name))===FALSE)
 		    die($this->_model->june_error());
+		$new_reply_data=array();
+		foreach($reply_data as $reply_data_item)
+		{
+			$new_key=$reply_data_item["id"];
+			$new_reply_data[$new_key]=$reply_data_item;
+		}
+		/*echo("<pre>");
+		var_dump($new_reply_data);
+		var_dump($data);*/
         foreach ($data as &$data_per)
         {
             if($filter_words)
                 $data_per['content']=$this->filter_words($data_per['content']);
-            /*$mid=intval($data_per['id']);
-            if(isset ($reply_data[$mid]))
+            $mid=intval($data_per['id']);
+            if(isset($new_reply_data[$mid]))
             {
-                $data_per['reply']=$reply_data[$mid];
-                if($parse_smileys)
-                    $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], $this->_smileys_dir,$this->_smileys);
+                $data_per['reply']=$new_reply_data[$mid];
+                /*if($parse_smileys)
+                    $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], $this->_smileys_dir,$this->_smileys);*/
             }        
-            */  
+              
         }
         $data=array_reverse($data);
         //var_dump($data);
