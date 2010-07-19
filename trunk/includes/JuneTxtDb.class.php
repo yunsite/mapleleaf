@@ -505,6 +505,48 @@ class JuneTxtDb
         return $filedata;
     }
     /**
+     * 写入数据
+     * @param $filename
+     * @param $data
+     * @param $method
+     * @param $iflock
+     * @param $fseek_offset_value
+     * @param $ftruncate_value
+     */
+    function _writeover($filename,$data,$method="rb+",$iflock=1,$fseek_offset_value=0,$ftruncate_value=0)
+    {
+            $handle=@fopen($filename,$method);
+            if(!$handle)
+            {
+                    $errormsg="暂时不能打开文件，请稍候再试。";
+                    $this->maple_trigger_error($errormsg);
+                    return false;
+            }
+            if($iflock)
+            {
+                    flock($handle,LOCK_EX);
+            }
+            if($fseek_offset_value!=0)
+            {
+                    fseek($handle,$fseek_offset_value);
+            }
+            fwrite($handle,$data);
+            if($method=="rb+")
+            {
+                    if($ftruncate_value!=0)
+                    {
+                            ftruncate($handle,$ftruncate_value);
+                    }
+                    else
+                    {
+                            ftruncate($handle,strlen($data));
+                    }
+            }
+            flock($handle,LOCK_UN);
+            fclose($handle);
+            return true;
+    }
+    /**
      * get frame
      * @param string $dbname
      * @param string $tablename
