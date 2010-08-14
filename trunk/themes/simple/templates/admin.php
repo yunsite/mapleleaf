@@ -162,7 +162,7 @@
                     <input type='hidden' name='<?php echo $m['id'];?>' value='<?php if(@$m['reply']){ echo "1";}else{echo "0";}?>' />
                 </td>
                 <td class='left'>	<?php echo $m['user'];?></td>
-                <td class='left'><?php echo $m['content'];?><br />时间：<?php echo date('m-d H:i',$m['time']+ $this->_time_zone*60*60);?> <?php if(@$m['reply']==true){?>  <br /><font color="red">您回复：</font> <?php echo $m['reply']['reply_content']." Time:".date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60);?><span>&nbsp;<a href="index.php?action=delete_reply&amp;mid=<?php echo $m['id'];?>">删除回复</a></span><?php }?></td>
+                <td class='left'><?php echo $this->parse_smileys(mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8'),$this->_smileys_dir,$this->_smileys);?><br />时间：<?php echo date('m-d H:i',$m['time']+ $this->_time_zone*60*60);?> <?php if(@$m['reply']==true){?>  <br /><font color="red">您回复：</font> <?php echo $this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys)." Time:".date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60);?><span>&nbsp;<a href="index.php?action=delete_reply&amp;mid=<?php echo $m['id'];?>">删除回复</a></span><?php }?></td>
                 <td><a href='index.php?action=delete_message&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){ echo "1";}else{ echo "0";}?>'>删除</a>
                 <a href='index.php?action=reply&amp;mid=<?php echo $m['id'];?>'>回复</a>
                 <a href='index.php?action=update&amp;mid=<?php echo $m['id'];?>'>更新</a>
