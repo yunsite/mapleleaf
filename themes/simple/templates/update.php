@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>留言更新</title>
+<title><?php echo $this->t('UPDATE');?></title>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
 <input type="hidden" name="ip" value="<?php echo trim($message_info[0][4]);?>" />
 <textarea name="update_content" cols="40" rows="9"><?php echo htmlspecialchars_decode($message_info[0][2],ENT_COMPAT);?></textarea>
 <br />
-<input type="submit" name="Submit" value="更新" /><input type="button" name="cancel" value="取消" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
+<input type="submit" name="Submit" value="<?php echo $this->t('UPDATE');?>" /><input type="button" name="cancel" value="<?php echo $this->t('CANCEL');?>" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
 </form>
 </body>
 </html>

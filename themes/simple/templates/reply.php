@@ -18,8 +18,8 @@ if($reply_data)
 ?>
 <textarea name="reply_content" cols="40" rows="9"><?php echo @$reply_data[0][1];?></textarea>
 <br />
-<input type="submit" name="Submit" value="回复" />
-<input type="button" name="cancel" value="取消" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
+<input type="submit" name="Submit" value="<?php echo $this->t('SUBMIT');?>" />
+<input type="button" name="cancel" value="<?php echo $this->t('CANCEL');?>" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
 </form>
 </body>
 </html>

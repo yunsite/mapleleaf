@@ -9,58 +9,58 @@
 <script type="text/javascript" src="./includes/admin.js"></script>
 <script type="text/javascript" src="./includes/jquery.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/admin.js';?>"></script>
-<title>管理员控制面板首页</title>
+<title><?php echo $this->t('ACP_INDEX');?></title>
 </head>
 
 <body>
 <div id="admin_header">
-	<a href="index.php">首页</a>&nbsp;<a href="index.php?action=logout" title="注销">注销</a>
+	<a href="index.php"><?php echo $this->t('HOME');?></a>&nbsp;<a href="index.php?action=logout" title="<?php echo $this->t('LOGOUT');?>"><?php echo $this->t('LOGOUT');?></a>
 </div>
 <div id="con">
     <ul id="tags">
         <li <?php if($current_tab=='overview'){?> class="selectTag"<?php }?>><a id="overview" onclick="selectTag('tagContent0',this)" 
-          href="javascript:void(0)" title="显示综合信息">综合</a> </li>
+          href="javascript:void(0)" title="显示综合信息"><?php echo $this->t('ACP_OVERVIEW');?></a> </li>
         <li <?php if($current_tab=='siteset'){?> class="selectTag"<?php }?>><a onclick="selectTag('tagContent1',this)" 
-          href="javascript:void(0)" title="配置您的站点">站点设置</a> </li>
+          href="javascript:void(0)" title="配置您的站点"><?php echo $this->t('ACP_CONFSET');?></a> </li>
         <li <?php if($current_tab=='message'){?> class="selectTag"<?php }?>><a id="message_m" onclick="selectTag('tagContent2',this)" 
-          href="javascript:void(0)" title="管理站点留言">留言管理</a> </li>
+          href="javascript:void(0)" title="管理站点留言"><?php echo $this->t('ACP_MANAGE_POST');?></a> </li>
         <li <?php if($current_tab=='ban_ip'){?> class="selectTag"<?php }?>><a id="ip_m" onclick="selectTag('tagContent3',this)" 
-          href="javascript:void(0)" title="IP黑名单功能">IP地址管理</a> </li>
+          href="javascript:void(0)" title="IP黑名单功能"><?php echo $this->t('ACP_MANAGE_IP');?></a> </li>
     </ul>
     <div id="tagContent">
         <div id="tagContent0" <?php if($current_tab=='overview'){?> class="tagContent selectTag" <?php } else {?>	class="tagContent" <?php }?> >
             <table>
                 <tr>
-                    <td><h1>欢迎来到MapleLeaf</h1></td>
+                    <td><h1><?php echo $this->t('WELCOME_SYS');?></h1></td>
                 </tr>
                 <tr>
-                    <td align="left">感谢您选择MapleLeaf作为留言板解决方案. 这个界面将显示您的留言板的总体信息.上方的链接允许您管理留言板.</td>
+                    <td align="left"><?php echo $this->t('THANKS');?></td>
                 </tr>
             </table>
             <table  width="256px" align="left" cellpadding="0" cellspacing="0" style="margin-top:5px;">
                 <tr>
-                    <td align="left"><b>统计信息</b></td>
+                    <td align="left"><b><?php echo $this->t('STATS_INFO');?></b></td>
                 </tr>
                 <tr>
-                    <td align="left">留言数量：</td><td align="right"><?php echo $nums;?></td>
+                    <td align="left"><?php echo $this->t('NUM_POSTS');?>：</td><td align="right"><?php echo $nums;?></td>
                 </tr>
                 <tr>
-                    <td align="left">回复数量：</td><td align="right"><?php echo $reply_num;?></td>
+                    <td align="left"><?php echo $this->t('NUM_REPLY');?>：</td><td align="right"><?php echo $reply_num;?></td>
                 </tr>
                 <tr>
-                    <td align="left">当前版本：</td><td align="right"><?php echo MP_VERSION;?></td>
+                    <td align="left"><?php echo $this->t('MP_VERSION');?>：</td><td align="right"><?php echo MP_VERSION;?></td>
                 </tr>
                 <tr>
-                    <td align="left"><b>系统信息</b></td>
+                    <td align="left"><b><?php echo $this->t('SYS_INFO');?></b></td>
                 </tr>
                 <tr>
-                    <td align="left">PHP版本：</td><td align="right"><?php echo PHP_VERSION;?></td>
+                    <td align="left"><?php echo $this->t('PHP_VERSION');?>：</td><td align="right"><?php echo PHP_VERSION;?></td>
                 </tr>
                 <tr>
-                    <td align="left">GD版本： </td><td align="right"><?php echo $gd_version;?></td>
+                    <td align="left"><?php echo $this->t('GD_VERSION');?>： </td><td align="right"><?php echo $gd_version;?></td>
                 </tr>
                 <tr>
-                    <td align="left">安全模式：</td><td align="right"><?php echo $isSafeMode;?></td>
+                    <td align="left"><?php echo $this->t('SAFE_MODE');?>：</td><td align="right"><?php echo $isSafeMode;?></td>
                 </tr>
                 <tr>
                     <td align="left">Register_Globals：</td><td align="right"><?php echo $register_globals;?></td>
@@ -79,29 +79,29 @@
         <div id="tagContent1" <?php if($current_tab=='siteset'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
             <form action="index.php?action=set_config" method="post">
                 <fieldset>
-                <legend>整体设置</legend>
+                <legend><?php echo $this->t('SYS_CONF');?></legend>
                 <table cellpadding="0" cellspacing="0" width="600px">
                     <tr>
-                        <td width="150px">留言板名称:</td><td align="left"><input name="board_name" type="text" size="20" value="<?php echo $this->_board_name;?>" /></td>
+                        <td width="150px"><?php echo $this->t('BOARD_NAME');?>:</td><td align="left"><input name="board_name" type="text" size="20" value="<?php echo $this->_board_name;?>" /></td>
                     </tr>
                     <tr>
-                        <td>关闭站点:</td><td align="left"><input name="mb_open" type="radio" value="1" 
+                        <td><?php echo $this->t('CLOSE_BOARD');?>:</td><td align="left"><input name="mb_open" type="radio" value="1" 
                 <?php if($this->_mb_open==1){?> checked='checked' <?php }?> />是<input name="mb_open" type="radio" value="0" <?php if($this->_mb_open==0){?> checked='checked' <?php }?> />否</td>
                     </tr>
                     <tr>
-                        <td>关闭原因:</td><td align="left"><textarea name="close_reason" cols="30" rows="3"><?php echo $this->_close_reason;?></textarea></td>
+                        <td><?php echo $this->t('CLOSE_REASON');?>:</td><td align="left"><textarea name="close_reason" cols="30" rows="3"><?php echo $this->_close_reason;?></textarea></td>
                     </tr>
                     <tr>
-                        <td>站长信箱:</td><td align="left"><input name="admin_email" type="text" size="20" value="<?php echo $this->_admin_email;?>" /></td>
+                        <td><?php echo $this->t('ADMIN_EMAIL');?>:</td><td align="left"><input name="admin_email" type="text" size="20" value="<?php echo $this->_admin_email;?>" /></td>
                     </tr>
                     <tr>
-                        <td>版权信息:</td><td align="left"><textarea name="copyright_info" cols="30" rows="3"><?php echo $this->_copyright_info;?></textarea></td>
+                        <td><?php echo $this->t('COPY_INFO');?>:</td><td align="left"><textarea name="copyright_info" cols="30" rows="3"><?php echo $this->_copyright_info;?></textarea></td>
                     </tr>
                     <tr>
-                        <td>外观主题:</td><td align="left"><select name="theme"><?php foreach ($themes as $per_theme){?><option value="<?php echo $per_theme;?>" <?php if($per_theme==$this->_theme){echo 'selected="selected"';}?>><?php echo $per_theme;?></option><?php }?></select></td>
+                        <td><?php echo $this->t('SYS_THEME');?>:</td><td align="left"><select name="theme"><?php foreach ($themes as $per_theme){?><option value="<?php echo $per_theme;?>" <?php if($per_theme==$this->_theme){echo 'selected="selected"';}?>><?php echo $per_theme;?></option><?php }?></select></td>
                     </tr>
                     <tr>
-                        <td>使用时区:</td>
+                        <td><?php echo $this->t('TIMEZONE');?>:</td>
 						<td align="left">
 							<select name="timezone">
 						
@@ -118,32 +118,32 @@
                 </table>
                 </fieldset>
                 <fieldset>
-                <legend>留言设置</legend>
+                <legend><?php echo $this->t('POST_CONF');?></legend>
                 <table cellpadding="0" cellspacing="0" width="600px">
                     <tr>
-                        <td width="150px">过滤词汇：</td><td align="left"><textarea name="filter_words" cols="20" rows="3"><?php echo $this->_filter_words;?></textarea></td>
+                        <td width="150px"><?php echo $this->t('FILTER_WORDS');?>：</td><td align="left"><textarea name="filter_words" cols="20" rows="3"><?php echo $this->_filter_words;?></textarea></td>
                     </tr>
                     <tr>
-                        <td>启用验证码：</td><td align="left"><input name="valid_code_open" type="radio" value="1" 
+                        <td><?php echo $this->t('ENABLE_CAPTCHA');?>：</td><td align="left"><input name="valid_code_open" type="radio" value="1" 
                 <?php if($this->_valid_code_open==1){?> checked='checked' <?php }?> />启用<input name="valid_code_open" type="radio" value="0" <?php if($this->_valid_code_open==0){?> checked='checked' <?php }?> />关闭</td>
                     </tr>
                     <tr>
-                        <td>启用分页功能：</td><td align="left"><input name="page_on" type="radio" value="1" <?php if($this->_page_on==1){?> checked='checked' <?php }?> />启用<input name="page_on" type="radio" value="0" <?php if($this->_page_on==0){?> checked='checked'<?php }?> />关闭</td>
+                        <td><?php echo $this->t('ENABLE_PAGE');?>：</td><td align="left"><input name="page_on" type="radio" value="1" <?php if($this->_page_on==1){?> checked='checked' <?php }?> />启用<input name="page_on" type="radio" value="0" <?php if($this->_page_on==0){?> checked='checked'<?php }?> />关闭</td>
                     </tr>
                     <tr>
-                        <td>每页显示留言数：</td><td align="left"><input name="num_perpage" type="text" value="<?php echo $this->_num_perpage;?>" />(当分页启用后，此设置起效)</td>
+                        <td><?php echo $this->t('POST_PERPAGE');?>：</td><td align="left"><input name="num_perpage" type="text" value="<?php echo $this->_num_perpage;?>" />(当分页启用后，此设置起效)</td>
                     </tr>
                 </table>
                 </fieldset>
                 <fieldset>
-                <legend>管理员帐户</legend>
+                <legend><?php echo $this->t('ADMIN_CONF');?></legend>
                 <table cellpadding="0" cellspacing="0" width="600px">
                     <tr>
-                        <td>修改密码:</td><td align="left"><input name="password" type="password"  />&nbsp;如果您想修改您的密码请输入一个新密码，否则请留空</td>
+                        <td><?php echo $this->t('CHANGE_PWD');?>:</td><td align="left"><input name="password" type="password"  />&nbsp;如果您想修改您的密码请输入一个新密码，否则请留空</td>
                     </tr>
                 </table>
                 </fieldset>
-            <input type="submit" value="提交" /><input type="reset" value="重设" />
+            <input type="submit" value="<?php echo $this->t('SUBMIT');?>" /><input type="reset" value="<?php echo $this->t('RESET');?>" />
             </form>
         
         </div>
@@ -153,7 +153,7 @@
             <form id="message_manage" action="index.php?action=delete_multi_messages" method="post">
             <table class="table2">
                 <tr class="header">
-                    <td width="51">选择</td><td width="55" class="nickname">昵称</td><td width="379" class="message">留言</td><td width="140">操作</td>
+                    <td width="51"><?php echo $this->t('SELECT');?></td><td width="55" class="nickname"><?php echo $this->t('NICKNAME');?></td><td width="379" class="message"><?php echo $this->t('MESSAGE');?></td><td width="140"><?php echo $this->t('OPERATION');?></td>
                 </tr>
             <?php foreach($data as $m){?>    
             
@@ -162,15 +162,21 @@
                     <input type='hidden' name='<?php echo $m['id'];?>' value='<?php if(@$m['reply']){ echo "1";}else{echo "0";}?>' />
                 </td>
                 <td class='left'>	<?php echo $m['user'];?></td>
-                <td class='left'><?php echo $this->parse_smileys(mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8'),$this->_smileys_dir,$this->_smileys);?><br />时间：<?php echo date('m-d H:i',$m['time']+ $this->_time_zone*60*60);?> <?php if(@$m['reply']==true){?>  <br /><font color="red">您回复：</font> <?php echo $this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys)." Time:".date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60);?><span>&nbsp;<a href="index.php?action=delete_reply&amp;mid=<?php echo $m['id'];?>">删除回复</a></span><?php }?></td>
-                <td><a href='index.php?action=delete_message&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){ echo "1";}else{ echo "0";}?>'>删除</a>
-                <a href='index.php?action=reply&amp;mid=<?php echo $m['id'];?>'>回复</a>
-                <a href='index.php?action=update&amp;mid=<?php echo $m['id'];?>'>更新</a>
-                <a href='index.php?action=ban&amp;ip=<?php echo $m['ip'];?>'>屏蔽</a></td>
+                <td class='left'><?php echo $this->parse_smileys(mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8'),$this->_smileys_dir,$this->_smileys);?><br /><?php echo $this->t('TIME');?>：<?php echo date('m-d H:i',$m['time']+ $this->_time_zone*60*60);?> 
+                <?php if(@$m['reply']==true){?> 
+                <br />
+                 <?php echo sprintf($this->t('YOU_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));?>
+                 <span>&nbsp;<a href="index.php?action=delete_reply&amp;mid=<?php echo $m['id'];?>"><?php echo $this->t('DELETE_THIS_REPLY');?></a></span>
+                 
+            <?php }?></td>
+                <td><a href='index.php?action=delete_message&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){ echo "1";}else{ echo "0";}?>'><?php echo $this->t('DELETE');?></a>
+                <a href='index.php?action=reply&amp;mid=<?php echo $m['id'];?>'><?php echo $this->t('REPLY');?></a>
+                <a href='index.php?action=update&amp;mid=<?php echo $m['id'];?>'><?php echo $this->t('UPDATE');?></a>
+                <a href='index.php?action=ban&amp;ip=<?php echo $m['ip'];?>'><?php echo $this->t('BAN');?></a></td>
             </tr>
            <?php }?>
             
-            <tr><td colspan='4' align='left'><a href="#" onclick="changeAllCheckboxes('message_manage',true,'select_mid[]'); return false;">全选</a> &nbsp; <a href="#" onclick="changeAllCheckboxes('message_manage',false,'select_mid[]'); return false;">全不选</a> &nbsp;<a href="#" onclick="changeAllCheckboxes('message_manage','xor','select_mid[]'); return false;">反选</a>&nbsp;<input type='submit' value='删除所选' />&nbsp;<input type='button' value='清空所有留言'  onclick="javascript:if(window.confirm('你确实要删除所有留言吗？同时会删除所有回复'))window.open('index.php?action=clear_all','_self')" />&nbsp;<input type='button' value='清空所有回复' onclick="javascript:if(window.confirm('你确实要删除所有回复？'))window.open('index.php?action=clear_reply','_self')" /><input type='button' value='备份数据' onclick="javascript:window.open('index.php?action=backup','_self')" /></td></tr>
+            <tr><td colspan='4' align='left'><a href="#" onclick="changeAllCheckboxes('message_manage',true,'select_mid[]'); return false;"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" onclick="changeAllCheckboxes('message_manage',false,'select_mid[]'); return false;"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" onclick="changeAllCheckboxes('message_manage','xor','select_mid[]'); return false;">反选</a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL');?>'  onclick="javascript:if(window.confirm('你确实要删除所有留言吗？同时会删除所有回复'))window.open('index.php?action=clear_all','_self')" />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL_REPLY');?>' onclick="javascript:if(window.confirm('你确实要删除所有回复？'))window.open('index.php?action=clear_reply','_self')" /><input type='button' value='<?php echo $this->t('BACKUP');?>' onclick="javascript:window.open('index.php?action=backup','_self')" /></td></tr>
             
             </table>
             </form>
@@ -182,7 +188,7 @@
                 <form id="banip_manage" action="index.php?action=ip_update" method="post">
                 <table class="table2">
                     <tr class="header">
-                        <td>选择</td><td>被屏蔽的IP地址</td>
+                        <td><?php echo $this->t('SELECT');?></td><td><?php echo $this->t('BAD_IP');?></td>
                     </tr>
                 <?php foreach($ban_ip_info as $m){?>    
                 <tr class='admin_message'>
@@ -191,7 +197,7 @@
                 </tr>
                 <?php }?>
                 
-                <tr><td colspan='2' align='left'><a href="#" onclick="changeAllCheckboxes('banip_manage',true,'select_ip[]'); return false;">全选</a> &nbsp; <a href="#" onclick="changeAllCheckboxes('banip_manage',false,'select_ip[]'); return false;">全不选</a> &nbsp;<a href="#" onclick="changeAllCheckboxes('banip_manage','xor','select_ip[]'); return false;">反选</a>&nbsp;<input type='submit' value='删除所选' /></td></tr>
+                <tr><td colspan='2' align='left'><a href="#" onclick="changeAllCheckboxes('banip_manage',true,'select_ip[]'); return false;"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" onclick="changeAllCheckboxes('banip_manage',false,'select_ip[]'); return false;"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" onclick="changeAllCheckboxes('banip_manage','xor','select_ip[]'); return false;">反选</a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' /></td></tr>
                 
                 </table>
                 </form>
