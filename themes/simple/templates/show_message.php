@@ -12,18 +12,19 @@ echo "<meta http-equiv='Refresh' content='$time_delay;URL=$redirect_url' />";
 }
 ?>
 <style type='text/css'>
-P,BODY{FONT-FAMILY:tahoma,arial,sans-serif;FONT-SIZE:11px;}
-A { TEXT-DECORATION: none;}
+p,body{font-family:tahoma,arial,sans-serif;font-size:11px;}
+a { text-decoration: none;}
 a:hover{ text-decoration: underline;}
-TD { BORDER-RIGHT: 1px; BORDER-TOP: 0px; FONT-SIZE: 16pt; COLOR: #000000;}
+td { border-right: 1px; border-top: 0px; font-size: 16pt; color: #000000;}
 </style>
 </head>
 <body>
-<table style='TABLE-LAYOUT:fixed;'><tr><td>
+<table style='table-layout:fixed;'><tr><td>
 <?php
 echo '<pre>';
 print_r($msg);
 echo '</pre>';
 ?>
 <br><br><?php echo htmlspecialchars_decode($this->_copyright_info);?>
-</td></tr></table></body></html>
+</td></tr></table>
+</body></html>

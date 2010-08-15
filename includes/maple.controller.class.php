@@ -252,7 +252,7 @@ class Maple_Controller
     private function set_admin_email()
     {
         is_admin();
-        $admin_email=$_POST['admin_email']?$this->maple_quotes($_POST['admin_email']):'admin@rainyjune.cn';
+        $admin_email=$_POST['admin_email']?$this->maple_quotes($_POST['admin_email']):'rainyjune@live.cn';
         $str="\n\$admin_email='$admin_email';";
         $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
     }
@@ -268,7 +268,7 @@ class Maple_Controller
     private function set_copyright_info()
     {
         is_admin();
-        @$copyright_info=$_POST['copyright_info']?$this->maple_quotes($_POST['copyright_info']):'Copyright &copy; 2009 rainyjune';
+        @$copyright_info=$_POST['copyright_info']?$this->maple_quotes($_POST['copyright_info']):'Copyright &copy; 2010 dreamneverfall.cn';
         $str="\n\$copyright_info='$copyright_info';";
         $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
     }
@@ -350,7 +350,7 @@ class Maple_Controller
     private function set_theme()
     {
         is_admin();
-        $theme=in_array($_POST['theme'], $this->get_all_themes())?$_POST['theme']:'default';
+        $theme=in_array($_POST['theme'], $this->get_all_themes())?$_POST['theme']:'simple';
         $str="\n\$theme='$theme';";
         $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
     }
@@ -407,24 +407,23 @@ class Maple_Controller
     {
         if ($this->_mb_open==1)
             $this->show_message($this->_close_reason);
-        $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
         $data=$this->get_all_data(TRUE,TRUE);
+        $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
         $nums=$this->_model->june_num_rows($data);
-        if($this->_page_on)
-            $data=$this->page_wrapper($data, $nums, $current_page);
-        $pages=ceil($nums/$this->_num_perpage);
-        $smileys=$this->show_smileys_table();
-        $admin=isset($_SESSION['admin'])?true:false;
-        include 'themes/'.$this->_theme.'/templates/'."index.php";
-    }
-
-    function page_wrapper($data,$nums,$current_page)
-    {
         $pages=ceil($nums/$this->_num_perpage);
         if($current_page>=$pages)
             $current_page=$pages-1;
         if($current_page<0)
             $current_page=0;
+        if($this->_page_on)
+            $data=$this->page_wrapper($data, $current_page);
+        $smileys=$this->show_smileys_table();
+        $admin=isset($_SESSION['admin'])?true:false;
+        include 'themes/'.$this->_theme.'/templates/'."index.php";
+    }
+
+    function page_wrapper($data,$current_page)
+    {
         $start=$current_page*$this->_num_perpage;
         $data=array_slice($data,$start,$this->_num_perpage);
         return $data;
@@ -446,17 +445,10 @@ class Maple_Controller
 				exit;
 			}
 			else
-			{
 				$errormsg="错误：无效用户或密码.";
-				include 'themes/'.$this->_theme.'/templates/'."login.php";
-				exit;
-			}
         }
-        else
-        {
-			include 'themes/'.$this->_theme.'/templates/'."login.php";
-            exit;
-        }
+		include 'themes/'.$this->_theme.'/templates/'."login.php";
+        exit;
     }
 
     function logout()
@@ -516,7 +508,7 @@ class Maple_Controller
 			$reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
 			$time=time();
 			if (trim($reply_content)=='')
-				$this->show_message('回复不可以为空',true,'index.php?action=admin&subtab=message',3);
+				$this->show_message('回复不可以为空',true,'index.php?action=control_panel&subtab=message',3);
 			if(isset($_POST['update']))
 			{
 				$input=array($mid,$reply_content,$time);
@@ -554,7 +546,7 @@ class Maple_Controller
 			$mid=(int)$_POST['mid'];
 			$author=$_POST['author'];
 			$m_time=$_POST['m_time'];
-			$update_content = htmlspecialchars(trim($_POST['update_content']));
+			$update_content = htmlspecialchars(trim($_POST['update_content']),ENT_COMPAT,'UTF-8');
 			$update_content = nl2br($update_content);
 			$update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
 			$ip=$_POST['ip'];
@@ -693,17 +685,11 @@ class Maple_Controller
 		{
             $gd_info=gd_info();
             if (defined(GD_VERSION))
-			{
 				$gd_version=GD_VERSION;
-			}
             elseif ($gd_info)
-            {
                 $gd_version=$gd_info['GD Version'];
-            }
             else
-            {
 				$gd_version='<font color="red">未知</font>';
-            }
         }
         else
             $gd_version='<font color="red">GD不支持</font>';
@@ -711,7 +697,7 @@ class Maple_Controller
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
         $allow_url_fopen=ini_get("allow_url_fopen") ? 'On' : 'Off';
-		$timezone_array=get_all_timezone();//var_dump($timezone_array);exit;
+		$timezone_array=get_all_timezone();
         include 'themes/'.$this->_theme.'/templates/'."admin.php";
     }
 
@@ -776,9 +762,7 @@ class Maple_Controller
         	$ip_array[$i]=trim($ip_array[$i]["ip"]);
         }
         $new_ip_array=array_diff($ip_array,$ip_update_array);
-        var_dump($new_ip_array);//exit;
         $new_ip_string=implode("\n",$new_ip_array);
-        var_dump($new_ip_string);//exit;
         if ($new_ip_array) 
         	$new_ip_string.="\n";;        
         $ip_filename=$this->_model->_db_root_dir.$this->_dbname.'/'.$this->_banedip_table_name.$this->_model->_data_ext;
@@ -857,7 +841,7 @@ EOF;
 		$admin_name_array=array('admin','root','administrator','管理员');
 		if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
 			$user='anonymous';
-		$content =isset($_POST['content'])?htmlspecialchars(trim($_POST['content'])):'';
+		$content =isset($_POST['content'])?htmlspecialchars(trim($_POST['content']),ENT_COMPAT,'UTF-8'):'';
 		$content = nl2br($content);
 		$content = str_replace(array("\n", "\r\n", "\r"), '', $content);
 		$time=time();
@@ -878,26 +862,6 @@ EOF;
 		}
 		$new_data=array(NULL,$user,$content,$time,$current_ip);
 		return $new_data;
-    }
-    /**
-     * 增加回复
-     * @param integer $mid
-     * @param string $new_reply
-     */
-    function add_reply($mid,$new_reply)
-    {
-        is_admin();
-		if($new_reply=='')
-		{
-			$this->show_message("您回复为空？！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
-			exit;
-		}
-		if($mid < 0)
-		{
-			$this->show_message("非法操作！<a href='".$_SERVER['HTTP_REFERER']."'>返回</a>中...",true,$_SERVER['HTTP_REFERER']);
-			exit;
-		}
-		$this->_model->_writeover($this->_r_file,$new_reply,'ab');
     }
 
     function get_all_data($parse_smileys=true,$filter_words=false)
