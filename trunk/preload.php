@@ -49,7 +49,7 @@ function maple_unset_globals()
 }
 maple_unset_globals();
 
-define('MP_VERSION','1.7');
+define('MP_VERSION','1.8');
 require 'includes/functions.php';
 require 'includes/maple.controller.class.php';
 

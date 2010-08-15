@@ -29,7 +29,7 @@ counts();
 
 </div>
 <div id="buttom_div">
-Powered by MapleLeaf <?php echo MP_VERSION;?> Copyright &copy;2009
+Powered by MapleLeaf <?php echo MP_VERSION;?> Copyright &copy;2008-2010
 </div>
 </body>
 </html>
