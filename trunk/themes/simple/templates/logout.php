@@ -4,7 +4,7 @@
         <meta http-equiv="pragma" content="no-cache" />
         <meta http-equiv="Cache-Control" content="no-cache,   must-revalidate" />
         <meta http-equiv="expires"   content="0" />
-<title>管理退出</title>
+<title><?php echo $this->t('LOGOUT');?></title>
 <link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/logout.css';?>"  />
 <script type="text/javascript" src="./includes/logout.js"></script>
 <?php if($old_user==true)
@@ -15,7 +15,7 @@
 </head>
 <body>
 <div id="lay">
-<h1>退出管理</h1>
+<h1><?php echo $this->t('LOGOUT');?></h1>
 <?php if($old_user==true){?>
 您已成功退出.<img src='<?php echo $this->_smileys_dir;?>smile.gif'alt="smile">
 您将在 <span id="sss"></span> 秒后返回主页

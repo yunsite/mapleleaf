@@ -3,7 +3,7 @@
 function_exists('ob_gzhandler') ? ob_start('ob_gzhandler') : ob_start();
 ?>
 <html>
-<head><title>提示信息</title>
+<head><title><?php echo $this->t('TIPS');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
 <?php
 if($redirect==true)

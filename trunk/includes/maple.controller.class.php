@@ -27,6 +27,7 @@ class Maple_Controller
     public  $_theme;//     * 当前的页面主题
     public  $_site_conf_file='config.php';//     * 站点配置文件位置
     public  $_themes_directory='themes/';//     * 主题文件的目录
+    public	$_lang_directory='lang';//语言包位置
     public  $_smileys_dir='misc/';//     * 表情图片所在的文件夹位置
     public  $_errors=array();//     * 保存错误信息
     public  $_dbname='mapleleaf';//数据库名称
@@ -963,6 +964,99 @@ EOF;
 			$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
 		}
 		return $str;
+    }
+    
+    function t($str)
+    {
+    	$lang=array(
+    		'WELCOME'=>'欢迎访问 %s',
+    		'WELCOME_POST'=>'欢迎留言'
+    		//(Ctrl+Enter提交)
+    	);
+    	$lang=array(
+    		'WELCOME_SYS'=>'Welcome to MapleLeaf',
+    		'THANKS'=>'Thanks for using MapleLeaf.',
+    		'STATS_INFO'=>'Statics Info',
+    		'NUM_POSTS'=>'Number of Posts',
+    		'NUM_REPLY'=>'Number of Replies',
+    		'MP_VERSION'=>'MapleLeaf Version',
+    		'SYS_INFO'=>'System Info',
+    		'PHP_VERSION'=>'PHP Version',
+    		'GD_VERSION'=>'GD Version',
+    		'SAFE_MODE'=>'Safe Mode',
+    		'SYS_CONF'=>'System Configuration',
+    		'BOARD_NAME'=>'Board Name',
+    		'CLOSE_BOARD'=>'Close Site?',
+    		'CLOSE_REASON'=>'Close Reason',
+    		'COPY_INFO'=>'Copyright Info',
+    		'SYS_THEME'=>'Theme',
+    		'TIMEZONE'=>'Timezone',
+    		'POST_CONF'=>'Post Configuration',
+    		'FILTER_WORDS'=>'Bad Words',
+    		'ENABLE_CAPTCHA'=>'Enable Captcha?',
+    		'ENABLE_PAGE'=>'Enable Pagination?',
+    		'POST_PERPAGE'=>'Post each page',
+    		'ADMIN_CONF'=>'Admin Account Configuration',
+    		'CHANGE_PWD'=>'New Password',
+    		'RESET'=>'Reset',
+    		'SELECT'=>'Select',
+    		'OPERATION'=>'Operation',
+    		'REPLY'=>'Reply',
+    		'UPDATE'=>'Update',
+    		'BAN'=>'Ban',
+    		'DELETE'=>'Delete',
+    		'YOU_REPLIED'=>'<font color="red">You replied at %s :</font> %s',
+    		'DELETE_THIS_REPLY'=>'Delete this reply',
+    		'CHECK_ALL'=>'Check All',
+    		'CHECK_NONE'=>'Check None',
+    		'DELETE_CHECKED'=>'Delete Checked',
+    		'DELETE_ALL'=>'Delete All',
+    		'DELETE_ALL_REPLY'=>'Delete All Replies',
+    		'BACKUP'=>'Backup',
+    		'BAD_IP'=>'Bad IP',
+    		'CANCEL'=>'Cancel',
+    		'TIPS'=>'Tips',
+    	////////////////////
+    		'WELCOME'=>'Welcome to %s',
+    		'WELCOME_POST'=>'Welcome to post',
+    		'NICKNAME'=>'NickName',
+    		'MESSAGE'=>'Message',
+    		'TIME'=>'Time',
+    		'ADMIN_REPLIED'=>'<font color="red">Admin replied at %s :</font> %s',
+    		'CLICK_POST'=>'Click to post',
+    		'CONTENT'=>'Content',
+    		'SUBMIT'=>'Submit',
+    		'POST_SHORTCUT'=>'Press Ctrl+Enter to post',
+    		'ADMIN_EMAIL'=>'Email',
+    		'ACP'=>'Admin',
+    		'ACP_INDEX'=>'Admin Control Panel',
+    		'VALIDATE_CODE'=>'CAPTCHA',
+    		'ACP_LOGIN'=>'Admin Control Panel Login',
+    		'BACK'=>'Back to Home',
+    		'LOGIN'=>'Login',
+    		'ADMIN_NAME'=>'Name',
+    		'ADMIN_PWD'=>'Password',
+    		'HOME'=>'Home',
+    		'LOGOUT'=>'Logout',
+    		'ACP_OVERVIEW'=>'Overview',
+    		'ACP_CONFSET'=>'Configuration',
+    		'ACP_MANAGE_POST'=>'Manage Posts',
+    		'ACP_MANAGE_IP'=>'Bad Ips'
+    	);
+    	return str_replace($str,$lang[$str],$str);
+    }
+    
+    function get_all_langs()
+    {
+    	$langs=array();
+        $d=dir($this->_lang_directory);
+        while(false!==($entry=$d->read()))
+        {
+            if(substr($entry,0,1)!='.')
+                $langs[]=substr($entry,0,-4);
+        }
+        $d->close();
+        return $langs;
     }
 }
 

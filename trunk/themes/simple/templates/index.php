@@ -10,22 +10,31 @@
 <link rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/smiley_common.css';?>" type="text/css"/>
 <script type="text/javascript" src="./includes/jquery.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/index.js';?>"></script>
-<title>欢迎光临<?php echo $this->_board_name;?></title>
+<title><?php echo sprintf($this->t('WELCOME'),$this->_board_name);?></title>
 </head>
 
 <body>
 <div id="container">
-<h1>欢迎留言</h1>
+<h1><?php echo $this->t('WELCOME_POST');?></h1>
 <table id="main_table" cellspacing="0" >
 	<tr class="header">
-		<td class="nickname">昵称</td>
-		<td class="message">留言</td>
-		<td>时间</td>
+		<td class="nickname"><?php echo $this->t('NICKNAME');?></td>
+		<td class="message"><?php echo $this->t('MESSAGE');?></td>
+		<td><?php echo $this->t('TIME');?></td>
 	</tr>
 	<?php foreach($data as $m){?>
     <tr class='message'>
     	<td class='left'><?php echo str_replace('Admin',"<font color='red'>Admin</font>",$m['user']);?></td>
-        <td class='left'><?php echo $this->parse_smileys(mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8'),$this->_smileys_dir,$this->_smileys);?><br /><?php if(@$m['reply']){?><font color='red'>Admin于<?php echo date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60);?>回复：</font><?php echo $this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys);?> <?php }?></td>
+        <td class='left'><?php echo $this->parse_smileys(mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8'),$this->_smileys_dir,$this->_smileys);?><br />
+        				 <?php 
+        				 	if(@$m['reply']){
+        				 ?>
+        				 <?php echo sprintf($this->t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));?>
+        				  
+        				 <?php 
+        				 }
+        				 ?>
+        </td>
         <td class='center'><?php echo date('m-d H:i',$m['time']+$this->_time_zone*60*60);?></td>
     </tr>
     <?php }?>
@@ -50,11 +59,11 @@
 <br />
 
 
-<div align="center" id="pleasepost">点击留言：</div>
+<div align="center" id="pleasepost"><?php echo $this->t('CLICK_POST');?></div>
 <form name="guestbook" action="index.php?action=post" method="post"	onsubmit="return checkall()">
 <table id="add_table">
 	<tr>
-		<td class="alignright">昵称</td>
+		<td class="alignright"><?php echo $this->t('NICKNAME');?></td>
 		<td class="alignleft"><?php if($admin == true){?>
         				<input name="user" id="user" type="hidden" maxlength="10"  onfocus="clear_user()" value="Admin" /><font color="red">Admin</font>
 						<?php }else{?>
@@ -66,7 +75,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="alignright" valign="top">留言</td>
+		<td class="alignright" valign="top"><?php echo $this->t('CONTENT');?></td>
 		<td class="left">
 
 		<textarea id="content" name="content" cols="45" rows="8" onkeyup="javascript:return ctrlEnter(event);"></textarea></td>
@@ -76,7 +85,7 @@
 	</tr>
 	<?php if($this->_valid_code_open){?>
 	<tr>
-		<td class="l">验证码</td>
+		<td class="l"><?php echo $this->t('VALIDATE_CODE');?></td>
 		<td class="left">
 			<input id="valid_code" type="text" name="valid_code" size="4"
 			maxlength="4" />&nbsp;<img src="./includes/showimgcode.php"
@@ -87,14 +96,14 @@
 	<tr>
 		<td>&nbsp;</td>
 		<td colspan="2" class="left"><input id="submit" name="submit" type="submit"
-			value="提交留言" /><font color="green" size="2">(Ctrl+Enter提交)</font></td>
+			value="<?php echo $this->t('SUBMIT');?>" /><font color="green" size="2"><?php echo $this->t('POST_SHORTCUT');?></font></td>
 	</tr>
 
 </table>
 </form>
 
 
-    <div class="botton">&nbsp;<?php echo htmlspecialchars_decode($this->_copyright_info);?>&nbsp;<a href="mailto:<?php echo $this->_admin_email;?>">站长信箱</a> <a href="index.php?action=control_panel">管理</a><br />Powered by <a href="http://maple.dreamneverfall.cn" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a>
+    <div class="botton">&nbsp;<?php echo htmlspecialchars_decode($this->_copyright_info);?>&nbsp;<a href="mailto:<?php echo $this->_admin_email;?>"><?php echo $this->t('ADMIN_EMAIL');?></a> <a href="index.php?action=control_panel"><?php echo $this->t('ACP');?></a><br />Powered by <a href="http://maple.dreamneverfall.cn" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a>
     </div>
 </div><!-- end container -->
 
