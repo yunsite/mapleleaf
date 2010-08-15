@@ -39,7 +39,10 @@
     </tr>
     <?php }?>
     <?php if($this->_page_on){?>
-		<tr ><td colspan='3'   class="pager">共 <?php echo $pages;?> 页 <?php echo $nums;?> 条留言
+		<tr ><td colspan='3'   class="pager">
+		
+		<?php echo sprintf($this->t('PAGE_NAV'),$nums,$pages);?>
+				
 		<?php for($i=0;$i<$pages;$i++){?>
 			<a href='index.php?pid=<?php echo $i;?>'>
                         <?php 
