@@ -380,7 +380,7 @@ class Maple_Controller
 	private function set_lang()
     {
         is_admin();
-        $lang=(isset($_POST['lang']) && in_array($_POST['lang'],$this->get_all_langs))?$_POST['lang']:'0';
+        $lang=(isset($_POST['lang']) && in_array($_POST['lang'],$this->get_all_langs()))?$_POST['lang']:'en';
         $str="\n\$lang='$lang';";
         $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
     }
