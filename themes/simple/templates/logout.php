@@ -17,14 +17,16 @@
 <div id="lay">
 <h1><?php echo $this->t('LOGOUT');?></h1>
 <?php if($old_user==true){?>
-您已成功退出.<img src='<?php echo $this->_smileys_dir;?>smile.gif'alt="smile">
-您将在 <span id="sss"></span> 秒后返回主页
+<?php echo $this->t('LOGOUT_OK');?>
+<img src='<?php echo $this->_smileys_dir;?>smile.gif'alt="smile">
+<span id="sss"></span> 
 <script type="text/javascript">
 counts();
 </script>
 <?php }else{?>
-您没有登录，所以您无需退出。 <img src='<?php echo $this->_smileys_dir;?>wink.gif'alt="wink">
-<a href="./index.php">返回留言板首页</a>
+<?php echo $this->t('LOGOUT_NONE');?>
+<img src='<?php echo $this->_smileys_dir;?>wink.gif'alt="wink">
+
 <?php }?>
 
 </div>

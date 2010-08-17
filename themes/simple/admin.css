@@ -12,7 +12,7 @@ line-height: 16px;
 margin-top:15px;
 padding-top:10px;
 margin-bottom:20px;
-height:470px;
+height:570px;
 overflow:auto;
 width:700px;
 margin:0 auto;
@@ -113,7 +113,7 @@ a:hover{
 	BORDER-BOTTOM: #aecbd4 1px solid; 
 	BACKGROUND-COLOR: #fff;
 	/*background:url(images/bg.gif) repeat-x;*/ 
-	height:575px; /*text-align:center;*/
+	height:650px; /*text-align:center;*/
 	/*overflow:scroll;*/
 }
 
