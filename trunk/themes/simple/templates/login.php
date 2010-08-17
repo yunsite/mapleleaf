@@ -8,6 +8,24 @@
 <title><?php echo $this->t('ACP_LOGIN');?></title>
 <link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/login.css';?>"  />
 <script type="text/javascript" src="./includes/login.js"></script>
+<script type="text/javascript">
+function login_check()
+{
+	var username=document.getElementById('user').value;
+	var password=document.getElementById('password').value;
+	if(username=='')
+	{
+		alert("<?php echo $this->t('USERNAME_NOT_EMPTY');?>");	
+		return false;
+	}
+	if(password=='')
+	{
+		alert("<?php echo $this->t('PWD_NOT_EMPTY');?>");	
+		return false;
+	}
+	return true;
+}
+</script>
 </head>
 <body>
 <p id="backtoindex"><a href="index.php" title="不知道自己在哪？">&larr; <?php echo $this->t('BACK');?></a></p>

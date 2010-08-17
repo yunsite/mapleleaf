@@ -1,33 +1,5 @@
 // JavaScript Document
-function checkall() {
-	var user = document.getElementById('user').value;
-	
-	var content = document.getElementById('content').value;
-	
-	if (user == "") {
-		document.getElementById("user_msg").innerHTML = "<font color='red'>用户名不可为空</font>";
-		return false;
-	}
-	if (user.length < 2) {
-		document.getElementById("user_msg").innerHTML = "<font color='red'>用户名太短</font>";
-		return false;
-	}
-	if(content.length=="")
-	{
-		alert('留言不可以为空');
-		document.getElementById('content').focus;
-		return false;
-	}
-	if(document.getElementById('valid_code') != null)
-	{
-		if(document.getElementById('valid_code').value=="")
-		{
-			alert('验证码不可以为空');
-			return false;
-		}
-	}
-	return true;
-}
+
 
 function clear_user() {
 	document.getElementById("user_msg").innerHTML = "";
