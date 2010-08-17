@@ -117,5 +117,11 @@ $lang=array(
 			'NO'=>'否',
 			'LOGIN_ERROR'=>'错误：无效用户或密码.',
 			'LOGOUT_OK'=>'您已成功退出.浏览器将被转向到首页',
-			'LOGOUT_NONE'=>'您没有登录，所以您无需退出。<a href="./index.php">返回留言板首页</a>'
+			'LOGOUT_NONE'=>'您没有登录，所以您无需退出。<a href="./index.php">返回留言板首页</a>',
+			
+			'USERNAME_NOT_EMPTY'=>'用户名不可为空~',
+			'PWD_NOT_EMPTY'=>'密码不可为空~',
+			'USERNAME_TOO_SHORT'=>'用户名太短~',
+			'MESSAGE_NOT_EMPTY'=>'留言不可为空~',
+			'CAPTCHA_NOT_EMPTY'=>'验证码不可以为空~',
     	);

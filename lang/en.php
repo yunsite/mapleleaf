@@ -120,6 +120,12 @@ $lang=array(
 			'NO'=>'No',
 			'LOGIN_ERROR'=>'Invalid username or password!',
 			'LOGOUT_OK'=>'You have loged out successfully.Browser will be redirect to Home page.',
-			'LOGOUT_NONE'=>'You are guest,so you don\'t need to logout.Go back to <a href="./index.php">Home</a>.'
+			'LOGOUT_NONE'=>'You are guest,so you don\'t need to logout.Go back to <a href="./index.php">Home</a>.',
+			
+			'USERNAME_NOT_EMPTY'=>'Username should not be empty',
+			'PWD_NOT_EMPTY'=>'Password should not be empty~',
+			'USERNAME_TOO_SHORT'=>'The username is too short',
+			'MESSAGE_NOT_EMPTY'=>'The message must not be empty~',
+			'CAPTCHA_NOT_EMPTY'=>'The captcha must not be empty~',
 			
     	);

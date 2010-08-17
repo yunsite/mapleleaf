@@ -11,6 +11,37 @@
 <script type="text/javascript" src="./includes/jquery.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/index.js';?>"></script>
 <title><?php echo sprintf($this->t('WELCOME'),$this->_board_name);?></title>
+<script type="text/javascript">
+function checkall() {
+	var user = document.getElementById('user').value;
+	
+	var content = document.getElementById('content').value;
+	
+	if (user == "") {
+		document.getElementById("user_msg").innerHTML = "<font color='red'><?php echo $this->t('USERNAME_NOT_EMPTY');?></font>";
+		return false;
+	}
+	if (user.length < 2) {
+		document.getElementById("user_msg").innerHTML = "<font color='red'><?php echo $this->t('USERNAME_TOO_SHORT');?></font>";
+		return false;
+	}
+	if(content.length=="")
+	{
+		alert("<?php echo $this->t('MESSAGE_NOT_EMPTY');?>");
+		document.getElementById('content').focus;
+		return false;
+	}
+	if(document.getElementById('valid_code') != null)
+	{
+		if(document.getElementById('valid_code').value=="")
+		{
+			alert("<?php echo $this->t('CAPTCHA_NOT_EMPTY');?>");
+			return false;
+		}
+	}
+	return true;
+}
+</script>
 </head>
 
 <body>
