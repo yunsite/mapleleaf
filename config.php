@@ -12,3 +12,4 @@ $theme='simple';
 $admin='admin';
 $password='admin';
 $timezone='8';
+$lang='en';
