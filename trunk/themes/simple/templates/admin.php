@@ -86,7 +86,7 @@
                     </tr>
                     <tr>
                         <td><?php echo $this->t('CLOSE_BOARD');?>:</td><td align="left"><input name="mb_open" type="radio" value="1" 
-                <?php if($this->_mb_open==1){?> checked='checked' <?php }?> />是<input name="mb_open" type="radio" value="0" <?php if($this->_mb_open==0){?> checked='checked' <?php }?> />否</td>
+                <?php if($this->_mb_open==1){?> checked='checked' <?php }?> /><?php echo $this->t('YES');?><input name="mb_open" type="radio" value="0" <?php if($this->_mb_open==0){?> checked='checked' <?php }?> /><?php echo $this->t('NO');?></td>
                     </tr>
                     <tr>
                         <td><?php echo $this->t('CLOSE_REASON');?>:</td><td align="left"><textarea name="close_reason" cols="30" rows="3"><?php echo $this->_close_reason;?></textarea></td>
@@ -115,6 +115,9 @@
 							</select>
 						</td>
                     </tr>
+                    <tr>
+                        <td><?php echo $this->t('LANG');?>:</td><td align="left"><select name="lang"><?php foreach ($languages as $language){?><option value="<?php echo $language;?>" <?php if($language==$this->_current_lang){echo 'selected="selected"';}?>><?php echo $language;?></option><?php }?></select></td>
+                    </tr>
                 </table>
                 </fieldset>
                 <fieldset>
@@ -125,13 +128,13 @@
                     </tr>
                     <tr>
                         <td><?php echo $this->t('ENABLE_CAPTCHA');?>：</td><td align="left"><input name="valid_code_open" type="radio" value="1" 
-                <?php if($this->_valid_code_open==1){?> checked='checked' <?php }?> />启用<input name="valid_code_open" type="radio" value="0" <?php if($this->_valid_code_open==0){?> checked='checked' <?php }?> />关闭</td>
+                <?php if($this->_valid_code_open==1){?> checked='checked' <?php }?> /><?php echo $this->t('YES');?><input name="valid_code_open" type="radio" value="0" <?php if($this->_valid_code_open==0){?> checked='checked' <?php }?> /><?php echo $this->t('NO');?></td>
                     </tr>
                     <tr>
-                        <td><?php echo $this->t('ENABLE_PAGE');?>：</td><td align="left"><input name="page_on" type="radio" value="1" <?php if($this->_page_on==1){?> checked='checked' <?php }?> />启用<input name="page_on" type="radio" value="0" <?php if($this->_page_on==0){?> checked='checked'<?php }?> />关闭</td>
+                        <td><?php echo $this->t('ENABLE_PAGE');?>：</td><td align="left"><input name="page_on" type="radio" value="1" <?php if($this->_page_on==1){?> checked='checked' <?php }?> /><?php echo $this->t('YES');?><input name="page_on" type="radio" value="0" <?php if($this->_page_on==0){?> checked='checked'<?php }?> /><?php echo $this->t('NO');?></td>
                     </tr>
                     <tr>
-                        <td><?php echo $this->t('POST_PERPAGE');?>：</td><td align="left"><input name="num_perpage" type="text" value="<?php echo $this->_num_perpage;?>" />(当分页启用后，此设置起效)</td>
+                        <td><?php echo $this->t('POST_PERPAGE');?>：</td><td align="left"><input name="num_perpage" type="text" value="<?php echo $this->_num_perpage;?>" /><?php echo $this->t('PAGINATION_TIP');?></td>
                     </tr>
                 </table>
                 </fieldset>
@@ -139,7 +142,7 @@
                 <legend><?php echo $this->t('ADMIN_CONF');?></legend>
                 <table cellpadding="0" cellspacing="0" width="600px">
                     <tr>
-                        <td><?php echo $this->t('CHANGE_PWD');?>:</td><td align="left"><input name="password" type="password"  />&nbsp;如果您想修改您的密码请输入一个新密码，否则请留空</td>
+                        <td><?php echo $this->t('CHANGE_PWD');?>:</td><td align="left"><input name="password" type="password"  />&nbsp;<?php echo $this->t('PWD_TIP');?></td>
                     </tr>
                 </table>
                 </fieldset>
@@ -176,7 +179,7 @@
             </tr>
            <?php }?>
             
-            <tr><td colspan='4' align='left'><a href="#" onclick="changeAllCheckboxes('message_manage',true,'select_mid[]'); return false;"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" onclick="changeAllCheckboxes('message_manage',false,'select_mid[]'); return false;"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" onclick="changeAllCheckboxes('message_manage','xor','select_mid[]'); return false;">反选</a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL');?>'  onclick="javascript:if(window.confirm('你确实要删除所有留言吗？同时会删除所有回复'))window.open('index.php?action=clear_all','_self')" />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL_REPLY');?>' onclick="javascript:if(window.confirm('你确实要删除所有回复？'))window.open('index.php?action=clear_reply','_self')" /><input type='button' value='<?php echo $this->t('BACKUP');?>' onclick="javascript:window.open('index.php?action=backup','_self')" /></td></tr>
+            <tr><td colspan='4' align='left'><a href="#" onclick="changeAllCheckboxes('message_manage',true,'select_mid[]'); return false;"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" onclick="changeAllCheckboxes('message_manage',false,'select_mid[]'); return false;"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" onclick="changeAllCheckboxes('message_manage','xor','select_mid[]'); return false;"><?php echo $this->t('CHECK_INVERT');?></a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL');?>'  onclick="javascript:if(window.confirm('你确实要删除所有留言吗？同时会删除所有回复'))window.open('index.php?action=clear_all','_self')" />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL_REPLY');?>' onclick="javascript:if(window.confirm('你确实要删除所有回复？'))window.open('index.php?action=clear_reply','_self')" /><input type='button' value='<?php echo $this->t('BACKUP');?>' onclick="javascript:window.open('index.php?action=backup','_self')" /></td></tr>
             
             </table>
             </form>
@@ -197,7 +200,7 @@
                 </tr>
                 <?php }?>
                 
-                <tr><td colspan='2' align='left'><a href="#" onclick="changeAllCheckboxes('banip_manage',true,'select_ip[]'); return false;"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" onclick="changeAllCheckboxes('banip_manage',false,'select_ip[]'); return false;"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" onclick="changeAllCheckboxes('banip_manage','xor','select_ip[]'); return false;">反选</a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' /></td></tr>
+                <tr><td colspan='2' align='left'><a href="#" onclick="changeAllCheckboxes('banip_manage',true,'select_ip[]'); return false;"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" onclick="changeAllCheckboxes('banip_manage',false,'select_ip[]'); return false;"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" onclick="changeAllCheckboxes('banip_manage','xor','select_ip[]'); return false;"><?php echo $this->t('CHECK_INVERT');?></a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' /></td></tr>
                 
                 </table>
                 </form>

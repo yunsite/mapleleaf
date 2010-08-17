@@ -34,6 +34,8 @@ class Maple_Controller
     public  $_message_table_name='gb';//留言信息数据表名称
     public  $_reply_table_name='reply';//回复数据表名称
     public  $_banedip_table_name='ban';//被禁止的IP列表的数据表的名称
+    public	$_current_lang;
+    public	$_lang_array;//保存语言翻译信息
     public  $_smileys = array(
     //	smiley			image name						width	height	title
 	':-)'			=>	array('grin.gif',			'19',	'19',	'grin'),
@@ -112,6 +114,7 @@ class Maple_Controller
 
     function get_all_info()
     {
+    	$this->get_lang();
         $this->get_board_name();
         $this->get_mb_open();
         $this->get_close_reason();
@@ -182,6 +185,7 @@ class Maple_Controller
         $this->set_admin_name();
         $this->set_admin_password();
         $this->set_time_zone();
+        $this->set_lang();
         header("location:index.php?action=control_panel&subtab=siteset");
     }
     public function maple_quotes($var)
@@ -368,10 +372,19 @@ class Maple_Controller
     private function set_time_zone()
     {
         is_admin();
-        $timezone=(isset($_POST['timezone']) && in_array($_POST['timezone'],array_keys(get_all_timezone())))?$_POST['timezone']:'0';
+        $timezone=(isset($_POST['timezone']) && in_array($_POST['timezone'],array_keys($this->get_all_timezone())))?$_POST['timezone']:'0';
         $str="\n\$timezone='$timezone';";
         $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
     }
+    
+	private function set_lang()
+    {
+        is_admin();
+        $lang=(isset($_POST['lang']) && in_array($_POST['lang'],$this->get_all_langs))?$_POST['lang']:'0';
+        $str="\n\$lang='$lang';";
+        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+    }
+    
     public function get_admin_name()
     {
         include $this->_site_conf_file;
@@ -446,7 +459,7 @@ class Maple_Controller
 				exit;
 			}
 			else
-				$errormsg="错误：无效用户或密码.";
+				$errormsg=$this->t('LOGIN_ERROR');
         }
 		include 'themes/'.$this->_theme.'/templates/'."login.php";
         exit;
@@ -698,7 +711,8 @@ class Maple_Controller
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
         $allow_url_fopen=ini_get("allow_url_fopen") ? 'On' : 'Off';
-		$timezone_array=get_all_timezone();
+        $languages=$this->get_all_langs();
+		$timezone_array=$this->get_all_timezone();
         include 'themes/'.$this->_theme.'/templates/'."admin.php";
     }
 
@@ -968,83 +982,29 @@ EOF;
     
     function t($str)
     {
-    	$lang=array(
-    		'WELCOME'=>'欢迎访问 %s',
-    		'WELCOME_POST'=>'欢迎留言'
-    		//(Ctrl+Enter提交)
-    	);
-    	$lang=array(
-    		'WELCOME_SYS'=>'Welcome to MapleLeaf',
-    		'THANKS'=>'Thanks for using MapleLeaf.',
-    		'STATS_INFO'=>'Statics Info',
-    		'NUM_POSTS'=>'Number of Posts',
-    		'NUM_REPLY'=>'Number of Replies',
-    		'MP_VERSION'=>'MapleLeaf Version',
-    		'SYS_INFO'=>'System Info',
-    		'PHP_VERSION'=>'PHP Version',
-    		'GD_VERSION'=>'GD Version',
-    		'SAFE_MODE'=>'Safe Mode',
-    		'SYS_CONF'=>'System Configuration',
-    		'BOARD_NAME'=>'Board Name',
-    		'CLOSE_BOARD'=>'Close Site?',
-    		'CLOSE_REASON'=>'Close Reason',
-    		'COPY_INFO'=>'Copyright Info',
-    		'SYS_THEME'=>'Theme',
-    		'TIMEZONE'=>'Timezone',
-    		'POST_CONF'=>'Post Configuration',
-    		'FILTER_WORDS'=>'Bad Words',
-    		'ENABLE_CAPTCHA'=>'Enable Captcha?',
-    		'ENABLE_PAGE'=>'Enable Pagination?',
-    		'POST_PERPAGE'=>'Post each page',
-    		'ADMIN_CONF'=>'Admin Account Configuration',
-    		'CHANGE_PWD'=>'New Password',
-    		'RESET'=>'Reset',
-    		'SELECT'=>'Select',
-    		'OPERATION'=>'Operation',
-    		'REPLY'=>'Reply',
-    		'UPDATE'=>'Update',
-    		'BAN'=>'Ban',
-    		'DELETE'=>'Delete',
-    		'YOU_REPLIED'=>'<font color="red">You replied at %s :</font> %s',
-    		'DELETE_THIS_REPLY'=>'Delete this reply',
-    		'CHECK_ALL'=>'Check All',
-    		'CHECK_NONE'=>'Check None',
-    		'DELETE_CHECKED'=>'Delete Checked',
-    		'DELETE_ALL'=>'Delete All',
-    		'DELETE_ALL_REPLY'=>'Delete All Replies',
-    		'BACKUP'=>'Backup',
-    		'BAD_IP'=>'Bad IP',
-    		'CANCEL'=>'Cancel',
-    		'TIPS'=>'Tips',
-    	////////////////////
-    		'WELCOME'=>'Welcome to %s',
-    		'WELCOME_POST'=>'Welcome to post',
-    		'NICKNAME'=>'NickName',
-    		'MESSAGE'=>'Message',
-    		'TIME'=>'Time',
-    		'PAGE_NAV'=>'We have %s posts, %s pages',
-    		'ADMIN_REPLIED'=>'<font color="red">Admin replied at %s :</font> %s',
-    		'CLICK_POST'=>'Click to post',
-    		'CONTENT'=>'Content',
-    		'SUBMIT'=>'Submit',
-    		'POST_SHORTCUT'=>'Press Ctrl+Enter to post',
-    		'ADMIN_EMAIL'=>'Email',
-    		'ACP'=>'Admin',
-    		'ACP_INDEX'=>'Admin Control Panel',
-    		'VALIDATE_CODE'=>'CAPTCHA',
-    		'ACP_LOGIN'=>'Admin Control Panel Login',
-    		'BACK'=>'Back to Home',
-    		'LOGIN'=>'Login',
-    		'ADMIN_NAME'=>'Name',
-    		'ADMIN_PWD'=>'Password',
-    		'HOME'=>'Home',
-    		'LOGOUT'=>'Logout',
-    		'ACP_OVERVIEW'=>'Overview',
-    		'ACP_CONFSET'=>'Configuration',
-    		'ACP_MANAGE_POST'=>'Manage Posts',
-    		'ACP_MANAGE_IP'=>'Bad Ips'
-    	);
+    	$lang=$this->_lang_array;
     	return str_replace($str,$lang[$str],$str);
+    }
+    
+    function get_all_timezone()
+    {
+    	//global $lang;
+    	//var_dump($this->_lang_array);exit;
+    	$timezone=$this->_lang_array['TZ_ZONES'];
+    	return $timezone;
+    }
+    
+    function get_lang()
+    {
+    	include $this->_site_conf_file;
+        if(isset ($lang) && in_array($lang,$this->get_all_langs()))
+        {
+        	$this->_current_lang=$lang;
+        	include(dirname(dirname(__FILE__)).'/lang/'.$lang.'.php');
+            $this->_lang_array=$lang;
+        }
+        else
+            $this->_errors[]="语言没有正确设置";
     }
     
     function get_all_langs()
@@ -1054,7 +1014,7 @@ EOF;
         while(false!==($entry=$d->read()))
         {
             if(substr($entry,0,1)!='.')
-                $langs[]=substr($entry,0,-4);
+                $langs[substr($entry,0,-4)]=substr($entry,0,-4);
         }
         $d->close();
         return $langs;
