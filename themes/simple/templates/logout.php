@@ -19,7 +19,7 @@
 <?php if($old_user==true){?>
 <?php echo $this->t('LOGOUT_OK');?>
 <img src='<?php echo $this->_smileys_dir;?>smile.gif'alt="smile">
-<span id="sss"></span> 
+ 
 <script type="text/javascript">
 counts();
 </script>
