@@ -9,9 +9,11 @@
 <script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/logout.js';?>"></script>
 <?php if($old_user==true)
 {
-	?>
-        <meta http-equiv="Refresh" content="5;URL=index.php" />
-<?php }?>
+?>
+	<meta http-equiv="Refresh" content="5;URL=index.php" />
+<?php 
+}
+?>
 </head>
 <body>
 <div id="lay">
@@ -19,7 +21,6 @@
 <?php if($old_user==true){?>
 <?php echo $this->t('LOGOUT_OK');?>
 <img src='<?php echo $this->_smileys_dir;?>smile.gif'alt="smile">
- 
 <script type="text/javascript">
 counts();
 </script>

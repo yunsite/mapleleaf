@@ -16,14 +16,36 @@ $(document).ready(function() {
 		}, 'slow');
 	});
 });
+window.onload=initAll;
+function initAll()
+{
+	//点击表情图像时将对应代码写入留言中
+	var smileyLinks=document.getElementsByTagName("A");
+	var captchaImg=document.getElementById("captcha_img");
+	for(var i=0;i<smileyLinks.length;i++){
+		if (smileyLinks[i].id) {
+			smileyLinks[i].onclick = insert_smiley;
+		}
+	}
+	//表单提交前执行检查
+	document.getElementById("guestbook").onsubmit=checkall;
+	document.getElementById("content").onkeyup=ctrlEnter;
+	
+	if(captchaImg){
+		captchaImg.onclick=function(){
+			captchaImg.src=captchaImg.src+"?";
+		}
+	}
+}
 function clear_user() {
 	document.getElementById("user_msg").innerHTML = "";
 	document.getElementById('user').value = '';
 }
 
-function insert_smiley(smiley)
+function insert_smiley()
 {
-	document.guestbook.content.value += " " + smiley;
+	document.getElementById("content").value +=" " + this.id;
+	return false;
 }
 function isKeyTrigger(e,keyCode){
     var argv = isKeyTrigger.arguments;

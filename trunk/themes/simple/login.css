@@ -102,7 +102,7 @@ a:hover{
 	width:98px;
 	height:33px;
 	float:left;
-	background:url(images/login_submit.gif) no-repeat;
+	background:url(images/login_icon.gif) no-repeat;
 	border:none;
 	cursor:pointer;
 }
@@ -163,8 +163,5 @@ a:hover{
 	border-width: 1px;
 	border-style: solid;
 	padding: 12px;
-	-moz-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	/*border-radius: 3px;*/
 }
