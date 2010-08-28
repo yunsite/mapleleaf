@@ -119,7 +119,7 @@ $lang=array(
 			'YES'=>'Yes',
 			'NO'=>'No',
 			'LOGIN_ERROR'=>'Invalid username or password!',
-			'LOGOUT_OK'=>'You have loged out successfully.Browser will be redirect to Home page.',
+			'LOGOUT_OK'=>'You have loged out successfully.Browser will be redirect to Home page in <span id="sss"></span> second(s).',
 			'LOGOUT_NONE'=>'You are guest,so you don\'t need to logout.Go back to <a href="./index.php">Home</a>.',
 			
 			'USERNAME_NOT_EMPTY'=>'Username should not be empty',
