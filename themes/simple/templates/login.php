@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="pragma" content="no-cache" />
-        <meta http-equiv="Cache-Control" content="no-cache,   must-revalidate" />
-        <meta http-equiv="expires"   content="0" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
+<meta http-equiv="expires"   content="0" />
 <title><?php echo $this->t('ACP_LOGIN');?></title>
 <link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/login.css';?>"  />
 <script type="text/javascript" src="./includes/login.js"></script>
@@ -58,7 +58,7 @@ function login_check()
                                             </div>
             <div class="butbox">
             <dl>
-                                        <dt><input name="submit" type="submit" value="" /></dt>
+                                        <dt><input id="submit_button" name="submit" type="submit" value="" /></dt>
                         
                                 </dl>
                         </div>

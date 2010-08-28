@@ -93,7 +93,7 @@ function checkall() {
 
 
 <div align="center" id="pleasepost"><?php echo $this->t('CLICK_POST');?></div>
-<form name="guestbook" action="index.php?action=post" method="post"	onsubmit="return checkall()">
+<form id="guestbook" name="guestbook" action="index.php?action=post" method="post"	>
 <table id="add_table">
 	<tr>
 		<td class="alignright"><?php echo $this->t('NICKNAME');?></td>
@@ -111,7 +111,7 @@ function checkall() {
 		<td class="alignright" valign="top"><?php echo $this->t('CONTENT');?></td>
 		<td class="left">
 
-		<textarea id="content" name="content" cols="45" rows="8" onkeyup="javascript:return ctrlEnter(event);"></textarea></td>
+		<textarea id="content" name="content" cols="45" rows="8" ></textarea></td>
 		<td  valign="top">
 		<div id="smileys"><?php echo $smileys;?></div>
 		</td>
@@ -121,8 +121,8 @@ function checkall() {
 		<td class="l"><?php echo $this->t('VALIDATE_CODE');?></td>
 		<td class="left">
 			<input id="valid_code" type="text" name="valid_code" size="4"
-			maxlength="4" />&nbsp;<img src="./includes/showimgcode.php"
-                        border="0" align="absbottom" onclick="this.src=this.src+'?'" title="点击刷新" style="cursor:pointer" alt="验证码图像" /></td>
+			maxlength="4" />&nbsp;<img id="captcha_img" src="./includes/showimgcode.php"
+                        border="0" align="absbottom" title="点击刷新" style="cursor:pointer" alt="验证码图像" /></td>
 		<td class="left">&nbsp;</td>
 	</tr>
 	<?php }?>

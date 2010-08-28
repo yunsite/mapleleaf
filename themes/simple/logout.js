@@ -7,6 +7,5 @@ function counts()
 	if(seq>=0)
 	{
 		window.setTimeout("counts();", interval );	
-	}
-	
+	}	
 }
