@@ -139,6 +139,17 @@ $lang=array(
 			///////////////////////////////login
 			'WHERE_AM_I'=>'Where am i?',
 			
+			//////////////////////////
+			'QUERY_ERROR'=>'Query Error',
+			'REPLY_EMPTY'=>'The reply should not be empty',
+			'BACKUP_NOTSUPPORT'=>'Your server does not support backup!',
+			'FILL_NOT_COMPLETE'=>"You have not finished all the fileds,now redirecting to <a href='./index.php'>index</a>...",
+			'WORDS_TOO_LONG'=>"Your words was too much, now redirecting to <a href='./index.php'>index</a>...",
+			'CAPTCHA_WRONG'=>"The code you entered wrong, now redirecting to <a href='./index.php'>index</a>...",
 			
+			'UNKNOWN'=>'Unknown',
+			'NOT_SUPPORT'=>'Not support',
+			
+			'LOGIN_DENIED'=>'Login denied!',
 			
     	);
