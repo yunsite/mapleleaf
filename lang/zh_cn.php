@@ -135,4 +135,18 @@ $lang=array(
 			
 			///////////////////////////////login
 			'WHERE_AM_I'=>'不知道自己在哪？',
+			
+			//////////////////////////
+			'QUERY_ERROR'=>'查询出错',
+			'REPLY_EMPTY'=>'回复不可为空',
+			'BACKUP_NOTSUPPORT'=>'你的服务器不支持此功能！',
+			'FILL_NOT_COMPLETE'=>"你没有填写完成,现在正在<a href='./index.php'>返回</a>...",
+			'WORDS_TOO_LONG'=>"您的话语太多了，现在正在<a href='./index.php'>返回</a>...",
+			'CAPTCHA_WRONG'=>"验证码错误.现在正在<a href='./index.php'>返回</a>...",
+			
+			'UNKNOWN'=>'未知',
+			'NOT_SUPPORT'=>'不支持',
+			
+			
+			'LOGIN_DENIED'=>'你被决绝登录！',
     	);
