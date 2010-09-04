@@ -124,4 +124,15 @@ $lang=array(
 			'USERNAME_TOO_SHORT'=>'用户名太短~',
 			'MESSAGE_NOT_EMPTY'=>'留言不可为空~',
 			'CAPTCHA_NOT_EMPTY'=>'验证码不可以为空~',
+			
+			////////////////////////////////////// index.php
+			'CLICK_TO_REFRESH'=>'点击刷新',
+			'CAPTCHA'=>'验证码',
+			
+			/////////////////////////////////////////// delete operation
+			'DEL_ALL_CONFIRM'=>'你确实要删除所有留言吗？同时会删除所有回复',
+			'DEL_ALL_REPLY_CONFIRM'=>'你确实要删除所有回复？',
+			
+			///////////////////////////////login
+			'WHERE_AM_I'=>'不知道自己在哪？',
     	);

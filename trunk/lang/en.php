@@ -128,4 +128,17 @@ $lang=array(
 			'MESSAGE_NOT_EMPTY'=>'The message must not be empty~',
 			'CAPTCHA_NOT_EMPTY'=>'The captcha must not be empty~',
 			
+			////////////////////////////////////// index.php
+			'CLICK_TO_REFRESH'=>'Click to refresh',
+			'CAPTCHA'=>'Captcha',
+			
+			/////////////////////////////////////////// delete operation
+			'DEL_ALL_CONFIRM'=>'Are you sure to delete all messages and all replies?',
+			'DEL_ALL_REPLY_CONFIRM'=>'Are you sure to delete all replies?',
+			
+			///////////////////////////////login
+			'WHERE_AM_I'=>'Where am i?',
+			
+			
+			
     	);

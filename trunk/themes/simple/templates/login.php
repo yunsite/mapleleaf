@@ -30,7 +30,7 @@ function login_check()
 </script>
 </head>
 <body>
-<p id="backtoindex"><a href="index.php" title="不知道自己在哪？">&larr; <?php echo $this->t('BACK');?></a></p>
+<p id="backtoindex"><a href="index.php" title="<?php echo $this->t('WHERE_AM_I');?>">&larr; <?php echo $this->t('BACK');?></a></p>
         <div class="main">
         
                 <div class="title">
