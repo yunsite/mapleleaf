@@ -19,13 +19,13 @@
 <div id="con">
     <ul id="tags">
         <li <?php if($current_tab=='overview'){?> class="selectTag"<?php }?>><a id="overview" onclick="selectTag('tagContent0',this)" 
-          href="javascript:void(0)" title="显示综合信息"><?php echo $this->t('ACP_OVERVIEW');?></a> </li>
+          href="javascript:void(0)"><?php echo $this->t('ACP_OVERVIEW');?></a> </li>
         <li <?php if($current_tab=='siteset'){?> class="selectTag"<?php }?>><a onclick="selectTag('tagContent1',this)" 
-          href="javascript:void(0)" title="配置您的站点"><?php echo $this->t('ACP_CONFSET');?></a> </li>
+          href="javascript:void(0)"><?php echo $this->t('ACP_CONFSET');?></a> </li>
         <li <?php if($current_tab=='message'){?> class="selectTag"<?php }?>><a id="message_m" onclick="selectTag('tagContent2',this)" 
-          href="javascript:void(0)" title="管理站点留言"><?php echo $this->t('ACP_MANAGE_POST');?></a> </li>
+          href="javascript:void(0)"><?php echo $this->t('ACP_MANAGE_POST');?></a> </li>
         <li <?php if($current_tab=='ban_ip'){?> class="selectTag"<?php }?>><a id="ip_m" onclick="selectTag('tagContent3',this)" 
-          href="javascript:void(0)" title="IP黑名单功能"><?php echo $this->t('ACP_MANAGE_IP');?></a> </li>
+          href="javascript:void(0)"><?php echo $this->t('ACP_MANAGE_IP');?></a> </li>
     </ul>
     <div id="tagContent">
         <div id="tagContent0" <?php if($current_tab=='overview'){?> class="tagContent selectTag" <?php } else {?>	class="tagContent" <?php }?> >
@@ -179,7 +179,7 @@
             </tr>
            <?php }?>
             
-            <tr><td colspan='4' align='left'><a href="#" onclick="changeAllCheckboxes('message_manage',true,'select_mid[]'); return false;"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" onclick="changeAllCheckboxes('message_manage',false,'select_mid[]'); return false;"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" onclick="changeAllCheckboxes('message_manage','xor','select_mid[]'); return false;"><?php echo $this->t('CHECK_INVERT');?></a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL');?>'  onclick="javascript:if(window.confirm('你确实要删除所有留言吗？同时会删除所有回复'))window.open('index.php?action=clear_all','_self')" />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL_REPLY');?>' onclick="javascript:if(window.confirm('你确实要删除所有回复？'))window.open('index.php?action=clear_reply','_self')" /><input type='button' value='<?php echo $this->t('BACKUP');?>' onclick="javascript:window.open('index.php?action=backup','_self')" /></td></tr>
+            <tr><td colspan='4' align='left'><a href="#" onclick="changeAllCheckboxes('message_manage',true,'select_mid[]'); return false;"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" onclick="changeAllCheckboxes('message_manage',false,'select_mid[]'); return false;"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" onclick="changeAllCheckboxes('message_manage','xor','select_mid[]'); return false;"><?php echo $this->t('CHECK_INVERT');?></a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL');?>'  onclick="javascript:if(window.confirm('<?php echo $this->t('DEL_ALL_CONFIRM');?>'))window.open('index.php?action=clear_all','_self')" />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL_REPLY');?>' onclick="javascript:if(window.confirm('<?php echo $this->t('DEL_ALL_REPLY_CONFIRM');?>'))window.open('index.php?action=clear_reply','_self')" /><input type='button' value='<?php echo $this->t('BACKUP');?>' onclick="javascript:window.open('index.php?action=backup','_self')" /></td></tr>
             
             </table>
             </form>
