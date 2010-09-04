@@ -11,6 +11,7 @@
 <script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/index.js';?>"></script>
 <title><?php echo sprintf($this->t('WELCOME'),$this->_board_name);?></title>
 <script type="text/javascript">
+//<![CDATA[
 function checkall() {
 	var user = document.getElementById('user').value;
 	
@@ -40,6 +41,7 @@ function checkall() {
 	}
 	return true;
 }
+//]]>
 </script>
 </head>
 
