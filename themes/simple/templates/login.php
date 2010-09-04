@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/login.css';?>"  />
 <script type="text/javascript" src="./includes/login.js"></script>
 <script type="text/javascript">
+//<![CDATA[
 function login_check()
 {
 	var username=document.getElementById('user').value;
@@ -25,6 +26,7 @@ function login_check()
 	}
 	return true;
 }
+//]]>
 </script>
 </head>
 <body>
