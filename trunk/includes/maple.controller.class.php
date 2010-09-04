@@ -4,7 +4,7 @@
  * @author      rainyjune<dreamneverfall@gmail.com>
  * @copyright   Copyright (c) 2008 - 2010 Maple Group. (http://maple.dreamneverfall.cn)
  * @license     GPL2
- * @version     2010-07-19
+ * @version     2010-09-04
  */
 include_once 'JuneTxtDb.class.php';
 include_once 'Imgcode.php';
@@ -82,6 +82,28 @@ class Maple_Controller
 	':exclaim:'		=>	array('exclaim.gif',		'19',	'19',	'excaim'),
 	':question:'	=>	array('question.gif',		'19',	'19',	'question') // no comma after last item
 	);
+	private $_coreMessage_array=array(
+		'THEMES_DIR_NOTEXISTS'=>'The directory of themes does not exists!',
+		'SMILEY_DIR_NOTEXISTS'=>'The directory of smiley `%s` does not exists!',
+		'CONFIG_FILE_NOTEXISTS'=>'The configuration file `%s` does not exists!',
+		'CONFIG_FILE_NOTWRITABLE'=>'The configuration file `%s` does not writable!',
+		
+		'SITENAME_ERROR'=>'The sitename undefined!',
+		'SITESTATUS_ERROR'=>'The status of site undefined!',
+		'SITECLOSEREASON_ERROR'=>'The maintaince message undefined!',
+		'ADMINEMAIL_ERROR'=>'Admin email undefined!',
+		'COPYRIGHT_ERROR'=>'Coptyright undefined!',
+		'BADWORDS_ERROR'=>'Bad words undefined!',
+		'CAPTCHASTATUS_ERROR'=>'The status of CAPTCHA undefined!',
+		'PAGINATIONSTATUS_ERROR'=>'The status of pagination undefined!',
+		'TIMEZONE_ERROR'=>'Timezone undefined!',
+		'PAGINATION_PARAMETER_ERROR'=>'The parameter of  pagination undefined!',
+		'THEME_ERROR'=>'Theme undefined!',
+		'ADMINNAME_ERROR'=>'Admin name undefined!',
+		'ADMINPASS_ERROR'=>'admin password undefined!',
+		'LANGUAGE_ERROR'=>'Language undefined!',
+		'QUERY_ERROR'=>'Query error!',
+	);
 
     //构造函数
     function  __construct()
@@ -99,21 +121,24 @@ class Maple_Controller
     {
         //check directories
         if (!is_dir($this->_themes_directory))
-        	die("您主题目录无效");
-        if(!is_dir($this->_smileys_dir))
-            $this->_errors[]="您所指定的表情图案目录 {$this->_smileys_dir} 不存在";
-        //check config file
+        	die($this->t('THEMES_DIR_NOTEXISTS',true));
+        //先检查配置文件是否存在和可写
         if(!file_exists($this->_site_conf_file))
-            $this->_errors[]="你所指定的配置文件 {$this->_site_conf_file} 不存在";
+            die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),$this->_site_conf_file));//"你所指定的配置文件 {$this->_site_conf_file} 不存在";
         if(!is_writable($this->_site_conf_file))
-            $this->_errors[]="你所指定的配置文件 {$this->_site_conf_file} 不可写";
+            die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),$this->_site_conf_file));//"你所指定的配置文件 {$this->_site_conf_file} 不可写";
+        //由于出现错误时需要调用 show_message 函数，而此函数依赖于当前的theme,所以需要先得到当前的 theme
+    	$this->get_theme();
+        if(!is_dir($this->_smileys_dir))
+            $this->_errors[]=sprintf($this->t('SMILEY_DIR_NOTEXISTS',true),$this->_smileys_dir);//"您所指定的表情图案目录 {$this->_smileys_dir} 不存在";
         $this->get_all_info();
         if($this->_errors)
-            $this->show_message($this->_errors);
+        	$this->show_message($this->_errors);
     }
 
     function get_all_info()
     {
+    	
     	$this->get_lang();
         $this->get_board_name();
         $this->get_mb_open();
@@ -124,7 +149,6 @@ class Maple_Controller
         $this->get_valid_code_open();
         $this->get_page_on();
         $this->get_num_perpage();
-        $this->get_theme();
         $this->get_time_zone();
         $this->get_admin_name();
         $this->get_admin_password();
@@ -142,7 +166,7 @@ class Maple_Controller
         {
             if($check)
                 return TRUE;
-            $this->show_message("你被管理员禁止登录！");
+            $this->show_message($this->t('LOGIN_DENIED'));
         }
     }
 	/**
@@ -199,13 +223,13 @@ class Maple_Controller
         if(isset ($board_name))
             $this->_board_name=$board_name;
         else
-            $this->_errors[]="留言板名称没有设置";
+            $this->_errors[]=$this->t('SITENAME_ERROR',true);    
     }
 
     private function set_board_name()
     {
         is_admin();
-        $board_name=$_POST['board_name']?$this->maple_quotes($_POST['board_name']):'风舞六月';
+        $board_name=$_POST['board_name']?$this->maple_quotes($_POST['board_name']):'MapleLeaf';
         $str='';
         $str="\n\$board_name='$board_name';";
         $this->_model->_writeover($this->_site_conf_file,$str, 'ab');
@@ -217,7 +241,7 @@ class Maple_Controller
         if(isset ($mb_open))
             $this->_mb_open=$mb_open;
         else
-            $this->_errors[]="留言板状态没有设置";
+            $this->_errors[]=$this->t('SITESTATUS_ERROR',true);
     }
 
     private function set_mb_open()
@@ -234,7 +258,7 @@ class Maple_Controller
         if(isset ($close_reason))
             $this->_close_reason=$close_reason;
         else
-            $this->_errors[]="关闭原因没有设置";
+            $this->_errors[]=$this->t('SITECLOSEREASON_ERROR',true);
     }
 
     private function set_close_reason()
@@ -251,7 +275,7 @@ class Maple_Controller
         if(isset ($admin_email))
             $this->_admin_email=$admin_email;
         else
-            $this->_errors[]="管理员Email没有填写";
+            $this->_errors[]=$this->t('ADMINEMAIL_ERROR',true);
     }
 
     private function set_admin_email()
@@ -267,7 +291,7 @@ class Maple_Controller
         if (isset ($copyright_info))
             $this->_copyright_info=$copyright_info;
         else
-            $this->_errors[]="版权信息没有填写";
+            $this->_errors[]=$this->t('COPYRIGHT_ERROR',true);
     }
 
     private function set_copyright_info()
@@ -283,7 +307,7 @@ class Maple_Controller
         if(isset ($filter_words))
             $this->_filter_words=$filter_words;
         else
-            $this->_errors[]="没有填写过滤词语";
+            $this->_errors[]=$this->t('BADWORDS_ERROR',true);
     }
 
     private function set_filter_words()
@@ -300,7 +324,7 @@ class Maple_Controller
         if(isset ($valid_code_open))
             $this->_valid_code_open=$valid_code_open;
         else
-            $this->_errors[]="验证码状态没有正确设置";
+            $this->_errors[]=$this->t('CAPTCHASTATUS_ERROR',true);
     }
 
     private function set_valid_code_open()
@@ -316,7 +340,7 @@ class Maple_Controller
         if(isset ($page_on))
             $this->_page_on=$page_on;
         else
-            $this->_errors[]="分页状态没有正确设置";
+            $this->_errors[]=$this->t('PAGINATIONSTATUS_ERROR',true);
     }
 
     private function set_page_on()
@@ -332,7 +356,7 @@ class Maple_Controller
         if(isset ($num_perpage))
             $this->_num_perpage=$num_perpage;
         else
-            $this->_errors[]="分页参数没有正确设置";
+            $this->_errors[]=$this->t('PAGINATION_PARAMETER_ERROR',true);
     }
 
     private function set_num_perpage()
@@ -349,7 +373,7 @@ class Maple_Controller
         if(isset ($theme))
             $this->_theme=$theme;
         else
-            $this->_errors[]="主题没有正确设置";
+            die('Theme undefined,please check your configuration file `config.php`!');//$this->_errors[]="主题没有正确设置";
     }
 
     private function set_theme()
@@ -366,7 +390,7 @@ class Maple_Controller
         if(isset ($timezone))
             $this->_time_zone=$timezone;
         else
-            $this->_errors[]="时区没有正确设置";
+            $this->_errors[]=$this->t('TIMEZONE_ERROR',true);
     }
 
     private function set_time_zone()
@@ -391,7 +415,7 @@ class Maple_Controller
         if(isset ($admin))
             $this->_admin_name=$admin;
         else
-            $this->_errors[]="管理员名字没有正确设置";
+            $this->_errors[]=$this->t('ADMINNAME_ERROR',true);
     }
 
     private function set_admin_name()
@@ -406,7 +430,7 @@ class Maple_Controller
         if(isset ($password))
             $this->_admin_password=$password;
         else
-            $this->_errors[]="管理员密码没有正确设置";
+            $this->_errors[]=$this->t('ADMINPASS_ERROR',true);
     }
 
     private function set_admin_password()
@@ -505,7 +529,7 @@ class Maple_Controller
 		$condition=array('id'=>$mid);
 		$reply_data=$this->_model->june_query_select_byCondition($this->_reply_table_name,$condition);
 		if ($reply_data===FALSE)
-                $this->show_message("查询出错",TRUE,'index.php?action=control_panel&subtab=message');
+        	$this->show_message($this->t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
         else
 			return $reply_data;
 	}
@@ -522,7 +546,7 @@ class Maple_Controller
 			$reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
 			$time=time();
 			if (trim($reply_content)=='')
-				$this->show_message('回复不可以为空',true,'index.php?action=control_panel&subtab=message',3);
+				$this->show_message($this->t('REPLY_EMPTY'),true,'index.php?action=control_panel&subtab=message',3);
 			if(isset($_POST['update']))
 			{
 				$input=array($mid,$reply_content,$time);
@@ -587,7 +611,7 @@ class Maple_Controller
 		$condition=array('id'=>$mid);
         $message_info=$this->_model->june_query_select_byCondition($this->_message_table_name,$condition);
         if(!$message_info)
-            $this->show_message("查询出错",TRUE,'index.php?action=control_panel&subtab=message');
+            $this->show_message($this->t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
         include 'themes/'.$this->_theme.'/templates/'."update.php";
     }
 
@@ -703,10 +727,10 @@ class Maple_Controller
             elseif ($gd_info)
                 $gd_version=$gd_info['GD Version'];
             else
-				$gd_version='<font color="red">未知</font>';
+				$gd_version='<font color="red">'.$this->t('UNKNOWN').'</font>';
         }
         else
-            $gd_version='<font color="red">GD不支持</font>';
+            $gd_version='<font color="red">GD'.$this->t('NOT_SUPPORT').'</font>';
         $isSafeMode=$isSafeMode ? 'On' : 'Off';
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
@@ -722,7 +746,7 @@ class Maple_Controller
         $dir="data/{$this->_dbname}/";
         if(!class_exists('ZipArchive'))
         {
-            $this->show_message("你的服务器不支持此功能！",true,'index.php?action=control_panel&subtab=message');
+            $this->show_message($this->t('BACKUP_NOTSUPPORT'),true,'index.php?action=control_panel&subtab=message');
             exit;
         }
         $zip = new ZipArchive();
@@ -902,18 +926,18 @@ EOF;
 		$time=time();
 		if(empty($user) or empty($content))
 		{
-			$this->show_message("你没有填写完成,现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+			$this->show_message($this->t('FILL_NOT_COMPLETE'),true,'index.php');
 			exit;
 		}
 		if(strlen($content)>580)
 		{
-			$this->show_message("您的话语太多了，现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+			$this->show_message($this->t('WORDS_TOO_LONG'),true,'index.php');
 			exit;
 		}
 		if($this->_valid_code_open==1)
 		{
 			if(!$this->checkImgcode())
-				$this->show_message("验证码错误.现在正在<a href='./index.php'>返回</a>...",true,'index.php');
+				$this->show_message($this->t('CAPTCHA_WRONG'),true,'index.php');
 		}
 		$new_data=array(NULL,$user,$content,$time,$current_ip);
 		return $new_data;
@@ -1020,9 +1044,9 @@ EOF;
 		return $str;
     }
     
-    function t($str)
+    function t($str,$isCoreMessage=false)
     {
-    	$lang=$this->_lang_array;
+    	$lang=($isCoreMessage)?$this->_coreMessage_array:$this->_lang_array;
     	return str_replace($str,$lang[$str],$str);
     }
     
@@ -1044,7 +1068,7 @@ EOF;
             $this->_lang_array=$lang;
         }
         else
-            $this->_errors[]="语言没有正确设置";
+            $this->_errors[]=$this->t('LANGUAGE_ERROR',true);
     }
     
     function get_all_langs()
