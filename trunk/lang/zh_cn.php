@@ -148,5 +148,5 @@ $lang=array(
 			'NOT_SUPPORT'=>'不支持',
 			
 			
-			'LOGIN_DENIED'=>'你被决绝登录！',
+			'LOGIN_DENIED'=>'你被拒绝登录！',
     	);
