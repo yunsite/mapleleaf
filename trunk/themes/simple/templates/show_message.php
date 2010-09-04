@@ -19,12 +19,13 @@ td { border-right: 1px; border-top: 0px; font-size: 16pt; color: #000000;}
 </style>
 </head>
 <body>
+<h2>Message:</h2>
 <table style='table-layout:fixed;'><tr><td>
 <?php
 echo '<pre>';
 print_r($msg);
 echo '</pre>';
 ?>
-<br><br><?php echo htmlspecialchars_decode($this->_copyright_info);?>
+<br><br><?php echo ($this->_copyright_info)?htmlspecialchars_decode($this->_copyright_info):"Powered by MapleLeaf";?>
 </td></tr></table>
 </body></html>
