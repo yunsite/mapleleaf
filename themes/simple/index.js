@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	initAll();
 	$("#add_table").hide();
 	$("#pleasepost").hover(function(){
 		$(this).addClass("pointer");
@@ -16,7 +17,7 @@ $(document).ready(function() {
 		}, 'slow');
 	});
 });
-window.onload=initAll;
+//window.onload=initAll;
 function initAll()
 {
 	//点击表情图像时将对应代码写入留言中
