@@ -2,7 +2,7 @@
 $lang=array(
     		'WELCOME_SYS'=>'Welcome to MapleLeaf',
     		'THANKS'=>'Thanks for using MapleLeaf.',
-    		'STATS_INFO'=>'Statics Info',
+    		'STATS_INFO'=>'Statistical Information',
     		'NUM_POSTS'=>'Number of Posts',
     		'NUM_REPLY'=>'Number of Replies',
     		'MP_VERSION'=>'MapleLeaf Version',
@@ -21,7 +21,7 @@ $lang=array(
     		'FILTER_WORDS'=>'Bad Words',
     		'ENABLE_CAPTCHA'=>'Enable Captcha?',
     		'ENABLE_PAGE'=>'Enable Pagination?',
-			'PAGINATION_TIP'=>'This item determin how much messages displayed in per page',
+			'PAGINATION_TIP'=>'This option determin how many messages  will be displayed per page',
     		'POST_PERPAGE'=>'Post each page',
     		'ADMIN_CONF'=>'Admin Account Configuration',
     		'CHANGE_PWD'=>'New Password',
@@ -145,7 +145,7 @@ $lang=array(
 			'BACKUP_NOTSUPPORT'=>'Your server does not support backup!',
 			'FILL_NOT_COMPLETE'=>"You have not finished all the fileds,now redirecting to <a href='./index.php'>index</a>...",
 			'WORDS_TOO_LONG'=>"Your words was too much, now redirecting to <a href='./index.php'>index</a>...",
-			'CAPTCHA_WRONG'=>"The code you entered wrong, now redirecting to <a href='./index.php'>index</a>...",
+			'CAPTCHA_WRONG'=>"The code you entered is wrong, now redirecting to <a href='./index.php'>index</a>...",
 			
 			'UNKNOWN'=>'Unknown',
 			'NOT_SUPPORT'=>'Not support',
