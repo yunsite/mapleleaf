@@ -116,7 +116,7 @@ $lang=array(
 			'YES'=>'是',
 			'NO'=>'否',
 			'LOGIN_ERROR'=>'错误：无效用户或密码.',
-			'LOGOUT_OK'=>'您已成功退出.<span id="sss"></span>秒后浏览器将被转向到首页',
+			'LOGOUT_OK'=>'您已成功退出.<span id="countTime"></span>秒后浏览器将被转向到首页',
 			'LOGOUT_NONE'=>'您没有登录，所以您无需退出。<a href="./index.php">返回留言板首页</a>',
 			
 			'USERNAME_NOT_EMPTY'=>'用户名不可为空~',
