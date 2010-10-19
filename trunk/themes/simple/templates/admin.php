@@ -179,7 +179,7 @@
             </tr>
            <?php }?>
             
-            <tr><td colspan='4' align='left'><a href="#" onclick="changeAllCheckboxes('message_manage',true,'select_mid[]'); return false;"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" onclick="changeAllCheckboxes('message_manage',false,'select_mid[]'); return false;"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" onclick="changeAllCheckboxes('message_manage','xor','select_mid[]'); return false;"><?php echo $this->t('CHECK_INVERT');?></a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL');?>'  onclick="javascript:if(window.confirm('<?php echo $this->t('DEL_ALL_CONFIRM');?>'))window.open('index.php?action=clear_all','_self')" />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL_REPLY');?>' onclick="javascript:if(window.confirm('<?php echo $this->t('DEL_ALL_REPLY_CONFIRM');?>'))window.open('index.php?action=clear_reply','_self')" /><input type='button' value='<?php echo $this->t('BACKUP');?>' onclick="javascript:window.open('index.php?action=backup','_self')" /></td></tr>
+            <tr><td colspan='4' align='left'><a href="#" id="m_checkall"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" id="m_checknone"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" id="m_checkxor"><?php echo $this->t('CHECK_INVERT');?></a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL');?>'  onclick="javascript:if(window.confirm('<?php echo $this->t('DEL_ALL_CONFIRM');?>'))window.open('index.php?action=clear_all','_self')" />&nbsp;<input type='button' value='<?php echo $this->t('DELETE_ALL_REPLY');?>' onclick="javascript:if(window.confirm('<?php echo $this->t('DEL_ALL_REPLY_CONFIRM');?>'))window.open('index.php?action=clear_reply','_self')" /><input type='button' value='<?php echo $this->t('BACKUP');?>' onclick="javascript:window.open('index.php?action=backup','_self')" /></td></tr>
             
             </table>
             </form>
@@ -200,7 +200,7 @@
                 </tr>
                 <?php }?>
                 
-                <tr><td colspan='2' align='left'><a href="#" onclick="changeAllCheckboxes('banip_manage',true,'select_ip[]'); return false;"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" onclick="changeAllCheckboxes('banip_manage',false,'select_ip[]'); return false;"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" onclick="changeAllCheckboxes('banip_manage','xor','select_ip[]'); return false;"><?php echo $this->t('CHECK_INVERT');?></a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' /></td></tr>
+                <tr><td colspan='2' align='left'><a href="#" id="ip_checkall"><?php echo $this->t('CHECK_ALL');?></a> &nbsp; <a href="#" id="ip_checknone"><?php echo $this->t('CHECK_NONE');?></a> &nbsp;<a href="#" id="ip_checkxor"><?php echo $this->t('CHECK_INVERT');?></a>&nbsp;<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' /></td></tr>
                 
                 </table>
                 </form>

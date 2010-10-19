@@ -10,8 +10,8 @@ $(document).ready(function() {
 		$('#tagContent div').hide();
     
     	//Look for the right DIV in boxBody according to the Navigation UL index, therefore, the arrangement is very important.
-		$('#tagContent' + $('#tags > li').index(this)).show('slow');
-		$('#tagContent' + $('#tags > li').index(this)+' >div').show('slow');
+		$('#tagContent' + $('#tags > li').index(this)).show();
+		$('#tagContent' + $('#tags > li').index(this)+' >div').show();
 
   	});
 	$("td.left >span").addClass("hidden");
@@ -22,23 +22,26 @@ $(document).ready(function() {
 			$(this).children("span").addClass("hidden");
 		}
 	);
+	$('#m_checkall').click(function(){
+		$("input[name='select_mid[]']").each(function(){$(this).attr('checked',true)});
+	});
+	$('#m_checknone').click(function(){
+		$("input[name='select_mid[]']").each(function(){$(this).attr('checked',false)});
+	});
+	$('#m_checkxor').click(function(){
+		$("input[name='select_mid[]']").each(function(){
+			$(this).attr('checked',!$(this).attr('checked'))
+		});
+	});
+	$('#ip_checkall').click(function(){
+		$("input[name='select_ip[]']").each(function(){$(this).attr('checked',true)});
+	});
+	$('#ip_checknone').click(function(){
+		$("input[name='select_ip[]']").each(function(){$(this).attr('checked',false)});
+	});
+	$('#ip_checkxor').click(function(){
+		$("input[name='select_ip[]']").each(function(){
+			$(this).attr('checked',!$(this).attr('checked'))
+		});
+	});
 });
-
-function changeAllCheckboxes(formid,checked,elementid)
-{
-	var entriesForm = document.getElementById(formid);
-	for (i = 0; i < entriesForm.length; i++) 
-	{
-		if(entriesForm.elements[i].name == elementid)
-		{	
-			if(checked=='xor')
-			{
-				entriesForm.elements[i].checked=!entriesForm.elements[i].checked;
-			}
-			else
-			{
-				entriesForm.elements[i].checked = checked;
-			}
-		}
-	}
-}
