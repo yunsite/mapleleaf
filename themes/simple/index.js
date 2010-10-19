@@ -1,4 +1,6 @@
 $(document).ready(function() {
+	$('#smileys').css('display','block');
+	$('#pleasepost').css('display','block');
 	initAll();
 	$("#add_table").hide();
 	$("#pleasepost").hover(function(){
