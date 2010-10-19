@@ -104,3 +104,6 @@ a:visited{
 .pointer {
 	cursor:pointer;
 }
+#pleasepost{
+	display:none;
+}

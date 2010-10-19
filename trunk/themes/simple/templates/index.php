@@ -115,7 +115,7 @@ function checkall() {
 
 		<textarea id="content" name="content" cols="45" rows="8" ></textarea></td>
 		<td  valign="top">
-		<div id="smileys"><?php echo $smileys;?></div>
+		<div id="smileys"><?php echo $smileys;?></div>&nbsp;
 		</td>
 	</tr>
 	<?php if($this->_valid_code_open){?>
