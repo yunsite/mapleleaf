@@ -1,4 +1,18 @@
 $(document).ready(function() {
+	$('#tags >li').click(function(){
+    	//remove the selected class from all LI    
+    	$('#tags >li').removeClass('selectTag');
+    
+    	//Reassign the LI
+    	$(this).addClass('selectTag');
+    
+    	//Hide all the DIV in .boxBody
+    	$('#tagContent div').slideUp('1500');
+    
+    	//Look for the right DIV in boxBody according to the Navigation UL index, therefore, the arrangement is very important.
+    	$('#tagContent div:eq(' + $('#tags > li').index(this) + ')').slideDown('1500');
+
+  	});
 	$("td.left >span").addClass("hidden");
 	$("td.left").hover(function(){
 			$(this).children("span").removeClass("hidden");
