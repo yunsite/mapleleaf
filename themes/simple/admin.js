@@ -1,5 +1,6 @@
 $(document).ready(function() {
 	$('#tags >li').click(function(){
+		$('#tags >li >a').attr('href','javascript:void(0)');
     	//remove the selected class from all LI    
     	$('#tags >li').removeClass('selectTag');
     
