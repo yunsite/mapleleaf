@@ -75,7 +75,7 @@
                     <td align="left">ZipArchive：</td><td align="right"><?php echo $zip_support;?></td>
                 </tr>
             </table>
-        </div>
+        </div><!-- tagContent0 end -->
         <div id="tagContent1" <?php if($current_tab=='siteset'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
             <form action="index.php?action=set_config" method="post">
                 <fieldset>
@@ -149,7 +149,7 @@
             <input type="submit" value="<?php echo $this->t('SUBMIT');?>" /><input type="reset" value="<?php echo $this->t('RESET');?>" />
             </form>
         
-        </div>
+        </div><!-- tagConent1 end -->
         <div  id="tagContent2" <?php if($current_tab=='message'){?>	class="tagContent selectTag" <?php } else {?>	class="tagContent" <?php }?>>
             <div id="message_container">
             <!-- 留言管理 -->
@@ -183,8 +183,8 @@
             
             </table>
             </form>
-            </div>
-        </div>
+            </div><!-- message_container end! -->
+        </div><!-- tagContent2 end -->
         <div  id="tagContent3" <?php if($current_tab=='ban_ip'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
             <div id="ip_container">
             <!-- IP管理 -->
@@ -204,9 +204,9 @@
                 
                 </table>
                 </form>
-            </div>
-        </div>
-    </div>
+            </div><!-- ip_container end -->
+        </div><!-- tagContent3 end -->
+    </div><!-- tagContent end -->
 </div>
 <div id="botton">Powered by <a href="http://maple.dreamneverfall.cn">MapleLeaf<?php echo MP_VERSION;?></a></div>
 </body>
