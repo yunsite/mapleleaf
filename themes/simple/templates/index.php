@@ -7,7 +7,7 @@
 <meta http-equiv="expires" content="0" />
 <link rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/common.css';?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/smiley_common.css';?>" type="text/css"/>
-<script type="text/javascript" src="./includes/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/index.js';?>"></script>
 <title><?php echo sprintf($this->t('WELCOME'),$this->_board_name);?></title>
 <script type="text/javascript">
