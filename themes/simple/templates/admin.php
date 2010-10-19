@@ -7,7 +7,7 @@
 <meta http-equiv="expires" content="0" />
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/admin.css';?>" />
 <script type="text/javascript" src="./includes/admin.js"></script>
-<script type="text/javascript" src="./includes/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/admin.js';?>"></script>
 <title><?php echo $this->t('ACP_INDEX');?></title>
 </head>
