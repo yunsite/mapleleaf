@@ -7,15 +7,11 @@ $(document).ready(function() {
     	$(this).addClass('selectTag');
     
     	//Hide all the DIV in .boxBody
-    	//$('#tagContent div').slideUp('1500');
 		$('#tagContent div').hide();
     
     	//Look for the right DIV in boxBody according to the Navigation UL index, therefore, the arrangement is very important.
-    	//$('#tagContent div:eq(' + $('#tags > li').index(this) + ')').slideDown('1500');
-		//alert('#tagContent' + $('#tags > li').index(this));
 		$('#tagContent' + $('#tags > li').index(this)).show('slow');
 		$('#tagContent' + $('#tags > li').index(this)+' >div').show('slow');
-		//alert($('#tags > li').index(this));
 
   	});
 	$("td.left >span").addClass("hidden");
