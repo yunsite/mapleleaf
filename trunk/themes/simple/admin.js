@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	/* Test for jqModal */
+	$('#dialog').jqm();  
+	$('#ex2').jqm({ajax: '@href', trigger: 'a.ex2trigger'});
+ 
 	$('#tags >li').click(function(){
 		$('#tags >li >a').attr('href','javascript:void(0)');
     	//remove the selected class from all LI    

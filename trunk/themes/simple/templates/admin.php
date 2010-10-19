@@ -6,12 +6,20 @@
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/admin.css';?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/jqModal.css';?>" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/jqModal.js';?>"></script>
 <script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/admin.js';?>"></script>
 <title><?php echo $this->t('ACP_INDEX');?></title>
 </head>
 
 <body>
+<!-- jqModal window -->
+<div class="jqmWindow" id="ex2">
+Please wait... 
+</div
+<!-- end of jqModal window -->
+
 <div id="admin_header">
 	<a href="index.php"><?php echo $this->t('HOME');?></a>&nbsp;<a href="index.php?action=logout" title="<?php echo $this->t('LOGOUT');?>"><?php echo $this->t('LOGOUT');?></a>
 </div>
@@ -172,8 +180,8 @@
                  
             <?php }?></td>
                 <td><a href='index.php?action=delete_message&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){ echo "1";}else{ echo "0";}?>'><?php echo $this->t('DELETE');?></a>
-                <a href='index.php?action=reply&amp;mid=<?php echo $m['id'];?>'><?php echo $this->t('REPLY');?></a>
-                <a href='index.php?action=update&amp;mid=<?php echo $m['id'];?>'><?php echo $this->t('UPDATE');?></a>
+                <a class="ex2trigger" href='index.php?action=reply&amp;mid=<?php echo $m['id'];?>'><?php echo $this->t('REPLY');?></a>
+                <a class="ex2trigger" href='index.php?action=update&amp;mid=<?php echo $m['id'];?>'><?php echo $this->t('UPDATE');?></a>
                 <a href='index.php?action=ban&amp;ip=<?php echo $m['ip'];?>'><?php echo $this->t('BAN');?></a></td>
             </tr>
            <?php }?>
