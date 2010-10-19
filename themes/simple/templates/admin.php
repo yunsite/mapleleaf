@@ -18,13 +18,13 @@
 </div>
 <div id="con">
     <ul id="tags">
-        <li <?php if($current_tab=='overview'){?> class="selectTag"<?php }?>><a id="overview" onclick="selectTag('tagContent0',this)" 
+        <li <?php if($current_tab=='overview'){?> class="selectTag"<?php }?>><a id="overview"  
           href="javascript:void(0)"><?php echo $this->t('ACP_OVERVIEW');?></a> </li>
-        <li <?php if($current_tab=='siteset'){?> class="selectTag"<?php }?>><a onclick="selectTag('tagContent1',this)" 
+        <li <?php if($current_tab=='siteset'){?> class="selectTag"<?php }?>><a 
           href="javascript:void(0)"><?php echo $this->t('ACP_CONFSET');?></a> </li>
-        <li <?php if($current_tab=='message'){?> class="selectTag"<?php }?>><a id="message_m" onclick="selectTag('tagContent2',this)" 
+        <li <?php if($current_tab=='message'){?> class="selectTag"<?php }?>><a id="message_m" 
           href="javascript:void(0)"><?php echo $this->t('ACP_MANAGE_POST');?></a> </li>
-        <li <?php if($current_tab=='ban_ip'){?> class="selectTag"<?php }?>><a id="ip_m" onclick="selectTag('tagContent3',this)" 
+        <li <?php if($current_tab=='ban_ip'){?> class="selectTag"<?php }?>><a id="ip_m" 
           href="javascript:void(0)"><?php echo $this->t('ACP_MANAGE_IP');?></a> </li>
     </ul>
     <div id="tagContent">
