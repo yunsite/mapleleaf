@@ -19,13 +19,13 @@
 <div id="con">
     <ul id="tags">
         <li <?php if($current_tab=='overview'){?> class="selectTag"<?php }?>><a id="overview"  
-          href="javascript:void(0)"><?php echo $this->t('ACP_OVERVIEW');?></a> </li>
+          href="index.php?action=control_panel&subtab=overview"><?php echo $this->t('ACP_OVERVIEW');?></a> </li>
         <li <?php if($current_tab=='siteset'){?> class="selectTag"<?php }?>><a 
-          href="javascript:void(0)"><?php echo $this->t('ACP_CONFSET');?></a> </li>
+          href="index.php?action=control_panel&subtab=siteset"><?php echo $this->t('ACP_CONFSET');?></a> </li>
         <li <?php if($current_tab=='message'){?> class="selectTag"<?php }?>><a id="message_m" 
-          href="javascript:void(0)"><?php echo $this->t('ACP_MANAGE_POST');?></a> </li>
+          href="index.php?action=control_panel&subtab=message"><?php echo $this->t('ACP_MANAGE_POST');?></a> </li>
         <li <?php if($current_tab=='ban_ip'){?> class="selectTag"<?php }?>><a id="ip_m" 
-          href="javascript:void(0)"><?php echo $this->t('ACP_MANAGE_IP');?></a> </li>
+          href="index.php?action=control_panel&subtab=ban_ip"><?php echo $this->t('ACP_MANAGE_IP');?></a> </li>
     </ul>
     <div id="tagContent">
         <div id="tagContent0" <?php if($current_tab=='overview'){?> class="tagContent selectTag" <?php } else {?>	class="tagContent" <?php }?> >
