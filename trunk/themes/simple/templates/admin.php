@@ -17,7 +17,7 @@
 <!-- jqModal window -->
 <div class="jqmWindow" id="ex2">
 Please wait... 
-</div
+</div>
 <!-- end of jqModal window -->
 
 <div id="admin_header">
