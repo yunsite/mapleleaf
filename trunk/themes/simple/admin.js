@@ -3,10 +3,10 @@ $(document).ready(function() {
 	$('#dialog').jqm();  
 	$('#ex2').jqm({ajax: '@href', trigger: 'a.ex2trigger'});
  
-	$('#tags >li').click(function(){
-		$('#tags >li >a').attr('href','javascript:void(0)');
+	$('#tags li').click(function(){
+		$('#tags li a').attr('href','javascript:void(0)');
     	//remove the selected class from all LI    
-    	$('#tags >li').removeClass('selectTag');
+    	$('#tags li').removeClass('selectTag');
     
     	//Reassign the LI
     	$(this).addClass('selectTag');
@@ -15,8 +15,8 @@ $(document).ready(function() {
 		$('#tagContent div').hide();
     
     	//Look for the right DIV in boxBody according to the Navigation UL index, therefore, the arrangement is very important.
-		$('#tagContent' + $('#tags > li').index(this)).show();
-		$('#tagContent' + $('#tags > li').index(this)+' >div').show();
+		$('#tagContent' + $('#tags li').index(this)).show();
+		$('#tagContent' + $('#tags li').index(this)+' div').show();
 
   	});
 	$("td.left >span").addClass("hidden");
