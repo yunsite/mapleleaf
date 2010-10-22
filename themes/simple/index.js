@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	/*同时按下 Enter + Ctrl 提交表单*/
 	$(document).keypress(function(e){
 		if(e.ctrlKey && e.which == 13 || e.which == 10) {
 			$("#guestbook").submit();
@@ -6,6 +7,7 @@ $(document).ready(function() {
 			$("#guestbook").submit();
 		}
 	});
+	/* 使用 Ajax 提交数据，然后使用 Ajax 刷新显示留言 */
 	$('#guestbook').submit(function(){
 		checkall();
 		$.ajax({
@@ -15,7 +17,6 @@ $(document).ready(function() {
 			success: function(){
 			document.getElementById('guestbook').reset();
 			$.get('index.php?action=ajaxIndex',{ajax:'yes'},function(data){
-			//alert(data);
 				$("tr").remove(".message");
 				$(".header").after(data);
 			 });
@@ -43,7 +44,7 @@ $(document).ready(function() {
 		}, 'slow');
 	});
 });
-//window.onload=initAll;
+
 function initAll()
 {
 	//点击表情图像时将对应代码写入留言中
@@ -54,9 +55,6 @@ function initAll()
 			smileyLinks[i].onclick = insert_smiley;
 		}
 	}
-	//表单提交前执行检查
-	//document.getElementById("guestbook").onsubmit=checkall;
-	//document.getElementById("content").onkeyup=ctrlEnter;
 	
 	if(captchaImg){
 		captchaImg.onclick=function(){
