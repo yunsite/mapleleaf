@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	
 	/* Test for jqModal */
 	$('#dialog').jqm();  
 	$('#ex2').jqm({ajax: '@href', trigger: 'a.ex2trigger'});

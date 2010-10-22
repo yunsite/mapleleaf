@@ -441,6 +441,42 @@ class Maple_Controller
         $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
     }
 
+	function ajaxIndex(){
+		if(isset($_GET['ajax'])){
+			$data=$this->get_all_data(TRUE,TRUE);
+			$current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
+			$nums=$this->_model->june_num_rows($data);
+			$pages=ceil($nums/$this->_num_perpage);
+			if($current_page>=$pages)
+				$current_page=$pages-1;
+			if($current_page<0)
+				$current_page=0;
+			if($this->_page_on)
+				$data=$this->page_wrapper($data, $current_page);
+			$string='';
+			foreach($data as $m){
+				$string.="<tr class='message'>";
+					$string.="<td class='left'>".str_replace('Admin',"<font color='red'>Admin</font>",$m['user'])."</td>";
+					$string.="<td class='left'>".$this->parse_smileys(mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8'),$this->_smileys_dir,$this->_smileys)."<br />";
+									 
+										if(@$m['reply']){
+									 
+										$string.=sprintf($this->t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));
+									  
+									 }
+					$string.="</td>";
+					$string.="<td class='center'>".date('m-d H:i',$m['time']+$this->_time_zone*60*60)."</td>";
+				$string.="</tr>";
+			}
+			echo $string;
+			//echo '<pre>';
+			//var_dump($data);
+		}else{
+			//echo 'sss';
+			echo 'Error';
+		}
+	}
+	
     function index()
     {
         if ($this->_mb_open==1)
