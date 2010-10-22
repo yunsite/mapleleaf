@@ -1,4 +1,21 @@
 $(document).ready(function() {
+	$('#guestbook').submit(function(){
+		checkall();
+		$.ajax({
+		   type: "POST",
+		   url: "index.php?action=post",
+		   data: $(this).serialize(),
+		   success: function(){
+			//$(this).replaceWith($(this));
+			 $.get('index.php?action=ajaxIndex',{ajax:'yes'},function(data){
+				//alert(data);
+				$("tr").remove(".message");
+				$(".header").after(data);
+			 });
+		   }
+		});
+		return false;
+	});
 	$('#smileys').css('display','block');
 	$('#pleasepost').css('display','block');
 	initAll();
@@ -31,8 +48,8 @@ function initAll()
 		}
 	}
 	//表单提交前执行检查
-	document.getElementById("guestbook").onsubmit=checkall;
-	document.getElementById("content").onkeyup=ctrlEnter;
+	//document.getElementById("guestbook").onsubmit=checkall;
+	//document.getElementById("content").onkeyup=ctrlEnter;
 	
 	if(captchaImg){
 		captchaImg.onclick=function(){
@@ -50,55 +67,55 @@ function insert_smiley()
 	document.getElementById("content").value +=" " + this.id;
 	return false;
 }
-function isKeyTrigger(e,keyCode){
-    var argv = isKeyTrigger.arguments;
-    var argc = isKeyTrigger.arguments.length;
-    var bCtrl = false;
-    if(argc > 2){
-        bCtrl = argv[2];
-    }
-    var bAlt = false;
-    if(argc > 3){
-        bAlt = argv[3];
-    }
+// function isKeyTrigger(e,keyCode){
+    // var argv = isKeyTrigger.arguments;
+    // var argc = isKeyTrigger.arguments.length;
+    // var bCtrl = false;
+    // if(argc > 2){
+        // bCtrl = argv[2];
+    // }
+    // var bAlt = false;
+    // if(argc > 3){
+        // bAlt = argv[3];
+    // }
 
-    var nav4 = window.Event ? true : false;
+    // var nav4 = window.Event ? true : false;
 
-    if(typeof e == 'undefined') {
-        e = event;
-    }
+    // if(typeof e == 'undefined') {
+        // e = event;
+    // }
 
-    if( bCtrl && 
-        !((typeof e.ctrlKey != 'undefined') ? 
-            e.ctrlKey : e.modifiers & Event.CONTROL_MASK > 0)){
-        return false;
-    }
-    if( bAlt && 
-        !((typeof e.altKey != 'undefined') ? 
-            e.altKey : e.modifiers & Event.ALT_MASK > 0)){
-        return false;
-    }
-    var whichCode = 0;
-    if (nav4) whichCode = e.which;
-    else if (e.type == "keypress" || e.type == "keydown")
-        whichCode = e.keyCode;
-    else whichCode = e.button;
+    // if( bCtrl && 
+        // !((typeof e.ctrlKey != 'undefined') ? 
+            // e.ctrlKey : e.modifiers & Event.CONTROL_MASK > 0)){
+        // return false;
+    // }
+    // if( bAlt && 
+        // !((typeof e.altKey != 'undefined') ? 
+            // e.altKey : e.modifiers & Event.ALT_MASK > 0)){
+        // return false;
+    // }
+    // var whichCode = 0;
+    // if (nav4) whichCode = e.which;
+    // else if (e.type == "keypress" || e.type == "keydown")
+        // whichCode = e.keyCode;
+    // else whichCode = e.button;
 
-    return (whichCode == keyCode);
-}
+    // return (whichCode == keyCode);
+// }
 
-function ctrlEnter(e){
-    var ie =navigator.appName=="Microsoft Internet Explorer"?true:false; 
-    if(ie){
-        if(event.ctrlKey && window.event.keyCode==13){doSomething();}
-    }else{
-        if(isKeyTrigger(e,13,true)){doSomething();}
-    }
-}
-function doSomething()
-{
-		if(checkall())
-		{
-			document.guestbook.submit.click();
-		}
-} 
+// function ctrlEnter(e){
+    // var ie =navigator.appName=="Microsoft Internet Explorer"?true:false; 
+    // if(ie){
+        // if(event.ctrlKey && window.event.keyCode==13){doSomething();}
+    // }else{
+        // if(isKeyTrigger(e,13,true)){doSomething();}
+    // }
+// }
+// function doSomething()
+// {
+		// if(checkall())
+		// {
+			// document.guestbook.submit.click();
+		// }
+// } 
