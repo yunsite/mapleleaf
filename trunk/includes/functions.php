@@ -1,22 +1,40 @@
 <?php
-    if (!function_exists("htmlspecialchars_decode")) {
-        function htmlspecialchars_decode($string, $quote_style = ENT_COMPAT) {
-            return strtr($string, array_flip(get_html_translation_table(HTML_SPECIALCHARS, $quote_style)));
-        }
-    }
+	/**
+	* Validate IP Address
+	* Borrowed from CI
+	* Updated version suggested by Geert De Deckere
+	* 
+	* @access	public
+	* @param	string
+	* @return	string
+	*/
+	function valid_ip($ip)
+	{
+		$ip_segments = explode('.', $ip);
 
-    function ip_valid($ip_addr)
-    {
-    	$match=preg_match('/^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$/',$ip_addr);
-    	if ($match)
-    	{
-    		return true;
-    	}
-    	else 
-    	{
-    		return false;
-    	}
-    }
+		// Always 4 segments needed
+		if (count($ip_segments) != 4)
+		{
+			return FALSE;
+		}
+		// IP can not start with 0
+		if ($ip_segments[0][0] == '0')
+		{
+			return FALSE;
+		}
+		// Check each segment
+		foreach ($ip_segments as $segment)
+		{
+			// IP segments must be digits and can not be 
+			// longer than 3 digits or greater then 255
+			if ($segment == '' OR preg_match("/[^0-9]/", $segment) OR $segment > 255 OR strlen($segment) > 3)
+			{
+				return FALSE;
+			}
+		}
+
+		return TRUE;
+	}
     /**
      * 检查当前用户是否是管理员
      */
@@ -29,43 +47,43 @@
             }
     }
 
-    function gd_is_available()
-    {
-        if ($check = get_extension_funcs('gd'))
-        {
-            if (in_array('imagegd2', $check)) 
-            {
-                // GD2 support is available.
-                return TRUE;
-            }
-        }
-        return FALSE;
-    }
-
-    function isSafeMode()
-    {
-        $isSafeMode = @ini_get("safe_mode");
-        if(strstr(strtolower(@getenv('OS')),'windows'))
-        {
-            $isSafeMode = false;
-        }
-        return $isSafeMode;
-    }
-
-	function mb_wordwrap($str, $width = 75, $break = "\n", $cut = false, $charset = null) 
+	/**
+	 * Is GD Installed?
+	 * CI 1.7.2
+	 * @access	public
+	 * @return	bool
+	 */
+	function gd_loaded()
 	{
-		if ($charset === null) $charset = mb_internal_encoding();
-
-		$pieces = explode($break, $str);
-		$result = array();
-		foreach ($pieces as $piece) {
-		  $current = $piece;
-		  while ($cut && mb_strlen($current) > $width) {
-			$result[] = mb_substr($current, 0, $width, $charset);
-			$current = mb_substr($current, $width, 2048, $charset);
-		  }
-		  $result[] = $current;
+		if ( ! extension_loaded('gd'))
+		{
+			if ( ! dl('gd.so'))
+			{
+				return FALSE;
+			}
 		}
-		return implode($break, $result);
+
+		return TRUE;
 	}
+
+	/**
+	 * Get GD version
+	 *
+	 * @access	public
+	 * @return	mixed
+	 */
+	function gd_version()
+	{
+		$gd_version=FALSE;
+		if (defined(GD_VERSION))
+			$gd_version=GD_VERSION;
+		elseif(function_exists('gd_info'))
+		{
+			$gd_version = @gd_info();
+			$gd_version = $gd_version['GD Version'];
+		}
+		return $gd_version;
+	}
+
+	
 ?>

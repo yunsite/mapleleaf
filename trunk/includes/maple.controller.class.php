@@ -457,7 +457,7 @@ class Maple_Controller
 			foreach($data as $m){
 				$string.="<tr class='message'>";
 					$string.="<td class='left'>".str_replace('Admin',"<font color='red'>Admin</font>",$m['user'])."</td>";
-					$string.="<td class='left'>".$this->parse_smileys(mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8'),$this->_smileys_dir,$this->_smileys)."<br />";
+					$string.="<td class='left'>".$this->parse_smileys(htmlspecialchars_decode($m['content']),$this->_smileys_dir,$this->_smileys)."<br />";
 									 
 										if(@$m['reply']){
 									 
@@ -737,7 +737,7 @@ class Maple_Controller
 
     function control_panel()
     {
-        global $gd_exist,$isSafeMode,$isUrlOpen,$zip_support;
+        global $gd_exist,$zip_support;
         is_admin();
         // Which tab should be displayed?
         $current_tab='overview';
@@ -757,20 +757,13 @@ class Maple_Controller
 
         if($gd_exist)
 		{
-            $gd_info=gd_info();
-            if (defined(GD_VERSION))
-				$gd_version=GD_VERSION;
-            elseif ($gd_info)
-                $gd_version=$gd_info['GD Version'];
-            else
-				$gd_version='<font color="red">'.$this->t('UNKNOWN').'</font>';
+            $gd_info=gd_version();
+			$gd_version=$gd_info?$gd_info:'<font color="red">'.$this->t('UNKNOWN').'</font>';
         }
         else
             $gd_version='<font color="red">GD'.$this->t('NOT_SUPPORT').'</font>';
-        $isSafeMode=$isSafeMode ? 'On' : 'Off';
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
-        $allow_url_fopen=ini_get("allow_url_fopen") ? 'On' : 'Off';
         $languages=$this->get_all_langs();
 		$timezone_array=$this->get_all_timezone();
         include 'themes/'.$this->_theme.'/templates/'."admin.php";
@@ -806,7 +799,7 @@ class Maple_Controller
         is_admin();
         $ip='';
         $ip=$_GET['ip'];
-        if (!isset($ip) || $ip=="" || ip_valid($ip)==false)
+        if (!isset($ip) || $ip=="" || valid_ip($ip)==false)
         {
             header("location:index.php?action=control_panel&subtab=message");
             exit;
