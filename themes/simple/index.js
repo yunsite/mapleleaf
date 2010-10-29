@@ -8,13 +8,17 @@ $(document).ready(function() {
 		}
 	});
 	/* 使用 Ajax 提交数据，然后使用 Ajax 刷新显示留言 */
-	$('#guestbook').submit(function(){
-		checkall();
+	$('#guestbook').submit(function(e){
+		if(!checkall()){
+			return false;
+		}
 		$.ajax({
 			type: "POST",
 			url: "index.php?action=post",
 			data: $(this).serialize(),
 			success: function(){
+				alert('发表成功！');
+			//}
 			document.getElementById('guestbook').reset();
 			$.get('index.php?action=ajaxIndex',{ajax:'yes'},function(data){
 				$("tr").remove(".message");
