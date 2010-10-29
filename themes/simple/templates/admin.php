@@ -67,16 +67,10 @@ Please wait...
                     <td align="left"><?php echo $this->t('GD_VERSION');?>： </td><td align="right"><?php echo $gd_version;?></td>
                 </tr>
                 <tr>
-                    <td align="left"><?php echo $this->t('SAFE_MODE');?>：</td><td align="right"><?php echo $isSafeMode;?></td>
-                </tr>
-                <tr>
                     <td align="left">Register_Globals：</td><td align="right"><?php echo $register_globals;?></td>
                 </tr>
                 <tr>
                     <td align="left">Magic_Quotes_Gpc：</td><td align="right"><?php echo $magic_quotes_gpc;?></td>
-                </tr>
-                <tr>
-                    <td align="left">allow_url_fopen：</td><td align="right"><?php echo $allow_url_fopen;?></td>
                 </tr>
                 <tr>
                     <td align="left">ZipArchive：</td><td align="right"><?php echo $zip_support;?></td>
@@ -172,7 +166,7 @@ Please wait...
                     <input type='hidden' name='<?php echo $m['id'];?>' value='<?php if(@$m['reply']){ echo "1";}else{echo "0";}?>' />
                 </td>
                 <td class='left'>	<?php echo $m['user'];?></td>
-                <td class='left'><?php echo $this->parse_smileys(mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8'),$this->_smileys_dir,$this->_smileys);?><br /><?php echo $this->t('TIME');?>：<?php echo date('m-d H:i',$m['time']+ $this->_time_zone*60*60);?> 
+                <td class='left'><?php echo $this->parse_smileys(htmlspecialchars_decode($m['content']),$this->_smileys_dir,$this->_smileys);?><br /><?php echo $this->t('TIME');?>：<?php echo date('m-d H:i',$m['time']+ $this->_time_zone*60*60);?> 
                 <?php if(@$m['reply']==true){?> 
                 <br />
                  <?php echo sprintf($this->t('YOU_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));?>
@@ -215,6 +209,6 @@ Please wait...
         </div><!-- tagContent3 end -->
     </div><!-- tagContent end -->
 </div>
-<div id="botton">Powered by <a href="http://maple.dreamneverfall.cn">MapleLeaf<?php echo MP_VERSION;?></a></div>
+<div id="botton">Powered by <a href="http://mapleleaf.ourplanet.tk">MapleLeaf<?php echo MP_VERSION;?></a></div>
 </body>
 </html>

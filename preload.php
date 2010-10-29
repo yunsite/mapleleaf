@@ -49,12 +49,10 @@ function maple_unset_globals()
 }
 maple_unset_globals();
 
-define('MP_VERSION','1.8');
+define('MP_VERSION','1.9');
 require 'includes/functions.php';
 require 'includes/maple.controller.class.php';
 
-$isUrlOpen = @ini_get("allow_url_fopen");
-$isSafeMode=isSafeMode();
-$gd_exist=gd_is_available();
+$gd_exist=gd_loaded();
 $zip_support=class_exists('ZipArchive')?'On':'Off';
 ?>

@@ -57,7 +57,7 @@ function checkall() {
 	<?php foreach($data as $m){?>
     <tr class='message'>
     	<td class='left'><?php echo str_replace('Admin',"<font color='red'>Admin</font>",$m['user']);?></td>
-        <td class='left'><?php echo $this->parse_smileys(mb_wordwrap(htmlspecialchars_decode($m['content']),35,"<br />",TRUE,'UTF-8'),$this->_smileys_dir,$this->_smileys);?><br />
+        <td class='left'><?php echo $this->parse_smileys(htmlspecialchars_decode($m['content']),$this->_smileys_dir,$this->_smileys);?><br />
         				 <?php 
         				 	if(@$m['reply']){
         				 ?>
@@ -137,7 +137,7 @@ function checkall() {
 </form>
 
 
-    <div class="botton">&nbsp;<?php echo htmlspecialchars_decode($this->_copyright_info);?>&nbsp;<a href="mailto:<?php echo $this->_admin_email;?>"><?php echo $this->t('ADMIN_EMAIL');?></a> <a href="index.php?action=control_panel"><?php echo $this->t('ACP');?></a><br />Powered by <a href="http://maple.dreamneverfall.cn" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a>
+    <div class="botton">&nbsp;<?php echo htmlspecialchars_decode($this->_copyright_info);?>&nbsp;<a href="mailto:<?php echo $this->_admin_email;?>"><?php echo $this->t('ADMIN_EMAIL');?></a> <a href="index.php?action=control_panel"><?php echo $this->t('ACP');?></a><br />Powered by <a href="http://mapleleaf.ourplanet.tk" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a>
     </div>
 </div><!-- end container -->
 
