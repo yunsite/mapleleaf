@@ -2,9 +2,9 @@
 /**
  * Controller
  * @author      rainyjune<dreamneverfall@gmail.com>
- * @copyright   Copyright (c) 2008 - 2010 Maple Group. (http://maple.dreamneverfall.cn)
+ * @copyright   Copyright (c) 2008 - 2010 OurPlanet Team (http://mapleleaf.ourplanet.tk/)
  * @license     GPL2
- * @version     2010-09-04
+ * @version     2010-10-29
  */
 include_once 'JuneTxtDb.class.php';
 include_once 'Imgcode.php';
@@ -297,7 +297,7 @@ class Maple_Controller
     private function set_copyright_info()
     {
         is_admin();
-        @$copyright_info=$_POST['copyright_info']?$this->maple_quotes($_POST['copyright_info']):'Copyright &copy; 2010 dreamneverfall.cn';
+        @$copyright_info=$_POST['copyright_info']?$this->maple_quotes($_POST['copyright_info']):'Copyright &copy; 2010 mapleleaf.ourplanet.tk';
         $str="\n\$copyright_info='$copyright_info';";
         $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
     }

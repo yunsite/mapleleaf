@@ -3,10 +3,10 @@
  * The Class used for access data,named JuneTxtDb.
  *
  * @author Kang Chen <dreamneverfall@gmail.com>
- * @link http://dreamneverfall.cn/junetxtdb/
- * @copyright &copy; 2010 DreamNeverFall Team
+ * @link http://projects.ourplanet.tk/junetxtdb
+ * @copyright &copy; 2010 OurPlanet Team
  * @license GPL 2
- * @version 0.2 2010-07-07
+ * @version 0.2 2010-10-29
  */
 
 class JuneTxtDb
