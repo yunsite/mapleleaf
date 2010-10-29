@@ -540,13 +540,57 @@ class Maple_Controller
 
     function post()
     {
-        $new_message=$this->add_message_check();
+		$new_data_status=TRUE;
+		$new_data=array();
+		$user=isset($_POST['user'])?$_POST['user']:'';
+		$current_ip=$_SERVER['REMOTE_ADDR'];
+		$user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
+		$admin_name_array=array('admin','root','administrator','管理员');
+		if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
+			$user='anonymous';
+		$content =isset($_POST['content'])?htmlspecialchars(trim($_POST['content']),ENT_COMPAT,'UTF-8'):'';
+		$content = nl2br($content);
+		$content = str_replace(array("\n", "\r\n", "\r"), '', $content);
+		$time=time();
+		if(empty($user) or empty($content))
+		{
+			$new_data_status=FALSE;
+			$new_data_error_msg=$this->t('FILL_NOT_COMPLETE');
+		}
+		elseif(strlen($content)>580)
+		{
+			$new_data_status=FALSE;
+			$new_data_error_msg=$this->t('WORDS_TOO_LONG');
+		}
+		elseif($this->_valid_code_open==1)
+		{
+			if(!$this->checkImgcode()){
+				$new_data_status=FALSE;
+				$new_data_error_msg=$this->t('CAPTCHA_WRONG');
+			}
+		}
+		if(!$new_data_status){
+			if(isset($_POST['ajax'])){
+				echo $new_data_error_msg;
+				return FALSE;
+			}else{
+				$this->show_message($new_data_error_msg,true,'index.php');exit;
+			}
+		}
+
+		$new_data=array(NULL,$user,$content,$time,$current_ip);
+		
+        $new_message=$new_data;
         if (!$this->_model->june_connect())
 		    die($this->_model->june_error());
 		if (!$this->_model->june_select_db($this->_dbname))
 		    die($this->_model->june_error());
 		if (!$this->_model->june_query_insert($this->_message_table_name,$new_message))
 		    die($this->_model->june_error());
+		if(isset($_POST['ajax'])){
+			echo 'OK';
+			return TRUE;
+		}
         header("Location:index.php");
     }
 
@@ -935,42 +979,7 @@ EOF;
 		return $result;
     }
 
-    /**
-     * 检查新增信息，并返回处理后的字符串
-     *
-     * @return string
-     */
-    function add_message_check()
-    {
-        $new_data=array();
-		$user=isset($_POST['user'])?$_POST['user']:'';
-		$current_ip=$_SERVER['REMOTE_ADDR'];
-		$user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
-		$admin_name_array=array('admin','root','administrator','管理员');
-		if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
-			$user='anonymous';
-		$content =isset($_POST['content'])?htmlspecialchars(trim($_POST['content']),ENT_COMPAT,'UTF-8'):'';
-		$content = nl2br($content);
-		$content = str_replace(array("\n", "\r\n", "\r"), '', $content);
-		$time=time();
-		if(empty($user) or empty($content))
-		{
-			$this->show_message($this->t('FILL_NOT_COMPLETE'),true,'index.php');
-			exit;
-		}
-		if(strlen($content)>580)
-		{
-			$this->show_message($this->t('WORDS_TOO_LONG'),true,'index.php');
-			exit;
-		}
-		if($this->_valid_code_open==1)
-		{
-			if(!$this->checkImgcode())
-				$this->show_message($this->t('CAPTCHA_WRONG'),true,'index.php');
-		}
-		$new_data=array(NULL,$user,$content,$time,$current_ip);
-		return $new_data;
-    }
+    
 
     function get_all_data($parse_smileys=true,$filter_words=false)
     {

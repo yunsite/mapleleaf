@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	$('<input type="hidden" name="ajax" value="true" />').insertAfter('#user_msg');
 	/*同时按下 Enter + Ctrl 提交表单*/
 	$(document).keypress(function(e){
 		if(e.ctrlKey && e.which == 13 || e.which == 10) {
@@ -16,14 +17,18 @@ $(document).ready(function() {
 			type: "POST",
 			url: "index.php?action=post",
 			data: $(this).serialize(),
-			success: function(){
-				alert('发表成功！');
-			//}
-			document.getElementById('guestbook').reset();
-			$.get('index.php?action=ajaxIndex',{ajax:'yes'},function(data){
-				$("tr").remove(".message");
-				$(".header").after(data);
-			 });
+			success: function(data){
+				$('#captcha_img').attr('src',$('#captcha_img').attr('src')+'?');
+				//alert(data);
+				if(data != "OK"){
+					alert(data);return false;
+				}
+				//alert('开始刷新！');
+				document.getElementById('guestbook').reset();
+				$.get('index.php?action=ajaxIndex',{ajax:'yes'},function(data){
+					$("tr").remove(".message");
+					$(".header").after(data);
+				});
 		   }
 		});
 		return false;
