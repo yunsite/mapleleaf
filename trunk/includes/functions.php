@@ -11,7 +11,6 @@
 	function valid_ip($ip)
 	{
 		$ip_segments = explode('.', $ip);
-
 		// Always 4 segments needed
 		if (count($ip_segments) != 4)
 		{
@@ -32,7 +31,6 @@
 				return FALSE;
 			}
 		}
-
 		return TRUE;
 	}
     /**
@@ -40,11 +38,11 @@
      */
     function is_admin()
     {
-            if (!isset($_SESSION['admin']))
-            {
-                    header("location:index.php?action=login");
-                    exit;
-            }
+		if (!isset($_SESSION['admin']))
+		{
+			header("location:index.php?action=login");
+            exit;
+        }
     }
 
 	/**
@@ -62,7 +60,6 @@
 				return FALSE;
 			}
 		}
-
 		return TRUE;
 	}
 
@@ -84,6 +81,4 @@
 		}
 		return $gd_version;
 	}
-
-	
 ?>
