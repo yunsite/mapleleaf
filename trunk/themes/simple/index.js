@@ -18,7 +18,7 @@ $(document).ready(function() {
 			url: "index.php?action=post",
 			data: $(this).serialize(),
 			success: function(data){
-				$('#captcha_img').attr('src',$('#captcha_img').attr('src')+'?');
+				$('#captcha_img').attr('src',$('#captcha_img').attr('src')+'&id='+Math.random());
 				//alert(data);
 				if(data != "OK"){
 					alert(data);return false;
@@ -67,7 +67,7 @@ function initAll()
 	
 	if(captchaImg){
 		captchaImg.onclick=function(){
-			captchaImg.src=captchaImg.src+"?";
+			captchaImg.src=captchaImg.src+'&id='+Math.random();
 		}
 	}
 }
