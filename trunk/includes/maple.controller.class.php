@@ -6,8 +6,9 @@
  * @license     GPL2
  * @version     2010-10-29
  */
-include_once 'JuneTxtDb.class.php';
+include_once 'JuneTxtDB.class.php';
 include_once 'Imgcode.php';
+include_once 'smiley.php';
 class Maple_Controller
 {
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
@@ -27,89 +28,26 @@ class Maple_Controller
     public  $_theme;//     * 当前的页面主题
     public  $_site_conf_file='config.php';//     * 站点配置文件位置
     public  $_themes_directory='themes/';//     * 主题文件的目录
-    public	$_lang_directory='lang';//语言包位置
+    public  $_lang_directory='lang';//语言包位置
     public  $_smileys_dir='misc/';//     * 表情图片所在的文件夹位置
     public  $_errors=array();//     * 保存错误信息
     public  $_dbname='mapleleaf';//数据库名称
     public  $_message_table_name='gb';//留言信息数据表名称
     public  $_reply_table_name='reply';//回复数据表名称
     public  $_banedip_table_name='ban';//被禁止的IP列表的数据表的名称
-    public	$_current_lang;
-    public	$_lang_array;//保存语言翻译信息
-    public  $_smileys = array(
-    //	smiley			image name						width	height	title
-	':-)'			=>	array('grin.gif',			'19',	'19',	'grin'),
-	':lol:'			=>	array('lol.gif',			'19',	'19',	'LOL'),
-	':cheese:'		=>	array('cheese.gif',			'19',	'19',	'cheese'),
-	':)'			=>	array('smile.gif',			'19',	'19',	'smile'),
-	';-)'			=>	array('wink.gif',			'19',	'19',	'wink'),
-	';)'			=>	array('wink.gif',			'19',	'19',	'wink'),
-	':smirk:'		=>	array('smirk.gif',			'19',	'19',	'smirk'),
-	':roll:'		=>	array('rolleyes.gif',		'19',	'19',	'rolleyes'),
-	':-S'			=>	array('confused.gif',		'19',	'19',	'confused'),
-	':wow:'			=>	array('surprise.gif',		'19',	'19',	'surprised'),
-	':bug:'			=>	array('bigsurprise.gif',	'19',	'19',	'big surprise'),
-	':-P'			=>	array('tongue_laugh.gif',	'19',	'19',	'tongue laugh'),
-	'%-P'			=>	array('tongue_rolleye.gif',	'19',	'19',	'tongue rolleye'),
-	';-P'			=>	array('tongue_wink.gif',	'19',	'19',	'tongue wink'),
-	':P'			=>	array('raspberry.gif',		'19',	'19',	'raspberry'),
-	':blank:'		=>	array('blank.gif',			'19',	'19',	'blank stare'),
-	':long:'		=>	array('longface.gif',		'19',	'19',	'long face'),
-	':ohh:'			=>	array('ohh.gif',			'19',	'19',	'ohh'),
-	':grrr:'		=>	array('grrr.gif',			'19',	'19',	'grrr'),
-	':gulp:'		=>	array('gulp.gif',			'19',	'19',	'gulp'),
-	'8-/'			=>	array('ohoh.gif',			'19',	'19',	'oh oh'),
-	':down:'		=>	array('downer.gif',			'19',	'19',	'downer'),
-	':red:'			=>	array('embarrassed.gif',	'19',	'19',	'red face'),
-	':sick:'		=>	array('sick.gif',			'19',	'19',	'sick'),
-	':shut:'		=>	array('shuteye.gif',		'19',	'19',	'shut eye'),
-	':-/'			=>	array('hmm.gif',			'19',	'19',	'hmmm'),
-	'&amp;gt;:('	=>	array('mad.gif',			'19',	'19',	'mad'),
-	':mad:'			=>	array('mad.gif',			'19',	'19',	'mad'),
-	'&amp;gt;:-('	=>	array('angry.gif',			'19',	'19',	'angry'),
-	':angry:'		=>	array('angry.gif',			'19',	'19',	'angry'),
-	':zip:'			=>	array('zip.gif',			'19',	'19',	'zipper'),
-	':kiss:'		=>	array('kiss.gif',			'19',	'19',	'kiss'),
-	':ahhh:'		=>	array('shock.gif',			'19',	'19',	'shock'),
-	':coolsmile:'	=>	array('shade_smile.gif',	'19',	'19',	'cool smile'),
-	':coolsmirk:'	=>	array('shade_smirk.gif',	'19',	'19',	'cool smirk'),
-	':coolgrin:'	=>	array('shade_grin.gif',		'19',	'19',	'cool grin'),
-	':coolhmm:'		=>	array('shade_hmm.gif',		'19',	'19',	'cool hmm'),
-	':coolmad:'		=>	array('shade_mad.gif',		'19',	'19',	'cool mad'),
-	':coolcheese:'	=>	array('shade_cheese.gif',	'19',	'19',	'cool cheese'),
-	':vampire:'		=>	array('vampire.gif',		'19',	'19',	'vampire'),
-	':snake:'		=>	array('snake.gif',			'19',	'19',	'snake'),
-	':exclaim:'		=>	array('exclaim.gif',		'19',	'19',	'excaim'),
-	':question:'	=>	array('question.gif',		'19',	'19',	'question') // no comma after last item
-	);
-	private $_coreMessage_array=array(
-		'THEMES_DIR_NOTEXISTS'=>'The directory of themes does not exists!',
-		'SMILEY_DIR_NOTEXISTS'=>'The directory of smiley `%s` does not exists!',
-		'CONFIG_FILE_NOTEXISTS'=>'The configuration file `%s` does not exists!',
-		'CONFIG_FILE_NOTWRITABLE'=>'The configuration file `%s` does not writable!',
-		
-		'SITENAME_ERROR'=>'The sitename undefined!',
-		'SITESTATUS_ERROR'=>'The status of site undefined!',
-		'SITECLOSEREASON_ERROR'=>'The maintaince message undefined!',
-		'ADMINEMAIL_ERROR'=>'Admin email undefined!',
-		'COPYRIGHT_ERROR'=>'Coptyright undefined!',
-		'BADWORDS_ERROR'=>'Bad words undefined!',
-		'CAPTCHASTATUS_ERROR'=>'The status of CAPTCHA undefined!',
-		'PAGINATIONSTATUS_ERROR'=>'The status of pagination undefined!',
-		'TIMEZONE_ERROR'=>'Timezone undefined!',
-		'PAGINATION_PARAMETER_ERROR'=>'The parameter of  pagination undefined!',
-		'THEME_ERROR'=>'Theme undefined!',
-		'ADMINNAME_ERROR'=>'Admin name undefined!',
-		'ADMINPASS_ERROR'=>'admin password undefined!',
-		'LANGUAGE_ERROR'=>'Language undefined!',
-		'QUERY_ERROR'=>'Query error!',
-	);
+    public  $_current_lang;
+    public  $_lang_array;//保存语言翻译信息
+    public  $_smileys;
+    private $_coreMessage_array;
 
     //构造函数
     function  __construct()
     {
+	$this->_smileys=  require 'smiley.php';
+	$this->_coreMessage_array=  require 'coreMessage.php';
         $this->_imgcode=new FLEA_Helper_ImgCode();
         $this->_model=new JuneTxtDb();
+	$this->_model->select_db($this->_dbname);
         $this->load_config();//载入配置
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
@@ -121,7 +59,7 @@ class Maple_Controller
     {
         //check directories
         if (!is_dir($this->_themes_directory))
-        	die($this->t('THEMES_DIR_NOTEXISTS',true));
+	    die($this->t('THEMES_DIR_NOTEXISTS',true));
         //先检查配置文件是否存在和可写
         if(!file_exists($this->_site_conf_file))
             die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),$this->_site_conf_file));//"你所指定的配置文件 {$this->_site_conf_file} 不存在";
@@ -133,7 +71,7 @@ class Maple_Controller
             $this->_errors[]=sprintf($this->t('SMILEY_DIR_NOTEXISTS',true),$this->_smileys_dir);//"您所指定的表情图案目录 {$this->_smileys_dir} 不存在";
         $this->get_all_info();
         if($this->_errors)
-        	$this->show_message($this->_errors);
+	    $this->show_message($this->_errors);
     }
 
     function get_all_info()
@@ -160,7 +98,7 @@ class Maple_Controller
         $all_baned_ips=$this->get_baned_ips();
         for($i=0,$c=count($all_baned_ips);$i<$c;$i++)
         {
-        	$all_baned_ips[$i]=trim($all_baned_ips[$i]["ip"]);
+	    $all_baned_ips[$i]=trim($all_baned_ips[$i]["ip"]);
         }
         if (in_array($ip,$all_baned_ips))
         {
@@ -441,41 +379,35 @@ class Maple_Controller
         $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
     }
 
-	function ajaxIndex(){
-		if(isset($_GET['ajax'])){
-			$data=$this->get_all_data(TRUE,TRUE);
-			$current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-			$nums=$this->_model->june_num_rows($data);
-			$pages=ceil($nums/$this->_num_perpage);
-			if($current_page>=$pages)
-				$current_page=$pages-1;
-			if($current_page<0)
-				$current_page=0;
-			if($this->_page_on)
-				$data=$this->page_wrapper($data, $current_page);
-			$string='';
-			foreach($data as $m){
-				$string.="<tr class='message'>";
-					$string.="<td class='left'>".str_replace('Admin',"<font color='red'>Admin</font>",$m['user'])."</td>";
-					$string.="<td class='left'>".$this->parse_smileys(htmlspecialchars_decode($m['content']),$this->_smileys_dir,$this->_smileys)."<br />";
-									 
-										if(@$m['reply']){
-									 
-										$string.=sprintf($this->t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));
-									  
-									 }
-					$string.="</td>";
-					$string.="<td class='center'>".date('m-d H:i',$m['time']+$this->_time_zone*60*60)."</td>";
-				$string.="</tr>";
-			}
-			echo $string;
-			//echo '<pre>';
-			//var_dump($data);
-		}else{
-			//echo 'sss';
-			echo 'Error';
+    function ajaxIndex(){
+	if(isset($_GET['ajax'])){
+	    $data=$this->get_all_data(TRUE,TRUE);
+	    $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
+	    $nums=$this->_model->num_rows($data);
+	    $pages=ceil($nums/$this->_num_perpage);
+	    if($current_page>=$pages)
+		$current_page=$pages-1;
+	    if($current_page<0)
+		$current_page=0;
+	    if($this->_page_on)
+		$data=$this->page_wrapper($data, $current_page);
+	    $string='';
+	    foreach($data as $m){
+		$string.="<tr class='message'>";
+		$string.="<td class='left'>".str_replace('Admin',"<font color='red'>Admin</font>",$m['user'])."</td>";
+		$string.="<td class='left'>".$this->parse_smileys(htmlspecialchars_decode($m['content']),$this->_smileys_dir,$this->_smileys)."<br />";		 
+		if(@$m['reply']){							 
+		    $string.=sprintf($this->t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));
 		}
+		$string.="</td>";
+		$string.="<td class='center'>".date('m-d H:i',$m['time']+$this->_time_zone*60*60)."</td>";
+		$string.="</tr>";
+	    }
+	    echo $string;
+	}else{		//echo 'sss';
+	    echo 'Error';
 	}
+    }
 	
     function index()
     {
@@ -483,7 +415,7 @@ class Maple_Controller
             $this->show_message($this->_close_reason);
         $data=$this->get_all_data(TRUE,TRUE);
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-        $nums=$this->_model->june_num_rows($data);
+        $nums=$this->_model->num_rows($data);
         $pages=ceil($nums/$this->_num_perpage);
         if($current_page>=$pages)
             $current_page=$pages-1;
@@ -512,16 +444,16 @@ class Maple_Controller
         }
         if(isset($_POST['user']) && isset($_POST['password']))
         {
-			if($_POST['user']==$this->_admin_name && htmlspecialchars($_POST['password'],ENT_QUOTES)==$this->_admin_password)
-			{
-				$_SESSION['admin']=$_POST['user'];
-				header("Location:index.php?action=control_panel");
-				exit;
-			}
-			else
-				$errormsg=$this->t('LOGIN_ERROR');
+	    if($_POST['user']==$this->_admin_name && htmlspecialchars($_POST['password'],ENT_QUOTES)==$this->_admin_password)
+	    {
+		$_SESSION['admin']=$_POST['user'];
+		header("Location:index.php?action=control_panel");
+		exit;
+	    }
+	    else
+		$errormsg=$this->t('LOGIN_ERROR');
         }
-		include 'themes/'.$this->_theme.'/templates/'."login.php";
+	include 'themes/'.$this->_theme.'/templates/'."login.php";
         exit;
     }
 
@@ -540,156 +472,129 @@ class Maple_Controller
 
     function post()
     {
-		$new_data_status=TRUE;
-		$new_data=array();
-		$user=isset($_POST['user'])?$_POST['user']:'';
-		$current_ip=$_SERVER['REMOTE_ADDR'];
-		$user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
-		$admin_name_array=array('admin','root','administrator','管理员');
-		if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
-			$user='anonymous';
-		$content =isset($_POST['content'])?htmlspecialchars(trim($_POST['content']),ENT_COMPAT,'UTF-8'):'';
-		$content = nl2br($content);
-		$content = str_replace(array("\n", "\r\n", "\r"), '', $content);
-		$time=time();
-		if(empty($user) or empty($content))
-		{
-			$new_data_status=FALSE;
-			$new_data_error_msg=$this->t('FILL_NOT_COMPLETE');
-		}
-		elseif(strlen($content)>580)
-		{
-			$new_data_status=FALSE;
-			$new_data_error_msg=$this->t('WORDS_TOO_LONG');
-		}
-		elseif($this->_valid_code_open==1)
-		{
-			if(!$this->checkImgcode()){
-				$new_data_status=FALSE;
-				$new_data_error_msg=$this->t('CAPTCHA_WRONG');
-			}
-		}
-		if(!$new_data_status){
-			if(isset($_POST['ajax'])){
-				echo $new_data_error_msg;
-				return FALSE;
-			}else{
-				$this->show_message($new_data_error_msg,true,'index.php');exit;
-			}
-		}
+	$new_data_status=TRUE;
+	$new_data=array();
+	$user=isset($_POST['user'])?$_POST['user']:'';
+	$current_ip=$_SERVER['REMOTE_ADDR'];
+	$user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
+	$admin_name_array=array('admin','root','administrator','管理员');
+	if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
+	    $user='anonymous';
+	$content =isset($_POST['content'])?htmlspecialchars(trim($_POST['content']),ENT_COMPAT,'UTF-8'):'';
+	$content = nl2br($content);
+	$content = str_replace(array("\n", "\r\n", "\r"), '', $content);
+	$time=time();
+	if(empty($user) or empty($content))
+	{
+	    $new_data_status=FALSE;
+	    $new_data_error_msg=$this->t('FILL_NOT_COMPLETE');
+	}
+	elseif(strlen($content)>580)
+	{
+	    $new_data_status=FALSE;
+	    $new_data_error_msg=$this->t('WORDS_TOO_LONG');
+	}
+	elseif($this->_valid_code_open==1)
+	{
+	    if(!$this->checkImgcode()){
+	    $new_data_status=FALSE;
+	    $new_data_error_msg=$this->t('CAPTCHA_WRONG');
+	    }
+	}
+	if(!$new_data_status){
+	    if(isset($_POST['ajax'])){
+	    echo $new_data_error_msg;
+	    return FALSE;
+	    }else{
+		$this->show_message($new_data_error_msg,true,'index.php');exit;
+	    }
+	}
 
-		$new_data=array(NULL,$user,$content,$time,$current_ip);
-		
-        $new_message=$new_data;
-        if (!$this->_model->june_connect())
-		    die($this->_model->june_error());
-		if (!$this->_model->june_select_db($this->_dbname))
-		    die($this->_model->june_error());
-		if (!$this->_model->june_query_insert($this->_message_table_name,$new_message))
-		    die($this->_model->june_error());
-		if(isset($_POST['ajax'])){
-			echo 'OK';
-			return TRUE;
-		}
+	$new_data=array(NULL,$user,$content,$time,$current_ip);
+	if(!$this->_model->insert($this->_message_table_name, $new_data))
+	    die($this->_model->error());
+	if(isset($_POST['ajax'])){
+	    echo 'OK';
+	    return TRUE;
+	}
         header("Location:index.php");
     }
 
 	protected function loadModel()
 	{
-		if(!isset($_GET['mid']))
-        {
-            header("location:index.php?action=control_panel&subtab=message");
-            exit;
-        }
-		$mid=(int)$_GET['mid'];
-		if (!$this->_model->june_connect())
-		    die($this->_model->june_error());
-		if (!$this->_model->june_select_db($this->_dbname))
-		    die($this->_model->june_error());
-		$condition=array('id'=>$mid);
-		$reply_data=$this->_model->june_query_select_byCondition($this->_reply_table_name,$condition);
-		if ($reply_data===FALSE)
-        	$this->show_message($this->t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
-        else
-			return $reply_data;
+	    if(!isset($_GET['mid']))
+	    {
+		header("location:index.php?action=control_panel&subtab=message");
+		exit;
+	    }
+	    $mid=(int)$_GET['mid'];
+	    $condition=array('id'=>$mid);
+	    $reply_data=$this->_model->select($this->_reply_table_name, $condition);
+	    if ($reply_data===FALSE)
+		$this->show_message($this->t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
+	    else
+		return $reply_data;
 	}
 	//Reply
     function reply()
     {
         is_admin();
-		if(isset($_POST['Submit']))
-		{
-			$mid=0;
-			$mid=(int)$_POST['mid'];
-			$reply_content = htmlspecialchars(trim($_POST['reply_content']));
-			$reply_content = nl2br($reply_content);
-			$reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
-			$time=time();
-			if (trim($reply_content)=='')
-				$this->show_message($this->t('REPLY_EMPTY'),true,'index.php?action=control_panel&subtab=message',3);
-			if(isset($_POST['update']))
-			{
-				$input=array($mid,$reply_content,$time);
-				if (!$this->_model->june_connect())
-				    die($this->_model->june_error());
-				if (!$this->_model->june_select_db($this->_dbname))
-				    die($this->_model->june_error());
-				$condition=array('id'=>$mid);
-				if(!$this->_model->june_query_modify($this->_reply_table_name,$condition,'U',$input))
-				    die($this->_model->june_error());
-			}
-			else
-			{
-				$input=array($mid,$reply_content,$time);
-				if (!$this->_model->june_connect())
-				    die($this->_model->june_error());
-				if (!$this->_model->june_select_db($this->_dbname))
-				    die($this->_model->june_error());
-				if (!$this->_model->june_query_insert($this->_reply_table_name,$input))
-    				die($this->_model->june_error());
-			}
-			header("Location:index.php?action=control_panel&subtab=message");
-		}
-		$reply_data=$this->loadModel();
-		$mid=(int)$_GET['mid'];
-		include 'themes/'.$this->_theme.'/templates/'."reply.php";
+	if(isset($_POST['Submit']))
+	{
+	    $mid=0;
+	    $mid=(int)$_POST['mid'];
+	    $reply_content = htmlspecialchars(trim($_POST['reply_content']));
+	    $reply_content = nl2br($reply_content);
+	    $reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
+	    $time=time();
+	    if (trim($reply_content)=='')
+		$this->show_message($this->t('REPLY_EMPTY'),true,'index.php?action=control_panel&subtab=message',3);
+	    if(isset($_POST['update']))
+	    {
+		$input=array($mid,$reply_content,$time);
+		$condition=array('id'=>$mid);
+		if(!$this->_model->update($this->_reply_table_name, $condition, $input))
+		    die($this->_model->error());
+	    }
+	    else{
+		$input=array($mid,$reply_content,$time);
+		if(!$this->_model->insert($this->_reply_table_name, $input))
+		    die($this->_model->error());
+	    }
+	    header("Location:index.php?action=control_panel&subtab=message");
+	}
+	$reply_data=$this->loadModel();
+	$mid=(int)$_GET['mid'];
+	include 'themes/'.$this->_theme.'/templates/'."reply.php";
     }
 
     function update()
     {
         is_admin();
-		if(isset($_POST['Submit']))
-		{
-			$mid=0;
-			$mid=(int)$_POST['mid'];
-			$author=$_POST['author'];
-			$m_time=$_POST['m_time'];
-			$update_content = htmlspecialchars(trim($_POST['update_content']),ENT_COMPAT,'UTF-8');
-			$update_content = nl2br($update_content);
-			$update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
-			$ip=$_POST['ip'];
-			$input=array($mid,$author,$update_content,$m_time,$ip);
-			if (!$this->_model->june_connect())
-			    die($this->_model->june_error());
-			if (!$this->_model->june_select_db($this->_dbname))
-			    die($this->_model->june_error());
-			$condition=array('id'=>$mid);
-			if(!$this->_model->june_query_modify($this->_message_table_name,$condition,'U',$input))
-			    die($this->_model->june_error());
-			else
-				header("Location:index.php?action=control_panel&subtab=message");
-		}
-		if(!isset($_GET['mid']))
-		{
-            header("location:index.php?action=control_panel&subtab=message");exit;
-		}
+	if(isset($_POST['Submit']))
+	{
+	    $mid=0;
+	    $mid=(int)$_POST['mid'];
+	    $author=$_POST['author'];
+	    $m_time=$_POST['m_time'];
+	    $update_content = htmlspecialchars(trim($_POST['update_content']),ENT_COMPAT,'UTF-8');
+	    $update_content = nl2br($update_content);
+	    $update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
+	    $ip=$_POST['ip'];
+	    $input=array($mid,$author,$update_content,$m_time,$ip);
+	    $condition=array('id'=>$mid);
+	    if(!$this->_model->update($this->_message_table_name, $condition, $input))
+		die($this->_model->error());
+	    else
+		header("Location:index.php?action=control_panel&subtab=message");
+	}
+	if(!isset($_GET['mid']))
+	{
+	    header("location:index.php?action=control_panel&subtab=message");exit;
+	}
         $mid=intval($_GET['mid']);
-        if (!$this->_model->june_connect())
-		    die($this->_model->june_error());
-		if (!$this->_model->june_select_db($this->_dbname))
-		    die($this->_model->june_error());
-		$condition=array('id'=>$mid);
-        $message_info=$this->_model->june_query_select_byCondition($this->_message_table_name,$condition);
+	$condition=array('id'=>$mid);
+	$message_info=$this->_model->select($this->_message_table_name, $condition);
         if(!$message_info)
             $this->show_message($this->t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
         include 'themes/'.$this->_theme.'/templates/'."update.php";
@@ -724,13 +629,9 @@ class Maple_Controller
             $mid=intval($_GET['mid']);
         if(isset($mid))
         {
-        	if (!$this->_model->june_connect())
-			    die($this->_model->june_error());
-			if (!$this->_model->june_select_db($this->_dbname))
-			    die($this->_model->june_error());
-			$condition=array('id'=>$mid);
-			if(!$this->_model->june_query_modify($this->_message_table_name,$condition,'D'))
-			    die($this->_model->june_error());
+	    $condition=array('id'=>$mid);
+	    if(!$this->_model->delete($this->_message_table_name, $condition))
+		die($this->_model->error());
         }
         //若回复中有关于此留言的记录，执行删除回复操作
         @$reply_del=(int)$_GET['reply'];
@@ -748,13 +649,9 @@ class Maple_Controller
             $mid=intval($_GET['mid']);
         if(isset($mid))
         {
-        	if (!$this->_model->june_connect())
-			    die($this->_model->june_error());
-			if (!$this->_model->june_select_db($this->_dbname))
-			    die($this->_model->june_error());
-			$condition=array('id'=>$mid);
-			if(!$this->_model->june_query_modify($this->_reply_table_name,$condition,'D'))
-			    die($this->_model->june_error());
+	    $condition=array('id'=>$mid);
+	    if(!$this->_model->delete($this->_reply_table_name, $condition))
+		die($this->_model->error());
         }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
@@ -788,28 +685,28 @@ class Maple_Controller
         $tabs_array=array('overview','siteset','message','ban_ip');
         if(isset($_GET['subtab']))
         {
-			if(in_array($_GET['subtab'],$tabs_array))
-				$current_tab=$_GET['subtab'];
+	    if(in_array($_GET['subtab'],$tabs_array))
+		    $current_tab=$_GET['subtab'];
         }
         $themes=$this->get_all_themes();
         $data=$this->get_all_data();
         $reply_data=$this->get_all_reply();
         $ban_ip_info=$this->get_baned_ips();
 
-        $nums=$this->_model->june_num_rows($data);
-        $reply_num=$this->_model->june_num_rows($reply_data);
+        $nums=$this->_model->num_rows($data);
+        $reply_num=$this->_model->num_rows($reply_data);
 
         if($gd_exist)
-		{
+	{
             $gd_info=gd_version();
-			$gd_version=$gd_info?$gd_info:'<font color="red">'.$this->t('UNKNOWN').'</font>';
+	    $gd_version=$gd_info?$gd_info:'<font color="red">'.$this->t('UNKNOWN').'</font>';
         }
         else
             $gd_version='<font color="red">GD'.$this->t('NOT_SUPPORT').'</font>';
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
         $languages=$this->get_all_langs();
-		$timezone_array=$this->get_all_timezone();
+	$timezone_array=$this->get_all_timezone();
         include 'themes/'.$this->_theme.'/templates/'."admin.php";
     }
 
@@ -871,12 +768,12 @@ class Maple_Controller
         $ip_array=$this->get_baned_ips();
         for($i=0,$c=count($ip_array);$i<$c;$i++)
         {
-        	$ip_array[$i]=trim($ip_array[$i]["ip"]);
+	    $ip_array[$i]=trim($ip_array[$i]["ip"]);
         }
         $new_ip_array=array_diff($ip_array,$ip_update_array);
         $new_ip_string=implode("\n",$new_ip_array);
         if ($new_ip_array) 
-        	$new_ip_string.="\n";;        
+	    $new_ip_string.="\n";;
         $ip_filename=$this->_model->_db_root_dir.$this->_dbname.'/'.$this->_banedip_table_name.$this->_model->_data_ext;
         file_put_contents($ip_filename, $new_ip_string);
         header("location:index.php?action=control_panel&subtab=ban_ip");
@@ -946,8 +843,8 @@ EOF;
      * 检查验证码
      */
     function checkImgcode() 
-	{
-        return $this->_imgcode->check($_POST['valid_code']);
+    {
+	return $this->_imgcode->check($_POST['valid_code']);
     }
 
     /**
@@ -956,9 +853,9 @@ EOF;
      */
     function fix_filter_string($filter_words)
     {
-		$new_string=trim($filter_words,',');
-		$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
-		return $new_string;
+	$new_string=trim($filter_words,',');
+	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
+	return $new_string;
     }
 
     /**
@@ -966,17 +863,8 @@ EOF;
      */
     function get_baned_ips()
     {
-    	if (!$this->_model->june_connect())
-		    die($this->_model->june_error());
-		if (!$this->_model->june_select_db($this->_dbname))
-		{
-		    die($this->_model->june_error());
-		}
-		if(($result=$this->_model->june_query_select_all($this->_banedip_table_name))===FALSE)
-		{
-		    die($this->_model->june_error());
-		}		
-		return $result;
+	$result=$this->_model->select($this->_banedip_table_name);
+	return $result;
     }
 
     
@@ -984,23 +872,16 @@ EOF;
     function get_all_data($parse_smileys=true,$filter_words=false)
     {
         $data=array();
-        if (!$this->_model->june_connect())
-		    die($this->_model->june_error());
-		
-		if (!$this->_model->june_select_db($this->_dbname))
-		    die($this->_model->june_error());
-		
-		if(($data=$this->_model->june_query_select_all($this->_message_table_name))===FALSE)
-		    die($this->_model->june_error());
-		    
-        if(($reply_data=$this->_model->june_query_select_all($this->_reply_table_name))===FALSE)
-		    die($this->_model->june_error());
-		$new_reply_data=array();
-		foreach($reply_data as $reply_data_item)
-		{
-			$new_key=$reply_data_item["id"];
-			$new_reply_data[$new_key]=$reply_data_item;
-		}
+	if(($data=$this->_model->select($this->_message_table_name))===FALSE)
+	    die($this->_model->error());   
+        if(($reply_data=$this->_model->select($this->_reply_table_name))===FALSE)
+	    die($this->_model->error());
+	$new_reply_data=array();
+	foreach($reply_data as $reply_data_item)
+	{
+	    $new_key=$reply_data_item["id"];
+	    $new_reply_data[$new_key]=$reply_data_item;
+	}
         foreach ($data as &$data_per)
         {
             if($filter_words)
@@ -1011,8 +892,7 @@ EOF;
                 $data_per['reply']=$new_reply_data[$mid];
                 /*if($parse_smileys)
                     $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], $this->_smileys_dir,$this->_smileys);*/
-            }        
-              
+            } 
         }
         $data=array_reverse($data);
         //var_dump($data);
@@ -1024,9 +904,9 @@ EOF;
      */
     function filter_words($input)
     {
-		$filter_array=explode(',',$this->_filter_words);
-		$input=str_ireplace($filter_array,'***',$input);
-		return $input;
+	$filter_array=explode(',',$this->_filter_words);
+	$input=str_ireplace($filter_array,'***',$input);
+	return $input;
     }
 
     /**
@@ -1034,29 +914,23 @@ EOF;
      */
     function delete_backup_files()
     {
-		$d=dir($this->_model->_db_root_dir.$this->_dbname);
-		while(false!==($entry=$d->read()))
+	$d=dir($this->_model->_db_root_dir.$this->_dbname);
+	while(false!==($entry=$d->read()))
+	{
+		if (strlen($entry)==19)
 		{
-			if (strlen($entry)==19)
-			{
-				$d_file=$this->_model->_db_root_dir.$this->_dbname.'/'.$entry;
-				@unlink($d_file);
-			}
+			$d_file=$this->_model->_db_root_dir.$this->_dbname.'/'.$entry;
+			@unlink($d_file);
 		}
-		$d->close();
+	}
+	$d->close();
     }
 
     function get_all_reply()
     {
         $reply_data=array();
-        if (!$this->_model->june_connect())
-		    die($this->_model->june_error());
-		
-		if (!$this->_model->june_select_db($this->_dbname))
-		    die($this->_model->june_error());
-		
-		if(($reply_data=$this->_model->june_query_select_all($this->_reply_table_name))===FALSE)
-		    die($this->_model->june_error());
+	if(($reply_data=$this->_model->select($this->_reply_table_name))===FALSE)
+	    die($this->_model->error());
         return $reply_data;
     }
     /**
@@ -1067,19 +941,19 @@ EOF;
      */
     function parse_smileys($str = '', $image_url = '', $smileys = NULL)
     {
-		if ($image_url == '')
-			return $str;
-
-		if (!is_array($smileys))
-			return $str;
-
-		// Add a trailing slash to the file path if needed
-		$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
-		foreach ($smileys as $key => $val)
-		{
-			$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
-		}
+	if ($image_url == '')
 		return $str;
+
+	if (!is_array($smileys))
+		return $str;
+
+	// Add a trailing slash to the file path if needed
+	$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
+	foreach ($smileys as $key => $val)
+	{
+		$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
+	}
+	return $str;
     }
     
     function t($str,$isCoreMessage=false)
@@ -1101,8 +975,8 @@ EOF;
     	include $this->_site_conf_file;
         if(isset ($lang) && in_array($lang,$this->get_all_langs()))
         {
-        	$this->_current_lang=$lang;
-        	include(dirname(dirname(__FILE__)).'/lang/'.$lang.'.php');
+	    $this->_current_lang=$lang;
+	    include(dirname(dirname(__FILE__)).'/lang/'.$lang.'.php');
             $this->_lang_array=$lang;
         }
         else
