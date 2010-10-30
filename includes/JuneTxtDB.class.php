@@ -864,8 +864,12 @@ class JuneTxtDB{
     public function get_charset(){
         return $this->_charset;
     }
-    
-    /**
+
+    public function get_data_ext(){
+	return $this->_data_ext;
+    }
+
+        /**
      * return the version of JuneTxtDb
      * @return string
      * @ignore Test 1 OK

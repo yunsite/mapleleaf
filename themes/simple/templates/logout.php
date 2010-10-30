@@ -21,10 +21,10 @@
 <h1><?php echo $this->t('LOGOUT');?></h1>
 <?php if($old_user==true){?>
 <?php echo $this->t('LOGOUT_OK');?>
-<img src='<?php echo $this->_smileys_dir;?>smile.gif'alt="smile">
+<img src='<?php echo $this->_smileys_dir;?>smile.gif'alt="smile" />
 <?php }else{?>
 <?php echo $this->t('LOGOUT_NONE');?>
-<img src='<?php echo $this->_smileys_dir;?>wink.gif'alt="wink">
+<img src='<?php echo $this->_smileys_dir;?>wink.gif'alt="wink" />
 
 <?php }?>
 
