@@ -884,36 +884,4 @@ class JuneTxtDB{
         return count($result); 
     }
 }
-/**
- * @author FleaPHP Framework 
- * @link http://www.fleaphp.org/ 
- * @copyright Copyright &copy; 2005 - 2008 QeeYuan China Inc. (http://www.qeeyuan.com)
- * @license http://www.yiiframework.com/license/  
- */
-function rmdirs($dir)
-{
-    $dir = realpath($dir);
-    if ($dir == '' || $dir == '/' ||  (strlen($dir) == 3 && substr($dir, 1) == ':\\'))
-    {
-        //we do not allowed to delete root directory.
-        return false;
-    }
-
-    if(false !== ($dh = opendir($dir))) {
-        while(false !== ($file = readdir($dh))) {
-            if($file == '.' || $file == '..') { continue; }
-            $path = $dir . DIRECTORY_SEPARATOR . $file;
-            if (is_dir($path)) {
-                if (!rmdirs($path)) { return false; }
-            } else {
-                unlink($path);
-            }
-        }
-        closedir($dh);
-        rmdir($dir);
-        return true;
-    } else {
-        return false;
-    }
-}
 ?>
