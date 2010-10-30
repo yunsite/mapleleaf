@@ -11,12 +11,13 @@
 <?php 
 if($reply_data)
 {
+    $reply_data=$reply_data[0];
 ?>
 <input type="hidden" name="update" value="update" />
 <?php
 }
 ?>
-<textarea name="reply_content" cols="40" rows="9"><?php echo @$reply_data[0][1];?></textarea>
+<textarea name="reply_content" cols="40" rows="9"><?php echo @$reply_data['reply_content'];?></textarea>
 <br />
 <input type="submit" name="Submit" value="<?php echo $this->t('SUBMIT');?>" />
 <input type="button" name="cancel" value="<?php echo $this->t('CANCEL');?>" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />

@@ -1,11 +1,7 @@
-<?php
-@ob_end_clean();
-function_exists('ob_gzhandler') ? ob_start('ob_gzhandler') : ob_start();
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head><title><?php echo $this->t('TIPS');?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <?php
 if($redirect==true)
 {
@@ -27,6 +23,6 @@ echo '<pre>';
 print_r($msg);
 echo '</pre>';
 ?>
-<br><br><?php echo ($this->_copyright_info)?htmlspecialchars_decode($this->_copyright_info):"Powered by MapleLeaf";?>
+<br /><?php echo ($this->_copyright_info)?htmlspecialchars_decode($this->_copyright_info):"Powered by MapleLeaf";?>
 </td></tr></table>
 </body></html>

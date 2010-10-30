@@ -401,7 +401,7 @@ class Maple_Controller
 		$string.="</tr>";
 	    }
 	    echo $string;
-	}else{		//echo 'sss';
+	}else{
 	    echo 'Error';
 	}
     }
@@ -445,7 +445,7 @@ class Maple_Controller
         }
         if(isset($_POST['user']) && isset($_POST['password']))
         {
-	    if($_POST['user']==$this->_admin_name && htmlspecialchars($_POST['password'],ENT_QUOTES)==$this->_admin_password)
+	    if($_POST['user']==$this->_admin_name && $this->maple_quotes($_POST['password'])==$this->_admin_password)
 	    {
 		$_SESSION['admin']=$_POST['user'];
 		header("Location:index.php?action=control_panel");
@@ -477,11 +477,11 @@ class Maple_Controller
 	$new_data=array();
 	$user=isset($_POST['user'])?$_POST['user']:'';
 	$current_ip=$_SERVER['REMOTE_ADDR'];
-	$user=htmlspecialchars(trim($user),ENT_COMPAT,'UTF-8');
+	$user=$this->maple_quotes($user);
 	$admin_name_array=array('admin','root','administrator','管理员');
 	if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
 	    $user='anonymous';
-	$content =isset($_POST['content'])?htmlspecialchars(trim($_POST['content']),ENT_COMPAT,'UTF-8'):'';
+	$content =isset($_POST['content'])?$this->maple_quotes($_POST['content']):'';
 	$content = nl2br($content);
 	$content = str_replace(array("\n", "\r\n", "\r"), '', $content);
 	$time=time();
@@ -521,22 +521,22 @@ class Maple_Controller
         header("Location:index.php");
     }
 
-	protected function loadModel()
+    protected function loadModel()
+    {
+	if(!isset($_GET['mid']))
 	{
-	    if(!isset($_GET['mid']))
-	    {
-		header("location:index.php?action=control_panel&subtab=message");
-		exit;
-	    }
-	    $mid=(int)$_GET['mid'];
-	    $condition=array('id'=>$mid);
-	    $reply_data=$this->_model->select($this->_reply_table_name, $condition);
-	    if ($reply_data===FALSE)
-		$this->show_message($this->t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
-	    else
-		return $reply_data;
+	    header("location:index.php?action=control_panel&subtab=message");
+	    exit;
 	}
-	//Reply
+	$mid=(int)$_GET['mid'];
+	$condition=array('id'=>$mid);
+	$reply_data=$this->_model->select($this->_reply_table_name, $condition);
+	if ($reply_data===FALSE)
+	    $this->show_message($this->t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
+	else
+	    return $reply_data;
+    }
+    //Reply
     function reply()
     {
         is_admin();
@@ -544,7 +544,7 @@ class Maple_Controller
 	{
 	    $mid=0;
 	    $mid=(int)$_POST['mid'];
-	    $reply_content = htmlspecialchars(trim($_POST['reply_content']));
+	    $reply_content = $this->maple_quotes($_POST['reply_content']);
 	    $reply_content = nl2br($reply_content);
 	    $reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
 	    $time=time();
@@ -578,7 +578,7 @@ class Maple_Controller
 	    $mid=(int)$_POST['mid'];
 	    $author=$_POST['author'];
 	    $m_time=$_POST['m_time'];
-	    $update_content = htmlspecialchars(trim($_POST['update_content']),ENT_COMPAT,'UTF-8');
+	    $update_content = $this->maple_quotes($_POST['update_content']);
 	    $update_content = nl2br($update_content);
 	    $update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
 	    $ip=$_POST['ip'];
@@ -598,6 +598,7 @@ class Maple_Controller
 	$message_info=$this->_model->select($this->_message_table_name, $condition);
         if(!$message_info)
             $this->show_message($this->t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
+	$message_info=$message_info[0];
         include 'themes/'.$this->_theme.'/templates/'."update.php";
     }
 
@@ -660,9 +661,8 @@ class Maple_Controller
     function clear_all()
     {
         is_admin();
-        $message_table_path=$this->_model->_db_root_dir.$this->_dbname."/".$this->_message_table_name;
-        
-        $message_filename=$message_table_path.$this->_model->_data_ext;
+        $message_table_path=  $this->_model->_table_path($this->_dbname, $this->_message_table_name);
+	$message_filename=$message_table_path.$this->_model->get_data_ext();
         file_put_contents($message_filename, '');
         $this->clear_reply();
         header("location:index.php?action=control_panel&subtab=message");
@@ -671,8 +671,8 @@ class Maple_Controller
     function clear_reply()
     {
         is_admin();
-        $reply_table_path=$this->_model->_db_root_dir.$this->_dbname."/".$this->_reply_table_name;
-        $reply_filename=$reply_table_path.$this->_model->_data_ext;
+        $reply_table_path=$this->_model->_table_path($this->_dbname,$this->_reply_table_name);
+        $reply_filename=$reply_table_path.$this->_model->get_data_ext();
         file_put_contents($reply_filename,'');
         header("location:index.php?action=control_panel&subtab=message");
     }
@@ -752,7 +752,7 @@ class Maple_Controller
             exit;
         }
         $insert_string=$ip."\n";
-        $ip_filename=$this->_model->_db_root_dir.$this->_dbname.'/'.$this->_banedip_table_name.$this->_model->_data_ext;
+	$ip_filename=$this->_model->_table_path($this->_dbname, $this->_banedip_table_name).$this->_model->get_data_ext();
         file_put_contents($ip_filename, $insert_string, FILE_APPEND | LOCK_EX);
         header("location:index.php?action=control_panel&subtab=ban_ip");
     }
@@ -775,18 +775,18 @@ class Maple_Controller
         $new_ip_string=implode("\n",$new_ip_array);
         if ($new_ip_array) 
 	    $new_ip_string.="\n";;
-        $ip_filename=$this->_model->_db_root_dir.$this->_dbname.'/'.$this->_banedip_table_name.$this->_model->_data_ext;
+        $ip_filename=$this->_model->_table_path($this->_dbname, $this->_banedip_table_name).$this->_model->get_data_ext();
         file_put_contents($ip_filename, $new_ip_string);
         header("location:index.php?action=control_panel&subtab=ban_ip");
     }
-	/**
-	 * 显示表情
-	 */
-	function show_smileys_table()
-	{
-	    $smiley=  require 'showSmiley.php';
-	    return $smiley;
-	}
+    /**
+     * 显示表情
+     */
+    function show_smileys_table()
+    {
+	$smiley=  require 'showSmiley.php';
+	return $smiley;
+    }
 
     /**
      * 检查验证码
@@ -816,8 +816,6 @@ class Maple_Controller
 	return $result;
     }
 
-    
-
     function get_all_data($parse_smileys=true,$filter_words=false)
     {
         $data=array();
@@ -844,7 +842,6 @@ class Maple_Controller
             } 
         }
         $data=array_reverse($data);
-        //var_dump($data);
         return $data;
     }
     /**
@@ -866,11 +863,11 @@ class Maple_Controller
 	$d=dir($this->_model->_db_root_dir.$this->_dbname);
 	while(false!==($entry=$d->read()))
 	{
-		if (strlen($entry)==19)
-		{
-			$d_file=$this->_model->_db_root_dir.$this->_dbname.'/'.$entry;
-			@unlink($d_file);
-		}
+	    if (strlen($entry)==19)
+	    {
+		$d_file=$this->_model->_db_path($this->_dbname).'/'.$entry;
+		@unlink($d_file);
+	    }
 	}
 	$d->close();
     }
@@ -891,16 +888,14 @@ class Maple_Controller
     function parse_smileys($str = '', $image_url = '', $smileys = NULL)
     {
 	if ($image_url == '')
-		return $str;
-
+	    return $str;
 	if (!is_array($smileys))
-		return $str;
-
+	    return $str;
 	// Add a trailing slash to the file path if needed
 	$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
 	foreach ($smileys as $key => $val)
 	{
-		$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
+	    $str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
 	}
 	return $str;
     }
@@ -913,8 +908,6 @@ class Maple_Controller
     
     function get_all_timezone()
     {
-    	//global $lang;
-    	//var_dump($this->_lang_array);exit;
     	$timezone=$this->_lang_array['TZ_ZONES'];
     	return $timezone;
     }
@@ -944,14 +937,10 @@ class Maple_Controller
         $d->close();
         return $langs;
     }
-}
-
-class MP_CONTROLLER extends Maple_Controller
-{
     function run()
     {
         $action=isset($_GET['action'])?$_GET['action']:'index';
         if(!method_exists($this,$action) || !is_callable(array($this,$action))){$action='index';}
-        parent::$action();
+        self::$action();
     }
 }

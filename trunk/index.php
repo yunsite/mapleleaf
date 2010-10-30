@@ -2,5 +2,5 @@
 session_start();
 define('IN_MP',true);
 require_once('./preload.php');
-$maple=new MP_CONTROLLER();
+$maple=new Maple_Controller();
 $maple->run();
