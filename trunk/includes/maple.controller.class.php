@@ -42,11 +42,11 @@ class Maple_Controller
     //构造函数
     function  __construct()
     {
-	$this->_smileys=  require 'smiley.php';
-	$this->_coreMessage_array=  require 'coreMessage.php';
-        $this->_imgcode=new FLEA_Helper_ImgCode();
-        $this->_model=new JuneTxtDb();
-	$this->_model->select_db($this->_dbname);
+	$this->_smileys=  require 'smiley.php';//将代表表情图案的数组导入到当前类的属性中
+	$this->_coreMessage_array=  require 'coreMessage.php';//将代表核心信息的数组导入到当前类的属性中
+        $this->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
+        $this->_model=new JuneTxtDb();//实例化模型
+	$this->_model->select_db($this->_dbname);//选择默认的数据库
         $this->load_config();//载入配置
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
@@ -56,14 +56,12 @@ class Maple_Controller
     //载入配置
     function load_config()
     {
-        //check directories
-        if (!is_dir($this->_themes_directory))
+        if (!is_dir($this->_themes_directory))//检查主题目录是否存在
 	    die($this->t('THEMES_DIR_NOTEXISTS',true));
-        //先检查配置文件是否存在和可写
-        if(!file_exists($this->_site_conf_file))
-            die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),$this->_site_conf_file));//"你所指定的配置文件 {$this->_site_conf_file} 不存在";
+        if(!file_exists($this->_site_conf_file))        //先检查配置文件是否存在和可写
+            die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),$this->_site_conf_file));
         if(!is_writable($this->_site_conf_file))
-            die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),$this->_site_conf_file));//"你所指定的配置文件 {$this->_site_conf_file} 不可写";
+            die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),$this->_site_conf_file));
         //由于出现错误时需要调用 show_message 函数，而此函数依赖于当前的theme,所以需要先得到当前的 theme
     	$this->get_theme();
         if(!is_dir($this->_smileys_dir))
@@ -106,17 +104,17 @@ class Maple_Controller
             $this->show_message($this->t('LOGIN_DENIED'));
         }
     }
-	/**
-	 * 显示信息
-	 */
+    /**
+     * 显示信息
+     */
     function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
     {
         include 'themes/'.$this->_theme.'/templates/'."show_message.php";
         exit;
     }
-	/**
-	 * 得到所有可用的主题
-	 */
+    /**
+     * 得到所有可用的主题
+     */
     public function get_all_themes()
     {
         $themes=array();
@@ -147,11 +145,11 @@ class Maple_Controller
         $this->set_admin_password();
         $this->set_time_zone();
         $this->set_lang();
-        header("location:index.php?action=control_panel&subtab=siteset");
+        header("location:index.php?action=control_panel&amp;subtab=siteset");
     }
     public function maple_quotes($var)
     {
-        return htmlspecialchars(trim($var),ENT_QUOTES);
+        return htmlspecialchars(trim($var),ENT_QUOTES,  $this->_model->get_charset());
     }
 
     public function get_board_name()
@@ -169,7 +167,7 @@ class Maple_Controller
         $board_name=$_POST['board_name']?$this->maple_quotes($_POST['board_name']):'MapleLeaf';
         $str='';
         $str="\n\$board_name='$board_name';";
-        $this->_model->_writeover($this->_site_conf_file,$str, 'ab');
+	file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
 
     public function get_mb_open()
@@ -186,7 +184,7 @@ class Maple_Controller
         is_admin();
         $mb_open=$_POST['mb_open']?(int)$_POST['mb_open']:0;
         $str="\n\$mb_open=$mb_open;";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
 
     public function get_close_reason()
@@ -203,7 +201,7 @@ class Maple_Controller
         is_admin();
         $close_reason=$this->maple_quotes($_POST['close_reason']);
         $str="\n\$close_reason='$close_reason';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
 
     public function get_admin_email()
@@ -220,7 +218,7 @@ class Maple_Controller
         is_admin();
         $admin_email=$_POST['admin_email']?$this->maple_quotes($_POST['admin_email']):'rainyjune@live.cn';
         $str="\n\$admin_email='$admin_email';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
     public function get_copyright_info()
     {
@@ -236,7 +234,7 @@ class Maple_Controller
         is_admin();
         @$copyright_info=$_POST['copyright_info']?$this->maple_quotes($_POST['copyright_info']):'Copyright &copy; 2010 mapleleaf.ourplanet.tk';
         $str="\n\$copyright_info='$copyright_info';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
     public function get_filter_words()
     {
@@ -252,7 +250,7 @@ class Maple_Controller
         is_admin();
         $filter_words=$_POST['filter_words']?$this->fix_filter_string($_POST['filter_words']):'';
         $str="\n\$filter_words='$filter_words';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
 
     public function get_valid_code_open()
@@ -269,7 +267,7 @@ class Maple_Controller
         is_admin();
         $valid_code_open=(int)$_POST['valid_code_open'];
         $str="\n\$valid_code_open='$valid_code_open';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
     public function get_page_on()
     {
@@ -285,7 +283,7 @@ class Maple_Controller
         is_admin();
         $page_on=(int)$_POST['page_on'];
         $str="\n\$page_on='$page_on';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
     public function get_num_perpage()
     {
@@ -301,7 +299,7 @@ class Maple_Controller
         is_admin();
         $num_perpage=(int)$_POST['num_perpage'];
         $str="\n\$num_perpage='$num_perpage';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
 
     public function get_theme()
@@ -310,7 +308,7 @@ class Maple_Controller
         if(isset ($theme))
             $this->_theme=$theme;
         else
-            die('Theme undefined,please check your configuration file `config.php`!');//$this->_errors[]="主题没有正确设置";
+            die($this->t('THEME_ERROR', TRUE));
     }
 
     private function set_theme()
@@ -318,7 +316,7 @@ class Maple_Controller
         is_admin();
         $theme=in_array($_POST['theme'], $this->get_all_themes())?$_POST['theme']:'simple';
         $str="\n\$theme='$theme';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
 
     public function get_time_zone()
@@ -335,15 +333,15 @@ class Maple_Controller
         is_admin();
         $timezone=(isset($_POST['timezone']) && in_array($_POST['timezone'],array_keys($this->get_all_timezone())))?$_POST['timezone']:'0';
         $str="\n\$timezone='$timezone';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
     
-	private function set_lang()
+    private function set_lang()
     {
         is_admin();
         $lang=(isset($_POST['lang']) && in_array($_POST['lang'],$this->get_all_langs()))?$_POST['lang']:'en';
         $str="\n\$lang='$lang';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
     
     public function get_admin_name()
@@ -359,7 +357,7 @@ class Maple_Controller
     {
         is_admin();
         $str="\n\$admin='admin';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
     public function get_admin_password()
     {
@@ -375,7 +373,7 @@ class Maple_Controller
         is_admin();
         $password=isset($_POST['password']) && !empty($_POST['password'])?$this->maple_quotes($_POST['password']):$this->_admin_password;
         $str="\n\$password='$password';";
-        $this->_model->_writeover($this->_site_conf_file, $str, 'ab');
+        file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
 
     function ajaxIndex(){
