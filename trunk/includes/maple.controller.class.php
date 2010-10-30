@@ -8,7 +8,6 @@
  */
 include_once 'JuneTxtDB.class.php';
 include_once 'Imgcode.php';
-include_once 'smiley.php';
 class Maple_Controller
 {
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
@@ -434,7 +433,11 @@ class Maple_Controller
         $data=array_slice($data,$start,$this->_num_perpage);
         return $data;
     }
-    
+
+    function showCaptcha(){
+	$this->_imgcode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
+    }
+
     function login()
     {
         if (isset($_SESSION['admin']))

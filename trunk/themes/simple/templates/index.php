@@ -122,7 +122,7 @@ function checkall() {
 	<tr>
 		<td class="l"><?php echo $this->t('VALIDATE_CODE');?></td>
 		<td class="left">
-			<input id="valid_code" type="text" name="valid_code" size="4" maxlength="4" />&nbsp;<img id="captcha_img" src="./includes/showimgcode.php" border="0" align="absbottom" title="<?php echo $this->t('CLICK_TO_REFRESH');?>" style="cursor:pointer" alt="<?php echo $this->t('CAPTCHA');?>" />
+			<input id="valid_code" type="text" name="valid_code" size="4" maxlength="4" />&nbsp;<img id="captcha_img" src="index.php?action=showCaptcha" border="0" align="absbottom" title="<?php echo $this->t('CLICK_TO_REFRESH');?>" style="cursor:pointer" alt="<?php echo $this->t('CAPTCHA');?>" />
 		</td>
 		<td class="left">&nbsp;</td>
 	</tr>
