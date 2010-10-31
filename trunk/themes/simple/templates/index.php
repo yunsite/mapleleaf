@@ -57,7 +57,7 @@ function checkall() {
 	<?php foreach($data as $m){?>
     <tr class='message'>
     	<td class='left'><?php echo str_replace('Admin',"<font color='red'>Admin</font>",$m['user']);?></td>
-        <td class='left'><?php echo $this->parse_smileys($m['content'],$this->_smileys_dir,$this->_smileys);?><br />
+        <td class='left'><div style="word-wrap: break-word;word-break:break-all;width:450px;"><?php echo $this->parse_smileys($m['content'],$this->_smileys_dir,$this->_smileys);?><br />
         				 <?php 
         				 	if(@$m['reply']){
         				 ?>
@@ -66,6 +66,7 @@ function checkall() {
         				 <?php 
         				 }
         				 ?>
+	    </div>
         </td>
         <td class='center'><?php echo date('m-d H:i',$m['time']+$this->_time_zone*60*60);?></td>
     </tr>
