@@ -50,7 +50,7 @@ class Maple_Controller
         $this->load_config();//载入配置
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
-        $this->is_baned($_SERVER['REMOTE_ADDR']);//检查是否被禁止登录
+        $this->is_baned(getIp());//检查是否被禁止登录
     }
 
     //载入配置
@@ -476,7 +476,7 @@ class Maple_Controller
 	$new_data_status=TRUE;
 	$new_data=array();
 	$user=isset($_POST['user'])?$_POST['user']:'';
-	$current_ip=$_SERVER['REMOTE_ADDR'];
+	$current_ip=getIp();
 	$user=$this->maple_quotes($user);
 	$admin_name_array=array('admin','root','administrator','管理员');
 	if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
