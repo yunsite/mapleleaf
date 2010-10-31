@@ -860,7 +860,7 @@ class Maple_Controller
      */
     function delete_backup_files()
     {
-	$d=dir($this->_model->_db_root_dir.$this->_dbname);
+	$d=dir($this->_model->_db_path($this->_dbname));
 	while(false!==($entry=$d->read()))
 	{
 	    if (strlen($entry)==19)
