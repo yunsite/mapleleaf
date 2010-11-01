@@ -89,7 +89,7 @@ $lang=array(
 			),
     	////////////////////
     		'WELCOME'=>'Welcome to %s',
-    		'WELCOME_POST'=>'Welcome to post',
+    		'WELCOME_POST'=>'Welcome to Our site',
     		'NICKNAME'=>'NickName',
     		'MESSAGE'=>'Message',
     		'TIME'=>'Time',
