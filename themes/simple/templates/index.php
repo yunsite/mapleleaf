@@ -47,6 +47,19 @@ function checkall() {
 
 <body>
 <div id="container">
+    <div style="float: right">
+	<?php
+	if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user'])){
+	    echo '<a href="?action=register">Register</a>&nbsp;<a href="?action=login">Login</a>';;
+	}
+	if(isset ($_SESSION['user']) || isset ($_SESSION['admin'])){
+	    echo '<a href="?action=logout">Logout</a>';
+	}
+	if(isset ($_SESSION['user'])){
+	    echo '&nbsp;<a href="?action=user_update&amp;uid='.$_SESSION['uid'].'">Update</a>';
+	}
+	?>
+    </div>
 <h1><?php echo $this->t('WELCOME_POST');?></h1>
 <table id="main_table" cellspacing="0" >
 	<tr class="header">
@@ -96,16 +109,6 @@ function checkall() {
 
 
 <div align="center" id="pleasepost"><?php echo $this->t('CLICK_POST');?>&nbsp;</div>
-<div>
-<?php
-if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user'])){
-    echo '<a href="?action=register">Register</a>&nbsp;<a href="?action=login">Login</a>';;
-}
-if(isset ($_SESSION['user']) || isset ($_SESSION['admin'])){
-    echo '<a href="?action=logout">Logout</a>';
-}
-?>
-</div>
 <form id="guestbook" name="guestbook" action="index.php?action=post" method="post">
     <input id="pid" type="hidden" name="pid" value="<?php echo $_GET['pid'];?>" />
 <table id="add_table">

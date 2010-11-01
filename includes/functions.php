@@ -123,4 +123,8 @@
 	$ip=$ip?$ip:'127.0.0.1';
 	return $ip;
     }
+    function is_email($value){
+        //return preg_match('/^[a-z0-9]+[._\-\+]*@([a-z0-9]+[-a-z0-9]*\.)+[a-z0-9]+$/i', $value);
+        return preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $value);
+    }
 ?>
