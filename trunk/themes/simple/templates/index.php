@@ -95,14 +95,26 @@ function checkall() {
 <br />
 
 
-<div align="center" id="pleasepost"><?php echo $this->t('CLICK_POST');?></div>
+<div align="center" id="pleasepost"><?php echo $this->t('CLICK_POST');?>&nbsp;</div>
+<div>
+<?php
+if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user'])){
+    echo '<a href="?action=register">Register</a>&nbsp;<a href="?action=login">Login</a>';;
+}
+if(isset ($_SESSION['user']) || isset ($_SESSION['admin'])){
+    echo '<a href="?action=logout">Logout</a>';
+}
+?>
+</div>
 <form id="guestbook" name="guestbook" action="index.php?action=post" method="post">
     <input id="pid" type="hidden" name="pid" value="<?php echo $_GET['pid'];?>" />
 <table id="add_table">
 	<tr>
 		<td class="alignright"><?php echo $this->t('NICKNAME');?></td>
 		<td class="alignleft"><?php if($admin == true){?>
-        				<input name="user" id="user" type="hidden" maxlength="10"  onfocus="clear_user()" value="Admin" /><font color="red">Admin</font>
+        				<input name="user" id="user" type="hidden" maxlength="10" value="Admin" /><font color="red">Admin</font>
+					<?php }elseif(isset($_SESSION['user'])){ ?>
+					<input name="user" id="user" type="hidden" maxlength="10" value="<?php echo $_SESSION['user'];?>" /><font color="blue"><?php echo $_SESSION['user'];?></font>
 						<?php }else{?>
                         <input name="user" id="user" type="text" maxlength="10"  onfocus="clear_user()" value="anonymous" />
 					<?php }?>

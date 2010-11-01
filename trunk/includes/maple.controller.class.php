@@ -4,7 +4,7 @@
  * @author      rainyjune<dreamneverfall@gmail.com>
  * @copyright   Copyright (c) 2008 - 2010 OurPlanet Team (http://mapleleaf.ourplanet.tk/)
  * @license     GPL2
- * @version     2010-10-29
+ * @version     2010-11-01
  */
 include_once 'JuneTxtDB.class.php';
 include_once 'Imgcode.php';
@@ -34,6 +34,7 @@ class Maple_Controller
     public  $_message_table='gb';//留言信息数据表名称
     public  $_reply_table='reply';//回复数据表名称
     public  $_banedip_table='ban';//被禁止的IP列表的数据表的名称
+    public  $_users_table='user';//所有用户的资料
     public  $_current_lang;
     public  $_lang_array;//保存语言翻译信息
     public  $_smileys;
@@ -51,6 +52,35 @@ class Maple_Controller
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
         $this->is_baned(getIp());//检查是否被禁止登录
+    }
+
+    /* User Management */
+    public function register(){
+	if(isset ($_SESSION['admin']) || isset ($_SESSION['user'])){
+	    header("location:index.php");exit;
+	}
+	if(isset ($_POST['register'])){
+	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
+		$user=$this->maple_quotes($_POST['user']);
+		$pwd=$this->maple_quotes($_POST['pwd']);
+		$email=$this->maple_quotes($_POST['email']);
+		$user_exists=$this->_model->select($this->_users_table, array('user'=>$user));
+		if(!$user_exists && $_POST['user']!= $this->_admin_name){
+		    $user_data=array(NULL,$user,$pwd,$email);
+		    if($this->_model->insert($this->_users_table, $user_data)){
+			$_SESSION['user']=$user;
+			header("location:index.php");exit;
+		    }else{
+			die($this->_model->error());
+		    }
+		}else{
+		    $errorMsg="用户名字已经存在了";
+		}
+	    }else{
+		$errorMsg="填写未完成";
+	    }
+	}
+	include 'themes/'.$this->_theme.'/templates/'."register.php";
     }
 
     //载入配置
@@ -392,11 +422,11 @@ class Maple_Controller
 	    foreach($data as $m){
 		$string.="<tr class='message'>";
 		$string.="<td class='left'>".str_replace('Admin',"<font color='red'>Admin</font>",$m['user'])."</td>";
-		$string.="<td class='left'>".$this->parse_smileys(htmlspecialchars_decode($m['content']),$this->_smileys_dir,$this->_smileys)."<br />";		 
+		$string.="<td class='left'><div style='word-wrap: break-word;word-break:break-all;width:450px;'>".$this->parse_smileys(htmlspecialchars_decode($m['content']),$this->_smileys_dir,$this->_smileys)."<br />";
 		if(@$m['reply']){							 
 		    $string.=sprintf($this->t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));
 		}
-		$string.="</td>";
+		$string.="</div></td>";
 		$string.="<td class='center'>".date('m-d H:i',$m['time']+$this->_time_zone*60*60)."</td>";
 		$string.="</tr>";
 	    }
@@ -438,21 +468,36 @@ class Maple_Controller
 
     function login()
     {
-        if (isset($_SESSION['admin']))
-        {
+        if (isset($_SESSION['admin']))//若管理员已经登录
+	{
             header("location:index.php?action=control_panel");
             exit;
         }
-        if(isset($_POST['user']) && isset($_POST['password']))
+	if (isset($_SESSION['user']))//若普通用户已经登录
         {
-	    if($_POST['user']==$this->_admin_name && $this->maple_quotes($_POST['password'])==$this->_admin_password)
+            header("location:index.php");
+            exit;
+        }
+        if(isset($_POST['user']) && isset($_POST['password']))//若用户提交了登录表单
+        {
+	    //echo 'For admin';exit;
+	    if($_POST['user']==$this->_admin_name && $this->maple_quotes($_POST['password'])==$this->_admin_password)//若使用管理员帐户成功登录
 	    {
 		$_SESSION['admin']=$_POST['user'];
 		header("Location:index.php?action=control_panel");
 		exit;
 	    }
-	    else
-		$errormsg=$this->t('LOGIN_ERROR');
+	    else{//使用普通用户登录
+		//echo 'For User';exit;
+		$user_exists=$this->_model->select($this->_users_table,array('user'=>$_POST['user']));
+		$user_exists=@$user_exists[0];
+		if($user_exists && $_POST['password']==$user_exists['pwd']){
+		    $_SESSION['user']=$_POST['user'];
+		    header("location:index.php");exit;
+		}else{
+		    $errormsg=$this->t('LOGIN_ERROR');
+		}
+	    }
         }
 	include 'themes/'.$this->_theme.'/templates/'."login.php";
         exit;
@@ -460,6 +505,11 @@ class Maple_Controller
 
     function logout()
     {
+	if(isset ($_SESSION['user'])){
+	    unset ($_SESSION['user']);
+	    session_destroy();
+	    header("location:index.php");exit;
+	}
         $old_user='';
         if(isset($_SESSION['admin']))
         {
