@@ -31,9 +31,9 @@ class Maple_Controller
     public  $_smileys_dir='misc/';//     * 表情图片所在的文件夹位置
     public  $_errors=array();//     * 保存错误信息
     public  $_dbname='mapleleaf';//数据库名称
-    public  $_message_table_name='gb';//留言信息数据表名称
-    public  $_reply_table_name='reply';//回复数据表名称
-    public  $_banedip_table_name='ban';//被禁止的IP列表的数据表的名称
+    public  $_message_table='gb';//留言信息数据表名称
+    public  $_reply_table='reply';//回复数据表名称
+    public  $_banedip_table='ban';//被禁止的IP列表的数据表的名称
     public  $_current_lang;
     public  $_lang_array;//保存语言翻译信息
     public  $_smileys;
@@ -512,7 +512,7 @@ class Maple_Controller
 	}
 
 	$new_data=array(NULL,$user,$content,$time,$current_ip);
-	if(!$this->_model->insert($this->_message_table_name, $new_data))
+	if(!$this->_model->insert($this->_message_table, $new_data))
 	    die($this->_model->error());
 	if(isset($_POST['ajax'])){
 	    echo 'OK';
@@ -530,7 +530,7 @@ class Maple_Controller
 	}
 	$mid=(int)$_GET['mid'];
 	$condition=array('id'=>$mid);
-	$reply_data=$this->_model->select($this->_reply_table_name, $condition);
+	$reply_data=$this->_model->select($this->_reply_table, $condition);
 	if ($reply_data===FALSE)
 	    $this->show_message($this->t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
 	else
@@ -554,12 +554,12 @@ class Maple_Controller
 	    {
 		$input=array($mid,$reply_content,$time);
 		$condition=array('id'=>$mid);
-		if(!$this->_model->update($this->_reply_table_name, $condition, $input))
+		if(!$this->_model->update($this->_reply_table, $condition, $input))
 		    die($this->_model->error());
 	    }
 	    else{
 		$input=array($mid,$reply_content,$time);
-		if(!$this->_model->insert($this->_reply_table_name, $input))
+		if(!$this->_model->insert($this->_reply_table, $input))
 		    die($this->_model->error());
 	    }
 	    header("Location:index.php?action=control_panel&subtab=message");
@@ -584,7 +584,7 @@ class Maple_Controller
 	    $ip=$_POST['ip'];
 	    $input=array($mid,$author,$update_content,$m_time,$ip);
 	    $condition=array('id'=>$mid);
-	    if(!$this->_model->update($this->_message_table_name, $condition, $input))
+	    if(!$this->_model->update($this->_message_table, $condition, $input))
 		die($this->_model->error());
 	    else
 		header("Location:index.php?action=control_panel&subtab=message");
@@ -595,7 +595,7 @@ class Maple_Controller
 	}
         $mid=intval($_GET['mid']);
 	$condition=array('id'=>$mid);
-	$message_info=$this->_model->select($this->_message_table_name, $condition);
+	$message_info=$this->_model->select($this->_message_table, $condition);
         if(!$message_info)
             $this->show_message($this->t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
 	$message_info=$message_info[0];
@@ -632,7 +632,7 @@ class Maple_Controller
         if(isset($mid))
         {
 	    $condition=array('id'=>$mid);
-	    if(!$this->_model->delete($this->_message_table_name, $condition))
+	    if(!$this->_model->delete($this->_message_table, $condition))
 		die($this->_model->error());
         }
         //若回复中有关于此留言的记录，执行删除回复操作
@@ -652,7 +652,7 @@ class Maple_Controller
         if(isset($mid))
         {
 	    $condition=array('id'=>$mid);
-	    if(!$this->_model->delete($this->_reply_table_name, $condition))
+	    if(!$this->_model->delete($this->_reply_table, $condition))
 		die($this->_model->error());
         }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
@@ -661,7 +661,7 @@ class Maple_Controller
     function clear_all()
     {
         is_admin();
-        $message_table_path=  $this->_model->_table_path($this->_dbname, $this->_message_table_name);
+        $message_table_path=  $this->_model->_table_path($this->_dbname, $this->_message_table);
 	$message_filename=$message_table_path.$this->_model->get_data_ext();
         file_put_contents($message_filename, '');
         $this->clear_reply();
@@ -671,7 +671,7 @@ class Maple_Controller
     function clear_reply()
     {
         is_admin();
-        $reply_table_path=$this->_model->_table_path($this->_dbname,$this->_reply_table_name);
+        $reply_table_path=$this->_model->_table_path($this->_dbname,$this->_reply_table);
         $reply_filename=$reply_table_path.$this->_model->get_data_ext();
         file_put_contents($reply_filename,'');
         header("location:index.php?action=control_panel&subtab=message");
@@ -752,7 +752,7 @@ class Maple_Controller
             exit;
         }
         $insert_string=$ip."\n";
-	$ip_filename=$this->_model->_table_path($this->_dbname, $this->_banedip_table_name).$this->_model->get_data_ext();
+	$ip_filename=$this->_model->_table_path($this->_dbname, $this->_banedip_table).$this->_model->get_data_ext();
         file_put_contents($ip_filename, $insert_string, FILE_APPEND | LOCK_EX);
         header("location:index.php?action=control_panel&subtab=ban_ip");
     }
@@ -775,7 +775,7 @@ class Maple_Controller
         $new_ip_string=implode("\n",$new_ip_array);
         if ($new_ip_array) 
 	    $new_ip_string.="\n";;
-        $ip_filename=$this->_model->_table_path($this->_dbname, $this->_banedip_table_name).$this->_model->get_data_ext();
+        $ip_filename=$this->_model->_table_path($this->_dbname, $this->_banedip_table).$this->_model->get_data_ext();
         file_put_contents($ip_filename, $new_ip_string);
         header("location:index.php?action=control_panel&subtab=ban_ip");
     }
@@ -812,16 +812,16 @@ class Maple_Controller
      */
     function get_baned_ips()
     {
-	$result=$this->_model->select($this->_banedip_table_name);
+	$result=$this->_model->select($this->_banedip_table);
 	return $result;
     }
 
     function get_all_data($parse_smileys=true,$filter_words=false)
     {
         $data=array();
-	if(($data=$this->_model->select($this->_message_table_name))===FALSE)
+	if(($data=$this->_model->select($this->_message_table))===FALSE)
 	    die($this->_model->error());   
-        if(($reply_data=$this->_model->select($this->_reply_table_name))===FALSE)
+        if(($reply_data=$this->_model->select($this->_reply_table))===FALSE)
 	    die($this->_model->error());
 	$new_reply_data=array();
 	foreach($reply_data as $reply_data_item)
@@ -875,7 +875,7 @@ class Maple_Controller
     function get_all_reply()
     {
         $reply_data=array();
-	if(($reply_data=$this->_model->select($this->_reply_table_name))===FALSE)
+	if(($reply_data=$this->_model->select($this->_reply_table))===FALSE)
 	    die($this->_model->error());
         return $reply_data;
     }
