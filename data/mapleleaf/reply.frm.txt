@@ -1,3 +1,0 @@
-id
-reply_content
-reply_time

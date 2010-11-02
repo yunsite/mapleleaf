@@ -1,4 +1,0 @@
-uid:auto_increment
-user
-pwd
-email
