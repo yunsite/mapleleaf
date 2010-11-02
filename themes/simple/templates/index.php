@@ -14,9 +14,9 @@
 //<![CDATA[
 function checkall() {
 	var user = document.getElementById('user').value;
-	
+
 	var content = document.getElementById('content').value;
-	
+
 	if (user == "") {
 		document.getElementById("user_msg").innerHTML = "<font color='red'><?php echo $this->t('USERNAME_NOT_EMPTY');?></font>";
 		return false;
@@ -69,14 +69,14 @@ function checkall() {
 	</tr>
 	<?php foreach($data as $m){?>
     <tr class='message'>
-    	<td class='left'><?php echo str_replace('Admin',"<font color='red'>Admin</font>",$m['user']);?></td>
+    	<td class='left'><?php echo str_replace($this->_admin_name,"<font color='red'>$this->_admin_name</font>",$m['user']);?></td>
         <td class='left'><div style="word-wrap: break-word;word-break:break-all;width:450px;"><?php echo $this->parse_smileys($m['content'],$this->_smileys_dir,$this->_smileys);?><br />
-        				 <?php 
+        				 <?php
         				 	if(@$m['reply']){
         				 ?>
         				 <?php echo sprintf($this->t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));?>
-        				  
-        				 <?php 
+
+        				 <?php
         				 }
         				 ?>
 	    </div>
@@ -86,12 +86,12 @@ function checkall() {
     <?php }?>
     <?php if($this->_page_on){?>
 		<tr ><td colspan='3'   class="pager">
-		
+
 		<?php echo sprintf($this->t('PAGE_NAV'),$nums,$pages);?>
-				
+
 		<?php for($i=0;$i<$pages;$i++){?>
 			<a href='index.php?pid=<?php echo $i;?>'>
-                        <?php 
+                        <?php
                             if($i==$current_page)
                             {
                                 echo '<font size="+2">'.($i+1)."</font>";
@@ -115,7 +115,7 @@ function checkall() {
 	<tr>
 		<td class="alignright"><?php echo $this->t('NICKNAME');?></td>
 		<td class="alignleft"><?php if($admin == true){?>
-        				<input name="user" id="user" type="hidden" maxlength="10" value="Admin" /><font color="red">Admin</font>
+        				<input name="user" id="user" type="hidden" maxlength="10" value="<?php echo $this->_admin_name;?>" /><font color="red"><?php echo $this->_admin_name;?></font>
 					<?php }elseif(isset($_SESSION['user'])){ ?>
 					<input name="user" id="user" type="hidden" maxlength="10" value="<?php echo $_SESSION['user'];?>" /><font color="blue"><?php echo $_SESSION['user'];?></font>
 						<?php }else{?>

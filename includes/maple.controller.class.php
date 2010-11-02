@@ -4,7 +4,7 @@
  * @author      rainyjune<dreamneverfall@gmail.com>
  * @copyright   Copyright (c) 2008 - 2010 OurPlanet Team (http://mapleleaf.ourplanet.tk/)
  * @license     GPL2
- * @version     2010-11-01
+ * @version     2010-11-02
  */
 include_once 'JuneTxtDB.class.php';
 include_once 'Imgcode.php';
@@ -47,11 +47,54 @@ class Maple_Controller
 	$this->_coreMessage_array=  require 'coreMessage.php';//将代表核心信息的数组导入到当前类的属性中
         $this->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
         $this->_model=new JuneTxtDb();//实例化模型
+        if(!$this->_model->_db_exists($this->_dbname)){//若默认的数据库不存在，需要执行安装
+            $this->install();exit;
+        }
 	$this->_model->select_db($this->_dbname);//选择默认的数据库
         $this->load_config();//载入配置
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
         $this->is_baned(getIp());//检查是否被禁止登录
+    }
+
+    public function install(){
+        header('Content-type: text/html; charset=utf-8');
+        if(!file_exists($this->_site_conf_file))        //先检查配置文件是否存在和可写
+            die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),$this->_site_conf_file));
+        if(!is_writable($this->_site_conf_file))
+            die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),$this->_site_conf_file));
+        if(!empty ($_POST['adminname']) && !empty($_POST['adminpass'])){
+            $adminname=$this->maple_quotes($_POST['adminname']);
+            $adminpass=$this->maple_quotes($_POST['adminpass']);
+            $adminnameString="\n\$admin='$adminname';";
+            $adminpassString="\n\$password='$adminpass';";
+            file_put_contents($this->_site_conf_file, $adminnameString,FILE_APPEND);
+            file_put_contents($this->_site_conf_file, $adminpassString,FILE_APPEND);
+            if(!$this->_model->create_db($this->_dbname)){
+                die ($this->_model->error());
+            }
+            $this->_model->select_db($this->_dbname);
+
+            $tables=array($this->_message_table,  $this->_reply_table,  $this->_banedip_table, $this->_users_table);
+            $fields=array(
+                        array(array('name'=>'id','auto_increment'=>true),array('name'=>'user'),array('name'=>'content'),array('name'=>'time'),array('name'=>'ip')),
+                        array(array('name'=>'id'),array('name'=>'reply_content'),array('name'=>'reply_time')),
+                        array(array('name'=>'ip')),
+                        array(array('name'=>'uid','auto_increment'=>true),array('name'=>'user'),array('name'=>'pwd'),array('name'=>'email')),
+                        );
+            for($i=0,$t=count($tables);$i<$t;$i++){
+                if(!$this->_model->create_table($tables[$i],$fields[$i])){
+                    die($this->_model->error());
+                }
+            }
+            echo '<p>Installation finished! :) Go <a href="index.php">Index</a>, or Go <a href="index.php?action=control_panel">ACP</a><p>';exit;
+        }
+        echo '<h1>MapleLeaf Install</h1>';
+        echo '<form action="index.php?action=install" method="post">';
+        echo 'Admin Username:<input type="text" name="adminname" /><br />';
+        echo 'Admin Password:<input type="password" name="adminpass" /><br />';
+        echo '<input type="submit" value="Submit" />';
+        echo '</form>';
     }
 
     /* User Management */
@@ -67,7 +110,7 @@ class Maple_Controller
 		$email=$_POST['email'];
 		if(is_email($email)){
 		    $user_exists=$this->_model->select($this->_users_table, array('user'=>$user));
-		    if(!$user_exists && $_POST['user']!= $this->_admin_name){
+		    if(!$user_exists && $user!= $this->_admin_name){
 			$user_data=array(NULL,$user,$pwd,$email);
 			if($this->_model->insert($this->_users_table, $user_data)){
 			    $_SESSION['user']=$user;
@@ -90,7 +133,7 @@ class Maple_Controller
     }
 
     public function user_update(){
-	if((!isset($_SESSION['admin']) && !isset($_SESSION['uid'])) || !isset($_GET['uid']) || (!isset($_SESSION['admin']) && $_GET['uid']!=$_SESSION['uid'])){		
+	if((!isset($_SESSION['admin']) && !isset($_SESSION['uid'])) || !isset($_GET['uid']) || (!isset($_SESSION['admin']) && $_GET['uid']!=$_SESSION['uid'])){
 	    header("Location:index.php");exit;
 	}
 	$uid=$_GET['uid'];
@@ -140,7 +183,7 @@ class Maple_Controller
 
     public  function get_all_info()
     {
-    	
+
     	$this->get_lang();
         $this->get_board_name();
         $this->get_mb_open();
@@ -224,7 +267,7 @@ class Maple_Controller
         if(isset ($board_name))
             $this->_board_name=$board_name;
         else
-            $this->_errors[]=$this->t('SITENAME_ERROR',true);    
+            $this->_errors[]=$this->t('SITENAME_ERROR',true);
     }
 
     private function set_board_name()
@@ -401,7 +444,7 @@ class Maple_Controller
         $str="\n\$timezone='$timezone';";
         file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
-    
+
     private function set_lang()
     {
         is_admin();
@@ -409,7 +452,7 @@ class Maple_Controller
         $str="\n\$lang='$lang';";
         file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
-    
+
     public function get_admin_name()
     {
         include $this->_site_conf_file;
@@ -422,7 +465,7 @@ class Maple_Controller
     private function set_admin_name()
     {
         is_admin();
-        $str="\n\$admin='admin';";
+        $str="\n\$admin='$this->_admin_name';";
         file_put_contents($this->_site_conf_file, $str,FILE_APPEND);
     }
     public function get_admin_password()
@@ -457,9 +500,9 @@ class Maple_Controller
 	    $string='';
 	    foreach($data as $m){
 		$string.="<tr class='message'>";
-		$string.="<td class='left'>".str_replace('Admin',"<font color='red'>Admin</font>",$m['user'])."</td>";
+		$string.="<td class='left'>".str_replace($this->_admin_name,"<font color='red'>$this->_admin_name</font>",$m['user'])."</td>";
 		$string.="<td class='left'><div style='word-wrap: break-word;word-break:break-all;width:450px;'>".$this->parse_smileys(htmlspecialchars_decode($m['content']),$this->_smileys_dir,$this->_smileys)."<br />";
-		if(@$m['reply']){							 
+		if(@$m['reply']){
 		    $string.=sprintf($this->t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));
 		}
 		$string.="</div></td>";
@@ -471,7 +514,7 @@ class Maple_Controller
 	    echo 'Error';
 	}
     }
-	
+
     public  function index()
     {
         if ($this->_mb_open==1)
@@ -513,8 +556,10 @@ class Maple_Controller
         }
         if(isset($_POST['user']) && isset($_POST['password']))//若用户提交了登录表单
         {
+            $user=$this->maple_quotes($_POST['user']);
+            $password=$this->maple_quotes($_POST['password']);
 	    //echo 'For admin';exit;
-	    if($_POST['user']==$this->_admin_name && $this->maple_quotes($_POST['password'])==$this->_admin_password)//若使用管理员帐户成功登录
+	    if( ($user==$this->_admin_name) && ($password==$this->_admin_password) )//若使用管理员帐户成功登录
 	    {
 		$_SESSION['admin']=$_POST['user'];
 		header("Location:index.php?action=control_panel");
@@ -522,9 +567,9 @@ class Maple_Controller
 	    }
 	    else{//使用普通用户登录
 		//echo 'For User';exit;
-		$user_result=$this->_model->select($this->_users_table,array('user'=>$_POST['user']));
+		$user_result=$this->_model->select($this->_users_table,array('user'=>$user));
 		$user_result=@$user_result[0];
-		if($user_result && $_POST['password']==$user_result['pwd']){
+		if($user_result && $password==$user_result['pwd']){
 		    $_SESSION['user']=$_POST['user'];
 		    $_SESSION['uid']=$user_result['uid'];
 		    header("Location:index.php");exit;
@@ -559,7 +604,7 @@ class Maple_Controller
 	$user=isset($_POST['user'])?$_POST['user']:'';
 	$current_ip=getIp();
 	$user=$this->maple_quotes($user);
-	$admin_name_array=array('admin','root','administrator','管理员');
+	$admin_name_array=array($this->_admin_name);
 	if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
 	    $user='anonymous';
 	$content =isset($_POST['content'])?$this->maple_quotes($_POST['content']):'';
@@ -846,7 +891,7 @@ class Maple_Controller
         }
         $new_ip_array=array_diff($ip_array,$ip_update_array);
         $new_ip_string=implode("\n",$new_ip_array);
-        if ($new_ip_array) 
+        if ($new_ip_array)
 	    $new_ip_string.="\n";;
         $ip_filename=$this->_model->_table_path($this->_dbname, $this->_banedip_table).$this->_model->get_data_ext();
         file_put_contents($ip_filename, $new_ip_string);
@@ -893,7 +938,7 @@ class Maple_Controller
     {
         $data=array();
 	if(($data=$this->_model->select($this->_message_table))===FALSE)
-	    die($this->_model->error());   
+	    die($this->_model->error());
         if(($reply_data=$this->_model->select($this->_reply_table))===FALSE)
 	    die($this->_model->error());
 	$new_reply_data=array();
@@ -912,7 +957,7 @@ class Maple_Controller
                 $data_per['reply']=$new_reply_data[$mid];
                 /*if($parse_smileys)
                     $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], $this->_smileys_dir,$this->_smileys);*/
-            } 
+            }
         }
         $data=array_reverse($data);
         return $data;
@@ -971,19 +1016,19 @@ class Maple_Controller
 	}
 	return $str;
     }
-    
+
     public  function t($str,$isCoreMessage=false)
     {
     	$lang=($isCoreMessage)?$this->_coreMessage_array:$this->_lang_array;
     	return str_replace($str,$lang[$str],$str);
     }
-    
+
     public  function get_all_timezone()
     {
     	$timezone=$this->_lang_array['TZ_ZONES'];
     	return $timezone;
     }
-    
+
     public  function get_lang()
     {
     	include $this->_site_conf_file;
@@ -996,7 +1041,7 @@ class Maple_Controller
         else
             $this->_errors[]=$this->t('LANGUAGE_ERROR',true);
     }
-    
+
     public  function get_all_langs()
     {
     	$langs=array();
