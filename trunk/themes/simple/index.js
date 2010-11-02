@@ -35,13 +35,13 @@ $(document).ready(function() {
 		return false;
 	});
 	$('#smileys').css('display','block');
-	$('#pleasepost').css('display','block');
+	$('#toggleForm').css('display','block');
 	initAll();
 	$("#add_table").hide();
-	$("#pleasepost").hover(function(){
+	$("#toggleForm").hover(function(){
 		$(this).addClass("pointer");
 	});
-	$("#pleasepost").toggle( function() {
+	$("#toggleForm").toggle( function() {
 		$("#add_table").animate({
 			height: 'show',
 			opacity: 'show'
