@@ -16,8 +16,6 @@ h1{
 #toggleForm{
     display: none;
     text-indent: 3em;
-}
-#toggleForm span{
     background-color:#66CCFF;
 }
 #main_table{
@@ -32,12 +30,8 @@ h1{
 	padding-bottom:5px;
 	padding-top:5px;
 }
-#main_table td.pager
-{
-	border-bottom:none;
-}
 #add_table{
-	width:700px;
+	width:100%;
 	border:solid 1px;
 	margin-left:auto;
 	margin-right:auto;
@@ -45,39 +39,8 @@ h1{
 	border-collapse:collapse;
 	color:#333333;
 }
-#add_table td.alignright
-{
-	text-align:right;
-	width:100px;
-}
-#main_table td.nickname
-{
-	width:100px;
-}
-#main_table td.message
-{
-	width:450px;
-}
-#add_table td.alignleft
-{
-	width:350px;
-	text-align:left;
-}
-.left
-{
-	text-align:left;
-}
-.center{
-	text-align:center;
-}
-.botton
-{
-	margin-left:auto;
-	margin-right:auto;
-	margin-bottom:10px;
-	margin-top:10px;
-	font-size:12px;
-	text-align:center;
+#smileys{
+	display:none;
 }
 a:link
 {
@@ -92,4 +55,10 @@ a:visited{
 }
 .pointer {
 	cursor:pointer;
+}
+#smileysTable{
+    border: solid 1px #66CCFF;
+}
+#smileysTable td{
+    padding: 1px;
 }
