@@ -7,49 +7,16 @@
 <meta http-equiv="expires" content="0" />
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/reset-fonts-grids/reset-fonts-grids.css">
 <link rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/common.css';?>" type="text/css"/>
-<!--<link rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/smiley_common.css';?>" type="text/css"/>-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/index.js';?>"></script>
 <title><?php echo sprintf($this->t('WELCOME'),$this->_board_name);?></title>
-<script type="text/javascript">
-//<![CDATA[
-function checkall() {
-	var user = document.getElementById('user').value;
-
-	var content = document.getElementById('content').value;
-
-	if (user == "") {
-		document.getElementById("user_msg").innerHTML = "<font color='red'><?php echo $this->t('USERNAME_NOT_EMPTY');?></font>";
-		return false;
-	}
-	if (user.length < 2) {
-		document.getElementById("user_msg").innerHTML = "<font color='red'><?php echo $this->t('USERNAME_TOO_SHORT');?></font>";
-		return false;
-	}
-	if(content.length=="")
-	{
-		alert("<?php echo $this->t('MESSAGE_NOT_EMPTY');?>");
-		document.getElementById('content').focus;
-		return false;
-	}
-	if(document.getElementById('valid_code') != null)
-	{
-		if(document.getElementById('valid_code').value=="")
-		{
-			alert("<?php echo $this->t('CAPTCHA_NOT_EMPTY');?>");
-			return false;
-		}
-	}
-	return true;
-}
-//]]>
-</script>
 </head>
 
 <body>
     <div id="doc">
         <div id="hd">
             <div id="user_nav">
+                <span id="toggleForm"><?php echo $this->t('CLICK_POST');?></span>
                 <?php
                 if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user'])){
                     echo '<a href="?action=register">Register</a>&nbsp;<a href="?action=login">Login</a>';;
@@ -96,7 +63,7 @@ function checkall() {
             </div>
             <?php }?>
             <div class="yui-g">
-                <div id="toggleForm"><span><?php echo $this->t('CLICK_POST');?></span>&nbsp;</div>
+                
                 <form id="guestbook" name="guestbook" action="index.php?action=post" method="post">
                 <input id="pid" type="hidden" name="pid" value="<?php echo $_GET['pid'];?>" />
                 <table id="add_table">
@@ -108,7 +75,7 @@ function checkall() {
                             <?php }elseif(isset($_SESSION['user'])){ ?>
                             <input name="user" id="user" type="hidden" maxlength="10" value="<?php echo $_SESSION['user'];?>" /><?php echo $_SESSION['user'];?>
                                     <?php }else{?>
-                            <input name="user" id="user" type="text" maxlength="10"  onfocus="clear_user()" value="anonymous" />
+                            <input name="user" id="user" type="text" maxlength="10" value="anonymous" />
                             <?php }?>
                         </td>
                         <td>&nbsp;<div id="user_msg"></div></td>
@@ -116,7 +83,7 @@ function checkall() {
                     <tr>
                         <td><?php echo $this->t('CONTENT');?></td>
                         <td><textarea id="content" name="content" cols="45" rows="8" ></textarea></td>
-                        <td><div id="smileys"><?php echo $smileys;?></div>&nbsp;</td>
+                        <td><div id='smileys'><?php echo $smileys;?></div>&nbsp;</td>
                     </tr>
                     <?php if($this->_valid_code_open){?>
                     <tr>

@@ -1,4 +1,26 @@
 $(document).ready(function() {
+        $.ajax({
+		    type: "GET",
+		    url: 'index.php',
+		    data: { action: "getSysJSON" },
+		    success: function(data){ languageTips=data;},
+		    dataType: 'json'
+		});
+	//alert(tsssssssf);
+        //点击表情图案将对应代码写入留言中
+        $('#smileysTable img').click(function(){
+            imgId=String($(this).attr('id'));
+            $('#content').html($('#content').val()+imgId);
+        });
+        //鼠标在验证码图案上时，使用小手鼠标手势
+        $('#captcha_img').mouseover(function(){
+            $(this).addClass('pointer');
+        });
+        //点击验证码，刷新
+        $('#captcha_img').click(function(){
+			$(this).attr('src',$(this).attr('src')+'&id='+Math.random());
+	});
+        //将代表ajax请求的隐藏字段写入表单
 	$('<input type="hidden" name="ajax" value="true" />').insertAfter('#user_msg');
 	/*同时按下 Enter + Ctrl 提交表单*/
 	$(document).keypress(function(e){
@@ -10,8 +32,28 @@ $(document).ready(function() {
 	});
 	/* 使用 Ajax 提交数据，然后使用 Ajax 刷新显示留言 */
 	$('#guestbook').submit(function(e){
-		if(!checkall()){
+		var user = $.trim($('#user').val());
+		var content = $.trim($('#content').val());
+		//var valid_code=;
+		if(!user){
+		    $("#user_msg").html("<font color='red'>"+languageTips.USERNAME_NOT_EMPTY+"</font>");
+		    return false;
+		}
+		if (user.length < 2) {
+		    $("#user_msg").html("<font color='red'>"+languageTips.USERNAME_TOO_SHORT+"</font>");
+		    return false;
+		}
+		if(!content.length){
+			alert(languageTips.MESSAGE_NOT_EMPTY);
+			$('#content').focus();
 			return false;
+		}
+		if(document.getElementById('valid_code')){
+		    //alert($('#valid_code'));
+		    if(!$.trim($('#valid_code').val())){
+			alert(languageTips.CAPTCHA_NOT_EMPTY);
+			return false;
+		    }
 		}
 		$.ajax({
 			type: "POST",
@@ -34,13 +76,18 @@ $(document).ready(function() {
 		});
 		return false;
 	});
+        $('#user').focus(function(){if($(this).val()=='anonymous' ||  !$.trim($(this).val())){$(this).val('');$('#user_msg').html('');}});
+        //显示默认隐藏的表情图案
 	$('#smileys').css('display','block');
-	$('#toggleForm').css('display','block');
-	initAll();
+        //显示默认隐藏的“点击留言”
+	$('#toggleForm').css('display','inline');
+	//隐藏留言表单
 	$("#add_table").hide();
+        //为“点击留言”应用鼠标手势
 	$("#toggleForm").hover(function(){
 		$(this).addClass("pointer");
 	});
+        //点击“点击留言”，隐藏或重新留言表单
 	$("#toggleForm").toggle( function() {
 		$("#add_table").animate({
 			height: 'show',
@@ -54,31 +101,3 @@ $(document).ready(function() {
 		}, 'slow');
 	});
 });
-
-function initAll()
-{
-	//点击表情图像时将对应代码写入留言中
-	var smileyLinks=document.getElementsByTagName("A");
-	var captchaImg=document.getElementById("captcha_img");
-	for(var i=0;i<smileyLinks.length;i++){
-		if (smileyLinks[i].id) {
-			smileyLinks[i].onclick = insert_smiley;
-		}
-	}
-	
-	if(captchaImg){
-		captchaImg.onclick=function(){
-			captchaImg.src=captchaImg.src+'&id='+Math.random();
-		}
-	}
-}
-function clear_user() {
-	document.getElementById("user_msg").innerHTML = "";
-	document.getElementById('user').value = '';
-}
-
-function insert_smiley()
-{
-	document.getElementById("content").value +=" " + this.id;
-	return false;
-}

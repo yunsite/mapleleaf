@@ -57,6 +57,15 @@ class Maple_Controller
         $this->is_baned(getIp());//检查是否被禁止登录
     }
 
+    public function getSysJSON(){
+	$languageForJSON='{';
+	foreach ($this->_lang_array as $key => $value) {
+	    $languageForJSON.= '"'.$key.'":"'.addslashes((string)$value).'",';
+	}
+	$languageForJSON.='}';
+	echo $languageForJSON;
+    }
+
     public function install(){
         header('Content-type: text/html; charset=utf-8');
         if(!file_exists($this->_site_conf_file))        //先检查配置文件是否存在和可写
