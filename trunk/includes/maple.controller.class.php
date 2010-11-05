@@ -98,7 +98,9 @@ class Maple_Controller
             }
 	    $installed=TRUE;
         }
-	include dirname(__FILE__).'/install.php';
+	if(file_exists(dirname(__FILE__).'/install.php')){
+	    include dirname(__FILE__).'/install.php';
+	}
     }
 
     /* User Management */
