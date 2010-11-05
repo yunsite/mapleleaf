@@ -126,13 +126,13 @@ class Maple_Controller
 			    die($this->_model->error());
 			}
 		    }else{
-			$errorMsg="用户名字已经存在了";
+			$errorMsg=$this->t('USERNAME_NOT_AVAILABLE');
 		    }
 		}else{
-		    $errorMsg='Email invalid!';
+		    $errorMsg=$this->t('EMAIL_INVALID');
 		}
 	    }else{
-		$errorMsg="填写未完成";
+		$errorMsg=$this->t('FILL_NOT_COMPLETE');
 	    }
 	}
 	include 'themes/'.$this->_theme.'/templates/'."register.php";
@@ -596,16 +596,13 @@ class Maple_Controller
 	if(isset ($_SESSION['user'])){
 	    unset ($_SESSION['user']);
 	    session_destroy();
-	    header("Location:index.php");exit;
 	}
-        $old_user='';
         if(isset($_SESSION['admin'])){
             $this->delete_backup_files();
-            $old_user=$_SESSION['admin'];
             unset($_SESSION['admin']);
             session_destroy();
         }
-        include 'themes/'.$this->_theme.'/templates/'."logout.php";
+        header("Location:index.php");exit;
     }
 
     public function post()
