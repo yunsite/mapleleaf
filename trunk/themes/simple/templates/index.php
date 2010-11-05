@@ -7,7 +7,9 @@
 <meta http-equiv="expires" content="0" />
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/reset-fonts-grids/reset-fonts-grids.css">
 <link rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/scripts/common.css';?>" type="text/css"/>
+<link type="text/css" rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/scripts/jqModal.css';?>" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/scripts/jqModal.js';?>"></script>
 <script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/scripts/index.js';?>"></script>
 <title><?php echo sprintf($this->t('WELCOME'),$this->_board_name);?></title>
 </head>
@@ -19,13 +21,13 @@
                 <span id="toggleForm"><?php echo $this->t('CLICK_POST');?></span>
                 <?php
                 if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user'])){
-                    echo '<a href="?action=register">Register</a>&nbsp;<a href="?action=login">Login</a>';;
+                    echo '<a class="ex2trigger" href="?action=register">Register</a>&nbsp;<a href="?action=login">Login</a>';;
                 }
                 if(isset ($_SESSION['user']) || isset ($_SESSION['admin'])){
                     echo '<a href="?action=logout">Logout</a>';
                 }
                 if(isset ($_SESSION['user'])){
-                    echo '&nbsp;<a href="?action=user_update&amp;uid='.$_SESSION['uid'].'">Update</a>';
+                    echo '&nbsp;<a class="ex2trigger" href="?action=user_update&amp;uid='.$_SESSION['uid'].'">Update</a>';
                 }
                 ?>
             </div>
@@ -101,6 +103,12 @@
             </div>
         </div><!-- body -->
         <div class="ft"><?php echo htmlspecialchars_decode($this->_copyright_info);?> <a href="mailto:<?php echo $this->_admin_email;?>"><?php echo $this->t('ADMIN_EMAIL');?></a> <a href="index.php?action=control_panel"><?php echo $this->t('ACP');?></a> Powered by <a href="http://mapleleaf.ourplanet.tk" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a></div><!-- footer -->
+
+	<!-- jqModal window -->
+	<div class="jqmWindow" id="ex2">
+	Please wait...
+	</div>
+	<!-- end of jqModal window -->
     </div>
 </body>
 </html>

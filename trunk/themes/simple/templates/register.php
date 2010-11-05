@@ -6,6 +6,34 @@
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
 <title>注册用户</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $.ajax({
+		    type: "GET",
+		    url: 'index.php',
+		    data: { action: "getSysJSON" },
+		    success: function(data){ languageTips=data;},
+		    dataType: 'json'
+		});
+    $('#registerForm').submit(function(){
+	var user=$('#user').val();
+	var password=$('#password').val();
+	var email=$('#email').val();
+	//return false;
+	if(!$.trim(user)){
+	    $('#login_error').html(languageTips.USERNAME_NOT_EMPTY);return false;
+	}
+	if(!$.trim(password)){
+	    $('#login_error').html(languageTips.PWD_NOT_EMPTY);return false;
+	}
+	if(!$.trim(email)){
+	    $('#login_error').html(languageTips.EMAIL_INVALID);return false;
+	}
+	return true;
+    });
+});
+</script>
 </head>
 <body>
     <div class="main">
@@ -18,7 +46,7 @@
 	?>
 
 	<div class="login">
-	    <form action="index.php?action=register" method="post">
+	    <form id="registerForm" action="index.php?action=register" method="post">
 		<input type="hidden" name="register" value="true" />
 		<div class="inputbox">
 		    <dl>

@@ -116,14 +116,14 @@ $lang=array(
 			'YES'=>'是',
 			'NO'=>'否',
 			'LOGIN_ERROR'=>'错误：无效用户或密码.',
-			'LOGOUT_OK'=>'您已成功退出.<span id="countTime"></span>秒后浏览器将被转向到首页',
-			'LOGOUT_NONE'=>'您没有登录，所以您无需退出。<a href="./index.php">返回留言板首页</a>',
 			
 			'USERNAME_NOT_EMPTY'=>'用户名不可为空~',
+			'USERNAME_NOT_AVAILABLE'=>'用户名已存在',
 			'PWD_NOT_EMPTY'=>'密码不可为空~',
 			'USERNAME_TOO_SHORT'=>'用户名太短~',
 			'MESSAGE_NOT_EMPTY'=>'留言不可为空~',
 			'CAPTCHA_NOT_EMPTY'=>'验证码不可以为空~',
+			'EMAIL_INVALID'=>'Email 无效',
 			
 			////////////////////////////////////// index.php
 			'CLICK_TO_REFRESH'=>'点击刷新',
@@ -140,7 +140,7 @@ $lang=array(
 			'QUERY_ERROR'=>'查询出错',
 			'REPLY_EMPTY'=>'回复不可为空',
 			'BACKUP_NOTSUPPORT'=>'你的服务器不支持此功能！',
-			'FILL_NOT_COMPLETE'=>"你没有填写完成,现在正在<a href='./index.php'>返回</a>...",
+			'FILL_NOT_COMPLETE'=>"你没有填写完成",
 			'WORDS_TOO_LONG'=>"您的话语太多了，现在正在<a href='./index.php'>返回</a>...",
 			'CAPTCHA_WRONG'=>"验证码错误.现在正在<a href='./index.php'>返回</a>...",
 			

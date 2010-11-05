@@ -6,6 +6,8 @@ $(document).ready(function() {
 		    success: function(data){ languageTips=data;},
 		    dataType: 'json'
 		});
+	$('#dialog').jqm();
+	$('#ex2').jqm({ajax: '@href', trigger: 'a.ex2trigger'});
 	//alert(tsssssssf);
         //点击表情图案将对应代码写入留言中
         $('#smileysTable img').click(function(){

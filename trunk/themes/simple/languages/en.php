@@ -119,14 +119,14 @@ $lang=array(
 			'YES'=>'Yes',
 			'NO'=>'No',
 			'LOGIN_ERROR'=>'Invalid username or password!',
-			'LOGOUT_OK'=>'You have loged out successfully.Browser will be redirect to Home page in <span id="countTime"></span> second(s).',
-			'LOGOUT_NONE'=>'You are guest,so you don\'t need to logout.Go back to <a href="./index.php">Home</a>.',
 			
 			'USERNAME_NOT_EMPTY'=>'Username should not be empty',
+			'USERNAME_NOT_AVAILABLE'=>'Username not available',
 			'PWD_NOT_EMPTY'=>'Password should not be empty~',
 			'USERNAME_TOO_SHORT'=>'The username is too short',
 			'MESSAGE_NOT_EMPTY'=>'The message must not be empty~',
 			'CAPTCHA_NOT_EMPTY'=>'The captcha must not be empty~',
+			'EMAIL_INVALID'=>'Email invalid',
 			
 			////////////////////////////////////// index.php
 			'CLICK_TO_REFRESH'=>'Click to refresh',
@@ -143,7 +143,7 @@ $lang=array(
 			'QUERY_ERROR'=>'Query Error',
 			'REPLY_EMPTY'=>'The reply should not be empty',
 			'BACKUP_NOTSUPPORT'=>'Your server does not support backup!',
-			'FILL_NOT_COMPLETE'=>"You have not finished all the fileds,now redirecting to <a href='./index.php'>index</a>...",
+			'FILL_NOT_COMPLETE'=>"You have not finished all the fileds",
 			'WORDS_TOO_LONG'=>"Your words was too much, now redirecting to <a href='./index.php'>index</a>...",
 			'CAPTCHA_WRONG'=>"The code you entered is wrong, now redirecting to <a href='./index.php'>index</a>...",
 			
