@@ -6,9 +6,9 @@
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/reset-fonts-grids/reset-fonts-grids.css">
-<link rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/common.css';?>" type="text/css"/>
+<link rel="stylesheet" href="<?php echo './themes/'.$this->_theme.'/scripts/common.css';?>" type="text/css"/>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/index.js';?>"></script>
+<script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/scripts/index.js';?>"></script>
 <title><?php echo sprintf($this->t('WELCOME'),$this->_board_name);?></title>
 </head>
 

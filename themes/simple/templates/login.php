@@ -6,28 +6,9 @@
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
 <title><?php echo $this->t('ACP_LOGIN');?></title>
-<link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/login.css';?>"  />
-<script type="text/javascript" src="./includes/login.js"></script>
-<script type="text/javascript">
-//<![CDATA[
-function login_check()
-{
-    var username=document.getElementById('user').value;
-    var password=document.getElementById('password').value;
-    if(username=='')
-    {
-	alert("<?php echo $this->t('USERNAME_NOT_EMPTY');?>");
-	return false;
-    }
-    if(password=='')
-    {
-	alert("<?php echo $this->t('PWD_NOT_EMPTY');?>");
-	return false;
-    }
-    return true;
-}
-//]]>
-</script>
+<link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/scripts/login.css';?>"  />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/scripts/login.js';?>"></script>
 </head>
 <body>
 <p id="backtoindex"><a href="index.php" title="<?php echo $this->t('WHERE_AM_I');?>">&larr; <?php echo $this->t('BACK');?></a></p>
@@ -44,16 +25,16 @@ function login_check()
 	?>
 
 	<div class="login">
-	    <form action="index.php?action=login" method="post" onsubmit="return login_check()">
+	    <form action="index.php?action=login" method="post">
 		<div class="inputbox">
 		    <dl>
 			<dt><?php echo $this->t('ADMIN_NAME');?></dt>
-			<dd><input type="text" name="user" id="user" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
+			<dd><input type="text" name="user" id="user" size="20" />
 			</dd>
 		    </dl>
 		    <dl>
 			<dt><?php echo $this->t('ADMIN_PWD');?></dt>
-			<dd><input type="password" id="password" name="password" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
+			<dd><input type="password" id="password" name="password" size="20" />
 			</dd>
 		    </dl>
 						</div>
