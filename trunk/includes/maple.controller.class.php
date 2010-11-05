@@ -67,7 +67,7 @@ class Maple_Controller
     }
 
     public function install(){
-        header('Content-type: text/html; charset=utf-8');
+	$installed=FALSE;
         if(!file_exists($this->_site_conf_file))        //先检查配置文件是否存在和可写
             die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),$this->_site_conf_file));
         if(!is_writable($this->_site_conf_file))
@@ -96,14 +96,9 @@ class Maple_Controller
                     die($this->_model->error());
                 }
             }
-            echo '<p>Installation finished! :) Go <a href="index.php">Index</a>, or Go <a href="index.php?action=control_panel">ACP</a><p>';exit;
+	    $installed=TRUE;
         }
-        echo '<h1>MapleLeaf Install</h1>';
-        echo '<form action="index.php?action=install" method="post">';
-        echo 'Admin Username:<input type="text" name="adminname" /><br />';
-        echo 'Admin Password:<input type="password" name="adminpass" /><br />';
-        echo '<input type="submit" value="Submit" />';
-        echo '</form>';
+	include dirname(__FILE__).'/install.php';
     }
 
     /* User Management */
