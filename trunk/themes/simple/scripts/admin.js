@@ -1,8 +1,26 @@
 $(document).ready(function() {
+	$.ajax({
+		    type: "GET",
+		    url: 'index.php',
+		    data: { action: "getSysJSON" },
+		    success: function(data){ languageTips=data;},
+		    dataType: 'json'
+		});
 	/* Test for jqModal */
 	$('#dialog').jqm();  
 	$('#ex2').jqm({ajax: '@href', trigger: 'a.ex2trigger'});
- 
+	$('#deleteallButton').click(function(){
+	    if(window.confirm(languageTips.DEL_ALL_CONFIRM)){
+		window.open('index.php?action=clear_all','_self');
+	    }
+	    return false;
+	});
+	$('#deleteallreplyButton').click(function(){
+	    if(window.confirm(languageTips.DEL_ALL_REPLY_CONFIRM)){
+		window.open('index.php?action=clear_reply','_self');
+	    }
+	    return false;
+	});
 	$('#tags li').click(function(){
 		$('#tags li a').attr('href','javascript:void(0)');
     	//remove the selected class from all LI    
@@ -15,8 +33,11 @@ $(document).ready(function() {
 		$('#tagContent div').hide();
     
     	//Look for the right DIV in boxBody according to the Navigation UL index, therefore, the arrangement is very important.
-		$('#tagContent' + $('#tags li').index(this)).show();
-		$('#tagContent' + $('#tags li').index(this)+' div').show();
+	    var indexOfTag=$('#tags li').index(this);//alert(indexOfTag);
+	    //alert($("#tagContent div:eq("+indexOfTag+")").html());//return;
+		$('#tagContent div:eq('+indexOfTag+')').show();
+		//$('#tagContent div:eq(indexOfTag) div').show();
+		//$('#tagContent' + $('#tags li').index(this)+' div').show();
 
   	});
 	$("td.left >span").addClass("hidden");

@@ -27,7 +27,7 @@ class Maple_Controller
     public  $_theme;//     * 当前的页面主题
     public  $_site_conf_file='config.php';//     * 站点配置文件位置
     public  $_themes_directory='themes/';//     * 主题文件的目录
-    public  $_lang_directory='lang';//语言包位置
+    public  $_lang_directory;//语言包位置
     public  $_smileys_dir='misc/';//     * 表情图片所在的文件夹位置
     public  $_errors=array();//     * 保存错误信息
     public  $_dbname='mapleleaf';//数据库名称
@@ -192,7 +192,8 @@ class Maple_Controller
 
     public  function get_all_info()
     {
-
+	$this->get_lang_dir();
+	
     	$this->get_lang();
         $this->get_board_name();
         $this->get_mb_open();
@@ -205,7 +206,11 @@ class Maple_Controller
         $this->get_num_perpage();
         $this->get_time_zone();
         $this->get_admin_name();
-        $this->get_admin_password();
+        $this->get_admin_password();	
+    }
+
+    public function get_lang_dir(){
+	$this->_lang_directory=$this->_themes_directory.$this->_theme.'/languages/';
     }
 
     public  function is_baned($ip,$check=false)
@@ -816,6 +821,7 @@ class Maple_Controller
         // Which tab should be displayed?
         $current_tab='overview';
         $tabs_array=array('overview','siteset','message','ban_ip');
+	$tabs_name_array=array($this->t('ACP_OVERVIEW'),$this->t('ACP_CONFSET'),$this->t('ACP_MANAGE_POST'),$this->t('ACP_MANAGE_IP'));
         if(isset($_GET['subtab']))
         {
 	    if(in_array($_GET['subtab'],$tabs_array))
@@ -1044,7 +1050,7 @@ class Maple_Controller
         if(isset ($lang) && in_array($lang,$this->get_all_langs()))
         {
 	    $this->_current_lang=$lang;
-	    include(dirname(dirname(__FILE__)).'/lang/'.$lang.'.php');
+	    include($this->_lang_directory.$lang.'.php');
             $this->_lang_array=$lang;
         }
         else

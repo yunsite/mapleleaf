@@ -6,8 +6,8 @@
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
 <title><?php echo $this->t('LOGOUT');?></title>
-<link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/logout.css';?>"  />
-<script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/logout.js';?>"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/scripts/logout.css';?>"  />
+<script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/scripts/logout.js';?>"></script>
 <?php if($old_user==true)
 {
 ?>

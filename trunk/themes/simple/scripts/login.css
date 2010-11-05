@@ -38,7 +38,7 @@ a:hover{
 	width:600px;
 	height:50px;
 	margin:0px auto;
-	background:url(images/login_toptitle.jpg) -10px 0px no-repeat;
+	background:url(../images/login_toptitle.jpg) -10px 0px no-repeat;
 	text-align:left;
 	text-indent:326px;
 	line-height:46px;
@@ -56,7 +56,7 @@ a:hover{
 .main .login .inputbox{
 	width:260px;
 	float:left;
-	background:url(images/login_input_hr.gif) right center no-repeat;
+	background:url(../images/login_input_hr.gif) right center no-repeat;
 }
 .main .login .inputbox dl{
 	width:230px;
@@ -81,7 +81,7 @@ a:hover{
 	font-weight:bold;
 	border:1px solid #888;
 	padding:4px;
-	background:url(images/login_input_bg.gif) left top no-repeat;
+	background:url(../images/login_input_bg.gif) left top no-repeat;
 }
 
 
@@ -102,7 +102,7 @@ a:hover{
 	width:98px;
 	height:33px;
 	float:left;
-	background:url(images/login_icon.gif) no-repeat;
+	background:url(../images/login_icon.gif) no-repeat;
 	border:none;
 	cursor:pointer;
 }
