@@ -18,14 +18,14 @@ $en=array(
     'ADMIN_USERNAME'=>'Admin Username',
     'ADMIN_PASSWORD'=>'Admin Password',
     'SUBMIT'=>'Install',
-    'FINISHED'=>'<p>Installation finished! :) Go <a href="index.php">Index</a>, or Go <a href="index.php?action=control_panel">ACP</a><p>',
+    'FINISHED'=>'<p>Installation finished! :) Go <a href="index.php">Index</a>, or Go <a href="index.php?action=control_panel">ACP</a></p><p>Dont\'t forget to delete the file install.php in directory <code>includes</code></p>',
 );
 $zh=array(
     'INSTALL_MP'=>'安装 MapleLeaf',
     'ADMIN_USERNAME'=>'管理员用户名',
     'ADMIN_PASSWORD'=>'管理员密码',
     'SUBMIT'=>'安装',
-    'FINISHED'=>'<p>安装完成！现在进入 <a href="index.php">前台</a>，或者登陆 <a href="index.php?action=control_panel">管理面板</a></p>',
+    'FINISHED'=>'<p>安装完成！现在进入 <a href="index.php">前台</a>，或者登陆 <a href="index.php?action=control_panel">管理面板</a></p><p>记得一定要删除 <code>includes</code> 目录中的 install.php</p>',
 );
 $languages=array('en','zh');
 //var_dump($languages);exit;
@@ -39,7 +39,7 @@ else{	$language='zh';}
     }else{
     ?>
    <div id="hd" role="banner">
-       <div id="language"><a href="?l=en">English</a>&nbsp;<a href="?l=zh">中文</a></div>
+       <div id="language"><a href="index.php?action=install&amp;l=en">English</a>&nbsp;<a href="index.php?action=install&amp;l=zh">中文</a></div>
        <h1><?php echo str_replace(array_keys($$language),array_values($$language),'INSTALL_MP');?></h1>
    </div>
    <div id="bd" role="main">
