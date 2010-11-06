@@ -151,5 +151,10 @@ $lang=array(
 			'NOT_SUPPORT'=>'Not support',
 			
 			'LOGIN_DENIED'=>'Login denied!',
+
+			'USERNAME'=>'Username',
+			'PASSWORD'=>'Password',
+			'EMAIL'=>'Email',
+			'REGISTER'=>'Register',
 			
     	);

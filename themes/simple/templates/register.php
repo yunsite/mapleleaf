@@ -9,6 +9,7 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+    $('<input type="hidden" name="ajax" value="true" />').insertAfter('#user');
     $.ajax({
 		    type: "GET",
 		    url: 'index.php',
@@ -30,7 +31,18 @@ $(document).ready(function(){
 	if(!$.trim(email)){
 	    $('#login_error').html(languageTips.EMAIL_INVALID);return false;
 	}
-	return true;
+	$.ajax({
+		type: "POST",
+		url: "index.php?action=register",
+		data: $(this).serialize(),
+		success: function(data){
+			$('#login_error').html('');
+			if(data != "OK"){
+				$('#login_error').html(data);return false;
+			}
+	   }
+	});
+	return false;
     });
 });
 </script>
@@ -50,24 +62,24 @@ $(document).ready(function(){
 		<input type="hidden" name="register" value="true" />
 		<div class="inputbox">
 		    <dl>
-			<dt>username</dt>
+			<dt><?php echo $this->t('USERNAME');?></dt>
 			<dd><input type="text" name="user" id="user" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 			</dd>
 		    </dl>
 		    <dl>
-			<dt>password</dt>
+			<dt><?php echo $this->t('PASSWORD');?></dt>
 			<dd><input type="password" id="password" name="pwd" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 			</dd>
 		    </dl>
 		    <dl>
-			<dt>email</dt>
+			<dt><?php echo $this->t('EMAIL');?></dt>
 			<dd><input type="text" id="email" name="email" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 			</dd>
 		    </dl>
 						</div>
 		<div class="butbox">
 		    <dl>
-		        <dt><input id="submit_button" name="submit" type="submit" value="Register" /></dt>
+		        <dt><input id="submit_button" name="submit" type="submit" value="<?php echo $this->t('REGISTER');?>" /></dt>
 		    </dl>
 		</div>
 	    </form>
