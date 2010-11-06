@@ -121,6 +121,9 @@ class Maple_Controller
 			if($this->_model->insert($this->_users_table, $user_data)){
 			    $_SESSION['user']=$user;
 			    $_SESSION['uid']=  $this->_model->insert_id();
+			    if(isset ($_POST['ajax'])){
+				die ('OK');
+			    }
 			    header("Location:index.php");exit;
 			}else{
 			    die($this->_model->error());
@@ -133,6 +136,9 @@ class Maple_Controller
 		}
 	    }else{
 		$errorMsg=$this->t('FILL_NOT_COMPLETE');
+	    }
+	    if(isset ($_POST['ajax'])){
+		die ($errorMsg);
 	    }
 	}
 	include 'themes/'.$this->_theme.'/templates/'."register.php";

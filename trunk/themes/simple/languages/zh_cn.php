@@ -100,9 +100,9 @@ $lang=array(
     		'ACP'=>'管理',
     		'ACP_INDEX'=>'管理员控制面板',
     		'VALIDATE_CODE'=>'验证码',
-    		'ACP_LOGIN'=>'管理员控制面板登陆',
+    		'ACP_LOGIN'=>'管理员控制面板登录',
     		'BACK'=>'返回首页',
-    		'LOGIN'=>'登陆',
+    		'LOGIN'=>'登录',
     		'ADMIN_NAME'=>'用户名',
     		'ADMIN_PWD'=>'密码',
     		'HOME'=>'首页',
@@ -149,4 +149,9 @@ $lang=array(
 			
 			
 			'LOGIN_DENIED'=>'你被拒绝登录！',
+			//用户注册
+			'USERNAME'=>'用户名',
+			'PASSWORD'=>'密码',
+			'EMAIL'=>'Email',
+			'REGISTER'=>'注册',
     	);

@@ -21,13 +21,13 @@
                 <span id="toggleForm"><?php echo $this->t('CLICK_POST');?></span>
                 <?php
                 if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user'])){
-                    echo '<a class="ex2trigger" href="?action=register">Register</a>&nbsp;<a href="?action=login">Login</a>';;
+                    echo '<a class="ex2trigger" href="?action=register">'.$this->t('REGISTER').'</a>&nbsp;<a href="?action=login">'.$this->t('LOGIN').'</a>';
                 }
                 if(isset ($_SESSION['user']) || isset ($_SESSION['admin'])){
-                    echo '<a href="?action=logout">Logout</a>';
+                    echo '<a href="?action=logout">'.$this->t('LOGOUT').'</a>';
                 }
                 if(isset ($_SESSION['user'])){
-                    echo '&nbsp;<a class="ex2trigger" href="?action=user_update&amp;uid='.$_SESSION['uid'].'">Update</a>';
+                    echo '&nbsp;<a class="ex2trigger" href="?action=user_update&amp;uid='.$_SESSION['uid'].'">'.$this->t('UPDATE').'</a>';
                 }
                 ?>
             </div>
