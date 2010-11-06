@@ -96,6 +96,8 @@ class Maple_Controller
                     die($this->_model->error());
                 }
             }
+	    $newData=array(NULL,$_POST['adminname'],'Welcome to MapleLeaf.:)',time(), getIp());
+	    $this->_model->insert($this->_message_table, $newData);
 	    $installed=TRUE;
         }
 	if(file_exists(dirname(__FILE__).'/install.php')){
