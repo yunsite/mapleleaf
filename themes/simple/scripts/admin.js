@@ -7,7 +7,6 @@ $(document).ready(function() {
 		    dataType: 'json'
 		});
 	/* Test for jqModal */
-	$('#dialog').jqm();  
 	$('#ex2').jqm({ajax: '@href', trigger: 'a.ex2trigger'});
 	$('#deleteallButton').click(function(){
 	    if(window.confirm(languageTips.DEL_ALL_CONFIRM)){
