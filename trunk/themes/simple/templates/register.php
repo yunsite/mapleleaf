@@ -17,7 +17,10 @@ $(document).ready(function(){
 		    success: function(data){ languageTips=data;},
 		    dataType: 'json'
 		});
+
     $('#registerForm').submit(function(){
+	//$('#login_error').html('The form submitted!');
+	//return false;
 	var user=$('#user').val();
 	var password=$('#password').val();
 	var email=$('#email').val();
@@ -38,9 +41,14 @@ $(document).ready(function(){
 		success: function(data){
 			$('#login_error').html('');
 			if(data != "OK"){
-				$('#login_error').html(data);return false;
+				$('#login_error').html(data);
+			}else{
+			    //window.location.reload();
+			    parent.document.location.reload();
+			    //document.location.re
 			}
-	   }
+			return false;
+		}
 	});
 	return false;
     });
@@ -49,14 +57,7 @@ $(document).ready(function(){
 </head>
 <body>
     <div class="main">
-	<?php if(@$errorMsg)
-	{
-	?>
-	    <div id="login_error"><?php echo $errorMsg;?><br /></div>
-	<?php
-	}
-	?>
-
+	    <div class="login_error" id="login_error"><?php echo @$errorMsg;?></div>
 	<div class="login">
 	    <form id="registerForm" action="index.php?action=register" method="post">
 		<input type="hidden" name="register" value="true" />

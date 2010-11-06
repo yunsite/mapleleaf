@@ -21,13 +21,13 @@
                 <span id="toggleForm"><?php echo $this->t('CLICK_POST');?></span>
                 <?php
                 if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user'])){
-                    echo '<a class="ex2trigger" href="?action=register">'.$this->t('REGISTER').'</a>&nbsp;<a href="?action=login">'.$this->t('LOGIN').'</a>';
+                    echo '<a class="thickbox" href="?action=register&width=600&height=60%">'.$this->t('REGISTER').'</a>&nbsp;<a href="?action=login">'.$this->t('LOGIN').'</a>';
                 }
                 if(isset ($_SESSION['user']) || isset ($_SESSION['admin'])){
                     echo '<a href="?action=logout">'.$this->t('LOGOUT').'</a>';
                 }
                 if(isset ($_SESSION['user'])){
-                    echo '&nbsp;<a class="ex2trigger" href="?action=user_update&amp;uid='.$_SESSION['uid'].'">'.$this->t('UPDATE').'</a>';
+                    echo '&nbsp;<a class="thickbox" href="?action=user_update&amp;uid='.$_SESSION['uid'].'">'.$this->t('UPDATE').'</a>';
                 }
                 ?>
             </div>
@@ -105,8 +105,11 @@
         <div class="ft"><?php echo htmlspecialchars_decode($this->_copyright_info);?> <a href="mailto:<?php echo $this->_admin_email;?>"><?php echo $this->t('ADMIN_EMAIL');?></a> <a href="index.php?action=control_panel"><?php echo $this->t('ACP');?></a> Powered by <a href="http://mapleleaf.ourplanet.tk" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a></div><!-- footer -->
 
 	<!-- jqModal window -->
-	<div class="jqmWindow" id="ex2">
-	Please wait...
+	<div id="modalWindow" class="jqmWindow">
+	    <div id="jqmTitle">
+		<button class="jqmClose">X</button>
+	    </div>
+	    <iframe id="jqmContent" src=""></iframe>
 	</div>
 	<!-- end of jqModal window -->
     </div>
