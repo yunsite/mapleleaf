@@ -206,7 +206,24 @@
 			    </table>
 			</form>
 		    </div><!-- Bad IPs -->
-		    
+		    <div <?php if($current_tab=='plugin'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
+			<p><?php echo $this->t('PLUGIN');?></p>
+			<ul>
+			    <?php
+			    foreach($plugins as $plugin){
+			    ?>
+			    <li><h1><b><?php echo $plugin;?></b></h1>
+			    <?php
+				include self::$_plugins_directory.$plugin.'.php';
+				$configFuncName=$plugin.'_config';
+				$configFuncName(true);
+			    ?>
+			    </li>
+			    <?php }?>
+			    
+			</ul>
+			
+		    </div>
 		</div>
 	    </div><!-- yui-g  -->
 	</div><!-- body -->

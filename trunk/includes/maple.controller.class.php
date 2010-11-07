@@ -27,6 +27,7 @@ class Maple_Controller
     public  $_theme;//     * 当前的页面主题
     public  $_site_conf_file='config.php';//     * 站点配置文件位置
     public  $_themes_directory='themes/';//     * 主题文件的目录
+    public static  $_plugins_directory='plugins/';
     public  $_lang_directory;//语言包位置
     public  $_smileys_dir='misc/';//     * 表情图片所在的文件夹位置
     public  $_errors=array();//     * 保存错误信息
@@ -255,6 +256,18 @@ class Maple_Controller
         }
         $d->close();
         return $themes;
+    }
+    public function get_all_plugins()
+    {
+        $plugins=array();
+        $d=dir(self::$_plugins_directory);
+        while(false!==($entry=$d->read()))
+        {
+            if(substr($entry,0,1)!='.')
+                $plugins[substr($entry,0,-4)]=substr($entry,0,-4);
+        }
+        $d->close();
+        return $plugins;
     }
     public  function set_config(){
         is_admin();
@@ -822,14 +835,17 @@ class Maple_Controller
         is_admin();
         // Which tab should be displayed?
         $current_tab='overview';
-        $tabs_array=array('overview','siteset','message','ban_ip');
-	$tabs_name_array=array($this->t('ACP_OVERVIEW'),$this->t('ACP_CONFSET'),$this->t('ACP_MANAGE_POST'),$this->t('ACP_MANAGE_IP'));
+        $tabs_array=array('overview','siteset','message','ban_ip','plugin');
+	$tabs_name_array=array($this->t('ACP_OVERVIEW'),$this->t('ACP_CONFSET'),$this->t('ACP_MANAGE_POST'),$this->t('ACP_MANAGE_IP'),$this->t('PLUGIN'));
         if(isset($_GET['subtab']))
         {
 	    if(in_array($_GET['subtab'],$tabs_array))
 		    $current_tab=$_GET['subtab'];
         }
         $themes=$this->get_all_themes();
+	$plugins=$this->get_all_plugins();
+	//echo '<pre>';
+	//var_dump($plugins);exit;
         $data=$this->get_all_data();
         $reply_data=$this->get_all_reply();
         $ban_ip_info=$this->get_baned_ips();
@@ -1071,10 +1087,32 @@ class Maple_Controller
         $d->close();
         return $langs;
     }
+    public  function pluginset(){
+	//echo 'PLUGINSET';exit;
+	is_admin();
+	$all_plugin=$this->get_all_plugins();
+	if(isset ($_POST['plugin']) && in_array($_POST['plugin'], $all_plugin)){
+	    include self::$_plugins_directory.$_POST['plugin'].'.php';
+	    $funcName=$_POST['plugin'].'_config';
+	    $funcName(FALSE,$_POST);
+	}
+	header("Location:index.php?action=control_panel&subtab=plugin");exit;
+    }
+    
     public  function run()
     {
         $action=isset($_GET['action'])?$_GET['action']:'index';
         if(!method_exists($this,$action) || !is_callable(array($this,$action))){$action='index';}
         self::$action();
+	$allPlugins=$this->get_all_plugins();
+	foreach($allPlugins as $plugin){
+	    include self::$_plugins_directory.$plugin.'.php';
+	    @include self::$_plugins_directory.$plugin.'.conf.php';;
+	}
+	if(isset ($GLOBALS['actionEvent'][$action])){
+	    foreach ($GLOBALS['actionEvent'][$action] as $evt) {
+		$evt($_REQUEST);
+	    }
+	}
     }
 }

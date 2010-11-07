@@ -156,5 +156,8 @@ $lang=array(
 			'PASSWORD'=>'Password',
 			'EMAIL'=>'Email',
 			'REGISTER'=>'Register',
+
+			'PLUGIN'=>'Plugins',
+			
 			
     	);
