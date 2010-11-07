@@ -154,4 +154,6 @@ $lang=array(
 			'PASSWORD'=>'密码',
 			'EMAIL'=>'Email',
 			'REGISTER'=>'注册',
+
+			'PLUGIN'=>'插件',
     	);
