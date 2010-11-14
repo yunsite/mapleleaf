@@ -50,8 +50,8 @@ function maple_unset_globals()
 maple_unset_globals();
 
 define('MP_VERSION','1.9');
-require 'includes/functions.php';
-require 'includes/maple.controller.class.php';
+require 'functions.php';
+require 'maple.controller.class.php';
 
 $gd_exist=gd_loaded();
 $zip_support=class_exists('ZipArchive')?'On':'Off';
