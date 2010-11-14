@@ -71,7 +71,7 @@ $(document).ready(function() {
 				document.getElementById('guestbook').reset();
 				$.get('index.php?action=ajaxIndex',{ajax:'yes',pid:$('#pid').val()},function(data){
 					//alert(data);
-					$("tr").remove(".message");
+					$("#main_table tr:not('.header')").remove();
 					$(".header").after(data);
 				});
 		   }
