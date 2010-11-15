@@ -59,6 +59,9 @@ a:visited{
 #smileysTable{
     border: solid 1px #66CCFF;
 }
+#smileysTable img{
+    cursor:pointer;
+}
 #smileysTable td{
     padding: 1px;
 }

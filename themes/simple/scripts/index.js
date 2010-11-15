@@ -7,12 +7,10 @@ $(document).ready(function() {
 		    dataType: 'json'
 		});
 
-	
-	//alert(tsssssssf);
         //点击表情图案将对应代码写入留言中
-        $('#smileysTable img').click(function(){
+        $('#smileys img').click(function(){
             imgId=String($(this).attr('id'));
-            $('#content').html($('#content').val()+imgId);
+            $('#content').val($('#content').val()+imgId);
         });
         //鼠标在验证码图案上时，使用小手鼠标手势
         $('#captcha_img').mouseover(function(){
