@@ -1,6 +1,10 @@
 <?php
 class badips{
-        public  function ip_update(){
+    public $_model;
+    public function  __construct() {
+        $this->_model=new JuneTxtDB();
+    }
+    public  function ip_update(){
         is_admin();
         @$ip_update_array=$_POST['select_ip'];
         if(!$ip_update_array){

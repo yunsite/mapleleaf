@@ -6,10 +6,9 @@
  * @license     GPL2
  * @version     2010-11-02
  */
-include_once 'JuneTxtDB.class.php';
-include_once 'Imgcode.php';
-include_once 'configuration.php';
-class Maple_Controller
+
+//include_once 'configuration.php';
+class site extends BaseController
 {
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
     public  $_model;// Maple_Data_Processor 实例，用于处理数据
@@ -56,7 +55,7 @@ class Maple_Controller
     //构造函数
     function  __construct()
     {
-	$this->_smileys=  require 'smiley.php';//将代表表情图案的数组导入到当前类的属性中
+	$this->_smileys=  require dirname(dirname(__FILE__)).'/smiley.php';//将代表表情图案的数组导入到当前类的属性中
 	//$this->_coreMessage_array=  require 'coreMessage.php';//将代表核心信息的数组导入到当前类的属性中
         $this->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
         $this->_model=new JuneTxtDb();//实例化模型
@@ -67,7 +66,7 @@ class Maple_Controller
         $this->load_config();//载入配置
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
-        $this->is_baned(getIp());//检查是否被禁止登录
+        //$this->is_baned(getIp());//检查是否被禁止登录
     }
 
     public function getSysJSON(){
@@ -526,7 +525,7 @@ class Maple_Controller
      */
     public  function show_smileys_table()
     {
-	$smiley=  require 'showSmiley.php';
+	$smiley=  require dirname(dirname(__FILE__)).'/showSmiley.php';
 	return $smiley;
     }
 
