@@ -2,10 +2,17 @@
 # Apache/PHP settings:
 #
 
+<Files "config.php">
+Order Allow,Deny
+Deny from All
+</Files>
+
 # Don't show directory listings for URLs which map to a directory.
+# Can be commented out if causes errors
 Options -Indexes
 
 # Follow symbolic links in this directory.
+# Can be commented out if causes errors
 Options +FollowSymLinks
 
 # Make Drupal handle any 404 errors.
@@ -21,26 +28,6 @@ ErrorDocument 404 /index.php
 DirectoryIndex index.php
 
 # Override PHP settings.
-
-# PHP 4, Apache 1.
-<IfModule mod_php4.c>
-  php_value magic_quotes_gpc                0
-  php_value register_globals                0
-  php_value session.auto_start              0
-  php_value mbstring.http_input             pass
-  php_value mbstring.http_output            pass
-  php_value mbstring.encoding_translation   0
-</IfModule>
-
-# PHP 4, Apache 2.
-<IfModule sapi_apache2.c>
-  php_value magic_quotes_gpc                0
-  php_value register_globals                0
-  php_value session.auto_start              0
-  php_value mbstring.http_input             pass
-  php_value mbstring.http_output            pass
-  php_value mbstring.encoding_translation   0
-</IfModule>
 
 # PHP 5, Apache 1 and 2.
 <IfModule mod_php5.c>
