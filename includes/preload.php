@@ -1,12 +1,6 @@
 <?php
-if(!defined('IN_MP'))
-{
-	exit;
-}
-if(version_compare(PHP_VERSION,'5.1.0','<'))
-{
-	die('PHP Version 5.1.0+ required!');
-}
+if(!defined('IN_MP')){die('Access denied!');}
+if(version_compare(PHP_VERSION,'5.1.0','<')){die('PHP Version 5.1.0+ required!');}
 date_default_timezone_set('UTC');
 //error_reporting(E_ALL & ~E_DEPRECATED);
 //若用于调试，请把上面一行注释掉，打开下面这一行
@@ -51,7 +45,9 @@ maple_unset_globals();
 
 define('MP_VERSION','1.9');
 require 'functions.php';
-require 'maple.controller.class.php';
+include_once 'JuneTxtDB.class.php';
+include_once 'Imgcode.php';
+require 'YFramework.php';
 
 $gd_exist=gd_loaded();
 $zip_support=class_exists('ZipArchive')?'On':'Off';
