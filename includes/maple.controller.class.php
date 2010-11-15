@@ -118,77 +118,7 @@ class Maple_Controller
 	}
     }
 
-    /* User Management */
-    public function register(){
-	if(isset ($_SESSION['admin']) || isset ($_SESSION['user'])){
-	    header("Location:index.php");exit;
-	}
-	if(isset ($_POST['register'])){
-	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
-		$user=$this->maple_quotes($_POST['user']);
-		$pwd=$this->maple_quotes($_POST['pwd']);
-		//if(is_email($_POST['ema']))
-		$email=$_POST['email'];
-		if(is_email($email)){
-		    $user_exists=$this->_model->select($this->_users_table, array('user'=>$user));
-		    if(!$user_exists && $user!= $this->_admin_name){
-			$user_data=array(NULL,$user,$pwd,$email);
-			if($this->_model->insert($this->_users_table, $user_data)){
-			    $_SESSION['user']=$user;
-			    $_SESSION['uid']=  $this->_model->insert_id();
-			    if(isset ($_POST['ajax'])){
-				die ('OK');
-			    }
-			    header("Location:index.php");exit;
-			}else{
-			    die($this->_model->error());
-			}
-		    }else{
-			$errorMsg=$this->t('USERNAME_NOT_AVAILABLE');
-		    }
-		}else{
-		    $errorMsg=$this->t('EMAIL_INVALID');
-		}
-	    }else{
-		$errorMsg=$this->t('FILL_NOT_COMPLETE');
-	    }
-	    if(isset ($_POST['ajax'])){
-		die ($errorMsg);
-	    }
-	}
-	include 'themes/'.$this->_theme.'/templates/'."register.php";
-    }
 
-    public function user_update(){
-	if((!isset($_SESSION['admin']) && !isset($_SESSION['uid'])) || !isset($_GET['uid']) || (!isset($_SESSION['admin']) && $_GET['uid']!=$_SESSION['uid'])){
-	    header("Location:index.php");exit;
-	}
-	$uid=$_GET['uid'];
-	if(isset ($_POST['user'])){
-	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
-		$user=$this->maple_quotes($_POST['user']);
-		$pwd=$this->maple_quotes($_POST['pwd']);
-		//if(is_email($_POST['ema']))
-		$email=$_POST['email'];
-		if(is_email($email)){
-		    $newdata=array($uid,$user,$pwd,$email);
-		    $condition=array('uid'=>$uid);
-		    if($this->_model->update($this->_users_table, $condition, $newdata)){
-			header("Location:index.php");exit;
-		    }else{
-			$errorMsg='Update Failed!';
-		    }
-		}else{
-		    $errorMsg='Email invalid!';
-		}
-	    }else{
-		$errorMsg="填写未完成";
-	    }
-	}
-	$user_data=$this->_model->select($this->_users_table, array('uid'=>$uid));
-	$user_data=$user_data[0];
-	include 'themes/'.$this->_theme.'/templates/'."user_update.php";
-    }
 
     //载入配置
     public  function load_config()
@@ -348,54 +278,7 @@ class Maple_Controller
 	$this->_imgcode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
     }
 
-    public  function login(){
-        if (isset($_SESSION['admin']))//若管理员已经登录
-	{
-            header("Location:index.php?action=control_panel");exit;
-        }
-	if (isset($_SESSION['user']))//若普通用户已经登录
-        {
-            header("Location:index.php");exit;
-        }
-        if(isset($_POST['user']) && isset($_POST['password']))//若用户提交了登录表单
-        {
-            $user=$this->maple_quotes($_POST['user']);
-            $password=$this->maple_quotes($_POST['password']);
-	    //echo 'For admin';exit;
-	    if( ($user==$this->_admin_name) && ($password==$this->_admin_password) )//若使用管理员帐户成功登录
-	    {
-		$_SESSION['admin']=$_POST['user'];
-		header("Location:index.php?action=control_panel");
-		exit;
-	    }
-	    else{//使用普通用户登录
-		//echo 'For User';exit;
-		$user_result=$this->_model->select($this->_users_table,array('user'=>$user));
-		$user_result=@$user_result[0];
-		if($user_result && $password==$user_result['pwd']){
-		    $_SESSION['user']=$_POST['user'];
-		    $_SESSION['uid']=$user_result['uid'];
-		    header("Location:index.php");exit;
-		}else{
-		    $errormsg=$this->t('LOGIN_ERROR');
-		}
-	    }
-        }
-	include 'themes/'.$this->_theme.'/templates/'."login.php";
-    }
 
-    public  function logout(){
-	if(isset ($_SESSION['user'])){
-	    unset ($_SESSION['user']);
-	    session_destroy();
-	}
-        if(isset($_SESSION['admin'])){
-            $this->delete_backup_files();
-            unset($_SESSION['admin']);
-            session_destroy();
-        }
-        header("Location:index.php");exit;
-    }
 
     public function post()
     {
@@ -638,69 +521,6 @@ class Maple_Controller
         include 'themes/'.$this->_theme.'/templates/'."admin.php";
     }
 
-    public  function backup(){
-        is_admin();
-        $dir="data/{$this->_dbname}/";
-        if(!class_exists('ZipArchive'))
-        {
-            $this->show_message($this->t('BACKUP_NOTSUPPORT'),true,'index.php?action=control_panel&subtab=message');
-            exit;
-        }
-        $zip = new ZipArchive();
-        $filename = $dir."backup-".date('Ymd',time()).".zip";
-
-        if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE)
-			exit("cannot open <$filename>\n");
-        $d=dir($dir);
-        while(false!==($entry=$d->read()))
-        {
-            if(substr($entry,0,1)!='.')
-                $zip->addFile($dir.$entry);
-        }
-        $d->close();
-        $zip->close();
-        header("Location:$filename");
-    }
-
-    public  function ban()
-    {
-        is_admin();
-        $ip='';
-        $ip=$_GET['ip'];
-        if (!isset($ip) || $ip=="" || valid_ip($ip)==false)
-        {
-            header("Location:index.php?action=control_panel&subtab=message");
-            exit;
-        }
-        if($this->is_baned($ip,TRUE))
-        {
-            header("Location:index.php?action=control_panel&subtab=ban_ip");
-            exit;
-        }
-        $insert_string=$ip."\n";
-	$ip_filename=$this->_model->_table_path($this->_dbname, $this->_banedip_table).$this->_model->get_data_ext();
-        file_put_contents($ip_filename, $insert_string, FILE_APPEND | LOCK_EX);
-        header("Location:index.php?action=control_panel&subtab=ban_ip");
-    }
-
-    public  function ip_update(){
-        is_admin();
-        @$ip_update_array=$_POST['select_ip'];
-        if(!$ip_update_array){
-            header("Location:index.php?action=control_panel&subtab=ban_ip");exit;
-        }
-        $ip_array=$this->get_baned_ips();
-        for($i=0,$c=count($ip_array);$i<$c;$i++){
-	    $ip_array[$i]=trim($ip_array[$i]["ip"]);
-        }
-        $new_ip_array=array_diff($ip_array,$ip_update_array);
-        $new_ip_string=implode("\n",$new_ip_array);
-        if ($new_ip_array)
-	    $new_ip_string.="\n";;
-        $ip_filename=$this->_model->_table_path($this->_dbname, $this->_banedip_table).$this->_model->get_data_ext();
-        file_put_contents($ip_filename, $new_ip_string);
-        header("Location:index.php?action=control_panel&subtab=ban_ip");
-    }
     /**
      * 显示表情
      */
@@ -729,14 +549,7 @@ class Maple_Controller
 	return $new_string;
     }
 
-    /**
-     * 得到被禁止的IP列表
-     */
-    public  function get_baned_ips()
-    {
-	$result=$this->_model->select($this->_banedip_table);
-	return $result;
-    }
+
 
     public  function get_all_data($parse_smileys=true,$filter_words=false)
     {
@@ -777,21 +590,7 @@ class Maple_Controller
 	return $input;
     }
 
-    /**
-     * 删除服务器上的备份文件，会在管理员注销登录时执行
-     */
-    protected  function delete_backup_files(){
-	$d=dir($this->_model->_db_path($this->_dbname));
-	while(false!==($entry=$d->read()))
-	{
-	    if (strlen($entry)==19)
-	    {
-		$d_file=$this->_model->_db_path($this->_dbname).'/'.$entry;
-		@unlink($d_file);
-	    }
-	}
-	$d->close();
-    }
+
 
     public  function get_all_reply()
     {
