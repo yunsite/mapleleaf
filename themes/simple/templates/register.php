@@ -5,7 +5,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
-<title>注册用户</title>
+<title><?php echo $this->t('REGISTER');?></title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){

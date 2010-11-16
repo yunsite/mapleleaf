@@ -158,6 +158,8 @@ $lang=array(
 			'REGISTER'=>'Register',
 
 			'PLUGIN'=>'Plugins',
+
+                        'USERUPDATEFAILED'=>'Update failed!',
 			
 			
     	);

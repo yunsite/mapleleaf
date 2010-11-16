@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>User Update</title>
+      <title><?php echo $this->t('UPDATE');?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body>
@@ -12,7 +12,7 @@
 	<?php
 	}
 	?>
-      <form action="index.php?action=user_update&amp;uid=<?php echo $_GET['uid'];?>" method="post">
+      <form action="index.php?controller=user&amp;action=user_update&amp;uid=<?php echo $_GET['uid'];?>" method="post">
 	  <div class="inputbox">
 		    <dl>
 			<dt><?php echo $this->t('USERNAME');?></dt>
