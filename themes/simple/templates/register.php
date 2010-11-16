@@ -13,14 +13,12 @@ $(document).ready(function(){
     $.ajax({
 		    type: "GET",
 		    url: 'index.php',
-		    data: { action: "getSysJSON" },
+		    data: { controller:"site",action: "getSysJSON" },
 		    success: function(data){ languageTips=data;},
 		    dataType: 'json'
 		});
 
     $('#registerForm').submit(function(){
-	//$('#login_error').html('The form submitted!');
-	//return false;
 	var user=$('#user').val();
 	var password=$('#password').val();
 	var email=$('#email').val();
@@ -36,7 +34,7 @@ $(document).ready(function(){
 	}
 	$.ajax({
 		type: "POST",
-		url: "index.php?action=register",
+		url: "index.php?controller=user&amp;action=register",
 		data: $(this).serialize(),
 		success: function(data){
 			$('#login_error').html('');
@@ -59,7 +57,7 @@ $(document).ready(function(){
     <div class="main">
 	    <div class="login_error" id="login_error"><?php echo @$errorMsg;?></div>
 	<div class="login">
-	    <form id="registerForm" action="index.php?action=register" method="post">
+	    <form id="registerForm" action="index.php?controller=user&amp;action=register" method="post">
 		<input type="hidden" name="register" value="true" />
 		<div class="inputbox">
 		    <dl>
