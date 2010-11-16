@@ -25,7 +25,7 @@
 	?>
 
 	<div class="login">
-	    <form action="index.php?action=login" method="post">
+	    <form action="index.php?controller=user&amp;action=login" method="post">
 		<div class="inputbox">
 		    <dl>
 			<dt><?php echo $this->t('ADMIN_NAME');?></dt>
