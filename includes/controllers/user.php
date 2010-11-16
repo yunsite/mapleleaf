@@ -1,12 +1,14 @@
 <?php
 class user extends BaseController{
     public $_siteController;
+    public $_backupClass;
     public $_model;
 
     public function  __construct() {
         $this->_siteController=new site();
         $this->_model=new JuneTxtDB();
         $this->_model->select_db(DB);
+        $this->_backupClass=new backup();
     }
     public function  __get($propertyName) {
         $methodName='get'.$propertyName;
@@ -63,7 +65,8 @@ class user extends BaseController{
 	    session_destroy();
 	}
         if(isset($_SESSION['admin'])){
-            $this->delete_backup_files();
+            //$this->delete_backup_files();
+            $this->_backupClass->delete_backup_files();
             unset($_SESSION['admin']);
             session_destroy();
         }

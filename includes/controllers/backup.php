@@ -1,5 +1,12 @@
 <?php
-class backupClass{
+class backup{
+    public $_model;
+
+    public  function  __construct() {
+        $this->_model=new JuneTxtDB();
+        $this->_model->select_db(DB);
+    }
+
     public  function backup(){
         is_admin();
         $dir="data/{$this->_dbname}/";
@@ -27,14 +34,15 @@ class backupClass{
         /**
      * 删除服务器上的备份文件，会在管理员注销登录时执行
      */
-    protected  function delete_backup_files(){
-	$d=dir($this->_model->_db_path($this->_dbname));
+    public  function delete_backup_files(){
+        is_admin();
+	$d=dir($this->_model->_db_path(DB));
 	while(false!==($entry=$d->read()))
 	{
 	    if (strlen($entry)==19)
 	    {
-		$d_file=$this->_model->_db_path($this->_dbname).'/'.$entry;
-		@unlink($d_file);
+		$d_file=$this->_model->_db_path(DB).'/'.$entry;
+		unlink($d_file);
 	    }
 	}
 	$d->close();
