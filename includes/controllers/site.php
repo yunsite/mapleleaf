@@ -497,7 +497,8 @@ class site extends BaseController
 	//var_dump($plugins);exit;
         $data=$this->get_all_data();
         $reply_data=$this->get_all_reply();
-        $ban_ip_info=$this->get_baned_ips();
+        //$ban_ip_info=$this->get_baned_ips();
+        $ban_ip_info=  $this->_model->select(BADIPTABLE);
 
         $nums=$this->_model->num_rows($data);
         $reply_num=$this->_model->num_rows($reply_data);

@@ -3,6 +3,7 @@ class badips{
     public $_model;
     public function  __construct() {
         $this->_model=new JuneTxtDB();
+        $this->_model->select_db(DB);
     }
     public  function ip_update(){
         is_admin();
@@ -27,7 +28,7 @@ class badips{
      */
     public  function get_baned_ips()
     {
-	$result=$this->_model->select($this->_banedip_table);
+	$result=$this->_model->select(BADIPTABLE);
 	return $result;
     }
         public  function ban()

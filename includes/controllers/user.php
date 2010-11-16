@@ -3,7 +3,9 @@ class user extends BaseController{
     public $_siteController;
     public $_backupClass;
     public $_model;
-
+    public function index(){
+        header("Location:index.php");
+    }
     public function  __construct() {
         $this->_siteController=new site();
         $this->_model=new JuneTxtDB();
