@@ -34,7 +34,7 @@ $(document).ready(function(){
 	}
 	$.ajax({
 		type: "POST",
-		url: "index.php?controller=user&amp;action=register",
+		url: "index.php?controller=user&action=register",
 		data: $(this).serialize(),
 		success: function(data){
 			$('#login_error').html('');
