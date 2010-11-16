@@ -112,8 +112,8 @@ class site extends BaseController
 	    $this->_model->insert($this->_message_table, $newData);
 	    $installed=TRUE;
         }
-	if(file_exists(dirname(__FILE__).'/install.php')){
-	    include dirname(__FILE__).'/install.php';
+	if(file_exists(dirname(dirname(__FILE__)).'/install.php')){
+	    include dirname(dirname(__FILE__)).'/install.php';
 	}
     }
 
