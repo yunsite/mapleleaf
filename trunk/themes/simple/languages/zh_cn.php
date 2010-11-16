@@ -156,4 +156,7 @@ $lang=array(
 			'REGISTER'=>'注册',
 
 			'PLUGIN'=>'插件',
+
+                        //用户更新
+                        'USERUPDATEFAILED'=>'用户更新失败',
     	);

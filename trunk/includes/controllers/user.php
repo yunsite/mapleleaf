@@ -120,7 +120,6 @@ class user extends BaseController{
 	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
 		$user=$this->maple_quotes($_POST['user']);
 		$pwd=$this->maple_quotes($_POST['pwd']);
-		//if(is_email($_POST['ema']))
 		$email=$_POST['email'];
 		if(is_email($email)){
 		    $newdata=array($uid,$user,$pwd,$email);
@@ -128,13 +127,13 @@ class user extends BaseController{
 		    if($this->_model->update(USERTABLE, $condition, $newdata)){
 			header("Location:index.php");exit;
 		    }else{
-			$errorMsg='Update Failed!';
+			$errorMsg=$this->t('USERUPDATEFAILED');
 		    }
 		}else{
-		    $errorMsg='Email invalid!';
+		    $errorMsg=$this->t('EMAIL_INVALID');
 		}
 	    }else{
-		$errorMsg="填写未完成";
+		$errorMsg=$this->t('FILL_NOT_COMPLETE');
 	    }
 	}
 	$user_data=$this->_model->select(USERTABLE, array('uid'=>$uid));

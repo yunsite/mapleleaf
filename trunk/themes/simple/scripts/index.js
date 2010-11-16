@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    if(self.location!=parent.location){
+        parent.location.replace(self.location);
+    }
         $.ajax({
 		    type: "GET",
 		    url: 'index.php',
