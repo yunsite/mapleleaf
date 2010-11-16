@@ -36,7 +36,6 @@ class user extends BaseController{
         {
             $user=$this->maple_quotes($_POST['user']);
             $password=$this->maple_quotes($_POST['password']);
-	    //echo 'For admin';exit;
 	    if( ($user==$this->_admin_name) && ($password==$this->_admin_password) )//若使用管理员帐户成功登录
 	    {
 		$_SESSION['admin']=$_POST['user'];
@@ -44,8 +43,7 @@ class user extends BaseController{
 		exit;
 	    }
 	    else{//使用普通用户登录
-		//echo 'For User';exit;
-		$user_result=$this->_model->select($this->_users_table,array('user'=>$user));
+		$user_result=$this->_model->select(USERTABLE,array('user'=>$user));
 		$user_result=@$user_result[0];
 		if($user_result && $password==$user_result['pwd']){
 		    $_SESSION['user']=$_POST['user'];
