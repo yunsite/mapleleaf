@@ -226,7 +226,9 @@ class site extends BaseController
 	    $string='';
 	    foreach($data as $m){
 		$string.="<tr>";
-		$string.="<td>".str_replace($this->_admin_name,"<font color='red'>$this->_admin_name</font>",$m['user'])."</td>";
+		$string.="<td>";
+                $string.=$m['user']==$this->_admin_name?"<font color='red'>$this->_admin_name</font>":$m['user'];
+                $string.="</td>";
 		$string.="<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>".$this->parse_smileys(htmlspecialchars_decode($m['content']),$this->_smileys_dir,$this->_smileys)."<br />";
 		if(@$m['reply']){
 		    $string.=sprintf($this->t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));
