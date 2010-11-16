@@ -1,6 +1,12 @@
 <?php
-class userclass{
-        public  function login(){
+class user extends BaseController{
+    public $_model;
+
+    public function  __construct() {
+        $this->_model=new JuneTxtDB();
+        $this->_model->select_db($dbname);
+    }
+    public  function login(){
         if (isset($_SESSION['admin']))//若管理员已经登录
 	{
             header("Location:index.php?action=control_panel");exit;
