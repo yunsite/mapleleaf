@@ -7,7 +7,6 @@
  * @version     2010-11-02
  */
 
-//include_once 'configuration.php';
 class site extends BaseController
 {
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
@@ -18,11 +17,6 @@ class site extends BaseController
     public  $_lang_directory;//语言包位置
     public  $_smileys_dir='misc/';//     * 表情图片所在的文件夹位置
     public  $_errors=array();//     * 保存错误信息
-    public  $_dbname='mapleleaf';//数据库名称
-    public  $_message_table='gb';//留言信息数据表名称
-    public  $_reply_table='reply';//回复数据表名称
-    public  $_banedip_table='ban';//被禁止的IP列表的数据表的名称
-    public  $_users_table='user';//所有用户的资料
     public  $_lang_array;//保存语言翻译信息
     public  $_smileys;
     static  private $_coreMessage_array=array(
@@ -59,10 +53,10 @@ class site extends BaseController
 	//$this->_coreMessage_array=  require 'coreMessage.php';//将代表核心信息的数组导入到当前类的属性中
         $this->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
         $this->_model=new JuneTxtDb();//实例化模型
-        if(!$this->_model->_db_exists($this->_dbname)){//若默认的数据库不存在，需要执行安装
+        if(!$this->_model->_db_exists(DB)){//若默认的数据库不存在，需要执行安装
             $this->install();exit;
         }
-	$this->_model->select_db($this->_dbname);//选择默认的数据库
+	$this->_model->select_db(DB);//选择默认的数据库
         $this->load_config();//载入配置
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
@@ -91,12 +85,12 @@ class site extends BaseController
             $adminpassString="\n\$password='$adminpass';";
             file_put_contents(self::$_site_conf_file, $adminnameString,FILE_APPEND);
             file_put_contents(self::$_site_conf_file, $adminpassString,FILE_APPEND);
-            if(!$this->_model->create_db($this->_dbname)){
+            if(!$this->_model->create_db(DB)){
                 die ($this->_model->error());
             }
-            $this->_model->select_db($this->_dbname);
+            $this->_model->select_db(DB);
 
-            $tables=array($this->_message_table,  $this->_reply_table,  $this->_banedip_table, $this->_users_table);
+            $tables=array(MESSAGETABLE,  REPLYTABLE,  BADIPTABLE, USERTABLE);
             $fields=array(
                         array(array('name'=>'id','auto_increment'=>true),array('name'=>'user'),array('name'=>'content'),array('name'=>'time'),array('name'=>'ip')),
                         array(array('name'=>'id'),array('name'=>'reply_content'),array('name'=>'reply_time')),
@@ -109,7 +103,7 @@ class site extends BaseController
                 }
             }
 	    $newData=array(NULL,$_POST['adminname'],'Welcome to MapleLeaf.:)',time(), getIp());
-	    $this->_model->insert($this->_message_table, $newData);
+	    $this->_model->insert(MESSAGETABLE, $newData);
 	    $installed=TRUE;
         }
 	if(file_exists(dirname(dirname(__FILE__)).'/install.php')){
@@ -320,7 +314,7 @@ class site extends BaseController
 	}
 
 	$new_data=array(NULL,$user,$content,$time,$current_ip);
-	if(!$this->_model->insert($this->_message_table, $new_data))
+	if(!$this->_model->insert(MESSAGETABLE, $new_data))
 	    die($this->_model->error());
 	if(isset($_POST['ajax'])){
 	    echo 'OK';
@@ -338,7 +332,7 @@ class site extends BaseController
 	}
 	$mid=(int)$_GET['mid'];
 	$condition=array('id'=>$mid);
-	$reply_data=$this->_model->select($this->_reply_table, $condition);
+	$reply_data=$this->_model->select(REPLYTABLE, $condition);
 	if ($reply_data===FALSE)
 	    $this->show_message($this->t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
 	else
@@ -359,12 +353,12 @@ class site extends BaseController
 	    if(isset($_POST['update'])){
 		$input=array($mid,$reply_content,$time);
 		$condition=array('id'=>$mid);
-		if(!$this->_model->update($this->_reply_table, $condition, $input))
+		if(!$this->_model->update(REPLYTABLE, $condition, $input))
 		    die($this->_model->error());
 	    }
 	    else{
 		$input=array($mid,$reply_content,$time);
-		if(!$this->_model->insert($this->_reply_table, $input))
+		if(!$this->_model->insert(REPLYTABLE, $input))
 		    die($this->_model->error());
 	    }
 	    header("Location:index.php?action=control_panel&subtab=message");exit;
@@ -392,7 +386,7 @@ class site extends BaseController
 	    $ip=$_POST['ip'];
 	    $input=array($mid,$author,$update_content,$m_time,$ip);
 	    $condition=array('id'=>$mid);
-	    if(!$this->_model->update($this->_message_table, $condition, $input))
+	    if(!$this->_model->update(MESSAGETABLE, $condition, $input))
 		die($this->_model->error());
 	    else
 		header("Location:index.php?action=control_panel&subtab=message");
@@ -403,7 +397,7 @@ class site extends BaseController
 	}
         $mid=intval($_GET['mid']);
 	$condition=array('id'=>$mid);
-	$message_info=$this->_model->select($this->_message_table, $condition);
+	$message_info=$this->_model->select(MESSAGETABLE, $condition);
         if(!$message_info)
             $this->show_message($this->t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
 	$message_info=$message_info[0];
@@ -437,7 +431,7 @@ class site extends BaseController
         if(isset($mid))
         {
 	    $condition=array('id'=>$mid);
-	    if(!$this->_model->delete($this->_message_table, $condition))
+	    if(!$this->_model->delete(MESSAGETABLE, $condition))
 		die($this->_model->error());
         }
         //若回复中有关于此留言的记录，执行删除回复操作
@@ -457,7 +451,7 @@ class site extends BaseController
         if(isset($mid))
         {
 	    $condition=array('id'=>$mid);
-	    if(!$this->_model->delete($this->_reply_table, $condition))
+	    if(!$this->_model->delete(REPLYTABLE, $condition))
 		die($this->_model->error());
         }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
@@ -466,7 +460,7 @@ class site extends BaseController
     public  function clear_all()
     {
         is_admin();
-        $message_table_path=  $this->_model->_table_path($this->_dbname, $this->_message_table);
+        $message_table_path=  $this->_model->_table_path(DB, MESSAGETABLE);
 	$message_filename=$message_table_path.$this->_model->get_data_ext();
         file_put_contents($message_filename, '');
         $this->clear_reply();
@@ -476,7 +470,7 @@ class site extends BaseController
     public  function clear_reply()
     {
         is_admin();
-        $reply_table_path=$this->_model->_table_path($this->_dbname,$this->_reply_table);
+        $reply_table_path=$this->_model->_table_path(DB,REPLYTABLE);
         $reply_filename=$reply_table_path.$this->_model->get_data_ext();
         file_put_contents($reply_filename,'');
         header("location:index.php?action=control_panel&subtab=message");
@@ -553,9 +547,9 @@ class site extends BaseController
     public  function get_all_data($parse_smileys=true,$filter_words=false)
     {
         $data=array();
-	if(($data=$this->_model->select($this->_message_table))===FALSE)
+	if(($data=$this->_model->select(MESSAGETABLE))===FALSE)
 	    die($this->_model->error());
-        if(($reply_data=$this->_model->select($this->_reply_table))===FALSE)
+        if(($reply_data=$this->_model->select(REPLYTABLE))===FALSE)
 	    die($this->_model->error());
 	$new_reply_data=array();
 	foreach($reply_data as $reply_data_item)
@@ -594,7 +588,7 @@ class site extends BaseController
     public  function get_all_reply()
     {
         $reply_data=array();
-	if(($reply_data=$this->_model->select($this->_reply_table))===FALSE)
+	if(($reply_data=$this->_model->select(REPLYTABLE))===FALSE)
 	    die($this->_model->error());
         return $reply_data;
     }
