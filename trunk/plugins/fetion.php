@@ -1,6 +1,6 @@
 <?php
 function fetion_config($showConfig=FALSE,$config=NULL){
-    $plugindir=  Maple_Controller::$_plugins_directory;
+    $plugindir= site::$_plugins_directory;
     $filename=$plugindir.'.fetion.conf.php';
     if( isset($config) && $config['plugin'] =='fetion' ){
 	$fetionID=$config['fetionID'];

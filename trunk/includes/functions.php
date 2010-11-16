@@ -72,7 +72,7 @@
     {
 	if (!isset($_SESSION['admin']))
 	{
-	    header("location:index.php?action=login");
+	    header("Location:index.php?controller=user&action=login");
             exit;
         }
     }
