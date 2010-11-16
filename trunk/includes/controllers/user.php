@@ -1,10 +1,25 @@
 <?php
 class user extends BaseController{
+    public $_siteController;
     public $_model;
 
     public function  __construct() {
+        $this->_siteController=new site();
         $this->_model=new JuneTxtDB();
-        $this->_model->select_db($dbname);
+        $this->_model->select_db(DB);
+    }
+    public function  __get($propertyName) {
+        $methodName='get'.$propertyName;
+        try {
+            $propertyValue=configuration::$methodName();
+            return $propertyValue;
+        }  catch (Exception $e){
+            die($e);
+        }
+    }
+    public function  __call($name, $arguments) {
+        $arguments=implode('', $arguments);
+        return $this->_siteController->$name($arguments);
     }
     public  function login(){
         if (isset($_SESSION['admin']))//若管理员已经登录
@@ -66,10 +81,10 @@ class user extends BaseController{
 		//if(is_email($_POST['ema']))
 		$email=$_POST['email'];
 		if(is_email($email)){
-		    $user_exists=$this->_model->select($this->_users_table, array('user'=>$user));
+		    $user_exists=$this->_model->select(USERTABLE, array('user'=>$user));
 		    if(!$user_exists && $user!= $this->_admin_name){
 			$user_data=array(NULL,$user,$pwd,$email);
-			if($this->_model->insert($this->_users_table, $user_data)){
+			if($this->_model->insert(USERTABLE, $user_data)){
 			    $_SESSION['user']=$user;
 			    $_SESSION['uid']=  $this->_model->insert_id();
 			    if(isset ($_POST['ajax'])){
@@ -109,7 +124,7 @@ class user extends BaseController{
 		if(is_email($email)){
 		    $newdata=array($uid,$user,$pwd,$email);
 		    $condition=array('uid'=>$uid);
-		    if($this->_model->update($this->_users_table, $condition, $newdata)){
+		    if($this->_model->update(USERTABLE, $condition, $newdata)){
 			header("Location:index.php");exit;
 		    }else{
 			$errorMsg='Update Failed!';
@@ -121,7 +136,7 @@ class user extends BaseController{
 		$errorMsg="填写未完成";
 	    }
 	}
-	$user_data=$this->_model->select($this->_users_table, array('uid'=>$uid));
+	$user_data=$this->_model->select(USERTABLE, array('uid'=>$uid));
 	$user_data=$user_data[0];
 	include 'themes/'.$this->_theme.'/templates/'."user_update.php";
     }
