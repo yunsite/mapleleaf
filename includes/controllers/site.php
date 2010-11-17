@@ -11,7 +11,6 @@ class site extends BaseController
 {
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
     public  $_model;// Maple_Data_Processor 实例，用于处理数据
-    public static  $_site_conf_file='config.php';//     * 站点配置文件位置
     public  $_themes_directory='themes/';//     * 主题文件的目录
     public static  $_plugins_directory='plugins/';
     public  $_lang_directory;//语言包位置
@@ -74,17 +73,17 @@ class site extends BaseController
 
     public function install(){
 	$installed=FALSE;
-        if(!file_exists(self::$_site_conf_file))        //先检查配置文件是否存在和可写
-            die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),self::$_site_conf_file));
-        if(!is_writable(self::$_site_conf_file))
-            die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),self::$_site_conf_file));
+        if(!file_exists(CONFIGFILE))        //先检查配置文件是否存在和可写
+            die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE));
+        if(!is_writable(CONFIGFILE))
+            die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE));
         if(!empty ($_POST['adminname']) && !empty($_POST['adminpass'])){
             $adminname=$this->maple_quotes($_POST['adminname']);
             $adminpass=$this->maple_quotes($_POST['adminpass']);
             $adminnameString="\n\$admin='$adminname';";
             $adminpassString="\n\$password='$adminpass';";
-            file_put_contents(self::$_site_conf_file, $adminnameString,FILE_APPEND);
-            file_put_contents(self::$_site_conf_file, $adminpassString,FILE_APPEND);
+            file_put_contents(CONFIGFILE, $adminnameString,FILE_APPEND);
+            file_put_contents(CONFIGFILE, $adminpassString,FILE_APPEND);
             if(!$this->_model->create_db(DB)){
                 die ($this->_model->error());
             }
@@ -118,10 +117,10 @@ class site extends BaseController
     {
         if (!is_dir($this->_themes_directory))//检查主题目录是否存在
 	    die($this->t('THEMES_DIR_NOTEXISTS',true));
-        if(!file_exists(self::$_site_conf_file))        //先检查配置文件是否存在和可写
-            die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),self::$_site_conf_file));
-        if(!is_writable(self::$_site_conf_file))
-            die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),self::$_site_conf_file));
+        if(!file_exists(CONFIGFILE))        //先检查配置文件是否存在和可写
+            die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE));
+        if(!is_writable(CONFIGFILE))
+            die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE));
         //由于出现错误时需要调用 show_message 函数，而此函数依赖于当前的theme,所以需要先得到当前的 theme
     	//$this->get_theme();
         if(!is_dir($this->_smileys_dir))
@@ -133,12 +132,17 @@ class site extends BaseController
 
     public function  __get($propertyName) {
         $methodName='get'.$propertyName;
-        //try($propertyValue=configuration::$methodName())
         try {
             $propertyValue=configuration::$methodName();
             return $propertyValue;
         }  catch (Exception $e){
-            die($e);
+            echo '<pre>';
+            echo $e->getMessage();
+            echo '</pre>';
+            echo '<pre>';
+            debug_print_backtrace();
+            echo '</pre>';
+            exit;
         }
     }
     public  function get_all_info()
@@ -630,7 +634,7 @@ class site extends BaseController
 
     public  function get_lang()
     {
-    	include self::$_site_conf_file;
+    	include CONFIGFILE;
         if(isset ($lang) && in_array($lang,$this->get_all_langs()))
         {
 	    $this->_current_lang=$lang;

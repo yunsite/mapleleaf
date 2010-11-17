@@ -86,10 +86,10 @@ class FrontController {
             }
         }
         catch (Exception $e){
-            echo $e->getMessage();
-            echo '<pre>';
-            var_dump(debug_backtrace());
-            debug_print_backtrace();
+            //echo $e->getMessage();
+            //echo '<pre>';
+            //var_dump(debug_backtrace());
+            //debug_print_backtrace();
         }
     }
     public function getParams(){
