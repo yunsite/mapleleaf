@@ -75,6 +75,22 @@ class FrontController {
                         $controller=$rc->newInstance();
                         $method=$rc->getMethod($this->getAction());
                         $method->invoke($controller);
+                        $action=  $this->getAction();
+                        //echo $action;
+                        //plugin
+                        $allPlugins=site::get_all_plugins();
+                        foreach($allPlugins as $plugin){
+                            include_once site::$_plugins_directory.$plugin.'.php';
+                            @include site::$_plugins_directory.$plugin.'.conf.php';;
+                        }
+                        //var_dump($GLOBALS['actionEvent'][$action]);
+                        if(isset ($GLOBALS['actionEvent'][$action])){
+                            //die ($this->getAction());
+                            foreach ($GLOBALS['actionEvent'][$action] as $evt) {
+                                $evt();
+                                //echo $evt;
+                            }
+                        }//end plugin
                     }else{
                         throw new Exception("Action <font color='red'>{$this->getAction()}</font> not exits");
                     }

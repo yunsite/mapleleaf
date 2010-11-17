@@ -23,16 +23,11 @@ function fetion_config($showConfig=FALSE,$config=NULL){
     echo '</form>';
 }
 function fetion_send(){
-    //echo '<pre>';
-    //var_dump($_REQUEST);exit;
-    //die ('SEND');
-
-    @include Maple_Controller::$_plugins_directory.'.fetion.conf.php';
+    @include site::$_plugins_directory.'.fetion.conf.php';
     @$message=urlencode($_REQUEST['user'].' 留言：'.$_REQUEST['content']);
     @$result=file_get_contents('http://fetion.adwap.cn/restlet/fetion/'.$fetionID.'/'.$fetionPWD.'/'.$fetionID.'/'.$message);
     if($result=='OK'){	return TRUE; }
     return FALSE;
 }
 attachEvent('post','fetion_send');
-//attachEvent('index','fetion_send');
 ?>

@@ -220,10 +220,8 @@
 			    ?>
 			    </li>
 			    <?php }?>
-			    
 			</ul>
-			
-		    </div>
+		    </div><!-- Plugins -->
 		</div>
 	    </div><!-- yui-g  -->
 	</div><!-- body -->
