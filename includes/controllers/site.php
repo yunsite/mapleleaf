@@ -655,20 +655,4 @@ class site extends BaseController
 	header("Location:index.php?action=control_panel&subtab=plugin");exit;
     }
     
-    public  function run()
-    {
-        $action=isset($_GET['action'])?$_GET['action']:'index';
-        if(!method_exists($this,$action) || !is_callable(array($this,$action))){$action='index';}
-        self::$action();
-	$allPlugins=$this->get_all_plugins();
-	foreach($allPlugins as $plugin){
-            include_once self::$_plugins_directory.$plugin.'.php';
-	    @include self::$_plugins_directory.$plugin.'.conf.php';;
-	}
-	if(isset ($GLOBALS['actionEvent'][$action])){
-	    foreach ($GLOBALS['actionEvent'][$action] as $evt) {
-		$evt($_REQUEST);
-	    }
-	}
-    }
 }
