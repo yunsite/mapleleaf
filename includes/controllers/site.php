@@ -156,21 +156,7 @@ class site extends BaseController
 	$this->_lang_directory=$this->_themes_directory.$this->_theme.'/languages/';
     }
 
-    public  function is_baned($ip,$check=false)
-    {
-        $all_baned_ips=array();
-        $all_baned_ips=$this->get_baned_ips();
-        for($i=0,$c=count($all_baned_ips);$i<$c;$i++)
-        {
-	    $all_baned_ips[$i]=trim($all_baned_ips[$i]["ip"]);
-        }
-        if (in_array($ip,$all_baned_ips))
-        {
-            if($check)
-                return TRUE;
-            $this->show_message($this->t('LOGIN_DENIED'));
-        }
-    }
+
     /**
      * 显示信息
      */

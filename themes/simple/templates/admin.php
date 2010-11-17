@@ -17,7 +17,7 @@
 <body>
     <div id="doc">
 	<div id="hd">
-		<a href="index.php"><?php echo $this->t('HOME');?></a>&nbsp;<a href="index.php?action=logout" title="<?php echo $this->t('LOGOUT');?>"><?php echo $this->t('LOGOUT');?></a>
+		<a href="index.php"><?php echo $this->t('HOME');?></a>&nbsp;<a href="index.php?controller=user&amp;action=logout" title="<?php echo $this->t('LOGOUT');?>"><?php echo $this->t('LOGOUT');?></a>
 	</div><!-- header -->
 	<div id="bd">
 	    <div class="yui-g">
@@ -170,7 +170,7 @@
 			    <td><a href='index.php?action=delete_message&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){ echo "1";}else{ echo "0";}?>'><?php echo $this->t('DELETE');?></a>
 			    <a class="ex2trigger" href='index.php?action=reply&amp;mid=<?php echo $m['id'];?>'><?php echo $this->t('REPLY');?></a>
 			    <a class="ex2trigger" href='index.php?action=update&amp;mid=<?php echo $m['id'];?>'><?php echo $this->t('UPDATE');?></a>
-			    <a href='index.php?action=ban&amp;ip=<?php echo $m['ip'];?>'><?php echo $this->t('BAN');?></a></td>
+			    <a href='index.php?controller=badips&amp;action=ban&amp;ip=<?php echo $m['ip'];?>'><?php echo $this->t('BAN');?></a></td>
 			</tr>
 		       <?php }?>
 
@@ -182,7 +182,7 @@
 				<input type='submit' value='<?php echo $this->t('DELETE_CHECKED');?>' />&nbsp;
 				<a href="index.php?action=clear_all"><input id="deleteallButton" type='button' value='<?php echo $this->t('DELETE_ALL');?>' /></a>&nbsp;
 				<a href="index.php?action=clear_reply"><input  id="deleteallreplyButton" type='button' value='<?php echo $this->t('DELETE_ALL_REPLY');?>' /></a>
-				<a href="index.php?action=backup"><input type='button' id="buckupButton" value='<?php echo $this->t('BACKUP');?>' /></a>
+				<a href="index.php?controller=backup&amp;action=backupData"><input type='button' id="buckupButton" value='<?php echo $this->t('BACKUP');?>' /></a>
 			    </td></tr>
 
 			</table>
@@ -191,7 +191,7 @@
 		    
 		    <div id="ip_container" <?php if($current_tab=='ban_ip'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
 			<!-- IP管理 -->
-			<form id="banip_manage" action="index.php?action=ip_update" method="post">
+			<form id="banip_manage" action="index.php?controller=badips&amp;action=ip_update" method="post">
 			    <table class="table2">
 				<tr class="header">
 				    <td><?php echo $this->t('SELECT');?></td><td><?php echo $this->t('BAD_IP');?></td>
