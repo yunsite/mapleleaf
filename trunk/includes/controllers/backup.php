@@ -1,5 +1,5 @@
 <?php
-class backup{
+class backup extends BaseController{
     public $_model;
 
     public  function  __construct() {
@@ -7,9 +7,9 @@ class backup{
         $this->_model->select_db(DB);
     }
 
-    public  function backup(){
+    public  function backupData(){
         is_admin();
-        $dir="data/{$this->_dbname}/";
+        $dir="data/".DB.'/';
         if(!class_exists('ZipArchive'))
         {
             $this->show_message($this->t('BACKUP_NOTSUPPORT'),true,'index.php?action=control_panel&subtab=message');
