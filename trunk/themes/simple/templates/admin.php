@@ -75,7 +75,7 @@
 			</table>
 		    </div><!-- Overview -->
 		    <div <?php if($current_tab=='siteset'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
-			<form action="index.php?action=set_config" method="post">
+			<form action="index.php?controller=configuration&amp;action=set_config" method="post">
 			    <fieldset>
 			    <legend><?php echo $this->t('SYS_CONF');?></legend>
 			    <table>

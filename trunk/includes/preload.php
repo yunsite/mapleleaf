@@ -47,6 +47,7 @@ define('MESSAGETABLE', 'gb');
 define('REPLYTABLE', 'reply');
 define('BADIPTABLE', 'ban');
 define('USERTABLE', 'user');
+define('CONFIGFILE', 'config.php');
 define('MP_VERSION','1.9');
 require 'functions.php';
 include_once 'JuneTxtDB.class.php';
