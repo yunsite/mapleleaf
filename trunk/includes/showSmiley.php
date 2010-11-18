@@ -9,6 +9,12 @@ for($i=0,$c=ceil(count($smileyArray)/$numPerRow);$i<$c;$i++){
     foreach ($rowArray as $key=>$perSmiley){
         $smileyString.="<td><img id='".$key."' src='".$this->_smileys_dir.$perSmiley[0]."' alt='$perSmiley[3]' title='$perSmiley[3]' /></td>\n";
     }
+    $emptyStr='';
+    if(count($rowArray)<$numPerRow){
+        $emptyNum=$numPerRow-count($rowArray);
+        $emptyStr=str_repeat('<td>&nbsp;</td>', $emptyNum);
+        $smileyString.=$emptyStr;
+    }
     $smileyString.="</tr>\n";
 }
 $smileyString.="</table>\n";
