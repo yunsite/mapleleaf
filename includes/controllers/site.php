@@ -136,13 +136,17 @@ class site extends BaseController
             $propertyValue=configuration::$methodName();
             return $propertyValue;
         }  catch (Exception $e){
-            echo '<pre>';
-            echo $e->getMessage();
-            echo '</pre>';
-            echo '<pre>';
-            debug_print_backtrace();
-            echo '</pre>';
-            exit;
+            if(defined(DEBUG_MODE)){
+                echo '<pre>';
+                echo $e->getMessage();
+                echo '</pre>';
+                echo '<pre>';
+                debug_print_backtrace();
+                echo '</pre>';
+                exit;
+            }  else {
+                header("Location:index.php");
+            }
         }
     }
     public  function get_all_info()
