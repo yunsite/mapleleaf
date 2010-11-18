@@ -37,7 +37,6 @@ $(document).ready(function() {
 	$('#guestbook').submit(function(e){
 		var user = $.trim($('#user').val());
 		var content = $.trim($('#content').val());
-		//var valid_code=;
 		if(!user){
 		    $("#user_msg").html("<font color='red'>"+languageTips.USERNAME_NOT_EMPTY+"</font>");
 		    return false;
@@ -59,23 +58,24 @@ $(document).ready(function() {
 		    }
 		}
 		$.ajax({
-			type: "POST",
-			url: "index.php?action=post",
-			data: $(this).serialize(),
-			success: function(data){
-				$('#captcha_img').attr('src',$('#captcha_img').attr('src')+'&id='+Math.random());
-				//alert(data);
-				if(data != "OK"){
-					alert(data);return false;
-				}
-				//alert('开始刷新！');
-				document.getElementById('guestbook').reset();
-				$.get('index.php?action=ajaxIndex',{ajax:'yes',pid:$('#pid').val()},function(data){
-					//alert(data);
-					$("#main_table tr:not('.header')").remove();
-					$(".header").after(data);
-				});
-		   }
+                    type: "POST",
+                    url: "index.php?action=post",
+                    data: $(this).serialize(),
+                    success: function(data){
+                            $('#captcha_img').attr('src',$('#captcha_img').attr('src')+'&id='+Math.random());
+                            if(data != "OK"){
+                                    alert(data);return false;
+                            }
+                            //alert('开始刷新！');
+                            document.getElementById('guestbook').reset();//重置留言表单
+                            $.getJSON('index.php',{ajax:'yes',pid:$('#pid').val()},function(data){
+                                    $("#main_table tr:not('.header')").remove();
+                                    $.each(data,function(i,item){
+                                            var trString="<tr>\n<td>"+item.user+"</td>\n<td>"+item.content+"</td>\n<td>"+item.time+"</td>\n</tr>\n";
+                                            $(".header").after(trString);
+                                        });
+                            });
+		    }
 		});
 		return false;
 	});

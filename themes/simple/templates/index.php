@@ -43,11 +43,11 @@
                     </tr>
                     <?php foreach($data as $m){?>
                     <tr>
-                        <td><?php echo $m['user']==$this->_admin_name?"<font color='red'>$this->_admin_name</font>":$m['user'];?></td>
-                        <td><div style='word-wrap: break-word;word-break:break-all;width:450px;'><?php echo $this->parse_smileys($m['content'],$this->_smileys_dir,$this->_smileys);?><br />
+                        <td><?php echo $m['user'];?></td>
+                        <td><div style='word-wrap: break-word;word-break:break-all;width:450px;'><?php echo $m['content'];?><br />
                             <?php if(@$m['reply']){ echo sprintf($this->t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));}?></div>
                         </td>
-                        <td><?php echo date('m-d H:i',$m['time']+$this->_time_zone*60*60);?></td>
+                        <td><?php echo $m['time'];?></td>
                     </tr>
                     <?php }?>
                 </table>

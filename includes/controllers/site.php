@@ -202,46 +202,11 @@ class site extends BaseController
         return htmlspecialchars(trim($var),ENT_QUOTES,  $this->_model->get_charset());
     }
 
-
-
-
-    public  function ajaxIndex(){
-	if(isset($_GET['ajax'])){
-	    $data=$this->get_all_data(TRUE,TRUE);
-	    $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-	    $nums=$this->_model->num_rows($data);
-	    $pages=ceil($nums/$this->_num_perpage);
-	    if($current_page>=$pages)
-		$current_page=$pages-1;
-	    if($current_page<0)
-		$current_page=0;
-	    if($this->_page_on)
-		$data=$this->page_wrapper($data, $current_page);
-	    $string='';
-	    foreach($data as $m){
-		$string.="<tr>";
-		$string.="<td>";
-                $string.=$m['user']==$this->_admin_name?"<font color='red'>$this->_admin_name</font>":$m['user'];
-                $string.="</td>";
-		$string.="<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>".$this->parse_smileys($m['content'],$this->_smileys_dir,$this->_smileys)."<br />";
-		if(@$m['reply']){
-		    $string.=sprintf($this->t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));
-		}
-		$string.="</div></td>";
-		$string.="<td>".date('m-d H:i',$m['time']+$this->_time_zone*60*60)."</td>";
-		$string.="</tr>";
-	    }
-	    echo $string;
-	}else{
-	    echo 'Error';
-	}
-    }
-
     public  function index()
     {
         if ($this->_mb_open==1)
             $this->show_message($this->_close_reason);
-        $data=$this->get_all_data(TRUE,TRUE);
+        $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
         $nums=$this->_model->num_rows($data);
         $pages=ceil($nums/$this->_num_perpage);
@@ -251,6 +216,10 @@ class site extends BaseController
             $current_page=0;
         if($this->_page_on)
             $data=$this->page_wrapper($data, $current_page);
+        if(isset ($_GET['ajax'])){
+            $data=array_reverse($data);
+            echo json_encode($data);exit;
+        }
         $smileys=$this->show_smileys_table();
         $admin=isset($_SESSION['admin'])?true:false;
         include 'themes/'.$this->_theme.'/templates/'."index.php";
@@ -541,7 +510,7 @@ class site extends BaseController
 
 
 
-    public  function get_all_data($parse_smileys=true,$filter_words=false)
+    public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false)
     {
         $data=array();
 	if(($data=$this->_model->select(MESSAGETABLE))===FALSE)
@@ -558,6 +527,12 @@ class site extends BaseController
         {
             if($filter_words)
                 $data_per['content']=$this->filter_words($data_per['content']);
+            if($parse_smileys)
+                $data_per['content']=  $this->parse_smileys ($data_per['content'], $this->_smileys_dir, $this->_smileys);
+            if($processUsername)
+                $data_per['user']=($data_per['user']==$this->_admin_name)?"<font color='red'>{$data_per['user']}</font>":$data_per['user'];
+            if($processTime)
+                $data_per['time']=date('m-d H:i',$data_per['time']+$this->_time_zone*60*60);
             $mid=intval($data_per['id']);
             if(isset($new_reply_data[$mid]))
             {
