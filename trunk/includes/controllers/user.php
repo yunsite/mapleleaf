@@ -18,7 +18,11 @@ class user extends BaseController{
             $propertyValue=configuration::$methodName();
             return $propertyValue;
         }  catch (Exception $e){
-            die($e);
+            if(defined(DEBUG_MODE)){
+                die($e);
+            }else{
+                header("Location:index.php");
+            }
         }
     }
     public function  __call($name, $arguments) {

@@ -69,30 +69,25 @@ class FrontController {
         try {
             if(class_exists($this->getController())){
                 $rc=new ReflectionClass($this->getController());
-                //if($rc->implementsInterface('IController')){
                 if($rc->isSubclassOf('BaseController')){
                     if($rc->hasMethod($this->getAction())){
                         $controller=$rc->newInstance();
                         $method=$rc->getMethod($this->getAction());
                         $method->invoke($controller);
                         $action=  $this->getAction();
-                        //echo $action;
                         //plugin
                         $allPlugins=site::get_all_plugins();
                         foreach($allPlugins as $plugin){
                             include_once site::$_plugins_directory.$plugin.'.php';
                             @include site::$_plugins_directory.$plugin.'.conf.php';;
                         }
-                        //var_dump($GLOBALS['actionEvent'][$action]);
                         if(isset ($GLOBALS['actionEvent'][$action])){
-                            //die ($this->getAction());
                             foreach ($GLOBALS['actionEvent'][$action] as $evt) {
                                 $evt();
-                                //echo $evt;
                             }
                         }//end plugin
                     }else{
-                        throw new Exception("Action <font color='red'>{$this->getAction()}</font> not exits");
+                        throw new Exception("Controller <font color='blue'>".$this->getController()."</font> does not have the action named <font color='red'>{$this->getAction()}</font>");
                     }
                 }else{
                     throw new Exception("<font color='red'>".$this->getController().'</font> is not a valid Controller');
@@ -102,10 +97,14 @@ class FrontController {
             }
         }
         catch (Exception $e){
-            echo $e->getMessage();
-            echo '<pre>';
-            var_dump(debug_backtrace());
-            debug_print_backtrace();
+            if(defined('DEBUG_MODE')){
+                echo $e->getMessage();
+                echo '<pre>';
+                var_dump(debug_backtrace());
+                debug_print_backtrace();
+            }else{
+                header("Location:index.php");
+            }
         }
     }
     public function getParams(){
