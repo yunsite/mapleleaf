@@ -164,7 +164,33 @@ class configuration extends BaseController{
         $timezone=self::get_lang_array();
     	return $timezone['TZ_ZONES'];
     }
+        /**
+     * 得到所有可用的主题
+     */
+    public function get_all_themes()
+    {
+        $themes=array();
+        $d=dir(THEMEDIR);
+        while(false!==($entry=$d->read()))
+        {
+            if(substr($entry,0,1)!='.')
+                $themes[$entry]=$entry;
+        }
+        $d->close();
+        return $themes;
+    }
 
+    public function get_all_plugins(){
+        $plugins=array();
+        $d=dir(PLUGINDIR);
+        while(false!==($entry=$d->read()))
+        {
+            if(substr($entry,0,1)!='.')
+                $plugins[substr($entry,0,-4)]=substr($entry,0,-4);
+        }
+        $d->close();
+        return $plugins;
+    }
     public  function set_config(){
         is_admin();
         $this->_admin_name=  self::get_admin_name();
@@ -303,5 +329,15 @@ class configuration extends BaseController{
         $password=isset($_POST['password']) && !empty($_POST['password'])?$this->maple_quotes($_POST['password']):$this->_admin_password;
         $str="\n\$password='$password';";
         file_put_contents(CONFIGFILE, $str,FILE_APPEND);
+    }
+    public  function pluginset(){
+        is_admin();
+        $all_plugin=self::get_all_plugins();
+        if(isset ($_POST['plugin']) && in_array($_POST['plugin'], $all_plugin)){
+            include PLUGINDIR.$_POST['plugin'].'.php';
+            $funcName=$_POST['plugin'].'_config';
+            $funcName(FALSE,$_POST);
+        }
+        header("Location:index.php?action=control_panel&subtab=plugin");exit;
     }
 }

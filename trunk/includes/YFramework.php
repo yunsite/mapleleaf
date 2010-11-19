@@ -76,7 +76,7 @@ class FrontController {
                         $method->invoke($controller);
                         $action=  $this->getAction();
                         //plugin
-                        $allPlugins=site::get_all_plugins();
+                        $allPlugins=configuration::get_all_plugins();
                         foreach($allPlugins as $plugin){
                             include_once PLUGINDIR.$plugin.'.php';
                             @include PLUGINDIR.$plugin.'.conf.php';;

@@ -1,11 +1,4 @@
 <?php
-/**
- * Controller
- * @author      rainyjune<dreamneverfall@gmail.com>
- * @copyright   Copyright (c) 2008 - 2010 OurPlanet Team (http://mapleleaf.ourplanet.tk/)
- * @license     GPL2
- * @version     2010-11-02
- */
 class site extends BaseController
 {
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
@@ -122,33 +115,6 @@ class site extends BaseController
     {
         include 'themes/'.$this->_theme.'/templates/'."show_message.php";
         exit;
-    }
-    /**
-     * 得到所有可用的主题
-     */
-    public function get_all_themes()
-    {
-        $themes=array();
-        $d=dir(THEMEDIR);
-        while(false!==($entry=$d->read()))
-        {
-            if(substr($entry,0,1)!='.')
-                $themes[$entry]=$entry;
-        }
-        $d->close();
-        return $themes;
-    }
-    public function get_all_plugins()
-    {
-        $plugins=array();
-        $d=dir(PLUGINDIR);
-        while(false!==($entry=$d->read()))
-        {
-            if(substr($entry,0,1)!='.')
-                $plugins[substr($entry,0,-4)]=substr($entry,0,-4);
-        }
-        $d->close();
-        return $plugins;
     }
 
     public function maple_quotes($var)
@@ -408,8 +374,8 @@ class site extends BaseController
 	    if(in_array($_GET['subtab'],$tabs_array))
 		    $current_tab=$_GET['subtab'];
         }
-        $themes=$this->get_all_themes();
-	$plugins=$this->get_all_plugins();
+        $themes=  configuration::get_all_themes();
+        $plugins=  configuration::get_all_plugins();
         $data=$this->get_all_data();
         $reply_data=$this->get_all_reply();
         $ban_ip_info=  $this->_model->select(BADIPTABLE);
@@ -541,17 +507,5 @@ class site extends BaseController
     {
     	$lang=($isCoreMessage)?  configuration::$_coreMessage_array:$this->_lang_array;
         return strtr($str,$lang);
-    }
-
-    public  function pluginset(){
-	is_admin();
-	$all_plugin=$this->get_all_plugins();
-	if(isset ($_POST['plugin']) && in_array($_POST['plugin'], $all_plugin)){
-	    include PLUGINDIR.$_POST['plugin'].'.php';
-	    $funcName=$_POST['plugin'].'_config';
-	    $funcName(FALSE,$_POST);
-	}
-	header("Location:index.php?action=control_panel&subtab=plugin");exit;
-    }
-    
+    }    
 }
