@@ -410,11 +410,8 @@ class site extends BaseController
         }
         $themes=$this->get_all_themes();
 	$plugins=$this->get_all_plugins();
-	//echo '<pre>';
-	//var_dump($plugins);exit;
         $data=$this->get_all_data();
         $reply_data=$this->get_all_reply();
-        //$ban_ip_info=$this->get_baned_ips();
         $ban_ip_info=  $this->_model->select(BADIPTABLE);
 
         $nums=$this->_model->num_rows($data);
@@ -430,7 +427,8 @@ class site extends BaseController
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
         $languages=  configuration::get_all_langs();
-	$timezone_array=$this->get_all_timezone();
+        $timezone_array=configuration::get_all_timezone();
+
         include 'themes/'.$this->_theme.'/templates/'."admin.php";
     }
 
@@ -545,11 +543,6 @@ class site extends BaseController
         return strtr($str,$lang);
     }
 
-    public  function get_all_timezone()
-    {
-    	$timezone=$this->_lang_array['TZ_ZONES'];
-    	return $timezone;
-    }
     public  function pluginset(){
 	is_admin();
 	$all_plugin=$this->get_all_plugins();
