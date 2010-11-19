@@ -11,31 +11,9 @@ class site extends BaseController
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
     public  $_model;
     public  $_errors=array();//     * 保存错误信息
-    static  private $_coreMessage_array=array(
-		'THEMES_DIR_NOTEXISTS'=>'The directory of themes does not exists!',
-		'SMILEY_DIR_NOTEXISTS'=>'The directory of smiley `%s` does not exists!',
-		'CONFIG_FILE_NOTEXISTS'=>'The configuration file `%s` does not exists!',
-		'CONFIG_FILE_NOTWRITABLE'=>'The configuration file `%s` does not writable!',
-
-		'SITENAME_ERROR'=>'The sitename undefined!',
-		'SITESTATUS_ERROR'=>'The status of site undefined!',
-		'SITECLOSEREASON_ERROR'=>'The maintaince message undefined!',
-		'ADMINEMAIL_ERROR'=>'Admin email undefined!',
-		'COPYRIGHT_ERROR'=>'Coptyright undefined!',
-		'BADWORDS_ERROR'=>'Bad words undefined!',
-		'CAPTCHASTATUS_ERROR'=>'The status of CAPTCHA undefined!',
-		'PAGINATIONSTATUS_ERROR'=>'The status of pagination undefined!',
-		'TIMEZONE_ERROR'=>'Timezone undefined!',
-		'PAGINATION_PARAMETER_ERROR'=>'The parameter of  pagination undefined!',
-		'THEME_ERROR'=>'Theme undefined!',
-		'ADMINNAME_ERROR'=>'Admin name undefined!',
-		'ADMINPASS_ERROR'=>'admin password undefined!',
-		'LANGUAGE_ERROR'=>'Language undefined!',
-		'QUERY_ERROR'=>'Query error!',
-	);
 
     public static function translate($message){
-            return strtr($message, self::$_coreMessage_array);
+            return strtr($message, configuration::$_coreMessage_array);
     }
 
     //构造函数
@@ -50,7 +28,6 @@ class site extends BaseController
         $this->load_config();//载入配置
         if($this->_errors)//若有错误显示错误信息
             $this->show_message($this->_errors);
-        //$this->is_baned(getIp());//检查是否被禁止登录
     }
 
     public function getSysJSON(){
@@ -452,7 +429,7 @@ class site extends BaseController
             $gd_version='<font color="red">GD'.$this->t('NOT_SUPPORT').'</font>';
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
-        $languages=$this->get_all_langs();
+        $languages=  configuration::get_all_langs();
 	$timezone_array=$this->get_all_timezone();
         include 'themes/'.$this->_theme.'/templates/'."admin.php";
     }
@@ -562,29 +539,16 @@ class site extends BaseController
 	return $str;
     }
 
-    public  function t($str,$isCoreMessage=false)
+    public function t($str,$isCoreMessage=false)
     {
-    	$lang=($isCoreMessage)?$this->_coreMessage_array:$this->_lang_array;
-    	return str_replace($str,$lang[$str],$str);
+    	$lang=($isCoreMessage)?  configuration::$_coreMessage_array:$this->_lang_array;
+        return strtr($str,$lang);
     }
 
     public  function get_all_timezone()
     {
     	$timezone=$this->_lang_array['TZ_ZONES'];
     	return $timezone;
-    }
-
-    public  function get_all_langs()
-    {
-    	$langs=array();
-        $d=dir($this->_lang_directory);
-        while(false!==($entry=$d->read()))
-        {
-            if(substr($entry,0,1)!='.')
-                $langs[substr($entry,0,-4)]=substr($entry,0,-4);
-        }
-        $d->close();
-        return $langs;
     }
     public  function pluginset(){
 	is_admin();

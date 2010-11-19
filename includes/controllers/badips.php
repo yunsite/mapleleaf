@@ -1,11 +1,9 @@
 <?php
 class badips extends BaseController{
     public $_model;
-    public $_siteController;
     public function  __construct() {
         $this->_model=new JuneTxtDB();
         $this->_model->select_db(DB);
-        $this->_siteController=new site();
     }
     public  function ip_update(){
         is_admin();
@@ -43,7 +41,7 @@ class badips extends BaseController{
             header("Location:index.php?action=control_panel&subtab=message");
             exit;
         }
-        if($this->is_baned($ip,TRUE))
+        if($this->is_baned($ip))
         {
             header("Location:index.php?action=control_panel&subtab=ban_ip");
             exit;
@@ -53,7 +51,7 @@ class badips extends BaseController{
         file_put_contents($ip_filename, $insert_string, FILE_APPEND | LOCK_EX);
         header("Location:index.php?action=control_panel&subtab=ban_ip");
     }
-    public  function is_baned($ip,$check=false)
+    public  function is_baned($ip)
     {
         $all_baned_ips=array();
         $all_baned_ips=$this->get_baned_ips();
@@ -61,12 +59,10 @@ class badips extends BaseController{
         {
 	    $all_baned_ips[$i]=trim($all_baned_ips[$i]["ip"]);
         }
-        if (in_array($ip,$all_baned_ips))
-        {
-            if($check)
+        if (in_array($ip,$all_baned_ips)){
                 return TRUE;
-            $this->_siteController->show_message($this->_siteController->t('LOGIN_DENIED'));
         }
+        return FALSE;
     }
 }
 ?>
