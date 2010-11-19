@@ -159,6 +159,12 @@ class configuration extends BaseController{
         return $_smileys;
     }
 
+    public  function get_all_timezone()
+    {
+        $timezone=self::get_lang_array();
+    	return $timezone['TZ_ZONES'];
+    }
+
     public  function set_config(){
         is_admin();
         $this->_admin_name=  self::get_admin_name();
