@@ -78,8 +78,8 @@ class FrontController {
                         //plugin
                         $allPlugins=site::get_all_plugins();
                         foreach($allPlugins as $plugin){
-                            include_once site::$_plugins_directory.$plugin.'.php';
-                            @include site::$_plugins_directory.$plugin.'.conf.php';;
+                            include_once PLUGINDIR.$plugin.'.php';
+                            @include PLUGINDIR.$plugin.'.conf.php';;
                         }
                         if(isset ($GLOBALS['actionEvent'][$action])){
                             foreach ($GLOBALS['actionEvent'][$action] as $evt) {

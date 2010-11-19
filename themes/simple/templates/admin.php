@@ -160,10 +160,10 @@
 				<input type='hidden' name='<?php echo $m['id'];?>' value='<?php if(@$m['reply']){ echo "1";}else{echo "0";}?>' />
 			    </td>
 			    <td class='left'><?php echo $m['user'];?></td>
-			    <td class='left'><?php echo $this->parse_smileys($m['content'],$this->_smileys_dir,$this->_smileys);?><br /><?php echo $this->t('TIME');?>：<?php echo date('m-d H:i',$m['time']+ $this->_time_zone*60*60);?>
+			    <td class='left'><?php echo $m['content'];?><br /><?php echo $this->t('TIME');?>：<?php echo date('m-d H:i',$m['time']+ $this->_time_zone*60*60);?>
 			    <?php if(@$m['reply']==true){?>
 			    <br />
-			     <?php echo sprintf($this->t('YOU_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$this->parse_smileys($m['reply']['reply_content'],$this->_smileys_dir,$this->_smileys));?>
+			     <?php echo sprintf($this->t('YOU_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$m['reply']['reply_content']);?>
 			     <span>&nbsp;<a href="index.php?action=delete_reply&amp;mid=<?php echo $m['id'];?>"><?php echo $this->t('DELETE_THIS_REPLY');?></a></span>
 
 			<?php }?></td>
@@ -214,7 +214,7 @@
 			    ?>
 			    <li><h1><b><?php echo $plugin;?></b></h1>
 			    <?php
-				include self::$_plugins_directory.$plugin.'.php';
+				include PLUGINDIR.$plugin.'.php';
 				$configFuncName=$plugin.'_config';
 				$configFuncName(true);
 			    ?>

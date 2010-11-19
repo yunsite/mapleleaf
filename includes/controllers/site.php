@@ -11,10 +11,7 @@ class site extends BaseController
 {
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
     public  $_model;// Maple_Data_Processor 实例，用于处理数据
-    public  $_themes_directory='themes/';//     * 主题文件的目录
-    public static  $_plugins_directory='plugins/';
     public  $_lang_directory;//语言包位置
-    public  $_smileys_dir='misc/';//     * 表情图片所在的文件夹位置
     public  $_errors=array();//     * 保存错误信息
     public  $_lang_array;//保存语言翻译信息
     public  $_smileys;
@@ -115,7 +112,7 @@ class site extends BaseController
     //载入配置
     public  function load_config()
     {
-        if (!is_dir($this->_themes_directory))//检查主题目录是否存在
+        if (!is_dir(THEMEDIR))//检查主题目录是否存在
 	    die($this->t('THEMES_DIR_NOTEXISTS',true));
         if(!file_exists(CONFIGFILE))        //先检查配置文件是否存在和可写
             die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE));
@@ -123,8 +120,8 @@ class site extends BaseController
             die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE));
         //由于出现错误时需要调用 show_message 函数，而此函数依赖于当前的theme,所以需要先得到当前的 theme
     	//$this->get_theme();
-        if(!is_dir($this->_smileys_dir))
-            $this->_errors[]=sprintf($this->t('SMILEY_DIR_NOTEXISTS',true),$this->_smileys_dir);//"您所指定的表情图案目录 {$this->_smileys_dir} 不存在";
+        if(!is_dir(SMILEYDIR))
+            $this->_errors[]=sprintf($this->t('SMILEY_DIR_NOTEXISTS',true),SMILEYDIR);
         $this->get_all_info();
         if($this->_errors)
 	    $this->show_message($this->_errors);
@@ -157,7 +154,7 @@ class site extends BaseController
     }
 
     public function get_lang_dir(){
-	$this->_lang_directory=$this->_themes_directory.$this->_theme.'/languages/';
+	$this->_lang_directory=THEMEDIR.$this->_theme.'/languages/';
     }
 
 
@@ -175,7 +172,7 @@ class site extends BaseController
     public function get_all_themes()
     {
         $themes=array();
-        $d=dir($this->_themes_directory);
+        $d=dir(THEMEDIR);
         while(false!==($entry=$d->read()))
         {
             if(substr($entry,0,1)!='.')
@@ -187,7 +184,7 @@ class site extends BaseController
     public function get_all_plugins()
     {
         $plugins=array();
-        $d=dir(self::$_plugins_directory);
+        $d=dir(PLUGINDIR);
         while(false!==($entry=$d->read()))
         {
             if(substr($entry,0,1)!='.')
@@ -528,7 +525,7 @@ class site extends BaseController
             if($filter_words)
                 $data_per['content']=$this->filter_words($data_per['content']);
             if($parse_smileys)
-                $data_per['content']=  $this->parse_smileys ($data_per['content'], $this->_smileys_dir, $this->_smileys);
+                $data_per['content']=  $this->parse_smileys ($data_per['content'], SMILEYDIR, $this->_smileys);
             if($processUsername)
                 $data_per['user']=($data_per['user']==$this->_admin_name)?"<font color='red'>{$data_per['user']}</font>":$data_per['user'];
             if($processTime)
@@ -623,11 +620,10 @@ class site extends BaseController
         return $langs;
     }
     public  function pluginset(){
-	//echo 'PLUGINSET';exit;
 	is_admin();
 	$all_plugin=$this->get_all_plugins();
 	if(isset ($_POST['plugin']) && in_array($_POST['plugin'], $all_plugin)){
-	    include self::$_plugins_directory.$_POST['plugin'].'.php';
+	    include PLUGINDIR.$_POST['plugin'].'.php';
 	    $funcName=$_POST['plugin'].'_config';
 	    $funcName(FALSE,$_POST);
 	}
