@@ -107,7 +107,36 @@ class configuration extends BaseController{
         else
             throw new Exception(site::translate('ADMINNAME_ERROR'));
     }
-    
+
+    public static function get_lang_array(){
+        if(in_array(self::get_current_lang(), self::get_all_langs())){
+            include self::get_lang_directory().self::get_current_lang().'.php';
+            return $lang;
+        }else{
+            throw new Exception(site::translate('LANGUAGE_ERROR'));
+        }
+    }
+    public static  function get_all_langs()
+    {
+    	$langs=array();
+        $d=dir(self::get_lang_directory());
+        while(false!==($entry=$d->read()))
+        {
+            if(substr($entry,0,1)!='.')
+                $langs[substr($entry,0,-4)]=substr($entry,0,-4);
+        }
+        $d->close();
+        return $langs;
+    }
+    public function get_lang_directory(){
+        return THEMEDIR.self::get_theme().'/languages/';
+    }
+
+    public function get_smileys(){
+        $_smileys=  require dirname(dirname(__FILE__)).'/smiley.php';//将代表表情图案的数组导入到当前类的属性中
+        return $_smileys;
+    }
+
     public  function set_config(){
         is_admin();
         $this->_admin_name=  self::get_admin_name();

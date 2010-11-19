@@ -6,15 +6,11 @@
  * @license     GPL2
  * @version     2010-11-02
  */
-
 class site extends BaseController
 {
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
-    public  $_model;// Maple_Data_Processor 实例，用于处理数据
-    public  $_lang_directory;//语言包位置
+    public  $_model;
     public  $_errors=array();//     * 保存错误信息
-    public  $_lang_array;//保存语言翻译信息
-    public  $_smileys;
     static  private $_coreMessage_array=array(
 		'THEMES_DIR_NOTEXISTS'=>'The directory of themes does not exists!',
 		'SMILEY_DIR_NOTEXISTS'=>'The directory of smiley `%s` does not exists!',
@@ -45,8 +41,6 @@ class site extends BaseController
     //构造函数
     function  __construct()
     {
-	$this->_smileys=  require dirname(dirname(__FILE__)).'/smiley.php';//将代表表情图案的数组导入到当前类的属性中
-	//$this->_coreMessage_array=  require 'coreMessage.php';//将代表核心信息的数组导入到当前类的属性中
         $this->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
         $this->_model=new JuneTxtDb();//实例化模型
         if(!$this->_model->_db_exists(DB)){//若默认的数据库不存在，需要执行安装
@@ -118,11 +112,8 @@ class site extends BaseController
             die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE));
         if(!is_writable(CONFIGFILE))
             die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE));
-        //由于出现错误时需要调用 show_message 函数，而此函数依赖于当前的theme,所以需要先得到当前的 theme
-    	//$this->get_theme();
         if(!is_dir(SMILEYDIR))
             $this->_errors[]=sprintf($this->t('SMILEY_DIR_NOTEXISTS',true),SMILEYDIR);
-        $this->get_all_info();
         if($this->_errors)
 	    $this->show_message($this->_errors);
     }
@@ -146,17 +137,6 @@ class site extends BaseController
             }
         }
     }
-    public  function get_all_info()
-    {
-	$this->get_lang_dir();
-	
-    	$this->get_lang();
-    }
-
-    public function get_lang_dir(){
-	$this->_lang_directory=THEMEDIR.$this->_theme.'/languages/';
-    }
-
 
     /**
      * 显示信息
@@ -592,19 +572,6 @@ class site extends BaseController
     {
     	$timezone=$this->_lang_array['TZ_ZONES'];
     	return $timezone;
-    }
-
-    public  function get_lang()
-    {
-    	include CONFIGFILE;
-        if(isset ($lang) && in_array($lang,$this->get_all_langs()))
-        {
-	    $this->_current_lang=$lang;
-	    include($this->_lang_directory.$lang.'.php');
-            $this->_lang_array=$lang;
-        }
-        else
-            $this->_errors[]=$this->t('LANGUAGE_ERROR',true);
     }
 
     public  function get_all_langs()
