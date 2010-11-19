@@ -57,6 +57,11 @@ include_once 'JuneTxtDB.class.php';
 include_once 'Imgcode.php';
 require 'YFramework.php';
 
+include 'controllers/badips.php';
+$BadIP=new badips();
+if($BadIP->is_baned(getIp())){
+    die('Access Denied!');
+}
 $gd_exist=gd_loaded();
 $zip_support=class_exists('ZipArchive')?'On':'Off';
 ?>

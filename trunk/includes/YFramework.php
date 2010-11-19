@@ -60,7 +60,7 @@ class FrontController {
         $d=dir($dir);
         while(false !==($entry=$d->read())){
             if(substr($entry, 0, 1)!='.'){
-                include $dir.'/'.$entry;
+                include_once $dir.'/'.$entry;
             }
         }
         $d->close();
