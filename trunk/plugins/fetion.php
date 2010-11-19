@@ -1,6 +1,6 @@
 <?php
 function fetion_config($showConfig=FALSE,$config=NULL){
-    $plugindir= site::$_plugins_directory;
+    $plugindir= PLUGINDIR;
     $filename=$plugindir.'.fetion.conf.php';
     if( isset($config) && $config['plugin'] =='fetion' ){
 	$fetionID=$config['fetionID'];
@@ -23,7 +23,7 @@ function fetion_config($showConfig=FALSE,$config=NULL){
     echo '</form>';
 }
 function fetion_send(){
-    @include site::$_plugins_directory.'.fetion.conf.php';
+    @include PLUGINDIR.'.fetion.conf.php';
     @$message=urlencode($_REQUEST['user'].' 留言：'.$_REQUEST['content']);
     @$result=file_get_contents('http://fetion.adwap.cn/restlet/fetion/'.$fetionID.'/'.$fetionPWD.'/'.$fetionID.'/'.$message);
     if($result=='OK'){	return TRUE; }
