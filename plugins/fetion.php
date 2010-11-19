@@ -15,7 +15,7 @@ function fetion_config($showConfig=FALSE,$config=NULL){
 	    include $filename;
 	}
     }
-    echo '<form action="index.php?action=pluginset" method="POST">';
+    echo '<form action="index.php?controller=configuration&amp;action=pluginset" method="POST">';
     echo "<input type='hidden' name='plugin' value='fetion' />";
     echo '<p>FetionID<input type="text" name="fetionID" value="'.@$fetionID.'" /></p>';
     echo '<p>FetionPassword<input type="password" name="fetionPASSWORD" value="'.@$fetionPWD.'" /></p>';
