@@ -7,51 +7,7 @@
 <meta http-equiv="expires" content="0" />
 <title><?php echo $this->t('REGISTER');?></title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-    $('<input type="hidden" name="ajax" value="true" />').insertAfter('#user');
-    $.ajax({
-		    type: "GET",
-		    url: 'index.php',
-		    data: { controller:"site",action: "getSysJSON" },
-		    success: function(data){ languageTips=data;},
-		    dataType: 'json'
-		});
-
-    $('#registerForm').submit(function(){
-	var user=$('#user').val();
-	var password=$('#password').val();
-	var email=$('#email').val();
-	//return false;
-	if(!$.trim(user)){
-	    $('#login_error').html(languageTips.USERNAME_NOT_EMPTY);return false;
-	}
-	if(!$.trim(password)){
-	    $('#login_error').html(languageTips.PWD_NOT_EMPTY);return false;
-	}
-	if(!$.trim(email)){
-	    $('#login_error').html(languageTips.EMAIL_INVALID);return false;
-	}
-	$.ajax({
-		type: "POST",
-		url: "index.php?controller=user&action=register",
-		data: $(this).serialize(),
-		success: function(data){
-			$('#login_error').html('');
-			if(data != "OK"){
-				$('#login_error').html(data);
-			}else{
-			    //window.location.reload();
-			    parent.document.location.reload();
-			    //document.location.re
-			}
-			return false;
-		}
-	});
-	return false;
-    });
-});
-</script>
+<script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/scripts/register.js';?>"></script>
 </head>
 <body>
     <div class="main">
