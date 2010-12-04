@@ -83,30 +83,33 @@ class user extends BaseController{
 	}
 	if(isset ($_POST['register'])){
 	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
-		$user=$this->maple_quotes($_POST['user']);
-		$pwd=$this->maple_quotes($_POST['pwd']);
-		//if(is_email($_POST['ema']))
-		$email=$_POST['email'];
-		if(is_email($email)){
-		    $user_exists=$this->_model->select(USERTABLE, array('user'=>$user));
-		    if(!$user_exists && $user!= $this->_admin_name){
-			$user_data=array(NULL,$user,$pwd,$email);
-			if($this->_model->insert(USERTABLE, $user_data)){
-			    $_SESSION['user']=$user;
-			    $_SESSION['uid']=  $this->_model->insert_id();
-			    if(isset ($_POST['ajax'])){
-				die ('OK');
-			    }
-			    header("Location:index.php");exit;
-			}else{
-			    die($this->_model->error());
-			}
-		    }else{
-			$errorMsg=$this->t('USERNAME_NOT_AVAILABLE');
-		    }
-		}else{
-		    $errorMsg=$this->t('EMAIL_INVALID');
-		}
+                if(strlen(trim($_POST['user']))>=2){
+                    $user=$this->maple_quotes($_POST['user']);
+                    $pwd=$this->maple_quotes($_POST['pwd']);
+                    $email=$_POST['email'];
+                    if(is_email($email)){
+                        $user_exists=$this->_model->select(USERTABLE, array('user'=>$user));
+                        if(!$user_exists && $user!= $this->_admin_name){
+                            $user_data=array(NULL,$user,$pwd,$email);
+                            if($this->_model->insert(USERTABLE, $user_data)){
+                                $_SESSION['user']=$user;
+                                $_SESSION['uid']=  $this->_model->insert_id();
+                                if(isset ($_POST['ajax'])){
+                                    die ('OK');
+                                }
+                                header("Location:index.php");exit;
+                            }else{
+                                die($this->_model->error());
+                            }
+                        }else{
+                            $errorMsg=$this->t('USERNAME_NOT_AVAILABLE');
+                        }
+                    }else{
+                        $errorMsg=$this->t('EMAIL_INVALID');
+                    }
+                }else{
+                    $errorMsg=$this->t('USERNAME_TOO_SHORT');
+                }
 	    }else{
 		$errorMsg=$this->t('FILL_NOT_COMPLETE');
 	    }
