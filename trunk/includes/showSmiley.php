@@ -1,19 +1,17 @@
 <?php
 $smileyString="<table id='smileysTable' cellpadding='4'>\n";
-$smileyArray=$this->_smileys;
 $numPerRow=8;
-for($i=0,$c=ceil(count($smileyArray)/$numPerRow);$i<$c;$i++){
-
+$num=$numPerRow - count($this->_smileys) % $numPerRow;
+$emptyElementArray=array_fill(0, $num, '');
+$smileyArray=array_merge($this->_smileys, $emptyElementArray);
+$smileyArray=array_chunk($smileyArray,$numPerRow,true);
+foreach ($smileyArray as $value){
     $smileyString.="<tr>\n";
-    $rowArray=array_slice($smileyArray, $i*$numPerRow, $numPerRow);
-    foreach ($rowArray as $key=>$perSmiley){
-        $smileyString.="<td><img id='".$key."' src='".SMILEYDIR.$perSmiley[0]."' alt='$perSmiley[3]' title='$perSmiley[3]' /></td>\n";
-    }
-    $emptyStr='';
-    if(count($rowArray)<$numPerRow){
-        $emptyNum=$numPerRow-count($rowArray);
-        $emptyStr=str_repeat('<td>&nbsp;</td>', $emptyNum);
-        $smileyString.=$emptyStr;
+    foreach ($value as $k => $v) {
+        if($v)
+            $smileyString.="<td><img id='".$k."' src='".SMILEYDIR.$v[0]."' alt='$v[3]' title='$v[3]' /></td>\n";
+        else
+            $smileyString.="<td>&nbsp;</td>";
     }
     $smileyString.="</tr>\n";
 }
