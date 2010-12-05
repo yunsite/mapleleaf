@@ -1,9 +1,7 @@
 <?php
 $smileyString="<table id='smileysTable' cellpadding='4'>\n";
 $numPerRow=8;
-$num=$numPerRow - count($this->_smileys) % $numPerRow;
-$emptyElementArray=array_fill(0, $num, '');
-$smileyArray=array_merge($this->_smileys, $emptyElementArray);
+$smileyArray=array_pad($this->_smileys, ceil(count($this->_smileys)/$numPerRow)*$numPerRow, '');
 $smileyArray=array_chunk($smileyArray,$numPerRow,true);
 foreach ($smileyArray as $value){
     $smileyString.="<tr>\n";
