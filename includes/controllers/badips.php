@@ -13,12 +13,12 @@ class badips extends BaseController{
         }
         $ip_array=$this->get_baned_ips();
         for($i=0,$c=count($ip_array);$i<$c;$i++){
-	    $ip_array[$i]=trim($ip_array[$i]["ip"]);
+	    $ip_array[$i]=$ip_array[$i]["ip"];
         }
         $new_ip_array=array_diff($ip_array,$ip_update_array);
         $new_ip_string=implode("\n",$new_ip_array);
         if ($new_ip_array)
-	    $new_ip_string.="\n";;
+	    $new_ip_string.="\n";
         $ip_filename=$this->_model->_table_path(DB, BADIPTABLE).$this->_model->get_data_ext();
         file_put_contents($ip_filename, $new_ip_string);
         header("Location:index.php?action=control_panel&subtab=ban_ip");
