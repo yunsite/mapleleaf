@@ -5,16 +5,16 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
-<title><?php echo $this->t('ACP_LOGIN');?></title>
-<link rel="stylesheet" type="text/css" href="<?php echo './themes/'.$this->_theme.'/scripts/login.css';?>"  />
+<title><?php echo FrontController::t('ACP_LOGIN');?></title>
+<link rel="stylesheet" type="text/css" href="<?php echo './themes/'.FrontController::getInstance()->_theme.'/scripts/login.css';?>"  />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo './themes/'.$this->_theme.'/scripts/login.js';?>"></script>
+<script type="text/javascript" src="<?php echo './themes/'.FrontController::getInstance()->_theme.'/scripts/login.js';?>"></script>
 </head>
 <body>
-<p id="backtoindex"><a href="index.php" title="<?php echo $this->t('WHERE_AM_I');?>">&larr; <?php echo $this->t('BACK');?></a></p>
+<p id="backtoindex"><a href="index.php" title="<?php echo FrontController::t('WHERE_AM_I');?>">&larr; <?php echo FrontController::t('BACK');?></a></p>
     <div class="main">
 	<div class="title">
-		<?php echo $this->t('LOGIN');?>
+		<?php echo FrontController::t('LOGIN');?>
 	</div>
 	<?php if(@$errormsg)
 	{
@@ -28,12 +28,12 @@
 	    <form action="index.php?controller=user&amp;action=login" method="post">
 		<div class="inputbox">
 		    <dl>
-			<dt><?php echo $this->t('ADMIN_NAME');?></dt>
+			<dt><?php echo FrontController::t('ADMIN_NAME');?></dt>
 			<dd><input type="text" name="user" id="user" size="20" />
 			</dd>
 		    </dl>
 		    <dl>
-			<dt><?php echo $this->t('ADMIN_PWD');?></dt>
+			<dt><?php echo FrontController::t('ADMIN_PWD');?></dt>
 			<dd><input type="password" id="password" name="password" size="20" />
 			</dd>
 		    </dl>

@@ -1,6 +1,7 @@
 <?php
 class configuration extends BaseController{
     public $_siteController;
+	/*
     static public  $_coreMessage_array=array(
 		'THEMES_DIR_NOTEXISTS'=>'The directory of themes does not exists!',
 		'SMILEY_DIR_NOTEXISTS'=>'The directory of smiley `%s` does not exists!',
@@ -23,6 +24,7 @@ class configuration extends BaseController{
 		'LANGUAGE_ERROR'=>'Language undefined!',
 		'QUERY_ERROR'=>'Query error!',
 	);
+	*/
     public function  __construct() {
         $this->_siteController=new site();
     }
@@ -30,167 +32,7 @@ class configuration extends BaseController{
         $arguments=implode('', $arguments);
         return $this->_siteController->$name($arguments);
     }
-    public static function get_board_name(){
-        include 'config.php';
-        if(isset ($board_name)){
-            return $board_name;
-        }  else {
-            throw new Exception(site::translate('SITENAME_ERROR'));
-        }
-    }
-    public static function get_mb_open(){
-        include 'config.php';
-        if(isset ($mb_open))
-            return $mb_open;
-        else
-            throw new Exception(site::translate('SITESTATUS_ERROR'));
-    }
-    public static function get_close_reason(){
-        include 'config.php';
-        if(isset ($close_reason))
-            return $close_reason;
-        else
-            throw new Exception(site::translate('SITECLOSEREASON_ERROR'));
-    }
-    public static function get_admin_email(){
-        include 'config.php';
-        if(isset ($admin_email))
-            return $admin_email;
-        else
-            throw new Exception(site::translate('ADMINEMAIL_ERROR'));
-    }
-    public static function get_copyright_info(){
-        include 'config.php';
-        if(isset ($copyright_info))
-            return $copyright_info;
-        else
-            throw new Exception(site::translate('COPYRIGHT_ERROR'));
-    }
-    public static function get_filter_words(){
-        include 'config.php';
-        if(isset ($filter_words))
-            return $filter_words;
-        else
-            throw new Exception(site::translate('BADWORDS_ERROR'));
-    }
-    public static function get_valid_code_open(){
-        include 'config.php';
-        if(isset ($valid_code_open))
-            return $valid_code_open;
-        else
-            throw new Exception(site::translate('CAPTCHASTATUS_ERROR'));
-    }
-    public static function get_page_on(){
-        include 'config.php';
-        if(isset ($page_on))
-            return $page_on;
-        else
-            throw new Exception(site::translate('PAGINATIONSTATUS_ERROR'));
-    }
-    public static function get_num_perpage(){
-        include 'config.php';
-        if(isset ($num_perpage))
-            return $num_perpage;
-        else
-            throw new Exception(site::translate('PAGINATION_PARAMETER_ERROR'));
-    }
-    public static function get_theme(){
-        include 'config.php';
-        if(isset ($theme))
-            return $theme;
-        else
-            throw new Exception(site::translate('THEME_ERROR'));
-    }
-    public static function get_admin_name(){
-        include 'config.php';
-        if(isset ($admin))
-            return $admin;
-        else
-            throw new Exception(site::translate('ADMINNAME_ERROR'));
-    }
-    public static function get_admin_password(){
-        include 'config.php';
-        if(isset ($password))
-            return $password;
-        else
-            throw new Exception(site::translate('ADMINPASS_ERROR'));
-    }
-    public static function get_time_zone(){
-        include 'config.php';
-        if(isset ($timezone))
-            return $timezone;
-        else
-            throw new Exception(site::translate('TIMEZONE_ERROR'));
-    }
-    public static function get_current_lang(){
-        include 'config.php';
-        if(isset ($lang))
-            return $lang;
-        else
-            throw new Exception(site::translate('ADMINNAME_ERROR'));
-    }
-
-    public static function get_lang_array(){
-        if(in_array(self::get_current_lang(), self::get_all_langs())){
-            include self::get_lang_directory().self::get_current_lang().'.php';
-            return $lang;
-        }else{
-            throw new Exception(site::translate('LANGUAGE_ERROR'));
-        }
-    }
-    public static  function get_all_langs()
-    {
-    	$langs=array();
-        $d=dir(self::get_lang_directory());
-        while(false!==($entry=$d->read()))
-        {
-            if(substr($entry,0,1)!='.')
-                $langs[substr($entry,0,-4)]=substr($entry,0,-4);
-        }
-        $d->close();
-        return $langs;
-    }
-    public function get_lang_directory(){
-        return THEMEDIR.self::get_theme().'/languages/';
-    }
-
-    public function get_smileys(){
-        $_smileys=  require dirname(dirname(__FILE__)).'/smiley.php';//将代表表情图案的数组导入到当前类的属性中
-        return $_smileys;
-    }
-
-    public  function get_all_timezone()
-    {
-        $timezone=self::get_lang_array();
-    	return $timezone['TZ_ZONES'];
-    }
-        /**
-     * 得到所有可用的主题
-     */
-    public function get_all_themes()
-    {
-        $themes=array();
-        $d=dir(THEMEDIR);
-        while(false!==($entry=$d->read()))
-        {
-            if(substr($entry,0,1)!='.')
-                $themes[$entry]=$entry;
-        }
-        $d->close();
-        return $themes;
-    }
-
-    public function get_all_plugins(){
-        $plugins=array();
-        $d=dir(PLUGINDIR);
-        while(false!==($entry=$d->read()))
-        {
-            if(substr($entry,0,1)!='.')
-                $plugins[substr($entry,0,-4)]=substr($entry,0,-4);
-        }
-        $d->close();
-        return $plugins;
-    }
+    
     public  function set_config(){
         is_admin();
         $this->_admin_name=  self::get_admin_name();

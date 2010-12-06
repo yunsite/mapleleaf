@@ -1,34 +1,23 @@
 <?php
 class user extends BaseController{
-    public $_siteController;
-    public $_backupClass;
+    //public $_siteController;
+    //public $_backupClass;
     public $_model;
     public function index(){
         header("Location:index.php");
     }
     public function  __construct() {
-        $this->_siteController=new site();
+        //$this->_siteController=new site();
         $this->_model=new JuneTxtDB();
         $this->_model->select_db(DB);
-        $this->_backupClass=new backup();
+        //$this->_backupClass=new backup();
     }
-    public function  __get($propertyName) {
-        $methodName='get'.$propertyName;
-        try {
-            $propertyValue=configuration::$methodName();
-            return $propertyValue;
-        }  catch (Exception $e){
-            if(defined(DEBUG_MODE)){
-                die($e);
-            }else{
-                header("Location:index.php");
-            }
-        }
-    }
+	/*
     public function  __call($name, $arguments) {
         $arguments=implode('', $arguments);
         return $this->_siteController->$name($arguments);
     }
+	*/
     public  function login(){
         if (isset($_SESSION['admin']))//若管理员已经登录
 	{
@@ -40,8 +29,8 @@ class user extends BaseController{
         }
         if(isset($_POST['user']) && isset($_POST['password']))//若用户提交了登录表单
         {
-            $user=$this->maple_quotes($_POST['user']);
-            $password=$this->maple_quotes($_POST['password']);
+            $user=FrontController::maple_quotes($_POST['user']);
+            $password=FrontController::maple_quotes($_POST['password']);
 	    if( ($user==$this->_admin_name) && ($password==$this->_admin_password) )//若使用管理员帐户成功登录
 	    {
 		$_SESSION['admin']=$_POST['user'];
@@ -60,7 +49,7 @@ class user extends BaseController{
 		}
 	    }
         }
-	include 'themes/'.$this->_theme.'/templates/'."login.php";
+	include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."login.php";
     }
 
     public  function logout(){
