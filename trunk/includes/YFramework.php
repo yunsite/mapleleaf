@@ -15,29 +15,29 @@ class FrontController {
     public      $defaultController='site';
     public      $defaultAction='index';
     static      $_instance;
-	public  $_errors=array();//     * 保存错误信息
-	public static		$_coreMessage_array=array(
-		'THEMES_DIR_NOTEXISTS'=>'The directory of themes does not exists!',
-		'SMILEY_DIR_NOTEXISTS'=>'The directory of smiley `%s` does not exists!',
-		'CONFIG_FILE_NOTEXISTS'=>'The configuration file `%s` does not exists!',
-		'CONFIG_FILE_NOTWRITABLE'=>'The configuration file `%s` does not writable!',
+    public      $_errors=array();//     * 保存错误信息
+    public static   $_coreMessage_array=array(
+            'THEMES_DIR_NOTEXISTS'=>'The directory of themes does not exists!',
+            'SMILEY_DIR_NOTEXISTS'=>'The directory of smiley `%s` does not exists!',
+            'CONFIG_FILE_NOTEXISTS'=>'The configuration file `%s` does not exists!',
+            'CONFIG_FILE_NOTWRITABLE'=>'The configuration file `%s` does not writable!',
 
-		'SITENAME_ERROR'=>'The sitename undefined!',
-		'SITESTATUS_ERROR'=>'The status of site undefined!',
-		'SITECLOSEREASON_ERROR'=>'The maintaince message undefined!',
-		'ADMINEMAIL_ERROR'=>'Admin email undefined!',
-		'COPYRIGHT_ERROR'=>'Coptyright undefined!',
-		'BADWORDS_ERROR'=>'Bad words undefined!',
-		'CAPTCHASTATUS_ERROR'=>'The status of CAPTCHA undefined!',
-		'PAGINATIONSTATUS_ERROR'=>'The status of pagination undefined!',
-		'TIMEZONE_ERROR'=>'Timezone undefined!',
-		'PAGINATION_PARAMETER_ERROR'=>'The parameter of  pagination undefined!',
-		'THEME_ERROR'=>'Theme undefined!',
-		'ADMINNAME_ERROR'=>'Admin name undefined!',
-		'ADMINPASS_ERROR'=>'admin password undefined!',
-		'LANGUAGE_ERROR'=>'Language undefined!',
-		'QUERY_ERROR'=>'Query error!',
-	);
+            'SITENAME_ERROR'=>'The sitename undefined!',
+            'SITESTATUS_ERROR'=>'The status of site undefined!',
+            'SITECLOSEREASON_ERROR'=>'The maintaince message undefined!',
+            'ADMINEMAIL_ERROR'=>'Admin email undefined!',
+            'COPYRIGHT_ERROR'=>'Coptyright undefined!',
+            'BADWORDS_ERROR'=>'Bad words undefined!',
+            'CAPTCHASTATUS_ERROR'=>'The status of CAPTCHA undefined!',
+            'PAGINATIONSTATUS_ERROR'=>'The status of pagination undefined!',
+            'TIMEZONE_ERROR'=>'Timezone undefined!',
+            'PAGINATION_PARAMETER_ERROR'=>'The parameter of  pagination undefined!',
+            'THEME_ERROR'=>'Theme undefined!',
+            'ADMINNAME_ERROR'=>'Admin name undefined!',
+            'ADMINPASS_ERROR'=>'admin password undefined!',
+            'LANGUAGE_ERROR'=>'Language undefined!',
+            'QUERY_ERROR'=>'Query error!',
+    );
 
     public static function getInstance($config=NULL){
         if(!(self::$_instance instanceof  self)){
@@ -45,7 +45,7 @@ class FrontController {
         }
         return self::$_instance;
     }
-	public function  __get($propertyName) {
+    public function  __get($propertyName) {
         $methodName='get'.$propertyName;
         try {
             $propertyValue=self::$methodName();
@@ -64,7 +64,7 @@ class FrontController {
             }
         }
     }
-	public static function get_board_name(){
+    public static function get_board_name(){
         include 'config.php';
         if(isset ($board_name)){
             return $board_name;
@@ -284,6 +284,12 @@ class FrontController {
     }
     public function run(){
         try {
+            $model=new JuneTxtDb();//实例化模型
+            if(!$model->_db_exists(DB))//若默认的数据库不存在，需要执行安装
+            {
+                $this->_controller='site';
+                $this->_action='install';
+            }
             if(class_exists($this->getController())){
                 $rc=new ReflectionClass($this->getController());
                 if($rc->isSubclassOf('BaseController')){
@@ -336,14 +342,14 @@ class FrontController {
     public function getAction(){
         return $this->_action;
     }
-	/* 翻译核心信息 */
-	public static function t($message){
-		if(array_key_exists($message,self::$_coreMessage_array))
-			return strtr($message, self::$_coreMessage_array);
-		else
-			return strtr($message,self::get_lang_array());
+    /* 翻译核心信息 */
+    public static function t($message){
+        if(array_key_exists($message,self::$_coreMessage_array))
+            return strtr($message, self::$_coreMessage_array);
+        else
+            return strtr($message,self::get_lang_array());
     }
-	public static function maple_quotes($var,$charset='UTF-8')
+    public static function maple_quotes($var,$charset='UTF-8')
     {
         return htmlspecialchars(trim($var),ENT_QUOTES,  $charset);
     }
