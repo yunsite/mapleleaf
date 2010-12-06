@@ -59,14 +59,7 @@ class site extends BaseController
 	}
     }
 
-    /**
-     * 显示信息
-     */
-    public  function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
-    {
-        include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."show_message.php";
-        exit;
-    }
+
 
     public  function index()
     {

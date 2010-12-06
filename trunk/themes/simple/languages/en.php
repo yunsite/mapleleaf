@@ -1,5 +1,5 @@
 <?php
-$lang=array(
+return array(
     		'WELCOME_SYS'=>'Welcome to MapleLeaf',
     		'THANKS'=>'Thanks for using MapleLeaf.',
     		'STATS_INFO'=>'Statistical Information',

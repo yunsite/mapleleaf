@@ -11,14 +11,14 @@ class ZFramework{
     protected   $_action;
     protected   $_params;
     protected   $_controllerPath='controllers';
-    public      $defaultController='site';
-    public      $defaultAction='index';
+    public      $defaultController='SiteController';
+    public      $defaultAction='actionIndex';
     static      $_instance;
     public      $_errors=array();//     * 保存错误信息
 
-    public static function createApp($config=NULL){
+    public static function createApp(){
         if(!(self::$_instance instanceof  self)){
-            self::$_instance=new self($config);
+            self::$_instance=new self();
         }
         return self::$_instance;
     }
@@ -28,19 +28,21 @@ class ZFramework{
         return self::$_instance;
     }
 
-    private function  __construct($config=NULL) {
+    public function  __get($name) {
+        include 'config.php';
+        if(isset ($$name))
+            return $$name;
+        else
+            return null;
+    }
+
+    private function  __construct(){
         $this->preloadAllControllers();
-        if($config){
-            if (isset ($config['urlMode']))
-                $this->_urlMode=$config['urlMode'];
-        }
-        $this->_controller=!empty ($_GET['controller'])?$_GET['controller']:$this->defaultController;
-        $this->_action=!empty ($_GET['action'])?$_GET['action']:$this->defaultAction;
+        $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
+        $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
         foreach ($_GET as $key=>$value) {
             $this->_params[$key]=$value;
         }
-        unset ($this->_params['controller']);
-        unset ($this->_params['action']);
     }
     protected function preloadAllControllers(){
         $dir=dirname(__FILE__).'/'.$this->_controllerPath;
@@ -75,7 +77,6 @@ class ZFramework{
             if(defined('DEBUG_MODE')){
                 echo $e->getMessage();
                 echo '<pre>';
-                var_dump(debug_backtrace());
                 debug_print_backtrace();
             }else{
                 header("Location:index.php");
@@ -93,13 +94,77 @@ class ZFramework{
     }
     /* 翻译核心信息 */
     public static function t($message){
-        if(array_key_exists($message,self::$_coreMessage_array))
-            return strtr($message, self::$_coreMessage_array);
+        if(array_key_exists($message,self::getCoreMessage()))
+            return strtr($message, self::getCoreMessage());
         else
-            return strtr($message,self::get_lang_array());
+            return strtr($message,self::getLangArray());
+    }
+    public static function getCoreMessage(){
+        return include dirname(__FILE__).'/coreMessage.php';
+    }
+    public static function getLangArray(){
+        return include 'themes/'.self::createApp()->theme.'/languages/'.self::createApp()->lang.'.php';
+    }
+    public static function getSmileys(){
+        return include  dirname(__FILE__).'/smiley.php';
     }
     public static function maple_quotes($var,$charset='UTF-8')
     {
         return htmlspecialchars(trim($var),ENT_QUOTES,  $charset);
+    }
+    /**
+     * 显示信息
+     */
+    public  function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
+    {
+        include 'themes/'.self::createApp()->theme.'/templates/'."show_message.php";
+        exit;
+    }
+        /**
+     * 得到所有可用的主题
+     */
+    public function get_all_themes()
+    {
+        $themes=array();
+        $d=dir(THEMEDIR);
+        while(false!==($entry=$d->read()))
+        {
+            if(substr($entry,0,1)!='.')
+                $themes[$entry]=$entry;
+        }
+        $d->close();
+        return $themes;
+    }
+
+    public function get_all_plugins(){
+        $plugins=array();
+        $d=dir(PLUGINDIR);
+        while(false!==($entry=$d->read()))
+        {
+            if(substr($entry,0,1)!='.')
+                $plugins[substr($entry,0,-4)]=substr($entry,0,-4);
+        }
+        $d->close();
+        return $plugins;
+    }
+    public static  function get_all_langs()
+    {
+    	$langs=array();
+        $d=dir(self::get_lang_directory());
+        while(false!==($entry=$d->read()))
+        {
+            if(substr($entry,0,1)!='.')
+                $langs[substr($entry,0,-4)]=substr($entry,0,-4);
+        }
+        $d->close();
+        return $langs;
+    }
+    public  function get_all_timezone()
+    {
+        $timezone=  include THEMEDIR.self::app()->theme.'/languages/'.self::app()->lang.'.php';
+    	return $timezone['TZ_ZONES'];
+    }
+    public function get_lang_directory(){
+        return THEMEDIR.self::app()->theme.'/languages/';
     }
 }

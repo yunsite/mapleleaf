@@ -55,7 +55,7 @@ define('SMILEYDIR', 'misc/');
 require 'functions.php';
 include_once 'JuneTxtDB.class.php';
 include_once 'Imgcode.php';
-require 'YFramework.php';
+require 'ZFramework.php';
 
 include 'controllers/badips.php';
 $BadIP=new badips();

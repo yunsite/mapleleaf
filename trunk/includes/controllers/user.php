@@ -9,50 +9,11 @@ class user extends BaseController{
         $this->_model->select_db(DB);
     }
     public  function login(){
-        if (isset($_SESSION['admin']))//若管理员已经登录
-	{
-            header("Location:index.php?action=control_panel");exit;
-        }
-	if (isset($_SESSION['user']))//若普通用户已经登录
-        {
-            header("Location:index.php");exit;
-        }
-        if(isset($_POST['user']) && isset($_POST['password']))//若用户提交了登录表单
-        {
-            $user=FrontController::maple_quotes($_POST['user']);
-            $password=FrontController::maple_quotes($_POST['password']);
-	    if( ($user==FrontController::getInstance()->_admin_name) && ($password==FrontController::getInstance()->_admin_password) )//若使用管理员帐户成功登录
-	    {
-		$_SESSION['admin']=$_POST['user'];
-		header("Location:index.php?action=control_panel");
-		exit;
-	    }
-	    else{//使用普通用户登录
-		$user_result=$this->_model->select(USERTABLE,array('user'=>$user));
-		$user_result=@$user_result[0];
-		if($user_result && $password==$user_result['pwd']){
-		    $_SESSION['user']=$_POST['user'];
-		    $_SESSION['uid']=$user_result['uid'];
-		    header("Location:index.php");exit;
-		}else{
-		    $errormsg=FrontController::t('LOGIN_ERROR');
-		}
-	    }
-        }
-	include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."login.php";
+        
     }
 
     public  function logout(){
-	if(isset ($_SESSION['user'])){
-	    unset ($_SESSION['user']);
-	    session_destroy();
-	}
-        if(isset($_SESSION['admin'])){
-            $this->delete_backup_files();
-            unset($_SESSION['admin']);
-            session_destroy();
-        }
-        header("Location:index.php");exit;
+	
     }
 	
         /* User Management */
@@ -128,20 +89,5 @@ class user extends BaseController{
 	$user_data=$user_data[0];
 	include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."user_update.php";
     }
-	    /**
-     * 删除服务器上的备份文件，会在管理员注销登录时执行
-     */
-    public  function delete_backup_files(){
-        is_admin();
-	$d=dir($this->_model->_db_path(DB));
-	while(false!==($entry=$d->read()))
-	{
-	    if (strlen($entry)==19)
-	    {
-		$d_file=$this->_model->_db_path(DB).'/'.$entry;
-		unlink($d_file);
-	    }
-	}
-	$d->close();
-    }
+
 }
