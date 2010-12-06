@@ -291,6 +291,7 @@ class FrontController {
                         $controller=$rc->newInstance();
                         $method=$rc->getMethod($this->getAction());
                         $method->invoke($controller);
+                        /*
                         $action=  $this->getAction();
                         //plugin
                         $allPlugins=self::get_all_plugins();
@@ -303,6 +304,8 @@ class FrontController {
                                 $evt();
                             }
                         }//end plugin
+                         * 
+                         */
                     }else{
                         throw new Exception("Controller <font color='blue'>".$this->getController()."</font> does not have the action named <font color='red'>{$this->getAction()}</font>");
                     }
