@@ -1,15 +1,6 @@
 <?php
 class site extends BaseController
 {
-    public  $_imgcode; //FLEA_Helper_ImgCode 实例
-    public  $_model;
-    //构造函数
-    function  __construct()
-    {
-        $this->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
-        $this->_model=new JuneTxtDb();//实例化模型
-	$this->_model->select_db(DB);//选择默认的数据库
-    }
 
     public function getSysJSON(){
 	$languageForJSON='{';
@@ -19,47 +10,6 @@ class site extends BaseController
 	$languageForJSON.='}';
 	echo $languageForJSON;
     }
-
-    public function install(){
-	$installed=FALSE;
-        if(!file_exists(CONFIGFILE))        //先检查配置文件是否存在和可写
-            die(sprintf(FrontController::t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE));
-        if(!is_writable(CONFIGFILE))
-            die(FrontController::getInstance()->_errors[]=sprintf(FrontController::t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE));
-        if(!empty ($_POST['adminname']) && !empty($_POST['adminpass'])){
-            $adminname=FrontController::maple_quotes($_POST['adminname']);
-            $adminpass=FrontController::maple_quotes($_POST['adminpass']);
-            $adminnameString="\n\$admin='$adminname';";
-            $adminpassString="\n\$password='$adminpass';";
-            file_put_contents(CONFIGFILE, $adminnameString,FILE_APPEND);
-            file_put_contents(CONFIGFILE, $adminpassString,FILE_APPEND);
-            if(!$this->_model->create_db(DB)){
-                die ($this->_model->error());
-            }
-            $this->_model->select_db(DB);
-
-            $tables=array(MESSAGETABLE,  REPLYTABLE,  BADIPTABLE, USERTABLE);
-            $fields=array(
-                        array(array('name'=>'id','auto_increment'=>true),array('name'=>'user'),array('name'=>'content'),array('name'=>'time'),array('name'=>'ip')),
-                        array(array('name'=>'id'),array('name'=>'reply_content'),array('name'=>'reply_time')),
-                        array(array('name'=>'ip')),
-                        array(array('name'=>'uid','auto_increment'=>true),array('name'=>'user'),array('name'=>'pwd'),array('name'=>'email')),
-                        );
-            for($i=0,$t=count($tables);$i<$t;$i++){
-                if(!$this->_model->create_table($tables[$i],$fields[$i])){
-                    die($this->_model->error());
-                }
-            }
-	    $newData=array(NULL,$_POST['adminname'],'Welcome to MapleLeaf.:)',time(), getIp());
-	    $this->_model->insert(MESSAGETABLE, $newData);
-	    $installed=TRUE;
-        }
-	if(file_exists(dirname(dirname(__FILE__)).'/install.php')){
-	    include dirname(dirname(__FILE__)).'/install.php';
-	}
-    }
-
-
 
     public  function index()
     {
