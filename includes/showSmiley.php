@@ -1,7 +1,7 @@
 <?php
 $smileyString="<table id='smileysTable' cellpadding='4'>\n";
 $numPerRow=8;
-$smileyArray=array_pad(FrontController::getInstance()->_smileys, ceil(count(FrontController::getInstance()->_smileys)/$numPerRow)*$numPerRow, '');
+$smileyArray=array_pad(ZFramework::getSmileys(), ceil(count(ZFramework::getSmileys())/$numPerRow)*$numPerRow, '');
 $smileyArray=array_chunk($smileyArray,$numPerRow,true);
 foreach ($smileyArray as $value){
     $smileyString.="<tr>\n";

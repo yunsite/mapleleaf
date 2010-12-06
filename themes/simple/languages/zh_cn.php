@@ -1,5 +1,5 @@
 <?php
-$lang=array(
+return array(
     		'WELCOME_SYS'=>'欢迎使用MapleLeaf',
     		'THANKS'=>'感谢使用枫叶留言板.',
     		'STATS_INFO'=>'统计信息',
