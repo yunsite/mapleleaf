@@ -6,21 +6,25 @@ class BaseController{
         include $tplFile.'.php';
     }
 }
-class FrontController {
+class ZFramework{
     protected   $_controller;
     protected   $_action;
     protected   $_params;
-    protected   $_urlMode='full';
     protected   $_controllerPath='controllers';
     public      $defaultController='site';
     public      $defaultAction='index';
     static      $_instance;
     public      $_errors=array();//     * 保存错误信息
 
-    public static function getInstance($config=NULL){
+    public static function createApp($config=NULL){
         if(!(self::$_instance instanceof  self)){
             self::$_instance=new self($config);
         }
+        return self::$_instance;
+    }
+
+    public static function app()
+    {
         return self::$_instance;
     }
 
