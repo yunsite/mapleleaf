@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $this->t('REPLY');?></title>
+<title><?php echo FrontController::t('REPLY');?></title>
 </head>
 
 <body>
@@ -19,8 +19,8 @@ if($reply_data)
 ?>
 <textarea name="reply_content" cols="40" rows="9"><?php echo @$reply_data['reply_content'];?></textarea>
 <br />
-<input type="submit" name="Submit" value="<?php echo $this->t('SUBMIT');?>" />
-<input type="button" name="cancel" value="<?php echo $this->t('CANCEL');?>" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
+<input type="submit" name="Submit" value="<?php echo FrontController::t('SUBMIT');?>" />
+<input type="button" name="cancel" value="<?php echo FrontController::t('CANCEL');?>" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
 </form>
 </body>
 </html>
