@@ -3,24 +3,15 @@ class site extends BaseController
 {
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
     public  $_model;
-    //public  $_errors=array();//     * 保存错误信息
-	/*
-    public static function translate($message){
-            return strtr($message, FrontController::$_coreMessage_array);
-    }
-	*/
     //构造函数
     function  __construct()
     {
-        FrontController::getInstance()->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
-        FrontController::getInstance()->_model=new JuneTxtDb();//实例化模型
-        if(!FrontController::getInstance()->_model->_db_exists(DB)){//若默认的数据库不存在，需要执行安装
-            $this->install();exit;
-        }
-	FrontController::getInstance()->_model->select_db(DB);//选择默认的数据库
-        //$this->load_config();//载入配置
-        //if(FrontController::getInstance()->_errors)//若有错误显示错误信息
-            //$this->show_message(FrontController::getInstance()->_errors);
+        $this->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
+        $this->_model=new JuneTxtDb();//实例化模型
+        //if(!$this->_model->_db_exists(DB)){//若默认的数据库不存在，需要执行安装
+        //    $this->install();exit;
+        //}
+	$this->_model->select_db(DB);//选择默认的数据库
     }
 
     public function getSysJSON(){
@@ -39,16 +30,16 @@ class site extends BaseController
         if(!is_writable(CONFIGFILE))
             die(FrontController::getInstance()->_errors[]=sprintf(FrontController::t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE));
         if(!empty ($_POST['adminname']) && !empty($_POST['adminpass'])){
-            $adminname=$this->maple_quotes($_POST['adminname']);
-            $adminpass=$this->maple_quotes($_POST['adminpass']);
+            $adminname=FrontController::maple_quotes($_POST['adminname']);
+            $adminpass=FrontController::maple_quotes($_POST['adminpass']);
             $adminnameString="\n\$admin='$adminname';";
             $adminpassString="\n\$password='$adminpass';";
             file_put_contents(CONFIGFILE, $adminnameString,FILE_APPEND);
             file_put_contents(CONFIGFILE, $adminpassString,FILE_APPEND);
-            if(!FrontController::getInstance()->_model->create_db(DB)){
-                die (FrontController::getInstance()->_model->error());
+            if(!$this->_model->create_db(DB)){
+                die ($this->_model->error());
             }
-            FrontController::getInstance()->_model->select_db(DB);
+            $this->_model->select_db(DB);
 
             $tables=array(MESSAGETABLE,  REPLYTABLE,  BADIPTABLE, USERTABLE);
             $fields=array(
@@ -58,12 +49,12 @@ class site extends BaseController
                         array(array('name'=>'uid','auto_increment'=>true),array('name'=>'user'),array('name'=>'pwd'),array('name'=>'email')),
                         );
             for($i=0,$t=count($tables);$i<$t;$i++){
-                if(!FrontController::getInstance()->_model->create_table($tables[$i],$fields[$i])){
-                    die(FrontController::getInstance()->_model->error());
+                if(!$this->_model->create_table($tables[$i],$fields[$i])){
+                    die($this->_model->error());
                 }
             }
 	    $newData=array(NULL,$_POST['adminname'],'Welcome to MapleLeaf.:)',time(), getIp());
-	    FrontController::getInstance()->_model->insert(MESSAGETABLE, $newData);
+	    $this->_model->insert(MESSAGETABLE, $newData);
 	    $installed=TRUE;
         }
 	if(file_exists(dirname(dirname(__FILE__)).'/install.php')){
@@ -82,7 +73,7 @@ class site extends BaseController
 /*
     public function maple_quotes($var)
     {
-        return htmlspecialchars(trim($var),ENT_QUOTES,  FrontController::getInstance()->_model->get_charset());
+        return htmlspecialchars(trim($var),ENT_QUOTES,  $this->_model->get_charset());
     }
 */
     public  function index()
@@ -91,7 +82,7 @@ class site extends BaseController
             //$this->show_message(FrontController::getInstance()->_close_reason);
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-        $nums=FrontController::getInstance()->_model->num_rows($data);
+        $nums=$this->_model->num_rows($data);
         $pages=ceil($nums/FrontController::getInstance()->_num_perpage);
         if($current_page>=$pages)
             $current_page=$pages-1;
@@ -116,7 +107,7 @@ class site extends BaseController
     }
 
     public  function showCaptcha(){
-	FrontController::getInstance()->_imgcode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
+	$this->_imgcode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
     }
 
 
@@ -127,11 +118,11 @@ class site extends BaseController
 	$new_data=array();
 	$user=isset($_POST['user'])?$_POST['user']:'';
 	$current_ip=getIp();
-	$user=$this->maple_quotes($user);
+	$user=FrontController::maple_quotes($user);
 	$admin_name_array=array(FrontController::getInstance()->_admin_name);
 	if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
 	    $user='anonymous';
-	$content =isset($_POST['content'])?$this->maple_quotes($_POST['content']):'';
+	$content =isset($_POST['content'])?FrontController::maple_quotes($_POST['content']):'';
 	$content = nl2br($content);
 	$content = str_replace(array("\n", "\r\n", "\r"), '', $content);
 	$time=time();
@@ -162,8 +153,8 @@ class site extends BaseController
 	}
 
 	$new_data=array(NULL,$user,$content,$time,$current_ip);
-	if(!FrontController::getInstance()->_model->insert(MESSAGETABLE, $new_data))
-	    die(FrontController::getInstance()->_model->error());
+	if(!$this->_model->insert(MESSAGETABLE, $new_data))
+	    die($this::getInstance()->_model->error());
 	if(isset($_POST['ajax'])){
 	    echo 'OK';
 	    return TRUE;
@@ -180,7 +171,7 @@ class site extends BaseController
 	}
 	$mid=(int)$_GET['mid'];
 	$condition=array('id'=>$mid);
-	$reply_data=FrontController::getInstance()->_model->select(REPLYTABLE, $condition);
+	$reply_data=$this->_model->select(REPLYTABLE, $condition);
 	if ($reply_data===FALSE)
 	    $this->show_message(FrontController::t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
 	else
@@ -192,7 +183,7 @@ class site extends BaseController
 	if(isset($_POST['Submit'])){
 	    $mid=0;
 	    $mid=(int)$_POST['mid'];
-	    $reply_content = $this->maple_quotes($_POST['reply_content']);
+	    $reply_content = FrontController::maple_quotes($_POST['reply_content']);
 	    $reply_content = nl2br($reply_content);
 	    $reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
 	    $time=time();
@@ -201,13 +192,13 @@ class site extends BaseController
 	    if(isset($_POST['update'])){
 		$input=array($mid,$reply_content,$time);
 		$condition=array('id'=>$mid);
-		if(!FrontController::getInstance()->_model->update(REPLYTABLE, $condition, $input))
-		    die(FrontController::getInstance()->_model->error());
+		if(!$this->_model->update(REPLYTABLE, $condition, $input))
+		    die($this->_model->error());
 	    }
 	    else{
 		$input=array($mid,$reply_content,$time);
-		if(!FrontController::getInstance()->_model->insert(REPLYTABLE, $input))
-		    die(FrontController::getInstance()->_model->error());
+		if(!$this->_model->insert(REPLYTABLE, $input))
+		    die($this->_model->error());
 	    }
 	    header("Location:index.php?action=control_panel&subtab=message");exit;
 	}
@@ -228,14 +219,14 @@ class site extends BaseController
 	    $mid=(int)$_POST['mid'];
 	    $author=$_POST['author'];
 	    $m_time=$_POST['m_time'];
-	    $update_content = $this->maple_quotes($_POST['update_content']);
+	    $update_content = FrontController::maple_quotes($_POST['update_content']);
 	    $update_content = nl2br($update_content);
 	    $update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
 	    $ip=$_POST['ip'];
 	    $input=array($mid,$author,$update_content,$m_time,$ip);
 	    $condition=array('id'=>$mid);
-	    if(!FrontController::getInstance()->_model->update(MESSAGETABLE, $condition, $input))
-		die(FrontController::getInstance()->_model->error());
+	    if(!$this->_model->update(MESSAGETABLE, $condition, $input))
+		die($this->_model->error());
 	    else
 		header("Location:index.php?action=control_panel&subtab=message");
 	}
@@ -245,7 +236,7 @@ class site extends BaseController
 	}
         $mid=intval($_GET['mid']);
 	$condition=array('id'=>$mid);
-	$message_info=FrontController::getInstance()->_model->select(MESSAGETABLE, $condition);
+	$message_info=$this->_model->select(MESSAGETABLE, $condition);
         if(!$message_info)
             $this->show_message(FrontController::t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
 	$message_info=$message_info[0];
@@ -279,8 +270,8 @@ class site extends BaseController
         if(isset($mid))
         {
 	    $condition=array('id'=>$mid);
-	    if(!FrontController::getInstance()->_model->delete(MESSAGETABLE, $condition))
-		die(FrontController::getInstance()->_model->error());
+	    if(!$this->_model->delete(MESSAGETABLE, $condition))
+		die($this->_model->error());
         }
         //若回复中有关于此留言的记录，执行删除回复操作
         @$reply_del=(int)$_GET['reply'];
@@ -299,8 +290,8 @@ class site extends BaseController
         if(isset($mid))
         {
 	    $condition=array('id'=>$mid);
-	    if(!FrontController::getInstance()->_model->delete(REPLYTABLE, $condition))
-		die(FrontController::getInstance()->_model->error());
+	    if(!$this->_model->delete(REPLYTABLE, $condition))
+		die($this->_model->error());
         }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
@@ -308,8 +299,8 @@ class site extends BaseController
     public  function clear_all()
     {
         is_admin();
-        $message_table_path=  FrontController::getInstance()->_model->_table_path(DB, MESSAGETABLE);
-	$message_filename=$message_table_path.FrontController::getInstance()->_model->get_data_ext();
+        $message_table_path=  $this->_model->_table_path(DB, MESSAGETABLE);
+	$message_filename=$message_table_path.$this->_model->get_data_ext();
         file_put_contents($message_filename, '');
         $this->clear_reply();
         header("location:index.php?action=control_panel&subtab=message");
@@ -318,8 +309,8 @@ class site extends BaseController
     public  function clear_reply()
     {
         is_admin();
-        $reply_table_path=FrontController::getInstance()->_model->_table_path(DB,REPLYTABLE);
-        $reply_filename=$reply_table_path.FrontController::getInstance()->_model->get_data_ext();
+        $reply_table_path=$this->_model->_table_path(DB,REPLYTABLE);
+        $reply_filename=$reply_table_path.$this->_model->get_data_ext();
         file_put_contents($reply_filename,'');
         header("location:index.php?action=control_panel&subtab=message");
     }
@@ -341,10 +332,10 @@ class site extends BaseController
         $plugins=  FrontController::get_all_plugins();
         $data=$this->get_all_data();
         $reply_data=$this->get_all_reply();
-        $ban_ip_info=  FrontController::getInstance()->_model->select(BADIPTABLE);
+        $ban_ip_info=  $this->_model->select(BADIPTABLE);
 
-        $nums=FrontController::getInstance()->_model->num_rows($data);
-        $reply_num=FrontController::getInstance()->_model->num_rows($reply_data);
+        $nums=$this->_model->num_rows($data);
+        $reply_num=$this->_model->num_rows($reply_data);
 
         if($gd_exist)
 	{
@@ -375,7 +366,7 @@ class site extends BaseController
      */
     public  function checkImgcode()
     {
-	return FrontController::getInstance()->_imgcode->check($_POST['valid_code']);
+	return $this->_imgcode->check($_POST['valid_code']);
     }
 
     /**
@@ -394,10 +385,10 @@ class site extends BaseController
     public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false)
     {
         $data=array();
-	if(($data=FrontController::getInstance()->_model->select(MESSAGETABLE))===FALSE)
-	    die(FrontController::getInstance()->_model->error());
-        if(($reply_data=FrontController::getInstance()->_model->select(REPLYTABLE))===FALSE)
-	    die(FrontController::getInstance()->_model->error());
+	if(($data=$this->_model->select(MESSAGETABLE))===FALSE)
+	    die($this->_model->error());
+        if(($reply_data=$this->_model->select(REPLYTABLE))===FALSE)
+	    die($this->_model->error());
 	$new_reply_data=array();
 	foreach($reply_data as $reply_data_item)
 	{
@@ -441,8 +432,8 @@ class site extends BaseController
     public  function get_all_reply()
     {
         $reply_data=array();
-	if(($reply_data=FrontController::getInstance()->_model->select(REPLYTABLE))===FALSE)
-	    die(FrontController::getInstance()->_model->error());
+	if(($reply_data=$this->_model->select(REPLYTABLE))===FALSE)
+	    die($this->_model->error());
         return $reply_data;
     }
     /**

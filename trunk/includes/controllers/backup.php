@@ -12,7 +12,7 @@ class backup extends BaseController{
         $dir="data/".DB.'/';
         if(!class_exists('ZipArchive'))
         {
-            $this->show_message($this->t('BACKUP_NOTSUPPORT'),true,'index.php?action=control_panel&subtab=message');
+            $this->show_message(FrontController::t('BACKUP_NOTSUPPORT'),true,'index.php?action=control_panel&subtab=message');
             exit;
         }
         $zip = new ZipArchive();
@@ -31,21 +31,6 @@ class backup extends BaseController{
         header("Location:$filename");
     }
 
-        /**
-     * 删除服务器上的备份文件，会在管理员注销登录时执行
-     */
-    public  function delete_backup_files(){
-        is_admin();
-	$d=dir($this->_model->_db_path(DB));
-	while(false!==($entry=$d->read()))
-	{
-	    if (strlen($entry)==19)
-	    {
-		$d_file=$this->_model->_db_path(DB).'/'.$entry;
-		unlink($d_file);
-	    }
-	}
-	$d->close();
-    }
+    
 }
 ?>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $this->t('UPDATE');?></title>
+<title><?php echo FrontController::t('UPDATE');?></title>
 </head>
 
 <body>
@@ -13,7 +13,7 @@
 <input type="hidden" name="ip" value="<?php echo $message_info['ip'];?>" />
 <textarea name="update_content" cols="40" rows="9"><?php echo $message_info['content'];?></textarea>
 <br />
-<input type="submit" name="Submit" value="<?php echo $this->t('UPDATE');?>" /><input type="button" name="cancel" value="<?php echo $this->t('CANCEL');?>" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
+<input type="submit" name="Submit" value="<?php echo FrontController::t('UPDATE');?>" /><input type="button" name="cancel" value="<?php echo FrontController::t('CANCEL');?>" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
 </form>
 </body>
 </html>

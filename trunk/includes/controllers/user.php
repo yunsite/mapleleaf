@@ -1,23 +1,13 @@
 <?php
 class user extends BaseController{
-    //public $_siteController;
-    //public $_backupClass;
     public $_model;
     public function index(){
         header("Location:index.php");
     }
     public function  __construct() {
-        //$this->_siteController=new site();
         $this->_model=new JuneTxtDB();
         $this->_model->select_db(DB);
-        //$this->_backupClass=new backup();
     }
-	/*
-    public function  __call($name, $arguments) {
-        $arguments=implode('', $arguments);
-        return $this->_siteController->$name($arguments);
-    }
-	*/
     public  function login(){
         if (isset($_SESSION['admin']))//若管理员已经登录
 	{
@@ -31,7 +21,7 @@ class user extends BaseController{
         {
             $user=FrontController::maple_quotes($_POST['user']);
             $password=FrontController::maple_quotes($_POST['password']);
-	    if( ($user==$this->_admin_name) && ($password==$this->_admin_password) )//若使用管理员帐户成功登录
+	    if( ($user==FrontController::getInstance()->_admin_name) && ($password==FrontController::getInstance()->_admin_password) )//若使用管理员帐户成功登录
 	    {
 		$_SESSION['admin']=$_POST['user'];
 		header("Location:index.php?action=control_panel");
@@ -45,7 +35,7 @@ class user extends BaseController{
 		    $_SESSION['uid']=$user_result['uid'];
 		    header("Location:index.php");exit;
 		}else{
-		    $errormsg=$this->t('LOGIN_ERROR');
+		    $errormsg=FrontController::t('LOGIN_ERROR');
 		}
 	    }
         }
@@ -58,13 +48,13 @@ class user extends BaseController{
 	    session_destroy();
 	}
         if(isset($_SESSION['admin'])){
-            //$this->delete_backup_files();
-            $this->_backupClass->delete_backup_files();
+            $this->delete_backup_files();
             unset($_SESSION['admin']);
             session_destroy();
         }
         header("Location:index.php");exit;
     }
+	
         /* User Management */
     public function register(){
 	if(isset ($_SESSION['admin']) || isset ($_SESSION['user'])){
@@ -73,12 +63,12 @@ class user extends BaseController{
 	if(isset ($_POST['register'])){
 	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
                 if(strlen(trim($_POST['user']))>=2){
-                    $user=$this->maple_quotes($_POST['user']);
-                    $pwd=$this->maple_quotes($_POST['pwd']);
+                    $user=FrontController::maple_quotes($_POST['user']);
+                    $pwd=FrontController::maple_quotes($_POST['pwd']);
                     $email=$_POST['email'];
                     if(is_email($email)){
                         $user_exists=$this->_model->select(USERTABLE, array('user'=>$user));
-                        if(!$user_exists && $user!= $this->_admin_name){
+                        if(!$user_exists && $user!= FrontController::getInstance()->_admin_name){
                             $user_data=array(NULL,$user,$pwd,$email);
                             if($this->_model->insert(USERTABLE, $user_data)){
                                 $_SESSION['user']=$user;
@@ -91,22 +81,22 @@ class user extends BaseController{
                                 die($this->_model->error());
                             }
                         }else{
-                            $errorMsg=$this->t('USERNAME_NOT_AVAILABLE');
+                            $errorMsg=FrontController::t('USERNAME_NOT_AVAILABLE');
                         }
                     }else{
-                        $errorMsg=$this->t('EMAIL_INVALID');
+                        $errorMsg=FrontController::t('EMAIL_INVALID');
                     }
                 }else{
-                    $errorMsg=$this->t('USERNAME_TOO_SHORT');
+                    $errorMsg=FrontController::t('USERNAME_TOO_SHORT');
                 }
 	    }else{
-		$errorMsg=$this->t('FILL_NOT_COMPLETE');
+		$errorMsg=FrontController::t('FILL_NOT_COMPLETE');
 	    }
 	    if(isset ($_POST['ajax'])){
 		die ($errorMsg);
 	    }
 	}
-	include 'themes/'.$this->_theme.'/templates/'."register.php";
+	include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."register.php";
     }
 
     public function user_update(){
@@ -116,8 +106,8 @@ class user extends BaseController{
 	$uid=$_GET['uid'];
 	if(isset ($_POST['user'])){
 	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
-		$user=$this->maple_quotes($_POST['user']);
-		$pwd=$this->maple_quotes($_POST['pwd']);
+		$user=FrontController::maple_quotes($_POST['user']);
+		$pwd=FrontController::maple_quotes($_POST['pwd']);
 		$email=$_POST['email'];
 		if(is_email($email)){
 		    $newdata=array($uid,$user,$pwd,$email);
@@ -125,17 +115,33 @@ class user extends BaseController{
 		    if($this->_model->update(USERTABLE, $condition, $newdata)){
 			header("Location:index.php");exit;
 		    }else{
-			$errorMsg=$this->t('USERUPDATEFAILED');
+			$errorMsg=FrontController::t('USERUPDATEFAILED');
 		    }
 		}else{
-		    $errorMsg=$this->t('EMAIL_INVALID');
+		    $errorMsg=FrontController::t('EMAIL_INVALID');
 		}
 	    }else{
-		$errorMsg=$this->t('FILL_NOT_COMPLETE');
+		$errorMsg=FrontController::t('FILL_NOT_COMPLETE');
 	    }
 	}
 	$user_data=$this->_model->select(USERTABLE, array('uid'=>$uid));
 	$user_data=$user_data[0];
-	include 'themes/'.$this->_theme.'/templates/'."user_update.php";
+	include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."user_update.php";
+    }
+	    /**
+     * 删除服务器上的备份文件，会在管理员注销登录时执行
+     */
+    public  function delete_backup_files(){
+        is_admin();
+	$d=dir($this->_model->_db_path(DB));
+	while(false!==($entry=$d->read()))
+	{
+	    if (strlen($entry)==19)
+	    {
+		$d_file=$this->_model->_db_path(DB).'/'.$entry;
+		unlink($d_file);
+	    }
+	}
+	$d->close();
     }
 }

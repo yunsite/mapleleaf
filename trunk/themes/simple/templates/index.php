@@ -45,7 +45,7 @@
                     <tr>
                         <td><?php echo $m['user'];?></td>
                         <td><div style='word-wrap: break-word;word-break:break-all;width:450px;'><?php echo $m['content'];?><br />
-                            <?php if(@$m['reply']){ echo sprintf(FrontController::t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+$this->_time_zone*60*60),$m['reply']['reply_content']);}?></div>
+                            <?php if(@$m['reply']){ echo sprintf(FrontController::t('ADMIN_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+FrontController::getInstance()->_time_zone*60*60),$m['reply']['reply_content']);}?></div>
                         </td>
                         <td><?php echo $m['time'];?></td>
                     </tr>
