@@ -3,29 +3,29 @@ class site extends BaseController
 {
     public  $_imgcode; //FLEA_Helper_ImgCode 实例
     public  $_model;
-    public  $_errors=array();//     * 保存错误信息
-
+    //public  $_errors=array();//     * 保存错误信息
+	/*
     public static function translate($message){
-            return strtr($message, configuration::$_coreMessage_array);
+            return strtr($message, FrontController::$_coreMessage_array);
     }
-
+	*/
     //构造函数
     function  __construct()
     {
-        $this->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
-        $this->_model=new JuneTxtDb();//实例化模型
-        if(!$this->_model->_db_exists(DB)){//若默认的数据库不存在，需要执行安装
+        FrontController::getInstance()->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
+        FrontController::getInstance()->_model=new JuneTxtDb();//实例化模型
+        if(!FrontController::getInstance()->_model->_db_exists(DB)){//若默认的数据库不存在，需要执行安装
             $this->install();exit;
         }
-	$this->_model->select_db(DB);//选择默认的数据库
-        $this->load_config();//载入配置
-        if($this->_errors)//若有错误显示错误信息
-            $this->show_message($this->_errors);
+	FrontController::getInstance()->_model->select_db(DB);//选择默认的数据库
+        //$this->load_config();//载入配置
+        //if(FrontController::getInstance()->_errors)//若有错误显示错误信息
+            //$this->show_message(FrontController::getInstance()->_errors);
     }
 
     public function getSysJSON(){
 	$languageForJSON='{';
-	foreach ($this->_lang_array as $key => $value) {
+	foreach (FrontController::getInstance()->_lang_array as $key => $value) {
 	    $languageForJSON.= '"'.$key.'":"'.addslashes((string)$value).'",';
 	}
 	$languageForJSON.='}';
@@ -35,9 +35,9 @@ class site extends BaseController
     public function install(){
 	$installed=FALSE;
         if(!file_exists(CONFIGFILE))        //先检查配置文件是否存在和可写
-            die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE));
+            die(sprintf(FrontController::t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE));
         if(!is_writable(CONFIGFILE))
-            die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE));
+            die(FrontController::getInstance()->_errors[]=sprintf(FrontController::t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE));
         if(!empty ($_POST['adminname']) && !empty($_POST['adminpass'])){
             $adminname=$this->maple_quotes($_POST['adminname']);
             $adminpass=$this->maple_quotes($_POST['adminpass']);
@@ -45,10 +45,10 @@ class site extends BaseController
             $adminpassString="\n\$password='$adminpass';";
             file_put_contents(CONFIGFILE, $adminnameString,FILE_APPEND);
             file_put_contents(CONFIGFILE, $adminpassString,FILE_APPEND);
-            if(!$this->_model->create_db(DB)){
-                die ($this->_model->error());
+            if(!FrontController::getInstance()->_model->create_db(DB)){
+                die (FrontController::getInstance()->_model->error());
             }
-            $this->_model->select_db(DB);
+            FrontController::getInstance()->_model->select_db(DB);
 
             $tables=array(MESSAGETABLE,  REPLYTABLE,  BADIPTABLE, USERTABLE);
             $fields=array(
@@ -58,12 +58,12 @@ class site extends BaseController
                         array(array('name'=>'uid','auto_increment'=>true),array('name'=>'user'),array('name'=>'pwd'),array('name'=>'email')),
                         );
             for($i=0,$t=count($tables);$i<$t;$i++){
-                if(!$this->_model->create_table($tables[$i],$fields[$i])){
-                    die($this->_model->error());
+                if(!FrontController::getInstance()->_model->create_table($tables[$i],$fields[$i])){
+                    die(FrontController::getInstance()->_model->error());
                 }
             }
 	    $newData=array(NULL,$_POST['adminname'],'Welcome to MapleLeaf.:)',time(), getIp());
-	    $this->_model->insert(MESSAGETABLE, $newData);
+	    FrontController::getInstance()->_model->insert(MESSAGETABLE, $newData);
 	    $installed=TRUE;
         }
 	if(file_exists(dirname(dirname(__FILE__)).'/install.php')){
@@ -71,70 +71,33 @@ class site extends BaseController
 	}
     }
 
-
-
-    //载入配置
-    public  function load_config()
-    {
-        if (!is_dir(THEMEDIR))//检查主题目录是否存在
-	    die($this->t('THEMES_DIR_NOTEXISTS',true));
-        if(!file_exists(CONFIGFILE))        //先检查配置文件是否存在和可写
-            die(sprintf($this->t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE));
-        if(!is_writable(CONFIGFILE))
-            die($this->_errors[]=sprintf($this->t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE));
-        if(!is_dir(SMILEYDIR))
-            $this->_errors[]=sprintf($this->t('SMILEY_DIR_NOTEXISTS',true),SMILEYDIR);
-        if($this->_errors)
-	    $this->show_message($this->_errors);
-    }
-
-    public function  __get($propertyName) {
-        $methodName='get'.$propertyName;
-        try {
-            $propertyValue=configuration::$methodName();
-            return $propertyValue;
-        }  catch (Exception $e){
-            if(defined(DEBUG_MODE)){
-                echo '<pre>';
-                echo $e->getMessage();
-                echo '</pre>';
-                echo '<pre>';
-                debug_print_backtrace();
-                echo '</pre>';
-                exit;
-            }  else {
-                header("Location:index.php");
-            }
-        }
-    }
-
     /**
      * 显示信息
      */
     public  function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
     {
-        include 'themes/'.$this->_theme.'/templates/'."show_message.php";
+        include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."show_message.php";
         exit;
     }
-
+/*
     public function maple_quotes($var)
     {
-        return htmlspecialchars(trim($var),ENT_QUOTES,  $this->_model->get_charset());
+        return htmlspecialchars(trim($var),ENT_QUOTES,  FrontController::getInstance()->_model->get_charset());
     }
-
+*/
     public  function index()
     {
-        if ($this->_mb_open==1)
-            $this->show_message($this->_close_reason);
+        //if (FrontController::getInstance()->_mb_open==1)
+            //$this->show_message(FrontController::getInstance()->_close_reason);
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-        $nums=$this->_model->num_rows($data);
-        $pages=ceil($nums/$this->_num_perpage);
+        $nums=FrontController::getInstance()->_model->num_rows($data);
+        $pages=ceil($nums/FrontController::getInstance()->_num_perpage);
         if($current_page>=$pages)
             $current_page=$pages-1;
         if($current_page<0)
             $current_page=0;
-        if($this->_page_on)
+        if(FrontController::getInstance()->_page_on)
             $data=$this->page_wrapper($data, $current_page);
         if(isset ($_GET['ajax'])){
             $data=array_reverse($data);
@@ -142,18 +105,18 @@ class site extends BaseController
         }
         $smileys=$this->show_smileys_table();
         $admin=isset($_SESSION['admin'])?true:false;
-        include 'themes/'.$this->_theme.'/templates/'."index.php";
+        include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."index.php";
     }
 
     public  function page_wrapper($data,$current_page)
     {
-        $start=$current_page*$this->_num_perpage;
-        $data=array_slice($data,$start,$this->_num_perpage);
+        $start=$current_page*FrontController::getInstance()->_num_perpage;
+        $data=array_slice($data,$start,FrontController::getInstance()->_num_perpage);
         return $data;
     }
 
     public  function showCaptcha(){
-	$this->_imgcode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
+	FrontController::getInstance()->_imgcode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
     }
 
 
@@ -165,7 +128,7 @@ class site extends BaseController
 	$user=isset($_POST['user'])?$_POST['user']:'';
 	$current_ip=getIp();
 	$user=$this->maple_quotes($user);
-	$admin_name_array=array($this->_admin_name);
+	$admin_name_array=array(FrontController::getInstance()->_admin_name);
 	if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
 	    $user='anonymous';
 	$content =isset($_POST['content'])?$this->maple_quotes($_POST['content']):'';
@@ -175,18 +138,18 @@ class site extends BaseController
 	if(empty($user) or empty($content))
 	{
 	    $new_data_status=FALSE;
-	    $new_data_error_msg=$this->t('FILL_NOT_COMPLETE');
+	    $new_data_error_msg=FrontController::t('FILL_NOT_COMPLETE');
 	}
 	elseif(strlen($content)>580)
 	{
 	    $new_data_status=FALSE;
-	    $new_data_error_msg=$this->t('WORDS_TOO_LONG');
+	    $new_data_error_msg=FrontController::t('WORDS_TOO_LONG');
 	}
-	elseif($this->_valid_code_open==1)
+	elseif(FrontController::getInstance()->_valid_code_open==1)
 	{
 	    if(!$this->checkImgcode()){
 	    $new_data_status=FALSE;
-	    $new_data_error_msg=$this->t('CAPTCHA_WRONG');
+	    $new_data_error_msg=FrontController::t('CAPTCHA_WRONG');
 	    }
 	}
 	if(!$new_data_status){
@@ -199,8 +162,8 @@ class site extends BaseController
 	}
 
 	$new_data=array(NULL,$user,$content,$time,$current_ip);
-	if(!$this->_model->insert(MESSAGETABLE, $new_data))
-	    die($this->_model->error());
+	if(!FrontController::getInstance()->_model->insert(MESSAGETABLE, $new_data))
+	    die(FrontController::getInstance()->_model->error());
 	if(isset($_POST['ajax'])){
 	    echo 'OK';
 	    return TRUE;
@@ -217,9 +180,9 @@ class site extends BaseController
 	}
 	$mid=(int)$_GET['mid'];
 	$condition=array('id'=>$mid);
-	$reply_data=$this->_model->select(REPLYTABLE, $condition);
+	$reply_data=FrontController::getInstance()->_model->select(REPLYTABLE, $condition);
 	if ($reply_data===FALSE)
-	    $this->show_message($this->t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
+	    $this->show_message(FrontController::t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
 	else
 	    return $reply_data;
     }
@@ -234,23 +197,23 @@ class site extends BaseController
 	    $reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
 	    $time=time();
 	    if (trim($reply_content)=='')
-		$this->show_message($this->t('REPLY_EMPTY'),true,'index.php?action=control_panel&subtab=message',3);
+		$this->show_message(FrontController::t('REPLY_EMPTY'),true,'index.php?action=control_panel&subtab=message',3);
 	    if(isset($_POST['update'])){
 		$input=array($mid,$reply_content,$time);
 		$condition=array('id'=>$mid);
-		if(!$this->_model->update(REPLYTABLE, $condition, $input))
-		    die($this->_model->error());
+		if(!FrontController::getInstance()->_model->update(REPLYTABLE, $condition, $input))
+		    die(FrontController::getInstance()->_model->error());
 	    }
 	    else{
 		$input=array($mid,$reply_content,$time);
-		if(!$this->_model->insert(REPLYTABLE, $input))
-		    die($this->_model->error());
+		if(!FrontController::getInstance()->_model->insert(REPLYTABLE, $input))
+		    die(FrontController::getInstance()->_model->error());
 	    }
 	    header("Location:index.php?action=control_panel&subtab=message");exit;
 	}
 	$reply_data=$this->loadModel();
 	$mid=(int)$_GET['mid'];
-	include 'themes/'.$this->_theme.'/templates/'."reply.php";
+	include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."reply.php";
     }
 
     /**
@@ -271,8 +234,8 @@ class site extends BaseController
 	    $ip=$_POST['ip'];
 	    $input=array($mid,$author,$update_content,$m_time,$ip);
 	    $condition=array('id'=>$mid);
-	    if(!$this->_model->update(MESSAGETABLE, $condition, $input))
-		die($this->_model->error());
+	    if(!FrontController::getInstance()->_model->update(MESSAGETABLE, $condition, $input))
+		die(FrontController::getInstance()->_model->error());
 	    else
 		header("Location:index.php?action=control_panel&subtab=message");
 	}
@@ -282,11 +245,11 @@ class site extends BaseController
 	}
         $mid=intval($_GET['mid']);
 	$condition=array('id'=>$mid);
-	$message_info=$this->_model->select(MESSAGETABLE, $condition);
+	$message_info=FrontController::getInstance()->_model->select(MESSAGETABLE, $condition);
         if(!$message_info)
-            $this->show_message($this->t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
+            $this->show_message(FrontController::t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
 	$message_info=$message_info[0];
-        include 'themes/'.$this->_theme.'/templates/'."update.php";
+        include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."update.php";
     }
 
     public  function delete_multi_messages(){
@@ -316,8 +279,8 @@ class site extends BaseController
         if(isset($mid))
         {
 	    $condition=array('id'=>$mid);
-	    if(!$this->_model->delete(MESSAGETABLE, $condition))
-		die($this->_model->error());
+	    if(!FrontController::getInstance()->_model->delete(MESSAGETABLE, $condition))
+		die(FrontController::getInstance()->_model->error());
         }
         //若回复中有关于此留言的记录，执行删除回复操作
         @$reply_del=(int)$_GET['reply'];
@@ -336,8 +299,8 @@ class site extends BaseController
         if(isset($mid))
         {
 	    $condition=array('id'=>$mid);
-	    if(!$this->_model->delete(REPLYTABLE, $condition))
-		die($this->_model->error());
+	    if(!FrontController::getInstance()->_model->delete(REPLYTABLE, $condition))
+		die(FrontController::getInstance()->_model->error());
         }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
@@ -345,8 +308,8 @@ class site extends BaseController
     public  function clear_all()
     {
         is_admin();
-        $message_table_path=  $this->_model->_table_path(DB, MESSAGETABLE);
-	$message_filename=$message_table_path.$this->_model->get_data_ext();
+        $message_table_path=  FrontController::getInstance()->_model->_table_path(DB, MESSAGETABLE);
+	$message_filename=$message_table_path.FrontController::getInstance()->_model->get_data_ext();
         file_put_contents($message_filename, '');
         $this->clear_reply();
         header("location:index.php?action=control_panel&subtab=message");
@@ -355,8 +318,8 @@ class site extends BaseController
     public  function clear_reply()
     {
         is_admin();
-        $reply_table_path=$this->_model->_table_path(DB,REPLYTABLE);
-        $reply_filename=$reply_table_path.$this->_model->get_data_ext();
+        $reply_table_path=FrontController::getInstance()->_model->_table_path(DB,REPLYTABLE);
+        $reply_filename=$reply_table_path.FrontController::getInstance()->_model->get_data_ext();
         file_put_contents($reply_filename,'');
         header("location:index.php?action=control_panel&subtab=message");
     }
@@ -368,34 +331,34 @@ class site extends BaseController
         // Which tab should be displayed?
         $current_tab='overview';
         $tabs_array=array('overview','siteset','message','ban_ip','plugin');
-	$tabs_name_array=array($this->t('ACP_OVERVIEW'),$this->t('ACP_CONFSET'),$this->t('ACP_MANAGE_POST'),$this->t('ACP_MANAGE_IP'),$this->t('PLUGIN'));
+	$tabs_name_array=array(FrontController::t('ACP_OVERVIEW'),FrontController::t('ACP_CONFSET'),FrontController::t('ACP_MANAGE_POST'),FrontController::t('ACP_MANAGE_IP'),FrontController::t('PLUGIN'));
         if(isset($_GET['subtab']))
         {
 	    if(in_array($_GET['subtab'],$tabs_array))
 		    $current_tab=$_GET['subtab'];
         }
-        $themes=  configuration::get_all_themes();
-        $plugins=  configuration::get_all_plugins();
+        $themes=  FrontController::get_all_themes();
+        $plugins=  FrontController::get_all_plugins();
         $data=$this->get_all_data();
         $reply_data=$this->get_all_reply();
-        $ban_ip_info=  $this->_model->select(BADIPTABLE);
+        $ban_ip_info=  FrontController::getInstance()->_model->select(BADIPTABLE);
 
-        $nums=$this->_model->num_rows($data);
-        $reply_num=$this->_model->num_rows($reply_data);
+        $nums=FrontController::getInstance()->_model->num_rows($data);
+        $reply_num=FrontController::getInstance()->_model->num_rows($reply_data);
 
         if($gd_exist)
 	{
             $gd_info=gd_version();
-	    $gd_version=$gd_info?$gd_info:'<font color="red">'.$this->t('UNKNOWN').'</font>';
+	    $gd_version=$gd_info?$gd_info:'<font color="red">'.FrontController::t('UNKNOWN').'</font>';
         }
         else
-            $gd_version='<font color="red">GD'.$this->t('NOT_SUPPORT').'</font>';
+            $gd_version='<font color="red">GD'.FrontController::t('NOT_SUPPORT').'</font>';
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
-        $languages=  configuration::get_all_langs();
-        $timezone_array=configuration::get_all_timezone();
+        $languages=  FrontController::get_all_langs();
+        $timezone_array=FrontController::get_all_timezone();
 
-        include 'themes/'.$this->_theme.'/templates/'."admin.php";
+        include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."admin.php";
     }
 
     /**
@@ -412,7 +375,7 @@ class site extends BaseController
      */
     public  function checkImgcode()
     {
-	return $this->_imgcode->check($_POST['valid_code']);
+	return FrontController::getInstance()->_imgcode->check($_POST['valid_code']);
     }
 
     /**
@@ -431,10 +394,10 @@ class site extends BaseController
     public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false)
     {
         $data=array();
-	if(($data=$this->_model->select(MESSAGETABLE))===FALSE)
-	    die($this->_model->error());
-        if(($reply_data=$this->_model->select(REPLYTABLE))===FALSE)
-	    die($this->_model->error());
+	if(($data=FrontController::getInstance()->_model->select(MESSAGETABLE))===FALSE)
+	    die(FrontController::getInstance()->_model->error());
+        if(($reply_data=FrontController::getInstance()->_model->select(REPLYTABLE))===FALSE)
+	    die(FrontController::getInstance()->_model->error());
 	$new_reply_data=array();
 	foreach($reply_data as $reply_data_item)
 	{
@@ -446,17 +409,17 @@ class site extends BaseController
             if($filter_words)
                 $data_per['content']=$this->filter_words($data_per['content']);
             if($parse_smileys)
-                $data_per['content']=  $this->parse_smileys ($data_per['content'], SMILEYDIR, $this->_smileys);
+                $data_per['content']=  $this->parse_smileys ($data_per['content'], SMILEYDIR, FrontController::getInstance()->_smileys);
             if($processUsername)
-                $data_per['user']=($data_per['user']==$this->_admin_name)?"<font color='red'>{$data_per['user']}</font>":$data_per['user'];
+                $data_per['user']=($data_per['user']==FrontController::getInstance()->_admin_name)?"<font color='red'>{$data_per['user']}</font>":$data_per['user'];
             if($processTime)
-                $data_per['time']=date('m-d H:i',$data_per['time']+$this->_time_zone*60*60);
+                $data_per['time']=date('m-d H:i',$data_per['time']+FrontController::getInstance()->_time_zone*60*60);
             $mid=intval($data_per['id']);
             if(isset($new_reply_data[$mid]))
             {
                 $data_per['reply']=$new_reply_data[$mid];
                 /*if($parse_smileys)
-                    $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], $this->_smileys_dir,$this->_smileys);*/
+                    $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], FrontController::getInstance()->_smileys_dir,FrontController::getInstance()->_smileys);*/
             }
         }
         $data=array_reverse($data);
@@ -468,7 +431,7 @@ class site extends BaseController
      */
     public  function filter_words($input)
     {
-	$filter_array=explode(',',$this->_filter_words);
+	$filter_array=explode(',',FrontController::getInstance()->_filter_words);
 	$input=str_ireplace($filter_array,'***',$input);
 	return $input;
     }
@@ -478,8 +441,8 @@ class site extends BaseController
     public  function get_all_reply()
     {
         $reply_data=array();
-	if(($reply_data=$this->_model->select(REPLYTABLE))===FALSE)
-	    die($this->_model->error());
+	if(($reply_data=FrontController::getInstance()->_model->select(REPLYTABLE))===FALSE)
+	    die(FrontController::getInstance()->_model->error());
         return $reply_data;
     }
     /**
@@ -502,10 +465,11 @@ class site extends BaseController
 	}
 	return $str;
     }
-
+	/*
     public function t($str,$isCoreMessage=false)
     {
-    	$lang=($isCoreMessage)?  configuration::$_coreMessage_array:$this->_lang_array;
+    	$lang=($isCoreMessage)?  FrontController::$_coreMessage_array:FrontController::getInstance()->_lang_array;
         return strtr($str,$lang);
-    }    
+    } 
+		*/
 }
