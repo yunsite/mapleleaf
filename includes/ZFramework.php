@@ -56,6 +56,11 @@ class ZFramework{
     }
     public function run(){
         try {
+            $db=new JuneTxtDB();
+            if(!$db->_db_exists(DB)){
+                $this->_controller='SiteController';
+                $this->_action='actionInstall';
+            }
             if(class_exists($this->getController())){
                 $rc=new ReflectionClass($this->getController());
                 if($rc->isSubclassOf('BaseController')){
