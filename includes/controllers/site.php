@@ -8,9 +8,6 @@ class site extends BaseController
     {
         $this->_imgcode=new FLEA_Helper_ImgCode();//实例化代表验证码的类
         $this->_model=new JuneTxtDb();//实例化模型
-        //if(!$this->_model->_db_exists(DB)){//若默认的数据库不存在，需要执行安装
-        //    $this->install();exit;
-        //}
 	$this->_model->select_db(DB);//选择默认的数据库
     }
 
@@ -70,12 +67,7 @@ class site extends BaseController
         include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."show_message.php";
         exit;
     }
-/*
-    public function maple_quotes($var)
-    {
-        return htmlspecialchars(trim($var),ENT_QUOTES,  $this->_model->get_charset());
-    }
-*/
+
     public  function index()
     {
         //if (FrontController::getInstance()->_mb_open==1)
@@ -456,11 +448,4 @@ class site extends BaseController
 	}
 	return $str;
     }
-	/*
-    public function t($str,$isCoreMessage=false)
-    {
-    	$lang=($isCoreMessage)?  FrontController::$_coreMessage_array:FrontController::getInstance()->_lang_array;
-        return strtr($str,$lang);
-    } 
-		*/
 }
