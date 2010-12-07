@@ -12,12 +12,31 @@ class SiteController extends BaseController
     //展示首页
     public function actionIndex()
     {
-        $data=  $this->_model->select(MESSAGETABLE);
+        $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
+        $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
+        $nums=$this->_model->num_rows($data);
+        $pages=ceil($nums/ZFramework::app()->num_perpage);
+        if($current_page>=$pages)
+            $current_page=$pages-1;
+        if($current_page<0)
+            $current_page=0;
+        if(ZFramework::app()->page_on)
+            $data=$this->page_wrapper($data, $current_page);
+        if(isset ($_GET['ajax'])){
+            $data=array_reverse($data);
+            echo json_encode($data);exit;
+        }
         $admin=isset($_SESSION['admin'])?true:false;
         $smileys=$this->show_smileys_table();
         $tplFile='themes/simple/templates/test-index';
         
-        $this->render($tplFile,array('data'=>$data,'admin'=>$admin,'smileys'=>$smileys));
+        $this->render($tplFile,array(
+            'data'=>$data,
+            'admin'=>$admin,
+            'smileys'=>$smileys,
+            'current_page'=>$current_page,
+            'pages'=>$pages,
+            ));
     }
     //安装程序
     public function actionInstall()
@@ -109,5 +128,111 @@ class SiteController extends BaseController
     {
 	$smiley=  require dirname(dirname(__FILE__)).'/showSmiley.php';
 	return $smiley;
+    }
+    public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false)
+    {
+        $data=array();
+	if(($data=$this->_model->select(MESSAGETABLE))===FALSE)
+	    die($this->_model->error());
+        if(($reply_data=$this->_model->select(REPLYTABLE))===FALSE)
+	    die($this->_model->error());
+	$new_reply_data=array();
+	foreach($reply_data as $reply_data_item)
+	{
+	    $new_key=$reply_data_item["id"];
+	    $new_reply_data[$new_key]=$reply_data_item;
+	}
+        foreach ($data as &$data_per)
+        {
+            if($filter_words)
+                $data_per['content']=$this->filter_words($data_per['content']);
+            if($parse_smileys)
+                $data_per['content']=  $this->parse_smileys ($data_per['content'], SMILEYDIR, ZFramework::getSmileys());
+            if($processUsername)
+                $data_per['user']=($data_per['user']==ZFramework::app()->admin_name)?"<font color='red'>{$data_per['user']}</font>":$data_per['user'];
+            if($processTime)
+                $data_per['time']=date('m-d H:i',$data_per['time']+ZFramework::app()->time_zone*60*60);
+            $mid=intval($data_per['id']);
+            if(isset($new_reply_data[$mid]))
+            {
+                $data_per['reply']=$new_reply_data[$mid];
+                /*if($parse_smileys)
+                    $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], FrontController::getInstance()->_smileys_dir,FrontController::getInstance()->_smileys);*/
+            }
+        }
+        $data=array_reverse($data);
+        return $data;
+    }
+    /**
+     * 过滤敏感词语
+     * @param array $input
+     */
+    public  function filter_words($input)
+    {
+	$filter_array=explode(',',  ZFramework::app()->filter_words);
+	$input=str_ireplace($filter_array,'***',$input);
+	return $input;
+    }
+    /**
+     * 将表情符号转换为表情图案
+     * @param $str
+     * @param $image_url
+     * @param $smileys
+     */
+    public  function parse_smileys($str = '', $image_url = '', $smileys = NULL)
+    {
+	if ($image_url == '')
+	    return $str;
+	if (!is_array($smileys))
+	    return $str;
+	// Add a trailing slash to the file path if needed
+	$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
+	foreach ($smileys as $key => $val)
+	{
+	    $str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
+	}
+	return $str;
+    }
+    public  function page_wrapper($data,$current_page)
+    {
+        $start=$current_page*ZFramework::app()->num_perpage;
+        $data=array_slice($data,$start,  ZFramework::app()->num_perpage);
+        return $data;
+    }
+    public  function showCaptcha(){
+	$this->_imgcode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
+    }
+    /**
+     * 检查验证码
+     */
+    public  function checkImgcode()
+    {
+	return $this->_imgcode->check($_POST['valid_code']);
+    }
+    public function getSysJSON(){
+	$languageForJSON='{';
+	foreach (FrontController::getInstance()->_lang_array as $key => $value) {
+	    $languageForJSON.= '"'.$key.'":"'.addslashes((string)$value).'",';
+	}
+	$languageForJSON.='}';
+	echo $languageForJSON;
+    }
+    /**
+     * 显示表情
+     */
+    public  function show_smileys_table()
+    {
+	$smiley=  require dirname(dirname(__FILE__)).'/showSmiley.php';
+	return $smiley;
+    }
+    /**
+     * 替换被过滤的词语
+     * @param array $filter_words
+     */
+    public  function fix_filter_string($filter_words)
+    {
+	$new_string=trim($filter_words,',');
+	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
+	return $new_string;
     }
 }
