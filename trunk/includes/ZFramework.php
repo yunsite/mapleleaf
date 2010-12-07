@@ -61,6 +61,9 @@ class ZFramework{
                 $this->_controller='SiteController';
                 $this->_action='actionInstall';
             }
+            if($this->mb_open==1){
+                $this->show_message($this->close_reason);exit;
+            }
             if(class_exists($this->getController())){
                 $rc=new ReflectionClass($this->getController());
                 if($rc->isSubclassOf('BaseController')){

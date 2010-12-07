@@ -10,7 +10,7 @@
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal.css';?>" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal.js';?>"></script>
-<!--<script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/index.js';?>"></script>-->
+<script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/index.js';?>"></script>
 <title><?php echo sprintf(ZFramework::t('WELCOME'),ZFramework::app()->board_name);?></title>
 </head>
 
