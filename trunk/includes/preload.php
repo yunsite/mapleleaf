@@ -13,15 +13,15 @@ error_reporting(E_ALL);
 @ini_set('magic_quotes_sybase', 0);
 if(get_magic_quotes_gpc())
 {
-	function stripslashes_deep($value)
-	{
-		$value=is_array($value)?array_map('stripslashes_deep',$value):stripslashes($value);
-		return $value;
-	}
-	$_POST	=array_map('stripslashes_deep',$_POST);
-	$_GET	=array_map('stripslashes_deep',$_GET);
-	$_COOKIE=array_map('stripslashes_deep',$_COOKIE);
-	$_REQUEST=array_map('stripslashes_deep',$_REQUEST);
+    function stripslashes_deep($value)
+    {
+        $value=is_array($value)?array_map('stripslashes_deep',$value):stripslashes($value);
+        return $value;
+    }
+    $_POST	=array_map('stripslashes_deep',$_POST);
+    $_GET	=array_map('stripslashes_deep',$_GET);
+    $_COOKIE=array_map('stripslashes_deep',$_COOKIE);
+    $_REQUEST=array_map('stripslashes_deep',$_REQUEST);
 }
 
 /**
@@ -29,17 +29,15 @@ if(get_magic_quotes_gpc())
  */
 function maple_unset_globals()
 {
-	if (ini_get('register_globals'))
-	{
-	  $allowed = array('_ENV' => 1, '_GET' => 1, '_POST' => 1, '_COOKIE' => 1,'_SESSION'=>1,'_FILES' => 1, '_SERVER' => 1, '_REQUEST' => 1, 'GLOBALS' => 1);
-	  foreach ($GLOBALS as $key => $value)
-	  {
-	    if (!isset($allowed[$key]))
-	    {
-	      unset($GLOBALS[$key]);
-	    }
-	  }
-	}
+    if (ini_get('register_globals'))
+    {
+        $allowed = array('_ENV' => 1, '_GET' => 1, '_POST' => 1, '_COOKIE' => 1,'_SESSION'=>1,'_FILES' => 1, '_SERVER' => 1, '_REQUEST' => 1, 'GLOBALS' => 1);
+        foreach ($GLOBALS as $key => $value)
+        {
+            if (!isset($allowed[$key]))
+                unset($GLOBALS[$key]);
+        }
+    }
 }
 maple_unset_globals();
 define('DB', 'mapleleaf');
@@ -57,11 +55,6 @@ include_once 'JuneTxtDB.class.php';
 include_once 'Imgcode.php';
 require 'ZFramework.php';
 
-include 'controllers/badips.php';
-$BadIP=new badips();
-if($BadIP->is_baned(getIp())){
-    die('Access Denied!');
-}
 $gd_exist=gd_loaded();
 $zip_support=class_exists('ZipArchive')?'On':'Off';
 ?>

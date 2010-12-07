@@ -83,8 +83,8 @@
 				    <td><?php echo FrontController::t('BOARD_NAME');?>:</td><td align="left"><input name="board_name" type="text" size="20" value="<?php echo FrontController::getInstance()->_board_name;?>" /></td>
 				</tr>
 				<tr>
-				    <td><?php echo FrontController::t('CLOSE_BOARD');?>:</td><td align="left"><input name="mb_open" type="radio" value="1"
-			    <?php if(FrontController::getInstance()->_mb_open==1){?> checked='checked' <?php }?> /><?php echo FrontController::t('YES');?><input name="mb_open" type="radio" value="0" <?php if(FrontController::getInstance()->_mb_open==0){?> checked='checked' <?php }?> /><?php echo FrontController::t('NO');?></td>
+				    <td><?php echo FrontController::t('CLOSE_BOARD');?>:</td><td align="left"><input name="site_close" type="radio" value="1"
+			    <?php if(FrontController::getInstance()->_site_close==1){?> checked='checked' <?php }?> /><?php echo FrontController::t('YES');?><input name="site_close" type="radio" value="0" <?php if(FrontController::getInstance()->_site_close==0){?> checked='checked' <?php }?> /><?php echo FrontController::t('NO');?></td>
 				</tr>
 				<tr>
 				    <td><?php echo FrontController::t('CLOSE_REASON');?>:</td><td align="left"><textarea name="close_reason" cols="30" rows="3"><?php echo FrontController::getInstance()->_close_reason;?></textarea></td>

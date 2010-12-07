@@ -113,7 +113,22 @@ class SiteController extends BaseController
         $languages= ZFramework::get_all_langs();
         $timezone_array=  ZFramework::get_all_timezone();
         $tplFile='themes/simple/templates/test-admin';
-        $this->render($tplFile,array('tabs_array'=>$tabs_array,'current_tab'=>$current_tab,'tabs_name_array'=>$tabs_name_array,'nums'=>$nums,'reply_num'=>$reply_num,'gd_version'=>$gd_version,'register_globals'=>$register_globals,'magic_quotes_gpc'=>$magic_quotes_gpc,'zip_support'=>$zip_support,'data'=>$data,'ban_ip_info'=>$ban_ip_info,'plugins'=>$plugins));
+        $this->render($tplFile,array(
+            'tabs_array'=>$tabs_array,
+            'current_tab'=>$current_tab,
+            'tabs_name_array'=>$tabs_name_array,
+            'nums'=>$nums,
+            'reply_num'=>$reply_num,
+            'gd_version'=>$gd_version,
+            'register_globals'=>$register_globals,
+            'magic_quotes_gpc'=>$magic_quotes_gpc,
+            'zip_support'=>$zip_support,
+            'themes'=>$themes,
+            'timezone_array'=>$timezone_array,
+            'languages'=>$languages,
+            'data'=>$data,
+            'ban_ip_info'=>$ban_ip_info,
+            'plugins'=>$plugins));
     }
 
     //显示验证码
@@ -121,14 +136,7 @@ class SiteController extends BaseController
     {
         
     }
-     /**
-     * 显示表情
-     */
-    public  function show_smileys_table()
-    {
-	$smiley=  require dirname(dirname(__FILE__)).'/showSmiley.php';
-	return $smiley;
-    }
+
     public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false)
     {
         $data=array();
@@ -225,14 +233,5 @@ class SiteController extends BaseController
 	$smiley=  require dirname(dirname(__FILE__)).'/showSmiley.php';
 	return $smiley;
     }
-    /**
-     * 替换被过滤的词语
-     * @param array $filter_words
-     */
-    public  function fix_filter_string($filter_words)
-    {
-	$new_string=trim($filter_words,',');
-	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
-	return $new_string;
-    }
+    
 }
