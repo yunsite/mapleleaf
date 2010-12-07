@@ -3,7 +3,9 @@ class BaseController{
     public function render($tplFile,$vars=NULL){
         if ($vars)
             extract($vars);
-        include $tplFile.'.php';
+        $tplDir='themes/'.ZFramework::app()->theme.'/templates/';
+        $file=$tplDir.$tplFile;
+        include $file.'.php';
     }
 }
 class ZFramework{
@@ -123,7 +125,7 @@ class ZFramework{
     /**
      * 显示信息
      */
-    public  function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
+    public static  function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
     {
         include 'themes/'.self::createApp()->theme.'/templates/'."show_message.php";
         exit;

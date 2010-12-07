@@ -2,18 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo FrontController::t('UPDATE');?></title>
+<title><?php echo ZFramework::t('UPDATE');?></title>
 </head>
 
 <body>
-<form action="index.php?action=update" method="post">
+    <form action="index.php?controller=post&amp;action=update" method="post">
 <input type="hidden" name="mid" value="<?php echo $mid;?>" />
 <input type="hidden" name="author" value="<?php echo $message_info['user'];?>" />
 <input type="hidden" name="m_time" value="<?php echo $message_info['time'];?>" />
 <input type="hidden" name="ip" value="<?php echo $message_info['ip'];?>" />
 <textarea name="update_content" cols="40" rows="9"><?php echo $message_info['content'];?></textarea>
 <br />
-<input type="submit" name="Submit" value="<?php echo FrontController::t('UPDATE');?>" /><input type="button" name="cancel" value="<?php echo FrontController::t('CANCEL');?>" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
+<input type="submit" name="Submit" value="<?php echo ZFramework::t('UPDATE');?>" /><input type="button" name="cancel" value="<?php echo ZFramework::t('CANCEL');?>" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
 </form>
 </body>
 </html>

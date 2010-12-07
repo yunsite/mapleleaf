@@ -27,15 +27,18 @@ class SiteController extends BaseController
             echo json_encode($data);exit;
         }
         $admin=isset($_SESSION['admin'])?true:false;
+        $adminName=  ZFramework::app()->admin;
         $smileys=$this->show_smileys_table();
-        $tplFile='themes/simple/templates/test-index';
+        //$tplFile='themes/simple/templates/test-index';
         
-        $this->render($tplFile,array(
+        $this->render('index',array(
             'data'=>$data,
             'admin'=>$admin,
             'smileys'=>$smileys,
             'current_page'=>$current_page,
             'pages'=>$pages,
+            'adminName'=>$adminName,
+            'nums'=>$nums,
             ));
     }
     //安装程序
@@ -92,9 +95,7 @@ class SiteController extends BaseController
         }
         $themes= ZFramework::get_all_themes();
         $plugins= ZFramework::get_all_plugins();
-        //$data=$this->get_all_data();
-        $data=  $this->_model->select(MESSAGETABLE);
-        //$reply_data=$this->get_all_reply();
+        $data=$this->get_all_data();
         $reply_data=  $this->_model->select(REPLYTABLE);
         $ban_ip_info=  $this->_model->select(BADIPTABLE);
 
@@ -112,8 +113,7 @@ class SiteController extends BaseController
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
         $languages= ZFramework::get_all_langs();
         $timezone_array=  ZFramework::get_all_timezone();
-        $tplFile='themes/simple/templates/test-admin';
-        $this->render($tplFile,array(
+        $this->render('admin',array(
             'tabs_array'=>$tabs_array,
             'current_tab'=>$current_tab,
             'tabs_name_array'=>$tabs_name_array,
@@ -129,12 +129,6 @@ class SiteController extends BaseController
             'data'=>$data,
             'ban_ip_info'=>$ban_ip_info,
             'plugins'=>$plugins));
-    }
-
-    //显示验证码
-    public function actionCaptcha()
-    {
-        
     }
 
     public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false)
@@ -207,19 +201,12 @@ class SiteController extends BaseController
         $data=array_slice($data,$start,  ZFramework::app()->num_perpage);
         return $data;
     }
-    public  function showCaptcha(){
-	$this->_imgcode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
+    public  function actionCaptcha(){
+	$this->_verifyCode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
     }
-    /**
-     * 检查验证码
-     */
-    public  function checkImgcode()
-    {
-	return $this->_imgcode->check($_POST['valid_code']);
-    }
-    public function getSysJSON(){
+    public function actionGetSysJSON(){
 	$languageForJSON='{';
-	foreach (FrontController::getInstance()->_lang_array as $key => $value) {
+	foreach (ZFramework::getLangArray() as $key => $value) {
 	    $languageForJSON.= '"'.$key.'":"'.addslashes((string)$value).'",';
 	}
 	$languageForJSON.='}';

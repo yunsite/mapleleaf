@@ -2,15 +2,16 @@
 class PostController extends BaseController
 {
     public  $_model;
+    public  $_verifyCode;
     public function  __construct()
     {
         $this->_model=new JuneTxtDB();
         $this->_model->select_db(DB);
+        $this->_verifyCode=new FLEA_Helper_ImgCode();
     }
     public function actionCreate()
     {
         if(isset ($_POST)){
-            $new_data_status=TRUE;
             $new_data=array();
             $user=isset($_POST['user'])?$_POST['user']:'';
             $current_ip=getIp();
@@ -24,25 +25,22 @@ class PostController extends BaseController
             $time=time();
             if(empty($user) or empty($content))
             {
-                $new_data_status=FALSE;
                 $new_data_error_msg=ZFramework::t('FILL_NOT_COMPLETE');
             }
             elseif(strlen($content)>580)
             {
-                $new_data_status=FALSE;
                 $new_data_error_msg=ZFramework::t('WORDS_TOO_LONG');
             }
             elseif(ZFramework::app()->valid_code_open==1)
             {
-                if(!$this->checkImgcode()){
-                $new_data_status=FALSE;
+                if(!$this->_verifyCode->check($_POST['valid_code'])){
                 $new_data_error_msg=ZFramework::t('CAPTCHA_WRONG');
                 }
             }
-            if(!$new_data_status){
+            if(isset ($new_data_error_msg)){
                 if(isset($_POST['ajax'])){
-                echo $new_data_error_msg;
-                return FALSE;
+                    echo $new_data_error_msg;
+                    return FALSE;
                 }else{
                     ZFramework::show_message($new_data_error_msg,true,'index.php');exit;
                 }
@@ -67,7 +65,7 @@ class PostController extends BaseController
 	    $mid=(int)$_POST['mid'];
 	    $author=$_POST['author'];
 	    $m_time=$_POST['m_time'];
-	    $update_content = FrontController::maple_quotes($_POST['update_content']);
+	    $update_content = ZFramework::maple_quotes($_POST['update_content']);
 	    $update_content = nl2br($update_content);
 	    $update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
 	    $ip=$_POST['ip'];
@@ -86,57 +84,53 @@ class PostController extends BaseController
 	$condition=array('id'=>$mid);
 	$message_info=$this->_model->select(MESSAGETABLE, $condition);
         if(!$message_info)
-            $this->show_message(FrontController::t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
+            ZFramework::show_message(ZFramework::t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
 	$message_info=$message_info[0];
-        include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."update.php";
+        $this->render('update', array(
+            'message_info'=>$message_info,
+            'mid'=>$mid,
+        ));
     }
     public function actionDelete()
     {
-        
-    }
-    public  function delete_multi_messages(){
-        // Check whether admin had selected some options
-        if(!isset($_POST['select_mid'])){
-            header("location:index.php?action=control_panel&subtab=message");
-            exit;
+        is_admin();
+        $mid=isset ($_GET['mid'])?(int)$_GET['mid']:null;
+        if(!$mid){
+            header("Location:index.php?action=control_panel&amp;subtab=message");exit;
         }
+        $condition=array('id'=>$mid);
+        if(!$this->_model->delete(MESSAGETABLE, $condition))
+            die($this->_model->error());
+        if((int)$_GET['reply']){
+            $condition=array('id'=>$mid);
+            $this->_model->delete(REPLYTABLE, $condition);
+        }
+        header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
+    }
+    public  function actionDelete_multi_messages(){
+        if(!isset($_POST['select_mid'])){header("location:index.php?action=control_panel&subtab=message");exit;}
 	$del_ids=$_POST['select_mid'];
         $del_num=count($del_ids);
         for($i=0;$i<$del_num;$i++)
         {
             $deleted_id=(int)$del_ids[$i];
-            $this->delete_message($deleted_id);
+            $condition=array('id'=>$deleted_id);
+            $this->_model->delete(MESSAGETABLE, $condition);
             if ($_POST[$deleted_id]==1)
-                $this->delete_reply($deleted_id);
+                $this->_model->delete(REPLYTABLE, $condition);
         }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
-    public  function delete_message($from_function=false)
-    {
-        is_admin();
-        if($from_function)
-            $mid=$from_function;
-        else
-            $mid=intval($_GET['mid']);
-        if(isset($mid))
-        {
-	    $condition=array('id'=>$mid);
-	    if(!$this->_model->delete(MESSAGETABLE, $condition))
-		die($this->_model->error());
-        }
-        //若回复中有关于此留言的记录，执行删除回复操作
-        @$reply_del=(int)$_GET['reply'];
-        if($reply_del==1)
-            $this->delete_reply($mid);
-        header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
-    }
-    public  function clear_all()
+
+    public  function actionDeleteAll()
     {
         is_admin();
         $message_table_path=  $this->_model->_table_path(DB, MESSAGETABLE);
 	$message_filename=$message_table_path.$this->_model->get_data_ext();
         file_put_contents($message_filename, '');
-        $this->clear_reply();
+        $reply_table_path=$this->_model->_table_path(DB,REPLYTABLE);
+        $reply_filename=$reply_table_path.$this->_model->get_data_ext();
+        file_put_contents($reply_filename, '');
         header("location:index.php?action=control_panel&subtab=message");
     }
 }
