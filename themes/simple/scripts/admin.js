@@ -10,13 +10,13 @@ $(document).ready(function() {
 	$('#ex2').jqm({ajax: '@href', trigger: 'a.ex2trigger'});
 	$('#deleteallButton').click(function(){
 	    if(window.confirm(languageTips.DEL_ALL_CONFIRM)){
-		window.open('index.php?action=clear_all','_self');
+		window.open('index.php?controller=post&action=deleteAll','_self');
 	    }
 	    return false;
 	});
 	$('#deleteallreplyButton').click(function(){
 	    if(window.confirm(languageTips.DEL_ALL_REPLY_CONFIRM)){
-		window.open('index.php?action=clear_reply','_self');
+		window.open('index.php?controller=reply&action=deleteAll','_self');
 	    }
 	    return false;
 	});
