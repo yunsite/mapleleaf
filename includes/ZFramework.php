@@ -61,7 +61,7 @@ class ZFramework{
                 $this->_controller='SiteController';
                 $this->_action='actionInstall';
             }
-            if($this->mb_open==1){
+            if($this->site_close==1){
                 $this->show_message($this->close_reason);exit;
             }
             if(class_exists($this->getController())){
@@ -131,7 +131,7 @@ class ZFramework{
         /**
      * 得到所有可用的主题
      */
-    public function get_all_themes()
+    public static  function get_all_themes()
     {
         $themes=array();
         $d=dir(THEMEDIR);
@@ -167,12 +167,33 @@ class ZFramework{
         $d->close();
         return $langs;
     }
-    public  function get_all_timezone()
+    public static  function get_all_timezone()
     {
         $timezone=  include THEMEDIR.self::app()->theme.'/languages/'.self::app()->lang.'.php';
     	return $timezone['TZ_ZONES'];
     }
     public function get_lang_directory(){
         return THEMEDIR.self::app()->theme.'/languages/';
+    }
+    /**
+     * 替换被过滤的词语
+     * @param array $filter_words
+     */
+    public static  function fix_filter_string($filter_words)
+    {
+	$new_string=trim($filter_words,',');
+	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
+	return $new_string;
+    }
+
+    public  function pluginset(){
+        is_admin();
+        $all_plugin=self::get_all_plugins();
+        if(isset ($_POST['plugin']) && in_array($_POST['plugin'], $all_plugin)){
+            include PLUGINDIR.$_POST['plugin'].'.php';
+            $funcName=$_POST['plugin'].'_config';
+            $funcName(FALSE,$_POST);
+        }
+        header("Location:index.php?action=control_panel&subtab=plugin");exit;
     }
 }

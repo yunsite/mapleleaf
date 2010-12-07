@@ -75,7 +75,7 @@
 			</table>
 		    </div><!-- Overview -->
 		    <div <?php if($current_tab=='siteset'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
-			<form action="index.php?controller=configuration&amp;action=set_config" method="post">
+			<form action="index.php?controller=config&amp;action=update" method="post">
 			    <fieldset>
 			    <legend><?php echo ZFramework::t('SYS_CONF');?></legend>
 			    <table>
@@ -83,8 +83,8 @@
 				    <td><?php echo ZFramework::t('BOARD_NAME');?>:</td><td align="left"><input name="board_name" type="text" size="20" value="<?php echo ZFramework::app()->board_name;?>" /></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('CLOSE_BOARD');?>:</td><td align="left"><input name="mb_open" type="radio" value="1"
-			    <?php if(ZFramework::app()->mb_open==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('YES');?><input name="mb_open" type="radio" value="0" <?php if(ZFramework::app()->mb_open==0){?> checked='checked' <?php }?> /><?php echo ZFramework::t('NO');?></td>
+				    <td><?php echo ZFramework::t('CLOSE_BOARD');?>:</td><td align="left"><input name="site_close" type="radio" value="1"
+			    <?php if(ZFramework::app()->site_close==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('YES');?><input name="site_close" type="radio" value="0" <?php if(ZFramework::app()->site_close==0){?> checked='checked' <?php }?> /><?php echo ZFramework::t('NO');?></td>
 				</tr>
 				<tr>
 				    <td><?php echo ZFramework::t('CLOSE_REASON');?>:</td><td align="left"><textarea name="close_reason" cols="30" rows="3"><?php echo ZFramework::app()->close_reason;?></textarea></td>
@@ -170,7 +170,7 @@
 			    <td><a href='index.php?action=delete_message&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){ echo "1";}else{ echo "0";}?>'><?php echo ZFramework::t('DELETE');?></a>
 			    <a class="ex2trigger" href='index.php?action=reply&amp;mid=<?php echo $m['id'];?>'><?php echo ZFramework::t('REPLY');?></a>
 			    <a class="ex2trigger" href='index.php?action=update&amp;mid=<?php echo $m['id'];?>'><?php echo ZFramework::t('UPDATE');?></a>
-			    <a href='index.php?controller=badips&amp;action=ban&amp;ip=<?php echo $m['ip'];?>'><?php echo ZFramework::t('BAN');?></a></td>
+			    <a href='index.php?controller=badip&amp;action=create&amp;ip=<?php echo $m['ip'];?>'><?php echo ZFramework::t('BAN');?></a></td>
 			</tr>
 		       <?php }?>
 
@@ -191,7 +191,7 @@
 
 		    <div id="ip_container" <?php if($current_tab=='ban_ip'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
 			<!-- IP管理 -->
-			<form id="banip_manage" action="index.php?controller=badips&amp;action=ip_update" method="post">
+			<form id="banip_manage" action="index.php?controller=badip&amp;action=update" method="post">
 			    <table class="table2">
 				<tr class="header">
 				    <td><?php echo ZFramework::t('SELECT');?></td><td><?php echo ZFramework::t('BAD_IP');?></td>

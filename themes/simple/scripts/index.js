@@ -59,7 +59,7 @@ $(document).ready(function() {
 		}
 		$.ajax({
                     type: "POST",
-                    url: "index.php?action=post",
+                    url: "index.php?controller=post&action=create",
                     data: $(this).serialize(),
                     success: function(data){
                             $('#captcha_img').attr('src',$('#captcha_img').attr('src')+'&id='+Math.random());
