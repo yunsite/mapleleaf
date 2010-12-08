@@ -69,9 +69,7 @@ class ReplyController extends BaseController
     public  function actionDeleteAll()
     {
         is_admin();
-        $reply_table_path=$this->_model->_table_path(DB,REPLYTABLE);
-        $reply_filename=$reply_table_path.$this->_model->get_data_ext();
-        file_put_contents($reply_filename,'');
+        $this->_model->truncate(DB, REPLYTABLE);
         header("location:index.php?action=control_panel&subtab=message");
     }
     

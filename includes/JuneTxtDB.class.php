@@ -1,16 +1,16 @@
 <?php
 /**
  * The Class used for access data,named JuneTxtDb.
- * 
+ *
  * @author Kang Chen <dreamneverfall@gmail.com>
  * @link http://projects.ourplanet.tk/junetxtdb/
  * @link http://code.google.com/p/junetxtdb/
  * @copyright &copy; 2010 Ourplanet Team
  * @license GPL 2
- * @version 0.3 alpha 2010-10-13
+ * @version 0.3 beta 2010-12-08
  */
 class JuneTxtDB{
-    private     $_version='0.3 alpha';
+    private     $_version='0.3 beta';
     protected   $_db_root_dir='data/';
     protected   $_field_separator='"';
     protected   $_error;
@@ -93,7 +93,7 @@ class JuneTxtDB{
     protected function _set_dbrootdir($rootdir){
         $this->_db_root_dir=$rootdir;
     }
-    
+
     /**
      * connect to the database,if no errors return TRUE,othewise FALSE
      * @return boolean
@@ -136,7 +136,7 @@ class JuneTxtDB{
         }
         return true;
     }
-    
+
     /**
      * Trigger error
      * @param string $errormsg
@@ -145,9 +145,9 @@ class JuneTxtDB{
     protected function _trigger_error($errormsg){
         $this->_error=$errormsg;
     }
-    
+
     /**
-     * drop database 
+     * drop database
      * @param string $dbname
      * @return boolean
      * @ignore Test 1 OK
@@ -228,7 +228,7 @@ class JuneTxtDB{
             return FALSE;
         }
     }
-    
+
     /**
      * get the filenames of one table
      * @param string $dbname
@@ -321,8 +321,9 @@ class JuneTxtDB{
     	}
     	$insert_str=implode($this->_field_separator,$data);
     	$insert_str.="\n";
-    	if(file_put_contents($datf,$insert_str,FILE_APPEND) && file_put_contents($idxf,$auto_num+1)){
-    	    $this->_insert_id=$auto_num;
+    	if(file_put_contents($datf,$insert_str,FILE_APPEND) && (isset($auto_num)?file_put_contents($idxf,$auto_num+1):true)){
+    	    if(isset ($auto_num))
+                $this->_insert_id=$auto_num;
     	    return TRUE;
     	}else{
     	    $errmsg=self::$_error_code_list[17];
@@ -334,11 +335,12 @@ class JuneTxtDB{
      * get data from one table specified by condition
      * @param string $tablename
      * @param mixed string '*' or array
+     * @param String 'Both' or 'NUM' or 'ASSOC'
      * @example $condtion=array('id'=>1);$condition=array('author'=>'chen');
      * @return  mixed:Returns array(an empty array if no records in table) on success or FALSE on failure.
      * @ignore Test 1 OK
      */
-    public function select($tablename,$condition='*'){
+    public function select($tablename,$condition='*',$result_type='BOTH'){
         if (!$this->select_db($this->_currentDB))
             return FALSE;
     	if(!$this->_table_exists($this->_currentDB,$tablename)){
@@ -347,7 +349,7 @@ class JuneTxtDB{
             return FALSE;
     	}
         if($condition=='*'){
-            $result=$this->_select_all_in_table($this->_currentDB,$tablename);
+            $result=$this->_select_all_in_table($this->_currentDB,$tablename,$result_type);
             return $result;
         }
         if(!is_array($condition) || count($condition)!=1 ){
@@ -373,7 +375,8 @@ class JuneTxtDB{
         }
         $data=$this->_unescape_data($data);
         $frame_data=$this->_read_frame($this->_currentDB,$tablename);
-        $data=$this->_array_combine($frame_data,$data);
+        if($result_type!='NUM')
+            $data=$this->_array_combine($frame_data,$data,$result_type);
     	return $data;
     }
 
@@ -407,7 +410,7 @@ class JuneTxtDB{
     private function _select_by_field($file,$key,$value){
         $filedata = array();//初始化变量，用于存储数据
         $handle = @fopen($file,'rb+');//以rb+方式打开文件
-        //若文件被正确打开 
+        //若文件被正确打开
         if($handle){
             flock($handle,LOCK_SH);//分享锁定（读取）
             //若没有到达文件结尾
@@ -441,15 +444,16 @@ class JuneTxtDB{
             return FALSE;
     	return $key;
     }
-    
+
     /**
      * get all data from one table
      * @param $dbname
      * @param $tablename
+     * @param string $result_type
      * @return FALSE or $data(返回关联数组)
      * @ignore Test 1 OK
      */
-    public function _select_all_in_table($dbname,$tablename){
+    public function _select_all_in_table($dbname,$tablename,$result_type){
         $frmf=$this->_table_path($dbname,$tablename).$this->_frame_ext;
         $datf=$this->_table_path($dbname,$tablename).$this->_data_ext;
         $data=$this->_readover($datf);
@@ -462,24 +466,29 @@ class JuneTxtDB{
             return array();
         $data=  $this->_unescape_data($data);
         $frame_data=$this->_read_frame($dbname,$tablename);
-        $data=$this->_array_combine($frame_data,$data);
+        if($result_type!='NUM')
+            $data=$this->_array_combine($frame_data, $data,$result_type);
         return $data;
     }
-    
+
     /**
      * combine array
      * @param array $a
      * @param array $b
+     * @param string $type
      * @return array
      * @ignore Test 1 OK
      */
-    function _array_combine($a,$b){
+    function _array_combine($a,$b,$type='BOTH'){
         foreach ($b as &$per_element){
-            $per_element=array_combine($a, $per_element);
+            if($type=='BOTH')
+                $per_element=array_merge($per_element,array_combine($a, $per_element));
+            else
+                $per_element=array_combine($a, $per_element);
         }
         return $b;
     }
-    
+
     /**
      * get FRAME of one table
      * @param string $dbname
@@ -618,7 +627,7 @@ class JuneTxtDB{
     public function error(){
         echo $this->_error;
     }
-    
+
     /**
      * return the id just inserted
      * @ignore Test 1 OK
@@ -626,7 +635,7 @@ class JuneTxtDB{
     public function insert_id(){
     	return $this->_insert_id;
     }
-    
+
     /**
      * List databases available on the server.
      * @return array $db
@@ -638,10 +647,10 @@ class JuneTxtDB{
     	while ($tmp=$d->read()){
             if(is_dir($this->_db_root_dir.$tmp) && substr($tmp,0,1)!='.' )
                 $db[]=$tmp;
-    	}	
+    	}
     	return $db;
     }
-    
+
     /**
      * return tables of one database
      * @param string $dbname
@@ -659,13 +668,13 @@ class JuneTxtDB{
     	while($tmp=$d->read()){
             if(is_file($dbpath.'/'.$tmp)){
             	$tmp=str_replace($table_exts,'',$tmp);
-    		$tables[]=$tmp;	
+    		$tables[]=$tmp;
             }
     	}
     	$tables=array_unique($tables);
     	return $tables;
     }
-    
+
     /**
      * drop table
      * @param $tablename
@@ -679,7 +688,7 @@ class JuneTxtDB{
             $errmsg= sprintf(self::$_error_code_list[23], $this->_currentDB.'.'.$tablename);
             $this->_trigger_error($errmsg);
             return FALSE;
-    	}	
+    	}
     	$table_files=$this->_table_files($this->_currentDB,$tablename);
     	foreach ($table_files as $file){
             if(!unlink($file)){
@@ -690,14 +699,14 @@ class JuneTxtDB{
     	}
     	return TRUE;
     }
-    
+
     /**
-     * delete or update one record from table 
+     * delete or update one record from table
      * @param string $tablename
      * @param array $condition e.g:$condition=array('id'=>1)
      * @param string $action:D=Delete,U=update
      * @param array $data;
-     * @return boolean 
+     * @return boolean
      * @bug:当查询条件中的字段是最后一个字段，不会删除此条记录！
      * @ignore Test 1 OK
      */
@@ -720,7 +729,7 @@ class JuneTxtDB{
             $this->_trigger_error($errmsg);
             return FALSE;
     	}
-    	$datf=$this->_table_path($this->_currentDB,$tablename).$this->_data_ext;	
+    	$datf=$this->_table_path($this->_currentDB,$tablename).$this->_data_ext;
         if(!is_array($data)){
             $errmsg=self::$_error_code_list[14];
             $this->_trigger_error($errmsg);
@@ -785,7 +794,7 @@ class JuneTxtDB{
     	$filesize=filesize($filename);//得到文件的size
     	$str=file_get_contents($filename);//得到文件内容
         $handle=fopen($filename,$mode);//打开文件
-        if(!$handle)//若无法打开文件，返回FALSE            
+        if(!$handle)//若无法打开文件，返回FALSE
             return FALSE;
         //$id_len=strlen($mid);//get the length of $mid此处需要更新
         $file_point=array();
@@ -812,19 +821,19 @@ class JuneTxtDB{
         $offset=$begin_point+$m_len;//the lenth need to be modified
         fseek($handle,$offset);//移动指针到需要修改的内容之后无需修改的部分的开始
         $last_string=fread($handle,$filesize+1);//读取后面的内容
-    
+
         $put_string=$string.$last_string;//需要写入的内容：新的字符串及原来无需修改的内容
-    
+
         fseek($handle,$begin_point);//移动指针到需要修改的地方
         fwrite($handle,$put_string);//开始写入
-    
+
         $new_all_len=$begin_point+strlen($put_string);//计算文件的新的长度
-    
+
         ftruncate($handle,$new_all_len);//将文件截取到新的长度
         fclose($handle);
         return TRUE;
     }
-    
+
     /**
      * Escape string
      * @param  string $string
@@ -844,7 +853,7 @@ class JuneTxtDB{
     private function _unescape_string($string){
         return htmlspecialchars_decode(trim($string), ENT_QUOTES);
     }
-    
+
     /**
      * Sets the character set
      * @param $charset
@@ -855,7 +864,7 @@ class JuneTxtDB{
         if (in_array($charset,$this->_supported_charsets))
             $this->_charset=$charset;
     }
-    
+
     /**
      * Returns the name of the character set
      * @return string :Returns the character set name.
@@ -865,11 +874,7 @@ class JuneTxtDB{
         return $this->_charset;
     }
 
-    public function get_data_ext(){
-	return $this->_data_ext;
-    }
-
-        /**
+    /**
      * return the version of JuneTxtDb
      * @return string
      * @ignore Test 1 OK
@@ -877,7 +882,19 @@ class JuneTxtDB{
     public function get_version(){
         return $this->_version;
     }
-    
+
+    public function get_data_ext(){
+        return $this->_data_ext;
+    }
+
+    public function get_frame_ext(){
+        return $this->_frame_ext;
+    }
+
+    public function get_index_ext(){
+        return $this->_index_ext;
+    }
+
     /**
      * Get number of rows in result
      * @param $result
@@ -885,7 +902,18 @@ class JuneTxtDB{
      * @ignore Test 1 OK
      */
     public function num_rows($result){
-        return count($result); 
+        return count($result);
+    }
+    /**
+    * truncate one table
+    * @param string $dbname
+    * @param string $tablename
+    * @return int
+    */
+    public function truncate($dbname,$tablename){
+        $tbpath=$this->_table_path($dbname,$tablename);
+        $tb_data_file=$tbpath.$this->_data_ext;
+        return file_put_contents($tb_data_file,'');
     }
 }
 ?>
