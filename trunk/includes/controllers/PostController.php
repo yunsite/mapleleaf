@@ -125,12 +125,8 @@ class PostController extends BaseController
     public  function actionDeleteAll()
     {
         is_admin();
-        $message_table_path=  $this->_model->_table_path(DB, MESSAGETABLE);
-	$message_filename=$message_table_path.$this->_model->get_data_ext();
-        file_put_contents($message_filename, '');
-        $reply_table_path=$this->_model->_table_path(DB,REPLYTABLE);
-        $reply_filename=$reply_table_path.$this->_model->get_data_ext();
-        file_put_contents($reply_filename, '');
+        $this->_model->truncate(DB, MESSAGETABLE);
+        $this->_model->truncate(DB, REPLYTABLE);
         header("location:index.php?action=control_panel&subtab=message");
     }
 }
