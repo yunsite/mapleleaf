@@ -102,7 +102,7 @@
                 </form>
             </div>
         </div><!-- body -->
-        <div class="ft"><?php echo htmlspecialchars_decode(ZFramework::app()->copyright_info);?> <a href="mailto:<?php echo ZFramework::app()->admin_email;?>"><?php echo ZFramework::t('ADMIN_EMAIL');?></a> <a href="index.php?action=control_panel"><?php echo ZFramework::t('ACP');?></a> Powered by <a href="http://mapleleaf.ourplanet.tk" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a></div><!-- footer -->
+        <div class="ft"><?php echo htmlspecialchars_decode(ZFramework::app()->copyright_info);?> <a href="mailto:<?php echo ZFramework::app()->admin_email;?>"><?php echo ZFramework::t('ADMIN_EMAIL');?></a> <?php if(!isset($_SESSION['user'])): ?><a href="index.php?action=control_panel"><?php echo ZFramework::t('ACP');?></a><?php endif;?> Powered by <a href="http://mapleleaf.ourplanet.tk" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a></div><!-- footer -->
 
 	<!-- jqModal window -->
 	<div id="modalWindow" class="jqmWindow">
