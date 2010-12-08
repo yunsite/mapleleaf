@@ -33,16 +33,16 @@ class UserController extends BaseController
                                 die($this->_model->error());
                             }
                         }else{
-                            $errorMsg=FrontController::t('USERNAME_NOT_AVAILABLE');
+                            $errorMsg=ZFramework::t('USERNAME_NOT_AVAILABLE');
                         }
                     }else{
-                        $errorMsg=FrontController::t('EMAIL_INVALID');
+                        $errorMsg=ZFramework::t('EMAIL_INVALID');
                     }
                 }else{
-                    $errorMsg=FrontController::t('USERNAME_TOO_SHORT');
+                    $errorMsg=ZFramework::t('USERNAME_TOO_SHORT');
                 }
 	    }else{
-		$errorMsg=FrontController::t('FILL_NOT_COMPLETE');
+		$errorMsg=ZFramework::t('FILL_NOT_COMPLETE');
 	    }
 	    if(isset ($_POST['ajax'])){
 		die ($errorMsg);
@@ -67,13 +67,13 @@ class UserController extends BaseController
 		    if($this->_model->update(USERTABLE, $condition, $newdata)){
 			header("Location:index.php");exit;
 		    }else{
-			$errorMsg=FrontController::t('USERUPDATEFAILED');
+			$errorMsg=ZFramework::t('USERUPDATEFAILED');
 		    }
 		}else{
-		    $errorMsg=FrontController::t('EMAIL_INVALID');
+		    $errorMsg=ZFramework::t('EMAIL_INVALID');
 		}
 	    }else{
-		$errorMsg=FrontController::t('FILL_NOT_COMPLETE');
+		$errorMsg=ZFramework::t('FILL_NOT_COMPLETE');
 	    }
 	}
 	$user_data=$this->_model->select(USERTABLE, array('uid'=>$uid));
