@@ -11,5 +11,5 @@ $num_perpage=10;
 $theme='simple';
 $admin='test';
 $password='test';
-$lang='en';
-$timezone=0;
+$lang='zh_cn';
+$timezone='8';
