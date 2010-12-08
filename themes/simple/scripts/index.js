@@ -71,7 +71,18 @@ $(document).ready(function() {
                             $.getJSON('index.php',{ajax:'yes',pid:$('#pid').val()},function(data){
                                     $("#main_table tr:not('.header')").remove();
                                     $.each(data,function(i,item){
-                                            var trString="<tr>\n<td>"+item.user+"</td>\n<td>"+item.content+"</td>\n<td>"+item.time+"</td>\n</tr>\n";
+                                            var trString="<tr>\n<td>"+item.user+"</td>\n<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>"+item.content+"<br />";
+                                                if(item.reply){
+                                                    var _A = [item.reply.reply_time,item.reply.reply_content];
+                                                    var _B = languageTips.ADMIN_REPLIED;
+                                                    var idx=0;
+                                                    C=_B.replace(/%s/ig,function($1){
+                                                        var x=_A[idx];idx++;
+                                                        return x;
+                                                    });
+                                                    trString+=C;
+                                                }
+                                            trString+="</div></td>\n<td>"+item.time+"</td>\n</tr>\n";
                                             $(".header").after(trString);
                                         });
                             });

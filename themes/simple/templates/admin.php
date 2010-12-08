@@ -114,7 +114,7 @@
 				    </td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('LANG');?>:</td><td align="left"><select name="lang"><?php foreach ($languages as $language){?><option value="<?php echo $language;?>" <?php if($language==ZFramework::app()->current_lang){echo 'selected="selected"';}?>><?php echo $language;?></option><?php }?></select></td>
+				    <td><?php echo ZFramework::t('LANG');?>:</td><td align="left"><select name="lang"><?php foreach ($languages as $language){?><option value="<?php echo $language;?>" <?php if($language==ZFramework::app()->lang){echo 'selected="selected"';}?>><?php echo $language;?></option><?php }?></select></td>
 				</tr>
 			    </table>
 			    </fieldset>
