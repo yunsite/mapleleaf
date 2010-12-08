@@ -106,7 +106,7 @@
 				    <?php foreach ($timezone_array as $key=>$per_timezone)
 					    {
 				    ?>
-				    <option value="<?php echo $key;?>" <?php if($key==ZFramework::app()->time_zone){echo 'selected="selected"';}?>>
+				    <option value="<?php echo $key;?>" <?php if($key==ZFramework::app()->timezone){echo 'selected="selected"';}?>>
 				    <?php echo $per_timezone;?></option>
 				    <?php }?>
 
@@ -160,10 +160,10 @@
 				<input type='hidden' name='<?php echo $m['id'];?>' value='<?php if(@$m['reply']){ echo "1";}else{echo "0";}?>' />
 			    </td>
 			    <td class='left'><?php echo $m['user'];?></td>
-			    <td class='left'><?php echo $m['content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo date('m-d H:i',$m['time']+ ZFramework::app()->time_zone*60*60);?>
+			    <td class='left'><?php echo $m['content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo $m['time'];?>
 			    <?php if(@$m['reply']==true){?>
 			    <br />
-			     <?php echo sprintf(ZFramework::t('YOU_REPLIED'),date('m-d H:i',(int)$m['reply']['reply_time']+ZFramework::app()->time_zone*60*60),$m['reply']['reply_content']);?>
+			     <?php echo sprintf(ZFramework::t('YOU_REPLIED'),$m['reply']['reply_time'],$m['reply']['reply_content']);?>
                             <span>&nbsp;<a href="index.php?controller=reply&amp;action=delete&amp;mid=<?php echo $m['id'];?>"><?php echo ZFramework::t('DELETE_THIS_REPLY');?></a></span>
 
 			<?php }?></td>

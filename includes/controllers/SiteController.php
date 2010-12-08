@@ -95,7 +95,7 @@ class SiteController extends BaseController
         }
         $themes= ZFramework::get_all_themes();
         $plugins= ZFramework::get_all_plugins();
-        $data=$this->get_all_data();
+        $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
         $reply_data=  $this->_model->select(REPLYTABLE);
         $ban_ip_info=  $this->_model->select(BADIPTABLE);
 
@@ -153,13 +153,15 @@ class SiteController extends BaseController
             if($processUsername)
                 $data_per['user']=($data_per['user']==ZFramework::app()->admin_name)?"<font color='red'>{$data_per['user']}</font>":$data_per['user'];
             if($processTime)
-                $data_per['time']=date('m-d H:i',$data_per['time']+ZFramework::app()->time_zone*60*60);
+                $data_per['time']=date('m-d H:i',$data_per['time']+ZFramework::app()->timezone*60*60);
             $mid=intval($data_per['id']);
             if(isset($new_reply_data[$mid]))
             {
                 $data_per['reply']=$new_reply_data[$mid];
-                /*if($parse_smileys)
-                    $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], FrontController::getInstance()->_smileys_dir,FrontController::getInstance()->_smileys);*/
+                if($processTime)
+                    $data_per['reply']['reply_time']=date('m-d H:i',$data_per['reply']['reply_time']+ZFramework::app()->timezone*60*60);
+                if($parse_smileys)
+                    $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], SMILEYDIR, ZFramework::getSmileys());
             }
         }
         $data=array_reverse($data);

@@ -117,8 +117,8 @@ class ConfigController extends BaseController
     private function set_time_zone()
     {
         is_admin();
-        $timezone=(isset($_POST['timezone']) && in_array($_POST['timezone'],array_keys(ZFramework::get_all_timezone())))?$_POST['timezone']:0;
-        $str="\n\$timezone=$timezone;";
+        $timezone=(isset($_POST['timezone']) && in_array($_POST['timezone'],array_keys(ZFramework::get_all_timezone())))?$_POST['timezone']:'0';
+        $str="\n\$timezone='$timezone';";
         file_put_contents(CONFIGFILE, $str,FILE_APPEND);
     }
 
