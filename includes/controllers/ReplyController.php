@@ -21,7 +21,7 @@ class ReplyController extends BaseController
 	    $reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
 	    $time=time();
 	    if (trim($reply_content)=='')
-		ZFramework::show_message(FrontController::t('REPLY_EMPTY'),true,'index.php?action=control_panel&subtab=message',3);
+		ZFramework::show_message(ZFramework::t('REPLY_EMPTY'),true,'index.php?action=control_panel&subtab=message',3);
 	    if(isset($_POST['update'])){
 		$input=array($mid,$reply_content,$time);
 		$condition=array('id'=>$mid);
