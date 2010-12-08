@@ -21,13 +21,13 @@
                 <span id="toggleForm"><?php echo ZFramework::t('CLICK_POST');?></span>
                 <?php
                 if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user'])){
-                    echo '<a class="thickbox" href="index.php?controller=user&amp;action=register&amp;width=600&amp;height=60%">'.ZFramework::t('REGISTER').'</a>&nbsp;<a href="index.php?controller=user&amp;action=login">'.ZFramework::t('LOGIN').'</a>';
+                    echo '<a class="thickbox" href="index.php?controller=user&amp;action=create&amp;width=600&amp;height=60%">'.ZFramework::t('REGISTER').'</a>&nbsp;<a href="index.php?controller=user&amp;action=login">'.ZFramework::t('LOGIN').'</a>';
                 }
                 if(isset ($_SESSION['user']) || isset ($_SESSION['admin'])){
                     echo '<a href="index.php?controller=user&amp;action=logout">'.ZFramework::t('LOGOUT').'</a>';
                 }
                 if(isset ($_SESSION['user'])){
-                    echo '&nbsp;<a class="thickbox" href="index.php?controller=user&amp;action=user_update&amp;uid='.$_SESSION['uid'].'&amp;width=600&amp;height=60%">'.ZFramework::t('UPDATE').'</a>';
+                    echo '&nbsp;<a class="thickbox" href="index.php?controller=user&amp;action=update&amp;uid='.$_SESSION['uid'].'&amp;width=600&amp;height=60%">'.ZFramework::t('UPDATE').'</a>';
                 }
                 ?>
             </div>

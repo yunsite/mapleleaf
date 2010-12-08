@@ -5,6 +5,7 @@ class UserController extends BaseController
     public function  __construct()
     {
         $this->_model=new JuneTxtDB();
+        $this->_model->select_db(DB);
     }
     public function actionCreate()
     {
@@ -14,12 +15,12 @@ class UserController extends BaseController
 	if(isset ($_POST['register'])){
 	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
                 if(strlen(trim($_POST['user']))>=2){
-                    $user=FrontController::maple_quotes($_POST['user']);
-                    $pwd=FrontController::maple_quotes($_POST['pwd']);
+                    $user=ZFramework::maple_quotes($_POST['user']);
+                    $pwd=ZFramework::maple_quotes($_POST['pwd']);
                     $email=$_POST['email'];
                     if(is_email($email)){
                         $user_exists=$this->_model->select(USERTABLE, array('user'=>$user));
-                        if(!$user_exists && $user!= FrontController::getInstance()->_admin_name){
+                        if(!$user_exists && $user!= ZFramework::app()->admin){
                             $user_data=array(NULL,$user,$pwd,$email);
                             if($this->_model->insert(USERTABLE, $user_data)){
                                 $_SESSION['user']=$user;
@@ -47,7 +48,7 @@ class UserController extends BaseController
 		die ($errorMsg);
 	    }
 	}
-	include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."register.php";
+	include 'themes/'.ZFramework::app()->theme.'/templates/'."register.php";
     }
     public function actionUpdate()
     {
@@ -57,8 +58,8 @@ class UserController extends BaseController
 	$uid=$_GET['uid'];
 	if(isset ($_POST['user'])){
 	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
-		$user=FrontController::maple_quotes($_POST['user']);
-		$pwd=FrontController::maple_quotes($_POST['pwd']);
+		$user=ZFramework::maple_quotes($_POST['user']);
+		$pwd=ZFramework::maple_quotes($_POST['pwd']);
 		$email=$_POST['email'];
 		if(is_email($email)){
 		    $newdata=array($uid,$user,$pwd,$email);
@@ -77,7 +78,7 @@ class UserController extends BaseController
 	}
 	$user_data=$this->_model->select(USERTABLE, array('uid'=>$uid));
 	$user_data=$user_data[0];
-	include 'themes/'.FrontController::getInstance()->_theme.'/templates/'."user_update.php";
+	include 'themes/'.ZFramework::app()->theme.'/templates/'."user_update.php";
     }
     public function actionDelete()
     {
@@ -97,8 +98,6 @@ class UserController extends BaseController
         {
             $user=ZFramework::maple_quotes($_POST['user']);
             $password=ZFramework::maple_quotes($_POST['password']);
-            //echo $user.'--'.$password;exit;
-            echo ZFramework::app()->admin_name;
 	    if( ($user==ZFramework::app()->admin) && ($password==ZFramework::app()->password) )//若使用管理员帐户成功登录
 	    {
 		$_SESSION['admin']=$_POST['user'];

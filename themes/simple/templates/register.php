@@ -5,36 +5,36 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
-<title><?php echo FrontController::t('REGISTER');?></title>
+<title><?php echo ZFramework::t('REGISTER');?></title>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo './themes/'.FrontController::getInstance()->_theme.'/scripts/register.js';?>"></script>
+<script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/register.js';?>"></script>
 </head>
 <body>
     <div class="main">
 	    <div class="login_error" id="login_error"><?php echo @$errorMsg;?></div>
 	<div class="login">
-	    <form id="registerForm" action="index.php?controller=user&amp;action=register" method="post">
+	    <form id="registerForm" action="index.php?controller=user&amp;action=create" method="post">
 		<input type="hidden" name="register" value="true" />
 		<div class="inputbox">
 		    <dl>
-			<dt><?php echo FrontController::t('USERNAME');?></dt>
+			<dt><?php echo ZFramework::t('USERNAME');?></dt>
 			<dd><input type="text" name="user" id="user" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 			</dd>
 		    </dl>
 		    <dl>
-			<dt><?php echo FrontController::t('PASSWORD');?></dt>
+			<dt><?php echo ZFramework::t('PASSWORD');?></dt>
 			<dd><input type="password" id="password" name="pwd" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 			</dd>
 		    </dl>
 		    <dl>
-			<dt><?php echo FrontController::t('EMAIL');?></dt>
+			<dt><?php echo ZFramework::t('EMAIL');?></dt>
 			<dd><input type="text" id="email" name="email" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 			</dd>
 		    </dl>
 						</div>
 		<div class="butbox">
 		    <dl>
-		        <dt><input id="submit_button" name="submit" type="submit" value="<?php echo FrontController::t('REGISTER');?>" /></dt>
+		        <dt><input id="submit_button" name="submit" type="submit" value="<?php echo ZFramework::t('REGISTER');?>" /></dt>
 		    </dl>
 		</div>
 	    </form>
