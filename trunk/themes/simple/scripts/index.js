@@ -102,18 +102,14 @@ $(document).ready(function() {
 		$(this).addClass("pointer");
 	});
         //点击“点击留言”，隐藏或重新留言表单
-	$("#toggleForm").toggle( function() {
+	$("#toggleForm").click( function() {
 		$("#add_table").animate({
 			height: 'show',
 			opacity: 'show'
 		}, 'slow');
-		},
-		function() {
-		$("#add_table").animate({
-			height: 'hide',
-			opacity: 'hide'
-		}, 'slow');
-	});
+                $('#toggleForm').fadeOut('slow');
+		}
+	);
 
 	var closeModal = function(hash)
 	{
