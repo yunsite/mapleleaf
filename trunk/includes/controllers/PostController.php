@@ -16,7 +16,7 @@ class PostController extends BaseController
             $user=isset($_POST['user'])?$_POST['user']:'';
             $current_ip=getIp();
             $user=ZFramework::maple_quotes($user);
-            $admin_name_array=array(ZFramework::app()->admin_name);
+            $admin_name_array=array(ZFramework::app()->admin);
             if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
                 $user='anonymous';
             $content =isset($_POST['content'])?ZFramework::maple_quotes($_POST['content']):'';

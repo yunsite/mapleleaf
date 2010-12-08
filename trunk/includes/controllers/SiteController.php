@@ -151,7 +151,7 @@ class SiteController extends BaseController
             if($parse_smileys)
                 $data_per['content']=  $this->parse_smileys ($data_per['content'], SMILEYDIR, ZFramework::getSmileys());
             if($processUsername)
-                $data_per['user']=($data_per['user']==ZFramework::app()->admin_name)?"<font color='red'>{$data_per['user']}</font>":$data_per['user'];
+                $data_per['user']=($data_per['user']==ZFramework::app()->admin)?"<font color='red'>{$data_per['user']}</font>":$data_per['user'];
             if($processTime)
                 $data_per['time']=date('m-d H:i',$data_per['time']+ZFramework::app()->timezone*60*60);
             $mid=intval($data_per['id']);
