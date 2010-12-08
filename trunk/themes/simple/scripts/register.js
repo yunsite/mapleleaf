@@ -27,7 +27,7 @@ $(document).ready(function(){
 	}
 	$.ajax({
 		type: "POST",
-		url: "index.php?controller=user&action=register",
+		url: "index.php?controller=user&action=create",
 		data: $(this).serialize(),
 		success: function(data){
 			$('#login_error').html('');
