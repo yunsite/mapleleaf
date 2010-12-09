@@ -128,8 +128,8 @@
         return preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $value);
     }
     function attachEvent($action,$evt){
-	if(isset ($action) && isset ($evt)){
-	    $GLOBALS['actionEvent'][$action][]=$evt;
-	}
+        global $actionEvent;
+        if (!@in_array($evt, $actionEvent[$action]))
+            $actionEvent[$action][]=$evt;
     }
 ?>

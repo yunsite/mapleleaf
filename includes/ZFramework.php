@@ -40,6 +40,7 @@ class ZFramework{
 
     private function  __construct(){
         $this->preloadAllControllers();
+        $this->registerPlugins();
         $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
         $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
         foreach ($_GET as $key=>$value) {
@@ -52,6 +53,18 @@ class ZFramework{
         while(false !==($entry=$d->read())){
             if(substr($entry, 0, 1)!='.'){
                 include_once $dir.'/'.$entry;
+            }
+        }
+        $d->close();
+    }
+    //为已经配置过的插件注册到对应的 action 的事件中
+    protected function registerPlugins(){
+        $d=dir(PLUGINDIR);
+        while(false!==($entry=$d->read()))
+        {
+            if(substr($entry,0,1)!='.' && file_exists(PLUGINDIR.'.'.substr($entry,0,-4).'.conf.php')){
+                include PLUGINDIR.$entry;
+                include PLUGINDIR.'.'.substr($entry,0,-4).'.conf.php';
             }
         }
         $d->close();
@@ -73,6 +86,7 @@ class ZFramework{
                         $controller=$rc->newInstance();
                         $method=$rc->getMethod($this->getAction());
                         $method->invoke($controller);
+                        $this->performEvent();
                     }else{
                         throw new Exception("Controller <font color='blue'>".$this->getController()."</font> does not have the action named <font color='red'>{$this->getAction()}</font>");
                     }
@@ -90,6 +104,14 @@ class ZFramework{
                 debug_print_backtrace();
             }else{
                 header("Location:index.php");
+            }
+        }
+    }
+    protected function performEvent(){
+        global  $actionEvent;
+        if(isset ($actionEvent["{$this->_controller}/{$this->_action}"])){
+            foreach ($actionEvent["{$this->_controller}/{$this->_action}"] as $evt) {
+                $evt();
             }
         }
     }
@@ -186,16 +208,5 @@ class ZFramework{
 	$new_string=trim($filter_words,',');
 	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
 	return $new_string;
-    }
-
-    public  function pluginset(){
-        is_admin();
-        $all_plugin=self::get_all_plugins();
-        if(isset ($_POST['plugin']) && in_array($_POST['plugin'], $all_plugin)){
-            include PLUGINDIR.$_POST['plugin'].'.php';
-            $funcName=$_POST['plugin'].'_config';
-            $funcName(FALSE,$_POST);
-        }
-        header("Location:index.php?action=control_panel&subtab=plugin");exit;
     }
 }

@@ -214,7 +214,7 @@
 			    ?>
 			    <li><h1><b><?php echo $plugin;?></b></h1>
 			    <?php
-				include PLUGINDIR.$plugin.'.php';
+				include_once PLUGINDIR.$plugin.'.php';
 				$configFuncName=$plugin.'_config';
 				$configFuncName(true);
 			    ?>
