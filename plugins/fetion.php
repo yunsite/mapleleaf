@@ -1,4 +1,8 @@
 <?php
+/**
+ * 注意：由于飞信插件使用了第三方的服务，请自行评估安全性。
+ * 由于取决于第三方的服务，可能不会立即收到短信，也有可能无法收到短信。
+ */
 function fetion_config($showConfig=FALSE,$config=NULL){
     $filename=PLUGINDIR.'.fetion.conf.php';
     if( isset($config) && $config['plugin'] =='fetion' ){

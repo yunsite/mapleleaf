@@ -21,14 +21,8 @@ Crawl-delay: 10
 Disallow: /data/
 Disallow: /misc/
 Disallow: /includes/
-Disallow: /lang/
 Disallow: /themes/
 # Files
 Disallow: /config.php
-Disallow: /license.txt
-Disallow: /preload.php
-Disallow: /readme.html
 # Paths (no clean URLs)
 Disallow: /?action=control_panel
-Disallow: /?action=logout
-Disallow: /?action=login
