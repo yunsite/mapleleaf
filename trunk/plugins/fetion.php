@@ -1,7 +1,6 @@
 <?php
 function fetion_config($showConfig=FALSE,$config=NULL){
-    $plugindir= PLUGINDIR;
-    $filename=$plugindir.'.fetion.conf.php';
+    $filename=PLUGINDIR.'.fetion.conf.php';
     if( isset($config) && $config['plugin'] =='fetion' ){
 	$fetionID=$config['fetionID'];
 	$fetionPWD=addslashes($_POST['fetionPASSWORD']);
@@ -15,7 +14,7 @@ function fetion_config($showConfig=FALSE,$config=NULL){
 	    include $filename;
 	}
     }
-    echo '<form action="index.php?controller=configuration&amp;action=pluginset" method="POST">';
+    echo '<form action="index.php?controller=plugin&amp;action=config" method="POST">';
     echo "<input type='hidden' name='plugin' value='fetion' />";
     echo '<p>FetionID<input type="text" name="fetionID" value="'.@$fetionID.'" /></p>';
     echo '<p>FetionPassword<input type="password" name="fetionPASSWORD" value="'.@$fetionPWD.'" /></p>';
@@ -29,5 +28,5 @@ function fetion_send(){
     if($result=='OK'){	return TRUE; }
     return FALSE;
 }
-attachEvent('post','fetion_send');
+attachEvent('PostController/actionCreate','fetion_send');
 ?>
