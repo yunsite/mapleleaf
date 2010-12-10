@@ -6,14 +6,19 @@
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
 <title><?php echo ZFramework::t('REGISTER');?></title>
+<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/print.css" type="text/css" media="print" />
+<!--[if lt IE 8]><link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/register.js';?>"></script>
 </head>
 <body>
-    <div class="main">
+    <div class="container">
 	    <div class="login_error" id="login_error"><?php echo @$errorMsg;?></div>
 	<div class="login">
 	    <form id="registerForm" action="index.php?controller=user&amp;action=create" method="post">
+                <fieldset>
+                    <legend><?php echo ZFramework::t('REGISTER');?></legend>
 		<input type="hidden" name="register" value="true" />
 		<div class="inputbox">
 		    <dl>
@@ -37,6 +42,7 @@
 		        <dt><input id="submit_button" name="submit" type="submit" value="<?php echo ZFramework::t('REGISTER');?>" /></dt>
 		    </dl>
 		</div>
+                </fieldset>
 	    </form>
 	</div>
 
