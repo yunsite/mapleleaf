@@ -1,17 +1,5 @@
 $(document).ready(function(){
-    $.ajax({
-		    type: "GET",
-		    url: 'index.php',
-		    data: { action: "getSysJSON" },
-		    success: function(data){ languageTips=data;},
-		    dataType: 'json'
-		});
-	$('input').focus(function(){
-	    $(this).css('borderColor','#F93');
-	});
-	$('input').blur(function(){
-	    $(this).css('borderColor','#888');
-	});
+    $.ajax({ type: "GET",  url: 'index.php', data: { action: "getSysJSON" }, success: function(data){ languageTips=data;}, dataType: 'json'});
 	$('form').submit(function(){
 	    var username=$('#user').val();
 	    var password=$('#password').val();
