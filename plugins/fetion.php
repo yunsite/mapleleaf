@@ -5,13 +5,15 @@
  */
 function fetion_config($showConfig=FALSE,$config=NULL){
     $filename=PLUGINDIR.'.fetion.conf.php';
-    if( isset($config) && $config['plugin'] =='fetion' ){
-	$fetionID=$config['fetionID'];
-	$fetionPWD=addslashes($_POST['fetionPASSWORD']);
-	if(file_put_contents($filename,"<?php\n\$fetionID=$fetionID;\n\$fetionPWD='$fetionPWD';")){
-	    return true;
-	}
-	return false;
+    if( isset($config) && $config['plugin'] =='fetion'){
+        if(!empty($config['fetionID']) && !empty($config['fetionPASSWORD'])){
+            $fetionID=$config['fetionID'];
+            $fetionPWD=addslashes($_POST['fetionPASSWORD']);
+            if(file_put_contents($filename,"<?php\n\$fetionID=".$fetionID.";\n\$fetionPWD='$fetionPWD';"))
+                return true;
+            return false;
+        }else
+            return false;
     }
     if($showConfig){
 	if(file_exists($filename)){
