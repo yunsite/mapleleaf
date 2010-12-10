@@ -14,7 +14,7 @@ class BadipController extends BaseController
         if (valid_ip($ip)==false){
             header("Location:index.php?action=control_panel&subtab=message");exit;
         }
-        if($this->is_baned($ip)){
+        if(self::is_baned($ip)){
             header("Location:index.php?action=control_panel&subtab=ban_ip");exit;
         }
         $insert_string=$ip."\n";
@@ -41,10 +41,12 @@ class BadipController extends BaseController
         file_put_contents($ip_filename, $new_ip_string);
         header("Location:index.php?action=control_panel&subtab=ban_ip");
     }
-    public  function is_baned($ip)
+    public static  function is_baned($ip)
     {
         $all_baned_ips=array();
-        $all_baned_ips=$this->_model->select(BADIPTABLE);
+        $model=new JuneTxtDB();
+        $model->select_db(DB);
+        $all_baned_ips=$model->select(BADIPTABLE);
         foreach ($all_baned_ips as &$value) {
             $value=$value['ip'];
         }

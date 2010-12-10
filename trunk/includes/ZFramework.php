@@ -41,6 +41,7 @@ class ZFramework{
     private function  __construct(){
         $this->preloadAllControllers();
         $this->registerPlugins();
+        $this->performIPFilter();
         $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
         $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
         foreach ($_GET as $key=>$value) {
@@ -68,6 +69,11 @@ class ZFramework{
             }
         }
         $d->close();
+    }
+    protected function performIPFilter(){
+        $clientIP=getIp();
+        if(BadipController::is_baned($clientIP))
+            die('Access denied!');
     }
     public function run(){
         try {
