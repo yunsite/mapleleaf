@@ -141,8 +141,8 @@ return array(
 			'REPLY_EMPTY'=>'回复不可为空',
 			'BACKUP_NOTSUPPORT'=>'你的服务器不支持此功能！',
 			'FILL_NOT_COMPLETE'=>"你没有填写完成",
-			'WORDS_TOO_LONG'=>"您的话语太多了，现在正在<a href='./index.php'>返回</a>...",
-			'CAPTCHA_WRONG'=>"验证码错误.现在正在<a href='./index.php'>返回</a>...",
+			'WORDS_TOO_LONG'=>"您的话语太多了",
+			'CAPTCHA_WRONG'=>"验证码错误.",
 			
 			'UNKNOWN'=>'未知',
 			'NOT_SUPPORT'=>'不支持',
