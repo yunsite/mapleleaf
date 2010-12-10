@@ -5,8 +5,11 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/reset-fonts-grids/reset-fonts-grids.css">
-<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/common.css';?>" type="text/css"/>
+<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection">
+<link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print">
+<!--[if lt IE 8]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+
+<!--<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/common.css';?>" type="text/css"/>-->
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal.css';?>" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal.js';?>"></script>
@@ -15,9 +18,9 @@
 </head>
 
 <body>
-    <div id="doc">
+    <div class="container">
         <div id="hd">
-            <div id="user_nav">
+            <div class="right">
                 <span id="toggleForm"><?php echo ZFramework::t('CLICK_POST');?></span>
                 <?php
                 if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user'])){
@@ -31,16 +34,18 @@
                 }
                 ?>
             </div>
-            <h1><?php echo ZFramework::t('WELCOME_POST');?></h1>
+            <p><?php echo ZFramework::t('WELCOME_POST');?></p>
         </div><!--  header  -->
         <div id="bd">
             <div class="yui-g">
                 <table id="main_table">
-                    <tr class="header">
-                        <td><?php echo ZFramework::t('NICKNAME');?></td>
-                        <td><?php echo ZFramework::t('MESSAGE');?></td>
-                        <td><?php echo ZFramework::t('TIME');?></td>
-                    </tr>
+                    <thead>
+                        <tr class="header">
+                            <th class="span-4"><?php echo ZFramework::t('NICKNAME');?></th>
+                            <th class="span-17"><?php echo ZFramework::t('MESSAGE');?></th>
+                            <th class="span-3"><?php echo ZFramework::t('TIME');?></th>
+                        </tr>
+                    </thead>
                     <?php foreach($data as $m){?>
                     <tr>
                         <td><?php echo $m['user'];?></td>
@@ -64,8 +69,8 @@
                 <?php }?>
             </div>
             <?php }?>
-            <div class="yui-g">
-
+            <div class="span-16">
+                <div id="returnedError"></div>
                 <form id="guestbook" name="guestbook" action="index.php?controller=post&amp;action=create" method="post">
                 <input id="pid" type="hidden" name="pid" value="<?php echo @$_GET['pid'];?>" />
                 <table id="add_table">
@@ -85,12 +90,12 @@
                     <tr>
                         <td><?php echo ZFramework::t('CONTENT');?></td>
                         <td><textarea id="content" name="content" cols="45" rows="8" ></textarea></td>
-                        <td><div id='smileys'><?php echo $smileys;?></div>&nbsp;</td>
+                        <td><div id='smileys'><?php echo $smileys;?></div>&nbsp;<br /><span id="content_msg"></span></td>
                     </tr>
                     <?php if(ZFramework::app()->valid_code_open){?>
                     <tr>
                         <td class="l"><?php echo ZFramework::t('VALIDATE_CODE');?></td>
-                        <td class="left"><input id="valid_code" type="text" name="valid_code" size="4" maxlength="4" />&nbsp;<img id="captcha_img" src="index.php?action=captcha" title="<?php echo ZFramework::t('CLICK_TO_REFRESH');?>" alt="<?php echo ZFramework::t('CAPTCHA');?>" /></td>
+                        <td class="left"><input id="valid_code" type="text" name="valid_code" size="4" maxlength="4" />&nbsp;<img id="captcha_img" src="index.php?action=captcha" title="<?php echo ZFramework::t('CLICK_TO_REFRESH');?>" alt="<?php echo ZFramework::t('CAPTCHA');?>" /><span id="valid_code_msg"></span></td>
                         <td class="left">&nbsp;</td>
                     </tr>
                     <?php }?>
@@ -102,7 +107,7 @@
                 </form>
             </div>
         </div><!-- body -->
-        <div class="ft"><?php echo htmlspecialchars_decode(ZFramework::app()->copyright_info);?> <a href="mailto:<?php echo ZFramework::app()->admin_email;?>"><?php echo ZFramework::t('ADMIN_EMAIL');?></a> <?php if(!isset($_SESSION['user'])): ?><a href="index.php?action=control_panel"><?php echo ZFramework::t('ACP');?></a><?php endif;?> Powered by <a href="http://mapleleaf.ourplanet.tk" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a></div><!-- footer -->
+        <div class="clear"><?php echo htmlspecialchars_decode(ZFramework::app()->copyright_info);?> <a href="mailto:<?php echo ZFramework::app()->admin_email;?>"><?php echo ZFramework::t('ADMIN_EMAIL');?></a> <?php if(!isset($_SESSION['user'])): ?><a href="index.php?action=control_panel"><?php echo ZFramework::t('ACP');?></a><?php endif;?> Powered by <a href="http://mapleleaf.ourplanet.tk" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a></div><!-- footer -->
 
 	<!-- jqModal window -->
 	<div id="modalWindow" class="jqmWindow">
