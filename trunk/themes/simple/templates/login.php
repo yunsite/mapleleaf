@@ -6,43 +6,37 @@
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
 <title><?php echo ZFramework::t('ACP_LOGIN');?></title>
-<link rel="stylesheet" type="text/css" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/login.css';?>"  />
+<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/print.css" type="text/css" media="print" />
+<!--[if lt IE 8]><link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
+<link rel="stylesheet" type="text/css" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/login-bp.css';?>"  />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/login.js';?>"></script>
 </head>
 <body>
-<p id="backtoindex"><a href="index.php" title="<?php echo ZFramework::t('WHERE_AM_I');?>">&larr; <?php echo ZFramework::t('BACK');?></a></p>
-    <div class="main">
-	<div class="title">
-		<?php echo ZFramework::t('LOGIN');?>
-	</div>
-	<?php if(@$errormsg)
-	{
-	?>
-	    <div id="login_error"><?php echo $errormsg;?><br /></div>
-	<?php
-	}
-	?>
+<div id="backtoindex"><a href="index.php" title="<?php echo ZFramework::t('WHERE_AM_I');?>">&larr; <?php echo ZFramework::t('BACK');?></a></div>
+    <div class="container">
+	<?php if(@$errormsg){?>
+	    <div id="login_error" class="error"><?php echo $errormsg;?><br /></div>
+	<?php } ?>
 
-	<div class="login">
+	<div id="loginForm">
 	    <form action="index.php?controller=user&amp;action=login" method="post">
-		<div class="inputbox">
-		    <dl>
-			<dt><?php echo ZFramework::t('ADMIN_NAME');?></dt>
-			<dd><input type="text" name="user" id="user" size="20" />
-			</dd>
-		    </dl>
-		    <dl>
-			<dt><?php echo ZFramework::t('ADMIN_PWD');?></dt>
-			<dd><input type="password" id="password" name="password" size="20" />
-			</dd>
-		    </dl>
-						</div>
-		<div class="butbox">
-		    <dl>
-		        <dt><input id="submit_button" name="submit" type="submit" value="" /></dt>
-		    </dl>
-		</div>
+                <table>
+                    <tr>
+		    <td><label><?php echo ZFramework::t('ADMIN_NAME');?></label></td>
+                    <td><input type="text" name="user" id="user" size="20" /></td>
+		    </tr>
+		    <tr>
+                        <td><label><?php echo ZFramework::t('ADMIN_PWD');?></label></td>
+			<td><input type="password" id="password" name="password" size="20" /></td>
+		    </tr>
+                    <tr>
+		    <td colspan="2">
+		        <input id="submit_button" name="submit" type="submit" value="<?php echo ZFramework::t('SUBMIT');?>" />
+		    </td>
+                    </tr>
+                </table>
 	    </form>
 	</div>
 
