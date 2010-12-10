@@ -5,11 +5,10 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
-<link rel="stylesheet" href="blueprint/screen.css" type="text/css" media="screen, projection">
-<link rel="stylesheet" href="blueprint/print.css" type="text/css" media="print">
-<!--[if lt IE 8]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-
-<!--<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/common.css';?>" type="text/css"/>-->
+<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/screen.css" type="text/css" media="screen, projection">
+<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/print.css" type="text/css" media="print">
+<!--[if lt IE 8]><link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/index.css';?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal.css';?>" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal.js';?>"></script>
@@ -23,18 +22,15 @@
             <div class="right">
                 <span id="toggleForm"><?php echo ZFramework::t('CLICK_POST');?></span>
                 <?php
-                if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user'])){
+                if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user']))
                     echo '<a class="thickbox" href="index.php?controller=user&amp;action=create&amp;width=600&amp;height=60%">'.ZFramework::t('REGISTER').'</a>&nbsp;<a href="index.php?controller=user&amp;action=login">'.ZFramework::t('LOGIN').'</a>';
-                }
-                if(isset ($_SESSION['user']) || isset ($_SESSION['admin'])){
+                if(isset ($_SESSION['user']) || isset ($_SESSION['admin']))
                     echo '<a href="index.php?controller=user&amp;action=logout">'.ZFramework::t('LOGOUT').'</a>';
-                }
-                if(isset ($_SESSION['user'])){
+                if(isset ($_SESSION['user']))
                     echo '&nbsp;<a class="thickbox" href="index.php?controller=user&amp;action=update&amp;uid='.$_SESSION['uid'].'&amp;width=600&amp;height=60%">'.ZFramework::t('UPDATE').'</a>';
-                }
                 ?>
             </div>
-            <p><?php echo ZFramework::t('WELCOME_POST');?></p>
+            <h1><?php echo ZFramework::t('WELCOME_POST');?></h1>
         </div><!--  header  -->
         <div id="bd">
             <div class="yui-g">
@@ -69,19 +65,19 @@
                 <?php }?>
             </div>
             <?php }?>
-            <div class="span-16">
+            <div class="span-20">
                 <div id="returnedError"></div>
                 <form id="guestbook" name="guestbook" action="index.php?controller=post&amp;action=create" method="post">
                 <input id="pid" type="hidden" name="pid" value="<?php echo @$_GET['pid'];?>" />
                 <table id="add_table">
                     <tr>
-                        <td><?php echo ZFramework::t('NICKNAME');?></td>
+                        <td class="span-3"><?php echo ZFramework::t('NICKNAME');?></td>
                         <td>
                             <?php if($admin == true){?>
                             <input name="user" id="user" type="hidden" maxlength="10" value="<?php echo $adminName;?>" /><?php echo $adminName;?>
                             <?php }elseif(isset($_SESSION['user'])){ ?>
                             <input name="user" id="user" type="hidden" maxlength="10" value="<?php echo $_SESSION['user'];?>" /><?php echo $_SESSION['user'];?>
-                                    <?php }else{?>
+                            <?php }else{?>
                             <input name="user" id="user" type="text" maxlength="10" value="anonymous" />
                             <?php }?>
                         </td>
