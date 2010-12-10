@@ -19,31 +19,31 @@ class PostController extends BaseController
             $admin_name_array=array(ZFramework::app()->admin);
             if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
                 $user='anonymous';
+            $allUsers=  $this->_model->select(USERTABLE);
+            foreach ($allUsers as &$eachuser){
+                $eachuser=$eachuser['user'];
+            }
+            if (in_array($_POST['user'], $allUsers) && (@$_SESSION['user']!=$_POST['user']) )
+                $user='anonymous';
             $content =isset($_POST['content'])?ZFramework::maple_quotes($_POST['content']):'';
             $content = nl2br($content);
             $content = str_replace(array("\n", "\r\n", "\r"), '', $content);
             $time=time();
             if(empty($user) or empty($content))
-            {
                 $new_data_error_msg=ZFramework::t('FILL_NOT_COMPLETE');
-            }
             elseif(strlen($content)>580)
-            {
                 $new_data_error_msg=ZFramework::t('WORDS_TOO_LONG');
-            }
             elseif(ZFramework::app()->valid_code_open==1)
             {
-                if(!$this->_verifyCode->check($_POST['valid_code'])){
-                $new_data_error_msg=ZFramework::t('CAPTCHA_WRONG');
-                }
+                if(!$this->_verifyCode->check($_POST['valid_code']))
+                    $new_data_error_msg=ZFramework::t('CAPTCHA_WRONG');
             }
             if(isset ($new_data_error_msg)){
                 if(isset($_POST['ajax'])){
                     echo $new_data_error_msg;
                     return FALSE;
-                }else{
+                }else
                     ZFramework::show_message($new_data_error_msg,true,'index.php');exit;
-                }
             }
 
             $new_data=array(NULL,$user,$content,$time,$current_ip);
