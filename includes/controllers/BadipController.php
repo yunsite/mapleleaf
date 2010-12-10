@@ -47,11 +47,13 @@ class BadipController extends BaseController
         $model=new JuneTxtDB();
         $model->select_db(DB);
         $all_baned_ips=$model->select(BADIPTABLE);
-        foreach ($all_baned_ips as &$value) {
-            $value=$value['ip'];
+        if($all_baned_ips){
+            foreach ($all_baned_ips as &$value) {
+                $value=$value['ip'];
+            }
+            if (in_array($ip,$all_baned_ips))
+                return TRUE;
         }
-        if (in_array($ip,$all_baned_ips))
-            return TRUE;
         return FALSE;
     }
 }

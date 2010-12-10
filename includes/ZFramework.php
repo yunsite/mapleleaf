@@ -44,6 +44,7 @@ class ZFramework{
         $this->performIPFilter();
         $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
         $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
+        $this->is_installed();
         foreach ($_GET as $key=>$value) {
             $this->_params[$key]=$value;
         }
@@ -75,13 +76,15 @@ class ZFramework{
         if(BadipController::is_baned($clientIP))
             die('Access denied!');
     }
+    protected function is_installed(){
+        $db=new JuneTxtDB();
+        if(!$db->_db_exists(DB)){
+            $this->_controller='SiteController';
+            $this->_action='actionInstall';
+        }
+    }
     public function run(){
         try {
-            $db=new JuneTxtDB();
-            if(!$db->_db_exists(DB)){
-                $this->_controller='SiteController';
-                $this->_action='actionInstall';
-            }
             if($this->site_close==1){
                 $this->show_message($this->close_reason);exit;
             }
