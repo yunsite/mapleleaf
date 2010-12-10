@@ -144,8 +144,8 @@ return array(
 			'REPLY_EMPTY'=>'The reply should not be empty',
 			'BACKUP_NOTSUPPORT'=>'Your server does not support backup!',
 			'FILL_NOT_COMPLETE'=>"You have not finished all the fileds",
-			'WORDS_TOO_LONG'=>"Your words was too much, now redirecting to <a href='./index.php'>index</a>...",
-			'CAPTCHA_WRONG'=>"The code you entered is wrong, now redirecting to <a href='./index.php'>index</a>...",
+			'WORDS_TOO_LONG'=>"Your words was too much",
+			'CAPTCHA_WRONG'=>"The code you entered is wrong",
 			
 			'UNKNOWN'=>'Unknown',
 			'NOT_SUPPORT'=>'Not support',
