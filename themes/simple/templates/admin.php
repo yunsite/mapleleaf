@@ -19,7 +19,7 @@
 <body>
     <div class="container">
 	<div id="hd">
-		<a href="index.php"><?php echo ZFramework::t('HOME');?></a>&nbsp;<a href="index.php?controller=user&amp;action=logout" title="<?php echo ZFramework::t('LOGOUT');?>"><?php echo ZFramework::t('LOGOUT');?></a>
+		<?php if(ZFramework::app()->site_close):?><span class="notice"><?php echo ZFramework::t('OFF_LINE_MODE');?></span><?php endif;?><a href="index.php"><?php echo ZFramework::t('HOME');?></a>&nbsp;<a href="index.php?controller=user&amp;action=logout" title="<?php echo ZFramework::t('LOGOUT');?>"><?php echo ZFramework::t('LOGOUT');?></a>
 	</div><!-- header -->
 	<div id="bd">
 	    <div class="yui-g">
@@ -197,9 +197,11 @@
 			<!-- IP管理 -->
 			<form id="banip_manage" action="index.php?controller=badip&amp;action=update" method="post">
 			    <table class="table2">
-				<tr class="header">
-				    <td><?php echo ZFramework::t('SELECT');?></td><td><?php echo ZFramework::t('BAD_IP');?></td>
-				</tr>
+                                <thead>
+                                    <tr class="header">
+                                        <th><?php echo ZFramework::t('SELECT');?></th><th><?php echo ZFramework::t('BAD_IP');?></th>
+                                    </tr>
+                                </thead>
 				<?php foreach($ban_ip_info as $m){?>
 				<tr class='admin_message'>
 				    <td><input type='checkbox' name='select_ip[]' value='<?php echo $m["ip"];?>' /></td>

@@ -20,6 +20,7 @@
     <div class="container">
         <div id="hd">
             <div class="right">
+                <?php if(ZFramework::app()->site_close):?><span class="notice"><?php echo ZFramework::t('OFF_LINE_MODE');?></span><?php endif;?>
                 <span id="toggleForm"><?php echo ZFramework::t('CLICK_POST');?></span>
                 <?php
                 if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user']))
