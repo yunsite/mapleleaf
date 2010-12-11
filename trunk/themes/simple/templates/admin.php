@@ -5,7 +5,9 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.2r1/build/reset-fonts-grids/reset-fonts-grids.css">
+<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/print.css" type="text/css" media="print" />
+<!--[if lt IE 8]><link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/admin.css';?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal.css';?>" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
@@ -15,7 +17,7 @@
 </head>
 
 <body>
-    <div id="doc">
+    <div class="container">
 	<div id="hd">
 		<a href="index.php"><?php echo ZFramework::t('HOME');?></a>&nbsp;<a href="index.php?controller=user&amp;action=logout" title="<?php echo ZFramework::t('LOGOUT');?>"><?php echo ZFramework::t('LOGOUT');?></a>
 	</div><!-- header -->
@@ -38,69 +40,69 @@
 				<td><h1><?php echo ZFramework::t('WELCOME_SYS');?></h1></td>
 			    </tr>
 			    <tr>
-				<td align="left"><?php echo ZFramework::t('THANKS');?></td>
+				<td ><?php echo ZFramework::t('THANKS');?></td>
 			    </tr>
 			</table>
 			<table>
 			    <tr>
-				<td colspan="2" align="left"><b><?php echo ZFramework::t('STATS_INFO');?></b></td>
+				<td colspan="2" ><b><?php echo ZFramework::t('STATS_INFO');?></b></td>
 			    </tr>
 			    <tr>
-				<td align="left"><?php echo ZFramework::t('NUM_POSTS');?>：</td><td align="right"><?php echo $nums;?></td>
+				<td ><?php echo ZFramework::t('NUM_POSTS');?>：</td><td align="right"><?php echo $nums;?></td>
 			    </tr>
 			    <tr>
-				<td align="left"><?php echo ZFramework::t('NUM_REPLY');?>：</td><td align="right"><?php echo $reply_num;?></td>
+				<td ><?php echo ZFramework::t('NUM_REPLY');?>：</td><td align="right"><?php echo $reply_num;?></td>
 			    </tr>
 			    <tr>
-				<td align="left"><?php echo ZFramework::t('MP_VERSION');?>：</td><td align="right"><?php echo MP_VERSION;?></td>
+				<td ><?php echo ZFramework::t('MP_VERSION');?>：</td><td align="right"><?php echo MP_VERSION;?></td>
 			    </tr>
 			    <tr>
-				<td align="left" colspan="2"><b><?php echo ZFramework::t('SYS_INFO');?></b></td>
+				<td  colspan="2"><b><?php echo ZFramework::t('SYS_INFO');?></b></td>
 			    </tr>
 			    <tr>
-				<td align="left"><?php echo ZFramework::t('PHP_VERSION');?>：</td><td align="right"><?php echo PHP_VERSION;?></td>
+				<td ><?php echo ZFramework::t('PHP_VERSION');?>：</td><td align="right"><?php echo PHP_VERSION;?></td>
 			    </tr>
 			    <tr>
-				<td align="left"><?php echo ZFramework::t('GD_VERSION');?>： </td><td align="right"><?php echo $gd_version;?></td>
+				<td ><?php echo ZFramework::t('GD_VERSION');?>： </td><td align="right"><?php echo $gd_version;?></td>
 			    </tr>
 			    <tr>
-				<td align="left">Register_Globals：</td><td align="right"><?php echo $register_globals;?></td>
+				<td >Register_Globals：</td><td align="right"><?php echo $register_globals;?></td>
 			    </tr>
 			    <tr>
-				<td align="left">Magic_Quotes_Gpc：</td><td align="right"><?php echo $magic_quotes_gpc;?></td>
+				<td >Magic_Quotes_Gpc：</td><td align="right"><?php echo $magic_quotes_gpc;?></td>
 			    </tr>
 			    <tr>
-				<td align="left">ZipArchive：</td><td align="right"><?php echo $zip_support;?></td>
+				<td >ZipArchive：</td><td align="right"><?php echo $zip_support;?></td>
 			    </tr>
 			</table>
 		    </div><!-- Overview -->
-		    <div <?php if($current_tab=='siteset'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
+		    <div id="configContainer" <?php if($current_tab=='siteset'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
 			<form action="index.php?controller=config&amp;action=update" method="post">
 			    <fieldset>
 			    <legend><?php echo ZFramework::t('SYS_CONF');?></legend>
 			    <table>
 				<tr>
-				    <td><?php echo ZFramework::t('BOARD_NAME');?>:</td><td align="left"><input name="board_name" type="text" size="20" value="<?php echo ZFramework::app()->board_name;?>" /></td>
+				    <td><?php echo ZFramework::t('BOARD_NAME');?>:</td><td><input name="board_name" type="text" size="20" value="<?php echo ZFramework::app()->board_name;?>" /></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('CLOSE_BOARD');?>:</td><td align="left"><input name="site_close" type="radio" value="1"
+				    <td><?php echo ZFramework::t('CLOSE_BOARD');?>:</td><td><input name="site_close" type="radio" value="1"
 			    <?php if(ZFramework::app()->site_close==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('YES');?><input name="site_close" type="radio" value="0" <?php if(ZFramework::app()->site_close==0){?> checked='checked' <?php }?> /><?php echo ZFramework::t('NO');?></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('CLOSE_REASON');?>:</td><td align="left"><textarea name="close_reason" cols="30" rows="3"><?php echo ZFramework::app()->close_reason;?></textarea></td>
+				    <td><?php echo ZFramework::t('CLOSE_REASON');?>:</td><td><textarea  class="span-9" name="close_reason" cols="30" rows="3"><?php echo ZFramework::app()->close_reason;?></textarea></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('ADMIN_EMAIL');?>:</td><td align="left"><input name="admin_email" type="text" size="20" value="<?php echo ZFramework::app()->admin_email;?>" /></td>
+				    <td><?php echo ZFramework::t('ADMIN_EMAIL');?>:</td><td><input name="admin_email" type="text" size="20" value="<?php echo ZFramework::app()->admin_email;?>" /></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('COPY_INFO');?>:</td><td align="left"><textarea name="copyright_info" cols="30" rows="3"><?php echo ZFramework::app()->copyright_info;?></textarea></td>
+				    <td><?php echo ZFramework::t('COPY_INFO');?>:</td><td><textarea class="span-9" name="copyright_info" cols="30" rows="3"><?php echo ZFramework::app()->copyright_info;?></textarea></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('SYS_THEME');?>:</td><td align="left"><select name="theme"><?php foreach ($themes as $per_theme){?><option value="<?php echo $per_theme;?>" <?php if($per_theme==ZFramework::app()->theme){echo 'selected="selected"';}?>><?php echo $per_theme;?></option><?php }?></select></td>
+				    <td><?php echo ZFramework::t('SYS_THEME');?>:</td><td><select name="theme"><?php foreach ($themes as $per_theme){?><option value="<?php echo $per_theme;?>" <?php if($per_theme==ZFramework::app()->theme){echo 'selected="selected"';}?>><?php echo $per_theme;?></option><?php }?></select></td>
 				</tr>
 				<tr>
 				    <td><?php echo ZFramework::t('TIMEZONE');?>:</td>
-				    <td align="left">
+				    <td>
 					    <select name="timezone">
 
 				    <?php foreach ($timezone_array as $key=>$per_timezone)
@@ -114,7 +116,7 @@
 				    </td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('LANG');?>:</td><td align="left"><select name="lang"><?php foreach ($languages as $language){?><option value="<?php echo $language;?>" <?php if($language==ZFramework::app()->lang){echo 'selected="selected"';}?>><?php echo $language;?></option><?php }?></select></td>
+				    <td><?php echo ZFramework::t('LANG');?>:</td><td><select name="lang"><?php foreach ($languages as $language){?><option value="<?php echo $language;?>" <?php if($language==ZFramework::app()->lang){echo 'selected="selected"';}?>><?php echo $language;?></option><?php }?></select></td>
 				</tr>
 			    </table>
 			    </fieldset>
@@ -122,17 +124,17 @@
 			    <legend><?php echo ZFramework::t('POST_CONF');?></legend>
 			    <table>
 				<tr>
-				    <td><?php echo ZFramework::t('FILTER_WORDS');?>：</td><td align="left"><textarea name="filter_words" cols="20" rows="3"><?php echo ZFramework::app()->filter_words;?></textarea></td>
+				    <td><?php echo ZFramework::t('FILTER_WORDS');?>：</td><td ><textarea class="span-9" name="filter_words" cols="20" rows="3"><?php echo ZFramework::app()->filter_words;?></textarea></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('ENABLE_CAPTCHA');?>：</td><td align="left"><input name="valid_code_open" type="radio" value="1"
+				    <td><?php echo ZFramework::t('ENABLE_CAPTCHA');?>：</td><td ><input name="valid_code_open" type="radio" value="1"
 			    <?php if(ZFramework::app()->valid_code_open==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('YES');?><input name="valid_code_open" type="radio" value="0" <?php if(ZFramework::app()->valid_code_open==0){?> checked='checked' <?php }?> /><?php echo ZFramework::t('NO');?></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('ENABLE_PAGE');?>：</td><td align="left"><input name="page_on" type="radio" value="1" <?php if(ZFramework::app()->page_on==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('YES');?><input name="page_on" type="radio" value="0" <?php if(ZFramework::app()->page_on==0){?> checked='checked'<?php }?> /><?php echo ZFramework::t('NO');?></td>
+				    <td><?php echo ZFramework::t('ENABLE_PAGE');?>：</td><td ><input name="page_on" type="radio" value="1" <?php if(ZFramework::app()->page_on==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('YES');?><input name="page_on" type="radio" value="0" <?php if(ZFramework::app()->page_on==0){?> checked='checked'<?php }?> /><?php echo ZFramework::t('NO');?></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('POST_PERPAGE');?>：</td><td align="left"><input name="num_perpage" type="text" value="<?php echo ZFramework::app()->num_perpage;?>" /><?php echo ZFramework::t('PAGINATION_TIP');?></td>
+				    <td><?php echo ZFramework::t('POST_PERPAGE');?>：</td><td ><input name="num_perpage" type="text" value="<?php echo ZFramework::app()->num_perpage;?>" /><?php echo ZFramework::t('PAGINATION_TIP');?></td>
 				</tr>
 			    </table>
 			    </fieldset>
@@ -140,7 +142,7 @@
 			    <legend><?php echo ZFramework::t('ADMIN_CONF');?></legend>
 			    <table>
 				<tr>
-				    <td><?php echo ZFramework::t('CHANGE_PWD');?>:</td><td align="left"><input name="password" type="password"  />&nbsp;<?php echo ZFramework::t('PWD_TIP');?></td>
+				    <td><?php echo ZFramework::t('CHANGE_PWD');?>:</td><td ><input name="password" type="password"  />&nbsp;<?php echo ZFramework::t('PWD_TIP');?></td>
 				</tr>
 			    </table>
 			    </fieldset>
@@ -151,16 +153,18 @@
 			<!-- 留言管理 -->
                         <form id="message_manage" action="index.php?controller=post&amp;action=delete_multi_messages" method="post">
 			<table>
-			    <tr class="header">
-				<td><?php echo ZFramework::t('SELECT');?></td><td><?php echo ZFramework::t('NICKNAME');?></td><td><?php echo ZFramework::t('MESSAGE');?></td><td><?php echo ZFramework::t('OPERATION');?></td>
-			    </tr>
+                            <thead>
+                                <tr class="header">
+                                    <th class="span-1"><?php echo ZFramework::t('SELECT');?></th><th class="span-3"><?php echo ZFramework::t('NICKNAME');?></th><th class="span-15"><?php echo ZFramework::t('MESSAGE');?></th><th><?php echo ZFramework::t('OPERATION');?></th>
+                                </tr>
+                            </thead>
 			<?php foreach($data as $m){?>
-			<tr class='admin_message'>
+			<tr>
 			    <td><input type='checkbox' name='select_mid[]' value='<?php echo $m['id'];?>' />
 				<input type='hidden' name='<?php echo $m['id'];?>' value='<?php if(@$m['reply']){ echo "1";}else{echo "0";}?>' />
 			    </td>
-			    <td class='left'><?php echo $m['user'];?></td>
-			    <td class='left'><?php echo $m['content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo $m['time'];?>
+			    <td><?php echo $m['user'];?></td>
+			    <td  class='admin_message'><?php echo $m['content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo $m['time'];?>
 			    <?php if(@$m['reply']==true){?>
 			    <br />
 			     <?php echo sprintf(ZFramework::t('YOU_REPLIED'),$m['reply']['reply_time'],$m['reply']['reply_content']);?>
@@ -175,7 +179,7 @@
 		       <?php }?>
 
 			<tr>
-			    <td colspan='4' align='left'>
+			    <td colspan='4'>
 				<a href="#" id="m_checkall"><?php echo ZFramework::t('CHECK_ALL');?></a> &nbsp;
 				<a href="#" id="m_checknone"><?php echo ZFramework::t('CHECK_NONE');?></a> &nbsp;
 				<a href="#" id="m_checkxor"><?php echo ZFramework::t('CHECK_INVERT');?></a>&nbsp;

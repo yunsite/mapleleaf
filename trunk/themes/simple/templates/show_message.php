@@ -2,6 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head><title><?php echo ZFramework::t('TIPS');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/print.css" type="text/css" media="print" />
+<!--[if lt IE 8]><link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
 <?php
 if($redirect==true)
 {
@@ -9,20 +12,22 @@ echo "<meta http-equiv='Refresh' content='$time_delay;URL=$redirect_url' />";
 }
 ?>
 <style type='text/css'>
-p,body{font-family:tahoma,arial,sans-serif;font-size:11px;}
-a { text-decoration: none;}
-a:hover{ text-decoration: underline;}
-td { border-right: 1px; border-top: 0px; font-size: 16pt; color: #000000;}
+    .container{
+        border:1px solid #ccc;
+        text-align: center;
+}
 </style>
 </head>
 <body>
-<h2>Message:</h2>
-<table style='table-layout:fixed;'><tr><td>
+    <div class="container">
+        <h2><?php echo ZFramework::t('MESSAGE');?></h2>
+
 <?php
 echo '<pre>';
 print_r($msg);
 echo '</pre>';
 ?>
             <br /><?php echo (ZFramework::app()->copyright_info)?htmlspecialchars_decode(ZFramework::app()->copyright_info):"Powered by MapleLeaf";?>
-</td></tr></table>
+
+    </div>
 </body></html>

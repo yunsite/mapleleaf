@@ -2,15 +2,16 @@
 body{
     background-color:#CCCCCC;
 }
-p{
-    line-height:130%;
-}
 /* Message Management DIV */
 #message_container{
     padding-top:1em;
     height:570px;
     overflow:auto;
-    width:100%;
+    width:900px;
+}
+#configContainer{
+    height:570px;
+    overflow: auto;
 }
 /* IP Management DIV */
 #ip_container{
@@ -25,20 +26,6 @@ p{
 h1{
     color:#CCCC99;
     text-align:center;
-}
-/* table tr.header */
-tr.header{
-    background-color:#CCCC99;
-    font-size:1.30em;
-}
-/* message row class */
-tr.admin_message{
-    background-color:#FFCC99;
-    font-size:12px;
-}
-.left
-{
-    text-align:left;
 }
 
 a:link{
@@ -95,8 +82,7 @@ a:hover{
     display: none;
     width: 53.85em;
     color: #474747;
-    *width:52.50em;
-    min-width: 700px;
+    min-width: 800px;
 }
 /* DIV seleted was displayed */
 #tagContent div.selectTag {
@@ -109,4 +95,8 @@ a:hover{
 }
 .hidden {
     display:none;
+}
+
+textarea.span-9{
+    height: 40px;
 }
