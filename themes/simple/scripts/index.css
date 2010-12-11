@@ -81,3 +81,6 @@ button.jqmClose:hover, button.jqmClose:active {
     background: #e8e8e8;
     border: 1px solid #888888;
 }
+textarea.span-10{
+    height: 150px;
+}
