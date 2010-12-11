@@ -108,6 +108,7 @@ class PostController extends BaseController
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
     public  function actionDelete_multi_messages(){
+        is_admin();
         if(!isset($_POST['select_mid'])){header("location:index.php?action=control_panel&subtab=message");exit;}
 	$del_ids=$_POST['select_mid'];
         $del_num=count($del_ids);

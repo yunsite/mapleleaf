@@ -16,7 +16,6 @@ class ZFramework{
     public      $defaultController='SiteController';
     public      $defaultAction='actionIndex';
     static      $_instance;
-    public      $_errors=array();//     * 保存错误信息
 
     public static function createApp(){
         if(!(self::$_instance instanceof  self)){
@@ -83,11 +82,14 @@ class ZFramework{
             $this->_action='actionInstall';
         }
     }
+    protected function is_closedMode(){
+        $disabledAction=array('PostController/actionCreate','SiteController/actionIndex','UserController/actionCreate');
+        if(!isset ($_SESSION['admin']) && in_array($this->_controller.'/'.$this->_action, $disabledAction))
+            self::show_message($this->close_reason);
+    }
     public function run(){
         try {
-            if($this->site_close==1){
-                $this->show_message($this->close_reason);exit;
-            }
+            $this->is_closedMode();
             if(class_exists($this->getController())){
                 $rc=new ReflectionClass($this->getController());
                 if($rc->isSubclassOf('BaseController')){

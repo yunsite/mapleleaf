@@ -161,5 +161,5 @@ return array(
 
                         'USERUPDATEFAILED'=>'Update failed!',
 			
-			
+			'OFF_LINE_MODE'=>'Now under off-line mode!',
     	);

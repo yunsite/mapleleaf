@@ -159,4 +159,5 @@ return array(
 
                         //用户更新
                         'USERUPDATEFAILED'=>'用户更新失败',
+                        'OFF_LINE_MODE'=>'现在运行在离线模式下!',
     	);
