@@ -84,7 +84,7 @@ class ZFramework{
     }
     protected function is_closedMode(){
         $disabledAction=array('PostController/actionCreate','SiteController/actionIndex','UserController/actionCreate');
-        if(!isset ($_SESSION['admin']) && in_array($this->_controller.'/'.$this->_action, $disabledAction))
+        if($this->site_close==1 && !isset ($_SESSION['admin']) && in_array($this->_controller.'/'.$this->_action, $disabledAction))
             self::show_message($this->close_reason);
     }
     public function run(){
