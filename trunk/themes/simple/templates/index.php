@@ -85,7 +85,7 @@
                     </tr>
                     <tr>
                         <td><?php echo ZFramework::t('CONTENT');?></td>
-                        <td><textarea id="content" name="content" cols="45" rows="8" ></textarea></td>
+                        <td><textarea class="span-10" id="content" name="content" cols="45" rows="8" ></textarea></td>
                         <td><div id='smileys'><?php echo $smileys;?></div>&nbsp;<br /><span id="content_msg"></span></td>
                     </tr>
                     <?php if(ZFramework::app()->valid_code_open){?>
