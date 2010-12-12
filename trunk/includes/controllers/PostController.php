@@ -33,26 +33,22 @@ class PostController extends BaseController
                 $new_data_error_msg=ZFramework::t('FILL_NOT_COMPLETE');
             elseif(strlen($content)>580)
                 $new_data_error_msg=ZFramework::t('WORDS_TOO_LONG');
-            elseif(ZFramework::app()->valid_code_open==1)
-            {
+            elseif(ZFramework::app()->valid_code_open==1){
                 if(!$this->_verifyCode->check($_POST['valid_code']))
                     $new_data_error_msg=ZFramework::t('CAPTCHA_WRONG');
             }
             if(isset ($new_data_error_msg)){
                 if(isset($_POST['ajax'])){
-                    echo $new_data_error_msg;
-                    return FALSE;
+                    die($new_data_error_msg);
                 }else
-                    ZFramework::show_message($new_data_error_msg,true,'index.php');exit;
+                    ZFramework::show_message($new_data_error_msg,true,'index.php');
             }
 
             $new_data=array(NULL,$user,$content,$time,$current_ip);
             if(!$this->_model->insert(MESSAGETABLE, $new_data))
                 die($this->_model->error());
-            if(isset($_POST['ajax'])){
-                echo 'OK';
-                return TRUE;
-            }
+            if(isset($_POST['ajax']))
+                die('OK');
         }
         header("Location:index.php");
     }

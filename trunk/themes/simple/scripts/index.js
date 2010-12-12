@@ -1,6 +1,6 @@
 $(document).ready(function() {
     if(self.location!=parent.location){parent.location.replace(self.location);}
-    $.ajax({type: "GET",url: 'index.php',data: { action: "getSysJSON" },success: function(data){ languageTips=data;},dataType: 'json'});
+    $.ajax({type: "GET",url: 'index.php',data: {action: "getSysJSON"},success: function(data){languageTips=data;},dataType: 'json'});
     //点击表情图案将对应代码写入留言中
     $('#smileys img').click(function(){imgId=String($(this).attr('id'));$('#content').val($('#content').val()+imgId);});
     //鼠标在验证码图案上时，使用小手鼠标手势
@@ -8,91 +8,9 @@ $(document).ready(function() {
     //点击验证码，刷新
     $('#captcha_img').click(function(){$(this).attr('src',$(this).attr('src')+'&id='+Math.random());});
     //将代表ajax请求的隐藏字段写入表单
-    $('<input type="hidden" name="ajax" value="true" />').insertAfter('#user_msg');
+    $('<input type="hidden" name="ajax" value="true" />').insertAfter('#pid');
     /*同时按下 Enter + Ctrl 提交表单*/
-    $(document).keypress(function(e){if(e.ctrlKey && e.which == 13 || e.which == 10) {$("#guestbook").submit(); } else if (e.shiftKey && e.which==13 || e.which == 10) { $("#guestbook").submit();}});
-
-    var removeError=function(element){
-        $('#'+element).removeClass('error');
-        $('#'+element).html('');
-    }
-    var addError=function(element,msg){
-        $('#'+element).addClass('error');
-        $("#"+element).html(msg);
-    }
-    var showError=function(msg){
-        $('#returnedError').addClass('error');
-        $('#returnedError').html(msg);
-    }
-    /* 使用 Ajax 提交数据，然后使用 Ajax 刷新显示留言 */
-    $('#guestbook').submit(function(e){
-        removeError('user_msg');
-        removeError('content_msg');
-        removeError('valid_code_msg');
-        removeError('returnedError');
-        var user = $.trim($('#user').val());
-        var content = $.trim($('#content').val());
-        if(!user){
-            addError('user_msg',languageTips.USERNAME_NOT_EMPTY);
-            return false;
-        }
-        if (user.length < 2) {
-            addError('user_msg',languageTips.USERNAME_TOO_SHORT);
-            return false;
-        }
-        if(!content.length){
-            addError('content_msg',languageTips.MESSAGE_NOT_EMPTY);
-            return false;
-        }
-        if(document.getElementById('valid_code') && !$.trim($('#valid_code').val())){
-            addError('valid_code_msg',languageTips.CAPTCHA_NOT_EMPTY);
-            return false;
-        }
-        $.ajax({
-            type: "POST",
-            url: "index.php?controller=post&action=create",
-            data: $(this).serialize(),
-            success: function(data){
-                $('#captcha_img').attr('src',$('#captcha_img').attr('src')+'&id='+Math.random());
-                if(data != "OK"){
-                    //alert(data);
-                    showError(data);
-                    return false;
-                }
-                document.getElementById('guestbook').reset();//重置留言表单
-                $.getJSON('index.php',{ajax:'yes',pid:$('#pid').val()},function(data){
-                    $("#main_table tr:not('.header')").remove();
-                    $.each(data,function(i,item){
-                        var trString="<tr>\n<td>"+item.user+"</td>\n<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>"+item.content+"<br />";
-                            if(item.reply){
-                                var _A = [item.reply.reply_time,item.reply.reply_content];
-                                var _B = languageTips.ADMIN_REPLIED;
-                                var idx=0;
-                                C=_B.replace(/%s/ig,function($1){
-                                    var x=_A[idx];idx++;
-                                    return x;
-                                });
-                                trString+=C;
-                            }
-                        trString+="</div></td>\n<td>"+item.time+"</td>\n</tr>\n";
-                        $(".header").after(trString);
-                    });
-                });
-            }
-        });
-        return false;
-    });
-    
-    $('#user').focus(function(){
-        $('#user_msg').removeClass('error');
-        if($(this).val()=='anonymous' ||  !$.trim($(this).val())){
-            $(this).val('');$('#user_msg').html('');
-        }
-    });
-    $('#valid_code').focus(function(){
-        $('#valid_code_msg').removeClass('error');
-        $('#valid_code_msg').html('');
-    });
+    $(document).keypress(function(e){if(e.ctrlKey && e.which == 13 || e.which == 10) {$("#guestbook").submit();} else if (e.shiftKey && e.which==13 || e.which == 10) {$("#guestbook").submit();}});
     //显示默认隐藏的表情图案
     $('#smileys').css('display','block');
     //显示默认隐藏的“点击留言”
@@ -102,7 +20,97 @@ $(document).ready(function() {
     //为“点击留言”应用鼠标手势
     $("#toggleForm").hover(function(){$(this).addClass("pointer");});
     //点击“点击留言”，隐藏，显示表单
-    $("#toggleForm").click( function() { $("#add_table").animate({ height: 'show', opacity: 'show' }, 'slow'); $('#toggleForm').fadeOut('slow'); });
+    $("#toggleForm").click( function() {$("#add_table").animate({height: 'show', opacity: 'show'}, 'slow');$('#toggleForm').fadeOut('slow');});
+    var post={
+        message:null,
+        init:function(){
+            $('form').submit(function(e){
+                e.preventDefault();
+                if(post.validate()){
+                    $.ajax({
+                        type: "POST",
+                        url: "index.php?controller=post&action=create",
+                        data: $(this).serialize(),
+                        success: function(data){
+                            $('#captcha_img').attr('src',$('#captcha_img').attr('src')+'&id='+Math.random());
+                            if(data == "OK"){
+                                document.getElementById('guestbook').reset();//重置留言表单
+                                post.showSuccess();
+                            }else{
+                                post.message=data;
+                                post.showError();
+                            }
+                            
+                            $.getJSON('index.php',{ajax:'yes',pid:$('#pid').val()},function(data){
+                                $("#main_table tr:not('.header')").remove();
+                                $.each(data,function(i,item){
+                                    var trString="<tr>\n<td>"+item.user+"</td>\n<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>"+item.content+"<br />";
+                                        if(item.reply){
+                                            var _A = [item.reply.reply_time,item.reply.reply_content];
+                                            var _B = languageTips.ADMIN_REPLIED;
+                                            var idx=0;
+                                            C=_B.replace(/%s/ig,function($1){
+                                                var x=_A[idx];idx++;
+                                                return x;
+                                            });
+                                            trString+=C;
+                                        }
+                                    trString+="</div></td>\n<td>"+item.time+"</td>\n</tr>\n";
+                                    $(".header").after(trString);
+                                });
+                            });
+                        },
+                        error:post.error
+                    });
+                }else{
+                    post.emptyError();
+                    post.showError();
+                }
+            });
+        },
+        showError:function(){
+            $('#returnedError').fadeIn("slow");
+            $('#returnedError').addClass('error');
+            $('#returnedError').html(post.message);
+        },
+        emptyError:function(){
+            $('#returnedError').removeClass('error');
+            $('#returnedError').removeClass('success');
+            $('#returnedError').html('');
+        },
+        showSuccess:function(){
+            $('#returnedError').addClass('success');
+            $('#returnedError').html('ok');
+            $('#returnedError').fadeOut("slow");
+        },
+        validate:function(){
+            post.message='';
+            var user = $.trim($('#user').val());
+            var content = $.trim($('#content').val());
+            if(!user){
+                post.message+=languageTips.USERNAME_NOT_EMPTY+'&nbsp;';
+            }else{
+                if (user.length < 2) {
+                    post.message+=languageTips.USERNAME_TOO_SHORT+'&nbsp;';
+                }
+            }
+            if(!content.length){
+                post.message+=languageTips.MESSAGE_NOT_EMPTY+'&nbsp;';
+            }
+            if(document.getElementById('valid_code') && !$.trim($('#valid_code').val())){
+                post.message+=languageTips.CAPTCHA_NOT_EMPTY;
+            }
+            if (post.message.length > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        error: function (xhr) {
+            alert(xhr.statusText);
+	}
+    };
+    post.init();
 
     var closeModal = function(hash){
         var $modalWindow = $(hash.w);
