@@ -83,6 +83,7 @@ $(document).ready(function() {
         showSuccess:function(){
             $('#returnedError').addClass('success');
             $('#returnedError').html(languageTips.POST_OK);
+            $('#returnedError').fadeIn("slow");
             $('#returnedError').fadeOut("slow");
         },
         validate:function(){
@@ -90,17 +91,17 @@ $(document).ready(function() {
             var user = $.trim($('#user').val());
             var content = $.trim($('#content').val());
             if(!user){
-                post.message+=languageTips.USERNAME_NOT_EMPTY;
+                post.message+=languageTips.USERNAME_NOT_EMPTY+"<br />";
             }else{
                 if (user.length < 2) {
-                    post.message+=languageTips.USERNAME_TOO_SHORT;
+                    post.message+=languageTips.USERNAME_TOO_SHORT+"<br />";
                 }
             }
             if(!content.length){
-                post.message+=languageTips.MESSAGE_NOT_EMPTY;
+                post.message+=languageTips.MESSAGE_NOT_EMPTY+'<br />';
             }
             if(document.getElementById('valid_code') && !$.trim($('#valid_code').val())){
-                post.message+=languageTips.CAPTCHA_NOT_EMPTY;
+                post.message+=languageTips.CAPTCHA_NOT_EMPTY+"<br />";
             }
             if (post.message.length > 0) {
                 return false;
