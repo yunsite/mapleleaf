@@ -143,6 +143,7 @@ return array(
 			'FILL_NOT_COMPLETE'=>"你没有填写完成",
 			'WORDS_TOO_LONG'=>"您的话语太多了",
 			'CAPTCHA_WRONG'=>"验证码错误.",
+                        'POST_OK'=>'留言发表，谢谢！',
 			
 			'UNKNOWN'=>'未知',
 			'NOT_SUPPORT'=>'不支持',

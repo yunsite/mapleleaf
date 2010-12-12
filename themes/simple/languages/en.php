@@ -127,6 +127,7 @@ return array(
 			'MESSAGE_NOT_EMPTY'=>'The message must not be empty~',
 			'CAPTCHA_NOT_EMPTY'=>'The captcha must not be empty~',
 			'EMAIL_INVALID'=>'Email invalid',
+                        'POST_OK'=>'Thank you!',
 			
 			////////////////////////////////////// index.php
 			'CLICK_TO_REFRESH'=>'Click to refresh',

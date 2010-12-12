@@ -207,10 +207,11 @@ class SiteController extends BaseController
 	$this->_verifyCode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
     }
     public function actionGetSysJSON(){
-	$languageForJSON='{';
+        $languageForJSON='{';
 	foreach (ZFramework::getLangArray() as $key => $value) {
 	    $languageForJSON.= '"'.$key.'":"'.addslashes((string)$value).'",';
 	}
+        $languageForJSON=substr($languageForJSON, 0,-1);
 	$languageForJSON.='}';
 	echo $languageForJSON;
     }

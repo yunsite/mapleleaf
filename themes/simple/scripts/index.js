@@ -1,6 +1,8 @@
 $(document).ready(function() {
+    var d = new Date()
     if(self.location!=parent.location){parent.location.replace(self.location);}
-    $.ajax({type: "GET",url: 'index.php',data: {action: "getSysJSON"},success: function(data){languageTips=data;},dataType: 'json'});
+    $.ajax({type: "GET",url: 'index.php',data: {action: "getSysJSON",t:d.getTime()},dataType: 'json',cache:false,contentType: "application/json",success: function(data){languageTips=data;},error: function(xhr, status, error) { alert(xhr.status);  }});
+    //$.getJSON('index.php?action=getSysJSON',function(data){languageTips=data});
     //点击表情图案将对应代码写入留言中
     $('#smileys img').click(function(){imgId=String($(this).attr('id'));$('#content').val($('#content').val()+imgId);});
     //鼠标在验证码图案上时，使用小手鼠标手势
@@ -80,7 +82,7 @@ $(document).ready(function() {
         },
         showSuccess:function(){
             $('#returnedError').addClass('success');
-            $('#returnedError').html('ok');
+            $('#returnedError').html(languageTips.POST_OK);
             $('#returnedError').fadeOut("slow");
         },
         validate:function(){
@@ -88,14 +90,14 @@ $(document).ready(function() {
             var user = $.trim($('#user').val());
             var content = $.trim($('#content').val());
             if(!user){
-                post.message+=languageTips.USERNAME_NOT_EMPTY+'&nbsp;';
+                post.message+=languageTips.USERNAME_NOT_EMPTY;
             }else{
                 if (user.length < 2) {
-                    post.message+=languageTips.USERNAME_TOO_SHORT+'&nbsp;';
+                    post.message+=languageTips.USERNAME_TOO_SHORT;
                 }
             }
             if(!content.length){
-                post.message+=languageTips.MESSAGE_NOT_EMPTY+'&nbsp;';
+                post.message+=languageTips.MESSAGE_NOT_EMPTY;
             }
             if(document.getElementById('valid_code') && !$.trim($('#valid_code').val())){
                 post.message+=languageTips.CAPTCHA_NOT_EMPTY;
