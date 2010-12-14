@@ -20,7 +20,7 @@ if($reply_data)
 <textarea name="reply_content" cols="40" rows="9"><?php echo @$reply_data['reply_content'];?></textarea>
 <br />
 <input type="submit" name="Submit" value="<?php echo ZFramework::t('SUBMIT');?>" />
-<input type="button" name="cancel" value="<?php echo ZFramework::t('CANCEL');?>" onclick="javascript:window.open('index.php?action=control_panel&subtab=message','_self')" />
+<a href="index.php?action=control_panel&amp;subtab=message"><?php echo ZFramework::t('CANCEL');?></a>
 </form>
 </body>
 </html>

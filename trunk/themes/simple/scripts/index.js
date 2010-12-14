@@ -1,7 +1,7 @@
 $(document).ready(function() {
     var d = new Date()
     if(self.location!=parent.location){parent.location.replace(self.location);}
-    $.ajax({type: "GET",url: 'index.php',data: {action: "getSysJSON",t:d.getTime()},dataType: 'json',cache:false,contentType: "application/json",success: function(data){languageTips=data;},error: function(xhr, status, error) { alert(xhr.status);  }});
+    $.ajax({type: "GET",url: 'index.php',data: {action: "getSysJSON",t:d.getTime()},dataType: 'json',cache:false,contentType: "application/json",success: function(data){languageTips=data;},error: function(xhr, status, error) {alert(xhr.status);}});
     //$.getJSON('index.php?action=getSysJSON',function(data){languageTips=data});
     //点击表情图案将对应代码写入留言中
     $('#smileys img').click(function(){imgId=String($(this).attr('id'));$('#content').val($('#content').val()+imgId);});
@@ -38,29 +38,35 @@ $(document).ready(function() {
                             if(data == "OK"){
                                 document.getElementById('guestbook').reset();//重置留言表单
                                 post.showSuccess();
+                                //刷新留言
+                                $.getJSON('index.php',{ajax:'yes',pid:$('#pid').val()},function(data){
+                                    $("#main_table tr:not('.header')").remove();
+                                    $.each(data,function(i,item){
+                                        var trString="<tr>\n<td>"+item.user+"</td>\n<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>"+item.content+"<br />";
+                                            if(item.reply){
+                                                var _A = [item.reply.reply_time,item.reply.reply_content];
+                                                var _B = languageTips.ADMIN_REPLIED;
+                                                var idx=0;
+                                                C=_B.replace(/%s/ig,function($1){
+                                                    var x=_A[idx];idx++;
+                                                    return x;
+                                                });
+                                                trString+=C;
+                                            }
+                                        trString+="</div></td>\n<td>"+item.time+"</td>\n</tr>\n";
+                                        $(".header").after(trString);
+                                    });
+                                });
+                                //刷新分页（若开启）
+                                if(document.getElementById('pagination')){
+                                    $('#pagination').html('');
+                                    $.get("index.php?action=getPagination", { pid: $('#pid').val()},  function(data){ $('#pagination').append(data); });
+                                    
+                                }
                             }else{
                                 post.message=data;
                                 post.showError();
-                            }
-                            
-                            $.getJSON('index.php',{ajax:'yes',pid:$('#pid').val()},function(data){
-                                $("#main_table tr:not('.header')").remove();
-                                $.each(data,function(i,item){
-                                    var trString="<tr>\n<td>"+item.user+"</td>\n<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>"+item.content+"<br />";
-                                        if(item.reply){
-                                            var _A = [item.reply.reply_time,item.reply.reply_content];
-                                            var _B = languageTips.ADMIN_REPLIED;
-                                            var idx=0;
-                                            C=_B.replace(/%s/ig,function($1){
-                                                var x=_A[idx];idx++;
-                                                return x;
-                                            });
-                                            trString+=C;
-                                        }
-                                    trString+="</div></td>\n<td>"+item.time+"</td>\n</tr>\n";
-                                    $(".header").after(trString);
-                                });
-                            });
+                            }     
                         },
                         error:post.error
                     });

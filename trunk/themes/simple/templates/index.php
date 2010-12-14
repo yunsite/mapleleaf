@@ -55,7 +55,7 @@
                 </table>
             </div>
             <?php if(ZFramework::app()->page_on){?>
-            <div class="yui-g">
+            <div id="pagination">
                 <?php echo sprintf(ZFramework::t('PAGE_NAV'),$nums,$pages);?>
                 <?php for($i=0;$i<$pages;$i++){?>
                         <a href='index.php?pid=<?php echo $i;?>'>
