@@ -5,13 +5,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body>
-      <?php if(@$errorMsg)
-	{
-	?>
+      <?php if(@$errorMsg):?>
 	    <div id="login_error"><?php echo $errorMsg;?><br /></div>
-	<?php
-	}
-	?>
+	<?php  endif;?>
       <form action="index.php?controller=user&amp;action=update&amp;uid=<?php echo $_GET['uid'];?>" method="post">
 	  <div class="inputbox">
 		    <dl>
@@ -32,7 +28,7 @@
 						</div>
 		<div class="butbox">
 		    <dl>
-		        <dt><input id="submit_button" name="submit" type="submit" value="<?php echo ZFramework::t('UPDATE');?>" /></dt>
+                        <dt><input id="submit_button" name="submit" type="submit" value="<?php echo ZFramework::t('UPDATE');?>" />&nbsp;<a href="index.php"><?php echo ZFramework::t('CANCEL');?></a></dt>
 		    </dl>
 		</div>
       </form>

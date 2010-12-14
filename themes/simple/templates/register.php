@@ -39,7 +39,7 @@
 						</div>
 		<div class="butbox">
 		    <dl>
-                        <dt><input id="submit_button" name="submit" type="submit" value="<?php echo ZFramework::t('REGISTER');?>" /><a href="index.php"><input value="<?php echo ZFramework::t('CANCEL');?>" type="button" /></a></dt>
+                        <dt><input id="submit_button" name="submit" type="submit" value="<?php echo ZFramework::t('REGISTER');?>" />&nbsp;<a href="index.php"><?php echo ZFramework::t('CANCEL');?></a></dt>
 		    </dl>
 		</div>
                 </fieldset>
