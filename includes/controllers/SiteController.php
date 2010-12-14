@@ -41,6 +41,22 @@ class SiteController extends BaseController
             'nums'=>$nums,
             ));
     }
+    public function actionGetPagination(){
+        $totalNumber= $this->_model->num_rows($this->_model->select(MESSAGETABLE));
+        $pages=ceil($totalNumber/ZFramework::app()->num_perpage);
+        $string=sprintf(ZFramework::t('PAGE_NAV'),$totalNumber,$pages);
+        $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
+        if($current_page>=$pages)
+            $current_page=$pages-1;
+        if($current_page<0)
+            $current_page=0;
+        for($i=0;$i<$pages;$i++){
+            $string.="<a href='index.php?pid=$i'>";
+            if($i==$current_page){ $string.='<font size="+2">'.($i+1)."</font>";}else{ $string.=$i+1;}
+            $string.="</a>&nbsp;";
+        }
+        echo $string;
+    }
     //安装程序
     public function actionInstall()
     {
