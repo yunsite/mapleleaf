@@ -2,7 +2,7 @@
 return array(
             'THEMES_DIR_NOTEXISTS'=>'The directory of themes does not exists!',
             'SMILEY_DIR_NOTEXISTS'=>'The directory of smiley `%s` does not exists!',
-            'CONFIG_FILE_NOTEXISTS'=>'The configuration file `%s` does not exists!',
+            'CONFIG_FILE_NOTEXISTS'=>'The configuration file `%s` does not exists! <ul><li>Please copy the ./sites/default/default.config.php file to ./sites/default/config.php.</li><li>Change file permissions so that it is writable by the web server</li></ul>',
             'CONFIG_FILE_NOTWRITABLE'=>'The configuration file `%s` does not writable!',
 
             'SITENAME_ERROR'=>'The sitename undefined!',

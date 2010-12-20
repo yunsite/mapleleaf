@@ -23,6 +23,5 @@ Disallow: /misc/
 Disallow: /includes/
 Disallow: /themes/
 # Files
-Disallow: /config.php
 # Paths (no clean URLs)
 Disallow: /?action=control_panel

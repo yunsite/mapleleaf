@@ -30,7 +30,11 @@ class ZFramework{
     }
 
     public function  __get($name) {
-        include 'config.php';
+        if(file_exists(conf_path().'/config.php')){
+            include conf_path().'/config.php';
+        } else{
+            include './sites/default/default.config.php';
+        }
         if(isset ($$name))
             return $$name;
         else
