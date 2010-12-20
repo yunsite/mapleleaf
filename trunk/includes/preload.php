@@ -51,6 +51,7 @@ define('THEMEDIR', 'themes/');
 define('PLUGINDIR', 'plugins/');
 define('SMILEYDIR', 'misc/');
 require 'functions.php';
+if (!function_exists('json_encode')){    include 'CJSON.php'; }
 include_once 'JuneTxtDB.class.php';
 include_once 'Imgcode.php';
 require 'ZFramework.php';

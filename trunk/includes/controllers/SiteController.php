@@ -24,12 +24,11 @@ class SiteController extends BaseController
             $data=$this->page_wrapper($data, $current_page);
         if(isset ($_GET['ajax'])){
             $data=array_reverse($data);
-            echo json_encode($data);exit;
+            echo function_exists('json_encode') ? json_encode($data) : CJSON::encode($data);exit;
         }
         $admin=isset($_SESSION['admin'])?true:false;
         $adminName=  ZFramework::app()->admin;
         $smileys=$this->show_smileys_table();
-        //$tplFile='themes/simple/templates/test-index';
         
         $this->render('index',array(
             'data'=>$data,
