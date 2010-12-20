@@ -132,4 +132,66 @@
         if (!@in_array($evt, $actionEvent[$action]))
             $actionEvent[$action][]=$evt;
     }
+    /**
+ * Find the appropriate configuration directory.
+ *
+ * Try finding a matching configuration directory by stripping the website's
+ * hostname from left to right and pathname from right to left. The first
+ * configuration file found will be used; the remaining will ignored. If no
+ * configuration file is found, return a default value '$confdir/default'.
+ *
+ * Example for a fictitious site installed at
+ * http://www.drupal.org:8080/mysite/test/ the 'settings.php' is searched in
+ * the following directories:
+ *
+ *  1. $confdir/8080.www.drupal.org.mysite.test
+ *  2. $confdir/www.drupal.org.mysite.test
+ *  3. $confdir/drupal.org.mysite.test
+ *  4. $confdir/org.mysite.test
+ *
+ *  5. $confdir/8080.www.drupal.org.mysite
+ *  6. $confdir/www.drupal.org.mysite
+ *  7. $confdir/drupal.org.mysite
+ *  8. $confdir/org.mysite
+ *
+ *  9. $confdir/8080.www.drupal.org
+ * 10. $confdir/www.drupal.org
+ * 11. $confdir/drupal.org
+ * 12. $confdir/org
+ *
+ * 13. $confdir/default
+ *
+ * @param $require_settings
+ *   Only configuration directories with an existing settings.php file
+ *   will be recognized. Defaults to TRUE. During initial installation,
+ *   this is set to FALSE so that Drupal can detect a matching directory,
+ *   then create a new settings.php file in it.
+ * @param reset
+ *   Force a full search for matching directories even if one had been
+ *   found previously.
+ * @return
+ *   The path of the matching directory.
+ */
+    function conf_path($require_settings = TRUE, $reset = FALSE) {
+      static $conf = '';//静态变量
+
+      if ($conf && !$reset) {//若静态变量有值，并且 $reset 为默认
+        return $conf;//返回匹配的目录
+      }
+
+      $confdir = 'sites';//配置目录
+      $uri = explode('/', $_SERVER['SCRIPT_NAME'] ? $_SERVER['SCRIPT_NAME'] : $_SERVER['SCRIPT_FILENAME']);//当前脚本的路径
+      $server = explode('.', implode('.', array_reverse(explode(':', rtrim($_SERVER['HTTP_HOST'], '.')))));//将主机名分离为数组
+      for ($i = count($uri) - 1; $i > 0; $i--) {//遍历
+        for ($j = count($server); $j > 0; $j--) {
+          $dir = implode('.', array_slice($server, -$j)) . implode('.', array_slice($uri, 0, $i));
+          if (file_exists("$confdir/$dir/config.php") || (!$require_settings && file_exists("$confdir/$dir"))) {//若匹配文件找到或者，探测一个匹配的目录并且有指定的目录存在
+            $conf = "$confdir/$dir";
+            return $conf;
+          }
+        }
+      }
+      $conf = "$confdir/default";
+      return $conf;
+    }
 ?>

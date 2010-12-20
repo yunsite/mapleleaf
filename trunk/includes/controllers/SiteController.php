@@ -60,21 +60,26 @@ class SiteController extends BaseController
     public function actionInstall()
     {
         $installed=FALSE;
+        //$configFile=conf_path(FALSE, TRUE).'/config.php';
+        //var_dump($configFile);exit;
         if(!file_exists(CONFIGFILE))        //先检查配置文件是否存在和可写
-            die(sprintf(ZFramework::t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE));
-        if(!is_writable(CONFIGFILE))
-            die(sprintf(ZFramework::t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE));
-        if(!empty ($_POST['adminname']) && !empty($_POST['adminpass'])){
+            $tips=sprintf(ZFramework::t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE);
+        elseif(!is_writable(CONFIGFILE))
+            $tips=sprintf(ZFramework::t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE);
+        if(!empty ($_POST['adminname']) && !empty($_POST['adminpass']) && !empty ($_POST['dbname'])){
             $adminname=ZFramework::maple_quotes($_POST['adminname']);
             $adminpass=ZFramework::maple_quotes($_POST['adminpass']);
+            $dbname=  ZFramework::maple_quotes($_POST['dbname']);
             $adminnameString="\n\$admin='$adminname';";
             $adminpassString="\n\$password='$adminpass';";
+            $dbnameString="\n\$dbname='$dbname';";
             file_put_contents(CONFIGFILE, $adminnameString,FILE_APPEND);
             file_put_contents(CONFIGFILE, $adminpassString,FILE_APPEND);
-            if(!$this->_model->create_db(DB)){
+            file_put_contents(CONFIGFILE, $dbnameString,FILE_APPEND);
+            if(!$this->_model->create_db($dbname)){
                 die ($this->_model->error());
             }
-            $this->_model->select_db(DB);
+            $this->_model->select_db($dbname);
 
             $tables=array(MESSAGETABLE,  REPLYTABLE,  BADIPTABLE, USERTABLE);
             $fields=array(
