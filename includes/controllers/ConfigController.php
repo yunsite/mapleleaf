@@ -3,12 +3,14 @@ class ConfigController extends BaseController
 {
     private $_admin_name;
     private $_admin_password;
+    private $_dbname;
     public function actionUpdate()
     {
         is_admin();
         if(!$_POST){ header ("Location:index.php?action=control_panel");exit;}
         $this->_admin_name=  ZFramework::app()->admin;
         $this->_admin_password=  ZFramework::app()->password;
+        $this->_dbname=  ZFramework::app()->dbname;
         file_put_contents(CONFIGFILE, '<?php');
         $this->set_board_name();
         $this->set_site_close();
@@ -24,6 +26,7 @@ class ConfigController extends BaseController
         $this->set_admin_password();
         $this->set_lang();
         $this->set_time_zone();
+        $this->set_dbname();
         
         header("Location:index.php?action=control_panel&subtab=siteset");
     }
@@ -144,5 +147,11 @@ class ConfigController extends BaseController
         $password=isset($_POST['password']) && !empty($_POST['password'])?ZFramework::maple_quotes($_POST['password']):$this->_admin_password;
         $str="\n\$password='$password';";
         file_put_contents(CONFIGFILE, $str,FILE_APPEND);
+    }
+    private function set_dbname()
+    {
+        is_admin();
+        $str="\n\$dbname='{$this->_dbname}';";
+        file_put_contents(CONFIGFILE, $str, FILE_APPEND);
     }
 }
