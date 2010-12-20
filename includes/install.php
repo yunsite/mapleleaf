@@ -37,7 +37,7 @@ else{	$language='zh';}
 <div id="custom-doc" class="yui-t7">
     <?php
     if($installed){
-	echo str_replace(array_keys($$language),array_values($$language),'FINISHED');
+        echo strtr('FINISHED', $$language);
     }else{
     ?>
    <div id="hd" role="banner">
@@ -54,11 +54,11 @@ else{	$language='zh';}
 	    <form action="index.php?action=install&l=$language" method="post">
 	    ADMIN_USERNAME:<input type="text" name="adminname" /><br />
 	    ADMIN_PASSWORD:<input type="password" name="adminpass" /><br />
-            DB_NAME:<input type="text" name="dbname" /><br />
+            DB_NAME:<input type="text" name="dbname" maxlength="10" /><br />
 	    <input type="submit" value="SUBMIT" />
 	    </form>
 EOT;
-	    echo str_replace(array_keys($$language),array_values($$language),$string);
+            echo strtr($string,$$language);
         }
 	?>
 	</div>

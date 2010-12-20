@@ -60,13 +60,11 @@ class SiteController extends BaseController
     public function actionInstall()
     {
         $installed=FALSE;
-        //$configFile=conf_path(FALSE, TRUE).'/config.php';
-        //var_dump($configFile);exit;
         if(!file_exists(CONFIGFILE))        //先检查配置文件是否存在和可写
             $tips=sprintf(ZFramework::t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE);
         elseif(!is_writable(CONFIGFILE))
             $tips=sprintf(ZFramework::t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE);
-        if(!empty ($_POST['adminname']) && !empty($_POST['adminpass']) && !empty ($_POST['dbname'])){
+        if(!empty ($_POST['adminname']) && !empty($_POST['adminpass']) && !empty ($_POST['dbname']) && strlen(trim($_POST['adminname']))>2 ){
             $adminname=ZFramework::maple_quotes($_POST['adminname']);
             $adminpass=ZFramework::maple_quotes($_POST['adminpass']);
             $dbname=  ZFramework::maple_quotes($_POST['dbname']);
