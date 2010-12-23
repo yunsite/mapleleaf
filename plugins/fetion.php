@@ -26,7 +26,7 @@ function fetion_config($showConfig=FALSE,$config=NULL){
     echo '<p>FetionPassword<input type="password" name="fetionPASSWORD" value="'.@$fetionPWD.'" /></p>';
     echo '<p><input type="submit" value="submit" />&nbsp;';
     if(file_exists($filename))
-        echo '<a href="index.php?controller=plugin&amp;action=deactivate&amp;id=fetion"><input type="button" value="Disable" /></a>';
+        echo '<a href="index.php?controller=plugin&amp;action=deactivate&amp;id=fetion">Disable</a>';
     echo '</p>';
     echo '</form>';
 }
