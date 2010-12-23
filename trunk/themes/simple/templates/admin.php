@@ -34,7 +34,7 @@
 	    </div><!-- yui-g -->
 	    <div class="yui-g">
 		<div id="tagContent">
-		    <div <?php if($current_tab=='overview'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?> >
+		    <div id="overviewContainer" <?php if($current_tab=='overview'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?> >
 			<table>
 			    <tr>
 				<td><h1><?php echo ZFramework::t('WELCOME_SYS');?></h1></td>
@@ -152,7 +152,7 @@
 		    <div id="message_container" <?php if($current_tab=='message'){?>	class="tagContent selectTag" <?php } else {?>	class="tagContent" <?php }?>>
 			<!-- 留言管理 -->
                         <form id="message_manage" action="index.php?controller=post&amp;action=delete_multi_messages" method="post">
-			<table>
+			<table width="800px">
                             <thead>
                                 <tr class="header">
                                     <th class="span-1"><?php echo ZFramework::t('SELECT');?></th><th class="span-3"><?php echo ZFramework::t('NICKNAME');?></th><th class="span-15"><?php echo ZFramework::t('MESSAGE');?></th><th><?php echo ZFramework::t('OPERATION');?></th>
@@ -164,13 +164,16 @@
 				<input type='hidden' name='<?php echo $m['id'];?>' value='<?php if(@$m['reply']){ echo "1";}else{echo "0";}?>' />
 			    </td>
 			    <td><?php echo $m['user'];?></td>
-			    <td  class='admin_message'><?php echo $m['content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo $m['time'];?>
-			    <?php if(@$m['reply']==true){?>
-			    <br />
-			     <?php echo sprintf(ZFramework::t('YOU_REPLIED'),$m['reply']['reply_time'],$m['reply']['reply_content']);?>
-                            <span>&nbsp;<a href="index.php?controller=reply&amp;action=delete&amp;mid=<?php echo $m['id'];?>"><?php echo ZFramework::t('DELETE_THIS_REPLY');?></a></span>
-
-			<?php }?></td>
+			    <td  class='admin_message'>
+                               <div style='word-wrap: break-word;word-break:break-all;width:590px;'>
+                                    <?php echo $m['content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo $m['time'];?>
+                                    <?php if(@$m['reply']==true){?>
+                                    <br />
+                                     <?php echo sprintf(ZFramework::t('YOU_REPLIED'),$m['reply']['reply_time'],$m['reply']['reply_content']);?>
+                                    <span>&nbsp;<a href="index.php?controller=reply&amp;action=delete&amp;mid=<?php echo $m['id'];?>"><?php echo ZFramework::t('DELETE_THIS_REPLY');?></a></span>
+                                    <?php }?>
+                               </div>
+                            </td>
                             <td><a href='index.php?controller=post&amp;action=delete&amp;mid=<?php echo $m['id'];?>&amp;reply=<?php if(@$m['reply']){ echo "1";}else{ echo "0";}?>'><?php echo ZFramework::t('DELETE');?></a>
                                 <a class="ex2trigger" href='index.php?controller=reply&amp;action=reply&amp;mid=<?php echo $m['id'];?>'><?php echo ZFramework::t('REPLY');?></a>
                             <a class="ex2trigger" href='index.php?controller=post&amp;action=update&amp;mid=<?php echo $m['id'];?>'><?php echo ZFramework::t('UPDATE');?></a>
@@ -212,7 +215,7 @@
 			    </table>
 			</form>
 		    </div><!-- Bad IPs -->
-		    <div <?php if($current_tab=='plugin'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
+		    <div id="pluginContainer" <?php if($current_tab=='plugin'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
 			<p><?php echo ZFramework::t('PLUGIN');?></p>
 			<ul>
 			    <?php
