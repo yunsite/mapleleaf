@@ -47,8 +47,10 @@ class PostController extends BaseController
             $new_data=array(NULL,$user,$content,$time,$current_ip);
             if(!$this->_model->insert(MESSAGETABLE, $new_data))
                 die($this->_model->error());
-            if(isset($_POST['ajax']))
-                die('OK');
+            if(isset($_POST['ajax'])){
+                echo 'OK';
+                return TRUE;
+            }
         }
         header("Location:index.php");
     }
