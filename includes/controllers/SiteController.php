@@ -229,7 +229,9 @@ class SiteController extends BaseController
 	foreach (ZFramework::getLangArray() as $key => $value) {
 	    $languageForJSON.= '"'.$key.'":"'.addslashes((string)$value).'",';
 	}
-        $languageForJSON=substr($languageForJSON, 0,-1);
+        $admin_username=  ZFramework::app()->admin;
+        $languageForJSON.='"ADMIN_NAME_INDEX":"'.addslashes($admin_username).'"';//这只是一个临时方案！！！
+        //$languageForJSON=substr($languageForJSON, 0,-1);//由于上一行最后一个元素不会生成 ‘,’,所以此行失去了作用
 	$languageForJSON.='}';
 	echo $languageForJSON;
     }

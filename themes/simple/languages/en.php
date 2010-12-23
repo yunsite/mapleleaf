@@ -94,7 +94,7 @@ return array(
     		'MESSAGE'=>'Message',
     		'TIME'=>'Time',
     		'PAGE_NAV'=>'We have %s posts, %s pages',
-    		'ADMIN_REPLIED'=>'<font color="red">Admin replied at %s :</font> %s',
+    		'ADMIN_REPLIED'=>'<font color="red">%s replied at %s :</font> %s',
     		'CLICK_POST'=>'Click to post',
     		'CONTENT'=>'Content',
     		'SUBMIT'=>'Submit',

@@ -24,7 +24,7 @@
 	    <form action="index.php?controller=user&amp;action=login" method="post">
                 <table>
                     <tr>
-		    <td><label><?php echo ZFramework::t('ADMIN_NAME');?></label></td>
+		    <td><label><?php echo ZFramework::t('USERNAME');?></label></td>
                     <td><input type="text" name="user" id="user" size="20" /></td>
 		    </tr>
 		    <tr>
