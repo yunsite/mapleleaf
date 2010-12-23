@@ -17,7 +17,7 @@ if($reply_data)
 <?php
 }
 ?>
-<textarea name="reply_content" cols="40" rows="9"><?php echo @$reply_data['reply_content'];?></textarea>
+<textarea name="reply_content" cols="40" rows="9"><?php echo @str_replace('<br />', "\n", $reply_data['reply_content']);?></textarea>
 <br />
 <input type="submit" name="Submit" value="<?php echo ZFramework::t('SUBMIT');?>" />
 <a href="index.php?action=control_panel&amp;subtab=message"><?php echo ZFramework::t('CANCEL');?></a>
