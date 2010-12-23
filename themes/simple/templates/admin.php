@@ -186,7 +186,7 @@
 				<input type='submit' value='<?php echo ZFramework::t('DELETE_CHECKED');?>' />&nbsp;
 				<a href="index.php?controller=post&amp;action=deleteAll"><input id="deleteallButton" type='button' value='<?php echo ZFramework::t('DELETE_ALL');?>' /></a>&nbsp;
                                 <a href="index.php?controller=reply&amp;action=deleteAll"><input  id="deleteallreplyButton" type='button' value='<?php echo ZFramework::t('DELETE_ALL_REPLY');?>' /></a>
-				<a href="index.php?controller=backup&amp;action=create"><input type='button' id="buckupButton" value='<?php echo ZFramework::t('BACKUP');?>' /></a>
+				<a href="index.php?controller=backup&amp;action=create"><?php echo ZFramework::t('BACKUP');?></a>
 			    </td></tr>
 
 			</table>
