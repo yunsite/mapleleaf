@@ -33,6 +33,9 @@ $(document).ready(function() {
                         type: "POST",
                         url: "index.php?controller=post&action=create",
                         data: $(this).serialize(),
+                        beforeSend:function(xhr){
+                            post.showInfo();
+                        },
                         success: function(data){
                             $('#captcha_img').attr('src',$('#captcha_img').attr('src')+'&id='+Math.random());
                             if(data == "OK"){
@@ -60,7 +63,7 @@ $(document).ready(function() {
                                 //刷新分页（若开启）
                                 if(document.getElementById('pagination')){
                                     $('#pagination').html('');
-                                    $.get("index.php?action=getPagination", { pid: $('#pid').val()},  function(data){ $('#pagination').append(data); });
+                                    $.get("index.php?action=getPagination", {pid: $('#pid').val()},  function(data){$('#pagination').append(data);});
                                     
                                 }
                             }else{
@@ -77,20 +80,27 @@ $(document).ready(function() {
             });
         },
         showError:function(){
+            $('#returnedError').removeClass('info');
             $('#returnedError').fadeIn("slow");
             $('#returnedError').addClass('error');
             $('#returnedError').html(post.message);
         },
         emptyError:function(){
+            $('#returnedError').removeClass('info');
             $('#returnedError').removeClass('error');
             $('#returnedError').removeClass('success');
             $('#returnedError').html('');
         },
         showSuccess:function(){
+            $('#returnedError').removeClass('info');
             $('#returnedError').addClass('success');
             $('#returnedError').html(languageTips.POST_OK);
             $('#returnedError').fadeIn("slow");
             $('#returnedError').fadeOut("slow");
+        },
+        showInfo:function(){
+            $('#returnedError').addClass('info');
+            $('#returnedError').html(languageTips.SENDING);
         },
         validate:function(){
             post.message='';
