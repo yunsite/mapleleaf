@@ -91,7 +91,7 @@ return array(
     		'MESSAGE'=>'信息',
     		'TIME'=>'时间',
     		'PAGE_NAV'=>'共有 %s 条留言，共 %s 页',
-    		'ADMIN_REPLIED'=>'<font color="red">Admin 于 %s 回复:</font> %s',
+    		'ADMIN_REPLIED'=>'<font color="red">%s 于 %s 回复:</font> %s',
     		'CLICK_POST'=>'点击留言',
     		'CONTENT'=>'内容',
     		'SUBMIT'=>'提交',

@@ -47,7 +47,7 @@ $(document).ready(function() {
                                     $.each(data,function(i,item){
                                         var trString="<tr>\n<td>"+item.user+"</td>\n<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>"+item.content+"<br />";
                                             if(item.reply){
-                                                var _A = [item.reply.reply_time,item.reply.reply_content];
+                                                var _A = [languageTips.ADMIN_NAME_INDEX,item.reply.reply_time,item.reply.reply_content];
                                                 var _B = languageTips.ADMIN_REPLIED;
                                                 var idx=0;
                                                 C=_B.replace(/%s/ig,function($1){
