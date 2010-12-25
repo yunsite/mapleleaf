@@ -55,7 +55,7 @@ define('CONFIGFILE', conf_path().'/config.php');
 define('MP_VERSION','1.9');
 define('THEMEDIR', 'themes/');
 define('PLUGINDIR', 'plugins/');
-define('SMILEYDIR', 'misc/');
+define('SMILEYDIR', 'http://mapleleaf.googlecode.com/files/');
 
 if (!function_exists('json_encode')){    include 'CJSON.php'; }
 include_once 'JuneTxtDB.class.php';
