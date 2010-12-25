@@ -11,7 +11,7 @@
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/admin.css';?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal.css';?>" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal.js';?>"></script>
+<script type="text/javascript" src="http://mapleleaf.googlecode.com/files/jqModal.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/admin.js';?>"></script>
 <title><?php echo ZFramework::t('ACP_INDEX');?></title>
 </head>
