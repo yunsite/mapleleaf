@@ -216,20 +216,16 @@
 			</form>
 		    </div><!-- Bad IPs -->
 		    <div id="pluginContainer" <?php if($current_tab=='plugin'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
-			<p><?php echo ZFramework::t('PLUGIN');?></p>
-			<ul>
-			    <?php
-			    foreach($plugins as $plugin){
-			    ?>
-			    <li><h1><b><?php echo $plugin;?></b></h1>
+			
+			    <?php foreach($plugins as $plugin): ?>
+			    <h2><?php echo $plugin;?></h2>
 			    <?php
 				include_once PLUGINDIR.$plugin.'.php';
 				$configFuncName=$plugin.'_config';
 				$configFuncName(true);
-			    ?>
-			    </li>
-			    <?php }?>
-			</ul>
+			    ?>    
+			    <?php endforeach; ?>
+			
 		    </div><!-- Plugins -->
 		</div>
 	    </div><!-- yui-g  -->
