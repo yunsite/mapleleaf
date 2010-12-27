@@ -150,7 +150,7 @@ class ZFramework{
         return include dirname(__FILE__).'/coreMessage.php';
     }
     public static function getLangArray(){
-        return include 'themes/'.self::createApp()->theme.'/languages/'.self::createApp()->lang.'.php';
+        return include APPROOT.'/languages/'.self::createApp()->lang.'.php';
     }
     public static function getSmileys(){
         return include  dirname(__FILE__).'/smiley.php';
@@ -208,11 +208,11 @@ class ZFramework{
     }
     public static  function get_all_timezone()
     {
-        $timezone=  include THEMEDIR.self::app()->theme.'/languages/'.self::app()->lang.'.php';
+        $timezone=  include APPROOT.'/languages/'.self::app()->lang.'.php';
     	return $timezone['TZ_ZONES'];
     }
     public function get_lang_directory(){
-        return THEMEDIR.self::app()->theme.'/languages/';
+        return APPROOT.'/languages/';
     }
     /**
      * 替换被过滤的词语
