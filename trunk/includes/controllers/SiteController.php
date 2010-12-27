@@ -59,11 +59,16 @@ class SiteController extends BaseController
     //安装程序
     public function actionInstall()
     {
+        $languages=ZFramework::get_all_langs();
+        if(!isset($_GET['l']) || !in_array($_GET['l'],$languages) || $_GET['l']=='en'){	$language='en';}
+        else
+            $language=$_GET['l'];
         $installed=FALSE;
         if(!file_exists(CONFIGFILE))        //先检查配置文件是否存在和可写
-            $tips=sprintf(ZFramework::t('CONFIG_FILE_NOTEXISTS',true),CONFIGFILE);
+            $tips=sprintf(ZFramework::t('CONFIG_FILE_NOTEXISTS',array(),$language),CONFIGFILE);
         elseif(!is_writable(CONFIGFILE))
-            $tips=sprintf(ZFramework::t('CONFIG_FILE_NOTWRITABLE',true),CONFIGFILE);
+            $tips=sprintf(ZFramework::t('CONFIG_FILE_NOTWRITABLE',array(),$language),CONFIGFILE);
+        //elseif()
         if(!empty ($_POST['adminname']) && !empty($_POST['adminpass']) && !empty ($_POST['dbname']) && strlen(trim($_POST['adminname']))>2 ){
             $adminname=ZFramework::maple_quotes($_POST['adminname']);
             $adminpass=ZFramework::maple_quotes($_POST['adminpass']);

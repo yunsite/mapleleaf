@@ -12,37 +12,16 @@
    </style>
 </head>
 <body>
-<?php
-$en=array(
-    'INSTALL_MP'=>'MapleLeaf Installation',
-    'ADMIN_USERNAME'=>'Admin Username',
-    'ADMIN_PASSWORD'=>'Admin Password',
-    'DB_NAME'=>'Database Name',
-    'SUBMIT'=>'Install',
-    'FINISHED'=>'<p>Installation finished! :) Go <a href="index.php">Index</a>, or Go <a href="index.php?action=control_panel">ACP</a></p><p>Dont\'t forget to delete or rename the file install.php in directory <code>includes</code></p>',
-);
-$zh=array(
-    'INSTALL_MP'=>'安装 MapleLeaf',
-    'ADMIN_USERNAME'=>'管理员用户名',
-    'ADMIN_PASSWORD'=>'管理员密码',
-    'DB_NAME'=>'数据库名字',
-    'SUBMIT'=>'安装',
-    'FINISHED'=>'<p>安装完成！现在进入 <a href="index.php">前台</a>，或者登陆 <a href="index.php?action=control_panel">管理面板</a></p><p>记得一定要删除或重命名 <code>includes</code> 目录中的 install.php</p>',
-);
-$languages=array('en','zh');
-//var_dump($languages);exit;
-if(!isset($_GET['l']) || !in_array($_GET['l'],$languages) || $_GET['l']=='en'){	$language='en';}
-else{	$language='zh';}
-?>
+
 <div id="custom-doc" class="yui-t7">
     <?php
     if($installed){
-        echo strtr('FINISHED', $$language);
+        echo ZFramework::t('FINISHED', array(), $language);
     }else{
     ?>
    <div id="hd" role="banner">
-       <div id="language"><a href="index.php?action=install&amp;l=en">English</a>&nbsp;<a href="index.php?action=install&amp;l=zh">中文</a></div>
-       <h1><?php echo str_replace(array_keys($$language),array_values($$language),'INSTALL_MP');?></h1>
+       <div id="language"><a href="index.php?action=install&amp;l=en">English</a>&nbsp;<a href="index.php?action=install&amp;l=zh_cn">中文</a></div>
+       <h1><?php echo ZFramework::t('INSTALL_MP', array(), $language);?></h1>
    </div>
    <div id="bd" role="main">
 	<div class="yui-g">
@@ -50,15 +29,14 @@ else{	$language='zh';}
         if(isset ($tips)){
             echo '<font color="red">'.$tips."</font>";
         }else{
-	    $string=<<<EOT
+        ?>
 	    <form action="index.php?action=install&l=$language" method="post">
-	    ADMIN_USERNAME:<input type="text" name="adminname" /><br />
-	    ADMIN_PASSWORD:<input type="password" name="adminpass" /><br />
-            DB_NAME:<input type="text" name="dbname" maxlength="10" /><br />
-	    <input type="submit" value="SUBMIT" />
+	    <?php echo ZFramework::t('ADMIN_USERNAME',array(),$language); ?> :<input type="text" name="adminname" /><br />
+	    <?php echo ZFramework::t('ADMIN_PASSWORD',array(),$language); ?>:<input type="password" name="adminpass" /><br />
+            <?php echo ZFramework::t('DB_NAME',array(),$language); ?>:<input type="text" name="dbname" maxlength="10" /><br />
+            <input type="submit" value="<?php echo ZFramework::t('INSTALL', array(), $language);?>" />
 	    </form>
-EOT;
-            echo strtr($string,$$language);
+        <?php
         }
 	?>
 	</div>
