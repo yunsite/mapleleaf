@@ -45,7 +45,7 @@ $(document).ready(function() {
                                 //刷新留言
                                 $.getJSON('index.php',{ajax:'yes',pid:$('#pid').val()},function(data){
                                     $("#main_table tr:not('.header')").remove();
-                                    $.each(data,function(i,item){
+                                    $.each(data.messages,function(i,item){
                                         var trString="<tr>\n<td>"+item.user+"</td>\n<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>"+item.content+"<br />";
                                             if(item.reply){
                                                 var _A = [languageTips.ADMIN_NAME_INDEX,item.reply.reply_time,item.reply.reply_content];
@@ -58,15 +58,25 @@ $(document).ready(function() {
                                                 trString+=C;
                                             }
                                         trString+="</div></td>\n<td>"+item.time+"</td>\n</tr>\n";
-                                        $(".header").after(trString);
+                                        $(".header").after(trString);  
                                     });
+                                    //刷新分页（若开启）
+                                    if(document.getElementById('pagination')){
+                                        $('span#totalNum').html(data.total);
+                                        $('span#totalPages').html(data.pagenum);
+                                        var pagenumString='';
+                                        for (i=0;i<data.pagenum;i++){
+                                            pagenumString+= "<a href='index.php?pid="+i+"'>";
+                                            if(i==data.current_page){
+                                                pagenumString+= "<font size='+2'>"+ (i+1) +"</font>";
+                                            }else{
+                                                pagenumString+= (i+1);
+                                            }
+                                            pagenumString+="</a>&nbsp;";
+                                        }
+                                        $('span#pagenumString').html(pagenumString);
+                                    }
                                 });
-                                //刷新分页（若开启）
-                                if(document.getElementById('pagination')){
-                                    $('#pagination').html('');
-                                    $.get("index.php?action=getPagination", {pid: $('#pid').val()},  function(data){$('#pagination').append(data);});
-                                    
-                                }
                             }else{
                                 post.message=data;
                                 post.showError();

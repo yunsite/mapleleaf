@@ -14,7 +14,7 @@ class SiteController extends BaseController
     {
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-        $nums=$this->_model->num_rows($data);
+        $nums=isset ($_GET['ajax'])?$this->_model->num_rows($this->_model->select(MESSAGETABLE)):$this->_model->num_rows($data);
         $pages=ceil($nums/ZFramework::app()->num_perpage);
         if($current_page>=$pages)
             $current_page=$pages-1;
@@ -24,7 +24,8 @@ class SiteController extends BaseController
             $data=$this->page_wrapper($data, $current_page);
         if(isset ($_GET['ajax'])){
             $data=array_reverse($data);
-            echo function_exists('json_encode') ? json_encode($data) : CJSON::encode($data);exit;
+            $JSONDATA=array('messages'=>$data,'current_page'=>$current_page,'total'=>$nums,'pagenum'=>$pages);
+            echo function_exists('json_encode') ? json_encode($JSONDATA) : CJSON::encode($JSONDATA);exit;
         }
         $admin=isset($_SESSION['admin'])?true:false;
         $adminName=  ZFramework::app()->admin;
@@ -40,22 +41,7 @@ class SiteController extends BaseController
             'nums'=>$nums,
             ));
     }
-    public function actionGetPagination(){
-        $totalNumber= $this->_model->num_rows($this->_model->select(MESSAGETABLE));
-        $pages=ceil($totalNumber/ZFramework::app()->num_perpage);
-        $string=sprintf(ZFramework::t('PAGE_NAV'),$totalNumber,$pages);
-        $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-        if($current_page>=$pages)
-            $current_page=$pages-1;
-        if($current_page<0)
-            $current_page=0;
-        for($i=0;$i<$pages;$i++){
-            $string.="<a href='index.php?pid=$i'>";
-            if($i==$current_page){ $string.='<font size="+2">'.($i+1)."</font>";}else{ $string.=$i+1;}
-            $string.="</a>&nbsp;";
-        }
-        echo $string;
-    }
+
     //安装程序
     public function actionInstall()
     {
