@@ -21,7 +21,7 @@
         <div id="hd">
             <div class="right">
                 <?php if(ZFramework::app()->site_close):?><span class="notice"><?php echo ZFramework::t('OFF_LINE_MODE');?></span><?php endif;?>
-                <span id="toggleForm"><?php echo ZFramework::t('CLICK_POST');?></span>
+                
                 <?php
                 if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user']))
                     echo '<a class="thickbox" href="index.php?controller=user&amp;action=create&amp;width=600&amp;height=60%">'.ZFramework::t('REGISTER').'</a>&nbsp;<a href="index.php?controller=user&amp;action=login">'.ZFramework::t('LOGIN').'</a>';
@@ -66,6 +66,7 @@
                 <?php }?>
             </div>
             <?php }?>
+            <div style="text-align:center"><h4><span id="toggleForm"><?php echo ZFramework::t('CLICK_POST');?></span></h4></div>
             <div class="span-20">
                 <div id="returnedError"></div>
                 <form id="guestbook" name="guestbook" action="index.php?controller=post&amp;action=create" method="post">
