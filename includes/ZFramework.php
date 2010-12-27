@@ -139,17 +139,20 @@ class ZFramework{
     public function getAction(){
         return $this->_action;
     }
-    /* 翻译核心信息 */
-    public static function t($message){
-        if(array_key_exists($message,self::getCoreMessage()))
-            return strtr($message, self::getCoreMessage());
-        else
-            return strtr($message,self::getLangArray());
+
+    public static function t($message,$params=array(),$userSpecifiedLanguage=null){
+        $messages=self::getLangArray($userSpecifiedLanguage);
+        if(isset ($messages[$message]) && $messages[$message]!=='')
+            $message=$messages[$message];
+        return $params!==array()?strtr($message, $params):$message;
     }
-    public static function getCoreMessage(){
-        return include dirname(__FILE__).'/coreMessage.php';
-    }
-    public static function getLangArray(){
+    
+    public static function getLangArray($userSpecifiedLanguage=null){
+        if($userSpecifiedLanguage){
+            if(file_exists(APPROOT.'/languages/'.$userSpecifiedLanguage.'.php')){
+                return include APPROOT.'/languages/'.$userSpecifiedLanguage.'.php';
+            }
+        }
         return include APPROOT.'/languages/'.self::createApp()->lang.'.php';
     }
     public static function getSmileys(){
