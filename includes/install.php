@@ -3,7 +3,7 @@
 <html>
 <head>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <title>Installation</title>
+   <title><?php echo ZFramework::t('INSTALL_PANEL', array(), $language);?></title>
    <link rel="stylesheet" href="http://yui.yahooapis.com/2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
    <style type="text/css">
    #custom-doc { width: 62%; min-width: 250px; background-color: #CCCCCC; height: 10em;}
@@ -28,13 +28,27 @@
 	<?php
         if(isset ($tips)){
             echo '<font color="red">'.$tips."</font>";
+            echo "<a href='{$_SERVER["PHP_SELF"]}?l=$language&amp;s=".  rand()."'>".ZFramework::t('RETRY', array(), $language)."</a>";
         }else{
+            if(@$formError){
+                echo '<p><font color="red">'.$formError.'</font></p>';
+            }
         ?>
-	    <form action="index.php?action=install&l=$language" method="post">
-	    <?php echo ZFramework::t('ADMIN_USERNAME',array(),$language); ?> :<input type="text" name="adminname" /><br />
-	    <?php echo ZFramework::t('ADMIN_PASSWORD',array(),$language); ?>:<input type="password" name="adminpass" /><br />
-            <?php echo ZFramework::t('DB_NAME',array(),$language); ?>:<input type="text" name="dbname" maxlength="10" /><br />
-            <input type="submit" value="<?php echo ZFramework::t('INSTALL', array(), $language);?>" />
+	    <form action="index.php?action=install&l=<?php echo $language;?>" method="post">
+                <table align="center">
+                    <tr>
+                        <td><?php echo ZFramework::t('ADMIN_USERNAME',array(),$language); ?> </td><td><input type="text" name="adminname" />&nbsp;</td><td><?php echo ZFramework::t('ADMIN_USERNAME_MIN', array(), $language);?></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo ZFramework::t('ADMIN_PASSWORD',array(),$language); ?></td><td><input type="password" name="adminpass" /></td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><?php echo ZFramework::t('DB_NAME',array(),$language); ?></td><td><input type="text" name="dbname" maxlength="10" /></td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><input type="submit" value="<?php echo ZFramework::t('INSTALL', array(), $language);?>" /></td>
+                    </tr>
+                </table>
 	    </form>
         <?php
         }
