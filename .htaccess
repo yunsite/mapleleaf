@@ -32,4 +32,5 @@ DirectoryIndex index.php
   php_value mbstring.http_input             pass
   php_value mbstring.http_output            pass
   php_value mbstring.encoding_translation   0
+  php_value auto_append_file                none
 </IfModule>
