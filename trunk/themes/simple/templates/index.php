@@ -57,6 +57,7 @@
             <?php if(ZFramework::app()->page_on){?>
             <div id="pagination">
                 <?php echo sprintf(ZFramework::t('PAGE_NAV'),$nums,$pages);?>
+                <span id="pagenumString">
                 <?php for($i=0;$i<$pages;$i++){?>
                         <a href='index.php?pid=<?php echo $i;?>'>
                         <?php
@@ -64,6 +65,7 @@
                         ?>
                         </a>&nbsp;
                 <?php }?>
+                </span>
             </div>
             <?php }?>
             <div style="text-align:center"><h4><span id="toggleForm"><?php echo ZFramework::t('CLICK_POST');?></span></h4></div>
