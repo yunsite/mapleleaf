@@ -185,10 +185,16 @@ return array(
     'LANGUAGE_ERROR'=>'语言未定义!',
     'QUERY_ERROR'=>'查询错误!',
     //安装
+    'INSTALL_PANEL'=>'枫叶留言板安装面板',
     'INSTALL_MP'=>'安装 MapleLeaf',
     'ADMIN_USERNAME'=>'管理员用户名',
+    'ADMIN_USERNAME_MIN'=>'至少三个字符',
     'ADMIN_PASSWORD'=>'管理员密码',
     'DB_NAME'=>'数据库名字',
     'INSTALL'=>'安装',
     'FINISHED'=>'<p>安装完成！现在进入 <a href="index.php">前台</a>，或者登陆 <a href="index.php?action=control_panel">管理面板</a></p><p>记得一定要删除或重命名 <code>includes</code> 目录中的 install.php</p>',
+    'RETRY'=>'刷新重试',
+    'DATADIR_NOT_WRITABLE'=>'目录 data 不可写。请更改目录权限。',
+    'PLUGINDIR_NOT_WRITABLE'=>'目录 plugins 不可写。请更改目录权限。',
+    'APP_DB_EXISTS'=>'数据库 `{db}` 已经存在!',
 );
