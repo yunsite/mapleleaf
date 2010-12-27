@@ -35,6 +35,7 @@ $(document).ready(function() {
                         data: $(this).serialize(),
                         beforeSend:function(xhr){
                             post.showInfo();
+                            $('input#submit').attr('disabled','disabled');
                         },
                         success: function(data){
                             $('#captcha_img').attr('src',$('#captcha_img').attr('src')+'&id='+Math.random());
@@ -71,7 +72,10 @@ $(document).ready(function() {
                                 post.showError();
                             }     
                         },
-                        error:post.error
+                        error:post.error,
+                        complete:function(){
+                            $('input#submit').attr('disabled','');
+                        }
                     });
                 }else{
                     post.emptyError();
