@@ -14,7 +14,7 @@ class SiteController extends BaseController
     {
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-        $nums=isset ($_GET['ajax'])?$this->_model->num_rows($this->_model->select(MESSAGETABLE)):$this->_model->num_rows($data);
+        $nums=$this->_model->num_rows($data);
         $pages=ceil($nums/ZFramework::app()->num_perpage);
         if($current_page>=$pages)
             $current_page=$pages-1;
