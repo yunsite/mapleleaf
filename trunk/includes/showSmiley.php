@@ -1,4 +1,5 @@
 <?php
+if(!defined('IN_MP')){die('Access denied!');}
 $smileyString="<table id='smileysTable' cellpadding='4'>\n";
 $numPerRow=8;
 $smileyArray=array_pad(ZFramework::getSmileys(), ceil(count(ZFramework::getSmileys())/$numPerRow)*$numPerRow, '');
