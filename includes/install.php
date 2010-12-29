@@ -47,7 +47,7 @@
                         <td><?php echo ZFramework::t('DB_NAME',array(),$language); ?></td><td><input type="text" name="dbname" maxlength="10" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="3"><input type="submit" value="<?php echo ZFramework::t('INSTALL', array(), $language);?>" /></td>
+                        <td colspan="3"><input type="submit" value="<?php echo ZFramework::t('INSTALL', array(), $language);?>" />&nbsp;<?php echo ZFramework::t('INSTALL_AGREEMENT', array(), $language);?></td>
                     </tr>
                 </table>
 	    </form>

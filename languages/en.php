@@ -200,4 +200,5 @@ return array(
     'PLUGINDIR_NOT_WRITABLE'=>'Directory `plugins/` is not writable,please change directory permission so that it is writable by the web server',
     'APP_DB_EXISTS'=>'Database `{db}` exists!',
     'INSTALL_NEED_HELP'=>'Need help?',
+    'INSTALL_AGREEMENT'=>'To install this software, you must agree to <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GPL 2</a>',
 );
