@@ -28,7 +28,8 @@
 	<?php
         if(isset ($tips)){
             echo '<font color="red">'.$tips."</font>";
-            echo "<a href='{$_SERVER["PHP_SELF"]}?l=$language&amp;s=".  rand()."'>".ZFramework::t('RETRY', array(), $language)."</a>";
+            echo "<a href='{$_SERVER["PHP_SELF"]}?l=$language&amp;s=".  rand()."'>".ZFramework::t('RETRY', array(), $language)."</a>&nbsp;";
+            echo "<a href='http://mapleleaf.ourplanet.tk/node/8' target='_blank'>".ZFramework::t('INSTALL_NEED_HELP', array(), $language)."</a>";
         }else{
             if(@$formError){
                 echo '<p><font color="red">'.$formError.'</font></p>';
