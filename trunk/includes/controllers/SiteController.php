@@ -68,9 +68,11 @@ class SiteController extends BaseController
                 $adminnameString="\n\$admin='$adminname';";
                 $adminpassString="\n\$password='$adminpass';";
                 $dbnameString="\n\$dbname='$dbname';";
+                $langString="\n\$lang='$language';";
                 file_put_contents(CONFIGFILE, $adminnameString,FILE_APPEND);
                 file_put_contents(CONFIGFILE, $adminpassString,FILE_APPEND);
                 file_put_contents(CONFIGFILE, $dbnameString,FILE_APPEND);
+                file_put_contents(CONFIGFILE, $langString, FILE_APPEND);
                 if(!$this->_model->create_db($dbname)){
                     die ($this->_model->error());
                 }
