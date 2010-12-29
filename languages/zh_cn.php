@@ -197,4 +197,5 @@ return array(
     'DATADIR_NOT_WRITABLE'=>'目录 data 不可写。请更改目录权限。',
     'PLUGINDIR_NOT_WRITABLE'=>'目录 plugins 不可写。请更改目录权限。',
     'APP_DB_EXISTS'=>'数据库 `{db}` 已经存在!',
+    'INSTALL_NEED_HELP'=>'需要帮助？',
 );

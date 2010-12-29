@@ -199,4 +199,5 @@ return array(
     'DATADIR_NOT_WRITABLE'=>'Directory `data/` is not writable,please change directory permission so that it is writable by the web server',
     'PLUGINDIR_NOT_WRITABLE'=>'Directory `plugins/` is not writable,please change directory permission so that it is writable by the web server',
     'APP_DB_EXISTS'=>'Database `{db}` exists!',
+    'INSTALL_NEED_HELP'=>'Need help?',
 );
