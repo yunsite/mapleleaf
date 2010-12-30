@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('<input type="hidden" name="ajax" value="true" />').insertAfter('#user');
     $.ajax({ type: "GET", url: 'index.php', data: { controller:"site",action: "getSysJSON" }, success: function(data){ languageTips=data;}, dataType: 'json'});
-
+    $('a').hide();
     $('#registerForm').submit(function(){
         var user=$('#user').val();
 	var password=$('#password').val();
