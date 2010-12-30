@@ -104,7 +104,7 @@
     function gd_version()
     {
 	$gd_version=FALSE;
-	if (defined(GD_VERSION))
+	if (defined('GD_VERSION'))
 	    $gd_version=GD_VERSION;
 	elseif(function_exists('gd_info'))
 	{
