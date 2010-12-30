@@ -12,6 +12,7 @@
 <!--[if lt IE 8]><link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/register.js';?>"></script>
+<style type="text/css"> .container { width: 500px;} </style>
 </head>
 <body>
     <div class="container">
@@ -37,7 +38,7 @@
 			<dd><input type="text" id="email" name="email" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 			</dd>
 		    </dl>
-						</div>
+		</div>
 		<div class="butbox">
 		    <dl>
                         <dt><input id="submit_button" name="submit" type="submit" value="<?php echo ZFramework::t('REGISTER');?>" />&nbsp;<a href="index.php"><?php echo ZFramework::t('CANCEL');?></a></dt>

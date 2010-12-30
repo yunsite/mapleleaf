@@ -9,8 +9,9 @@
 <link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/screen.css" type="text/css" media="screen, projection" />
 <link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/print.css" type="text/css" media="print" />
 <!--[if lt IE 8]><link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
-<link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/index.css';?>" />
 <link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal.css';?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/index.css';?>" />
+<link type="text/css" rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/jqModal_frame.css';?>" />
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://mapleleaf.googlecode.com/files/jqModal.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/index.js';?>"></script>
@@ -25,7 +26,7 @@
                 
                 <?php
                 if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user']))
-                    echo '<a class="thickbox" href="index.php?controller=user&amp;action=create&amp;width=600&amp;height=60%">'.ZFramework::t('REGISTER').'</a>&nbsp;<a href="index.php?controller=user&amp;action=login">'.ZFramework::t('LOGIN').'</a>';
+                    echo '<a class="thickbox" href="index.php?controller=user&amp;action=create&amp;width=630&amp;height=45%">'.ZFramework::t('REGISTER').'</a>&nbsp;<a href="index.php?controller=user&amp;action=login">'.ZFramework::t('LOGIN').'</a>';
                 if(isset ($_SESSION['user']) || isset ($_SESSION['admin']))
                     echo '<a href="index.php?controller=user&amp;action=logout">'.ZFramework::t('LOGOUT').'</a>';
                 if(isset ($_SESSION['user']))
