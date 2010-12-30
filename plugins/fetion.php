@@ -6,8 +6,8 @@ if(!defined('IN_MP')){die('Access denied!');}
  */
 
 function fetion_t($message){
-    $fetion_en=array('ID'=>'Fetion ID','PWD'=>'Password','SUBMIT'=>'Submit');
-    $fetion_zh_cn=array('ID'=>'飞信号码','PWD'=>'密码','SUBMIT'=>'提交');
+    $fetion_en=array('ID'=>'Fetion ID','PWD'=>'Password','SUBMIT'=>'Submit','POSTED'=>'said');
+    $fetion_zh_cn=array('ID'=>'飞信号码','PWD'=>'密码','SUBMIT'=>'提交','POSTED'=>'留言');
     $languageArrayName='fetion_'.ZFramework::app()->lang;
     return strtr($message, $$languageArrayName);
 }
@@ -40,7 +40,7 @@ function fetion_config($showConfig=FALSE,$config=NULL){
 }
 function fetion_send(){
     @include PLUGINDIR.'.fetion.conf.php';
-    @$message=urlencode($_REQUEST['user'].' 留言：'.$_REQUEST['content']);
+    @$message=urlencode($_REQUEST['user'].' '.fetion_t('POSTED').':'.$_REQUEST['content']);
     @$result=file_get_contents('http://fetion.adwap.cn/restlet/fetion/'.$fetionID.'/'.$fetionPWD.'/'.$fetionID.'/'.$message);
     //if($result=='OK'){	return TRUE; }    //return FALSE;
 }
