@@ -116,8 +116,8 @@ class CJSON
 				if(function_exists('json_encode'))
 					return json_encode($var);
 
-				if (($enc=strtoupper(Yii::app()->charset))!=='UTF-8')
-					$var=iconv($enc, 'UTF-8', $var);
+				#if (($enc=strtoupper(Yii::app()->charset))!=='UTF-8')
+				#	$var=iconv($enc, 'UTF-8', $var);
 
 				// STRINGS ARE EXPECTED TO BE IN ASCII OR UTF-8 FORMAT
 				$ascii = '';
