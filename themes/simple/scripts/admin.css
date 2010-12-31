@@ -100,3 +100,7 @@ a:hover{
 textarea.span-9{
     height: 40px;
 }
+/* 隐藏 “选择所有”等按钮 */
+.check_span{
+    display: none;
+}

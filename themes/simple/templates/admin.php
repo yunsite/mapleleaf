@@ -184,9 +184,9 @@
 
 			<tr>
 			    <td colspan='4'>
-				<a href="#" id="m_checkall"><?php echo ZFramework::t('CHECK_ALL');?></a> &nbsp;
+                                <span class="check_span"><a href="#" id="m_checkall"><?php echo ZFramework::t('CHECK_ALL');?></a> &nbsp;
 				<a href="#" id="m_checknone"><?php echo ZFramework::t('CHECK_NONE');?></a> &nbsp;
-				<a href="#" id="m_checkxor"><?php echo ZFramework::t('CHECK_INVERT');?></a>&nbsp;
+				<a href="#" id="m_checkxor"><?php echo ZFramework::t('CHECK_INVERT');?></a>&nbsp;</span>
 				<input type='submit' value='<?php echo ZFramework::t('DELETE_CHECKED');?>' />&nbsp;
 				<a id="deleteallLink" href="index.php?controller=post&amp;action=deleteAll"><?php echo ZFramework::t('DELETE_ALL');?></a>&nbsp;
                                 <a id="deleteallreplyLink" href="index.php?controller=reply&amp;action=deleteAll"><?php echo ZFramework::t('DELETE_ALL_REPLY');?></a>
@@ -212,7 +212,7 @@
 				    <td><?php echo $m["ip"];?></td>
 				</tr>
 				<?php }?>
-				<tr><td colspan='2' align='left'><a href="#" id="ip_checkall"><?php echo ZFramework::t('CHECK_ALL');?></a> &nbsp; <a href="#" id="ip_checknone"><?php echo ZFramework::t('CHECK_NONE');?></a> &nbsp;<a href="#" id="ip_checkxor"><?php echo ZFramework::t('CHECK_INVERT');?></a>&nbsp;<input type='submit' value='<?php echo ZFramework::t('DELETE_CHECKED');?>' /></td></tr>
+				<tr><td colspan='2' align='left'><span class="check_span"><a href="#" id="ip_checkall"><?php echo ZFramework::t('CHECK_ALL');?></a> &nbsp; <a href="#" id="ip_checknone"><?php echo ZFramework::t('CHECK_NONE');?></a> &nbsp;<a href="#" id="ip_checkxor"><?php echo ZFramework::t('CHECK_INVERT');?></a>&nbsp;</span><input type='submit' value='<?php echo ZFramework::t('DELETE_CHECKED');?>' /></td></tr>
 			    </table>
 			</form>
 		    </div><!-- Bad IPs -->
