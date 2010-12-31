@@ -188,8 +188,8 @@
 				<a href="#" id="m_checknone"><?php echo ZFramework::t('CHECK_NONE');?></a> &nbsp;
 				<a href="#" id="m_checkxor"><?php echo ZFramework::t('CHECK_INVERT');?></a>&nbsp;
 				<input type='submit' value='<?php echo ZFramework::t('DELETE_CHECKED');?>' />&nbsp;
-				<a href="index.php?controller=post&amp;action=deleteAll"><input id="deleteallButton" type='button' value='<?php echo ZFramework::t('DELETE_ALL');?>' /></a>&nbsp;
-                                <a href="index.php?controller=reply&amp;action=deleteAll"><input  id="deleteallreplyButton" type='button' value='<?php echo ZFramework::t('DELETE_ALL_REPLY');?>' /></a>
+				<a id="deleteallLink" href="index.php?controller=post&amp;action=deleteAll"><?php echo ZFramework::t('DELETE_ALL');?></a>&nbsp;
+                                <a id="deleteallreplyLink" href="index.php?controller=reply&amp;action=deleteAll"><?php echo ZFramework::t('DELETE_ALL_REPLY');?></a>
 				<a href="index.php?controller=backup&amp;action=create"><?php echo ZFramework::t('BACKUP');?></a>
 			    </td></tr>
 
