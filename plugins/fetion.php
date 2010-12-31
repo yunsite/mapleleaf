@@ -12,7 +12,7 @@ function fetion_t($message){
     return strtr($message, $$languageArrayName);
 }
 function fetion_config($showConfig=FALSE,$config=NULL){
-    $filename=PLUGINDIR.'.fetion.conf.php';
+    $filename=conf_path().'/.fetion.conf.php';
     if( isset($config) && $config['plugin'] =='fetion'){
         if(!empty($config['fetionID']) && !empty($config['fetionPASSWORD'])){
             $fetionID=$config['fetionID'];
@@ -39,7 +39,7 @@ function fetion_config($showConfig=FALSE,$config=NULL){
     echo '</form>';
 }
 function fetion_send(){
-    @include PLUGINDIR.'.fetion.conf.php';
+    @include conf_path().'/.fetion.conf.php';
     @$message=urlencode($_REQUEST['user'].' '.fetion_t('POSTED').':'.$_REQUEST['content']);
     @$result=file_get_contents('http://fetion.adwap.cn/restlet/fetion/'.$fetionID.'/'.$fetionPWD.'/'.$fetionID.'/'.$message);
     //if($result=='OK'){	return TRUE; }    //return FALSE;
