@@ -94,7 +94,7 @@
                         <td><textarea class="span-10" id="content" name="content" cols="45" rows="8" ></textarea></td>
                         <td><div id='smileys'><?php echo $smileys;?></div>&nbsp;<br /></td>
                     </tr>
-                    <?php if(ZFramework::app()->valid_code_open){?>
+                    <?php if(ZFramework::app()->valid_code_open && gd_loaded()){?>
                     <tr>
                         <td class="l"><?php echo ZFramework::t('VALIDATE_CODE');?></td>
                         <td class="left"><input id="valid_code" type="text" name="valid_code" size="4" maxlength="4" />&nbsp;<img id="captcha_img" src="index.php?action=captcha" title="<?php echo ZFramework::t('CLICK_TO_REFRESH');?>" alt="<?php echo ZFramework::t('CAPTCHA');?>" /></td>

@@ -125,17 +125,23 @@
 			    <legend><?php echo ZFramework::t('POST_CONF');?></legend>
 			    <table>
 				<tr>
-				    <td><?php echo ZFramework::t('FILTER_WORDS');?>：</td><td ><textarea class="span-9" name="filter_words" cols="20" rows="3"><?php echo ZFramework::app()->filter_words;?></textarea></td>
+				    <td><?php echo ZFramework::t('FILTER_WORDS');?>：</td><td><textarea class="span-9" name="filter_words" cols="20" rows="3"><?php echo ZFramework::app()->filter_words;?></textarea></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('ENABLE_CAPTCHA');?>：</td><td ><input name="valid_code_open" type="radio" value="1"
-			    <?php if(ZFramework::app()->valid_code_open==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('YES');?><input name="valid_code_open" type="radio" value="0" <?php if(ZFramework::app()->valid_code_open==0){?> checked='checked' <?php }?> /><?php echo ZFramework::t('NO');?></td>
+				    <td><?php echo ZFramework::t('ENABLE_CAPTCHA');?>：</td>
+                                    <td>
+                                        <?php if(gd_loaded()):?>
+                                        <input name="valid_code_open" type="radio" value="1" <?php if(ZFramework::app()->valid_code_open==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('YES');?><input name="valid_code_open" type="radio" value="0" <?php if(ZFramework::app()->valid_code_open==0){?> checked='checked' <?php }?> /><?php echo ZFramework::t('NO');?>
+                                        <?php else: ?>
+                                        <input name="valid_code_open" type="radio" value="1" /><?php echo ZFramework::t('YES');?><input name="valid_code_open" type="radio" value="0" checked='checked' /><?php echo ZFramework::t('NO');?><?php echo ZFramework::t('GD_DISABLED_NOTICE');?>
+                                        <?php endif;?>
+                                    </td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('ENABLE_PAGE');?>：</td><td ><input name="page_on" type="radio" value="1" <?php if(ZFramework::app()->page_on==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('YES');?><input name="page_on" type="radio" value="0" <?php if(ZFramework::app()->page_on==0){?> checked='checked'<?php }?> /><?php echo ZFramework::t('NO');?></td>
+				    <td><?php echo ZFramework::t('ENABLE_PAGE');?>：</td><td><input name="page_on" type="radio" value="1" <?php if(ZFramework::app()->page_on==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('YES');?><input name="page_on" type="radio" value="0" <?php if(ZFramework::app()->page_on==0){?> checked='checked'<?php }?> /><?php echo ZFramework::t('NO');?></td>
 				</tr>
 				<tr>
-				    <td><?php echo ZFramework::t('POST_PERPAGE');?>：</td><td ><input name="num_perpage" type="text" value="<?php echo ZFramework::app()->num_perpage;?>" /><?php echo ZFramework::t('PAGINATION_TIP');?></td>
+				    <td><?php echo ZFramework::t('POST_PERPAGE');?>：</td><td><input name="num_perpage" type="text" value="<?php echo ZFramework::app()->num_perpage;?>" /><?php echo ZFramework::t('PAGINATION_TIP');?></td>
 				</tr>
 			    </table>
 			    </fieldset>
