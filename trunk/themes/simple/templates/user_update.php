@@ -2,8 +2,20 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <title><?php echo ZFramework::t('UPDATE');?></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="http://yui.yahooapis.com/2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css" />
+        <style type="text/css">
+           #custom-doc { width: 62%; min-width: 250px; background-color: #CCCCCC; height: 10em;}
+           div{text-align: center; }
+           #language{float: right}
+        </style>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $('a').hide();
+        });
+        </script>
   </head>
   <body>
       <?php if(@$errorMsg):?>

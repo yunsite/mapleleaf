@@ -19,6 +19,8 @@ $(document).ready(function() {
     $('#toggleForm').css('display','inline');
     //隐藏留言表单
     $("#add_table").hide();
+    //显示“Press Ctrl+Enter to post”
+    $('#post_shortcut').show();
     //为“点击留言”应用鼠标手势
     $("#toggleForm").hover(function(){$(this).addClass("pointer");});
     //点击“点击留言”，隐藏，显示表单

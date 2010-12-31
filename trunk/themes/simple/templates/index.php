@@ -30,7 +30,7 @@
                 if(isset ($_SESSION['user']) || isset ($_SESSION['admin']))
                     echo '<a href="index.php?controller=user&amp;action=logout">'.ZFramework::t('LOGOUT').'</a>';
                 if(isset ($_SESSION['user']))
-                    echo '&nbsp;<a class="thickbox" href="index.php?controller=user&amp;action=update&amp;uid='.$_SESSION['uid'].'&amp;width=600&amp;height=60%">'.ZFramework::t('UPDATE').'</a>';
+                    echo '&nbsp;<a class="thickbox" href="index.php?controller=user&amp;action=update&amp;uid='.$_SESSION['uid'].'&amp;width=600&amp;height=50%">'.ZFramework::t('UPDATE').'</a>';
                 ?>
             </div>
             <h1><?php echo ZFramework::t('WELCOME_POST');?></h1>
@@ -103,7 +103,7 @@
                     <?php }?>
                     <tr>
                         <td>&nbsp;</td>
-                        <td colspan="2"><input id="submit" name="submit" type="submit"  value="<?php echo ZFramework::t('SUBMIT');?>" /><?php echo ZFramework::t('POST_SHORTCUT');?></td>
+                        <td colspan="2"><input id="submit" name="submit" type="submit"  value="<?php echo ZFramework::t('SUBMIT');?>" /><span id="post_shortcut" style="display:none"><?php echo ZFramework::t('POST_SHORTCUT');?></span></td>
                     </tr>
                 </table>
                 </form>
