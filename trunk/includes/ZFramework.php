@@ -67,9 +67,9 @@ class ZFramework{
         $d=dir(PLUGINDIR);
         while(false!==($entry=$d->read()))
         {
-            if(substr($entry,0,1)!='.' && file_exists(PLUGINDIR.'.'.substr($entry,0,-4).'.conf.php')){
+            if(substr($entry, 0,1)!='.' && file_exists(conf_path().'/.'.  substr($entry, 0,-4).'.conf.php')){
                 include PLUGINDIR.$entry;
-                include PLUGINDIR.'.'.substr($entry,0,-4).'.conf.php';
+                include conf_path().'/.'.  substr($entry, 0,-4).'.conf.php';
             }
         }
         $d->close();

@@ -15,7 +15,7 @@ class PluginController extends BaseController
         is_admin();
         $all_plugin=ZFramework::get_all_plugins();
         if(isset ($_GET['id']) && in_array($_GET['id'], $all_plugin)){
-            $pluginConfFile=PLUGINDIR.'.'.$_GET['id'].'.conf.php';
+            $pluginConfFile=conf_path().'/.'.$_GET['id'].'.conf.php';
             @unlink($pluginConfFile);
         }
         header("Location:index.php?action=control_panel&subtab=plugin");
