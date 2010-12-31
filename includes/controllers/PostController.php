@@ -33,7 +33,7 @@ class PostController extends BaseController
                 $new_data_error_msg=ZFramework::t('FILL_NOT_COMPLETE');
             elseif(strlen($content)>580)
                 $new_data_error_msg=ZFramework::t('WORDS_TOO_LONG');
-            elseif(ZFramework::app()->valid_code_open==1){
+            elseif(ZFramework::app()->valid_code_open==1 && gd_loaded()){
                 if(!$this->_verifyCode->check($_POST['valid_code']))
                     $new_data_error_msg=ZFramework::t('CAPTCHA_WRONG');
             }

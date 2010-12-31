@@ -199,4 +199,6 @@ return array(
     'APP_DB_EXISTS'=>'数据库 `{db}` 已经存在!',
     'INSTALL_NEED_HELP'=>'需要帮助？',
     'INSTALL_AGREEMENT'=>'为了安装此程序，你必须遵守 <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GPL 2 </a>',
+
+    'GD_DISABLED_NOTICE'=>'(GD 不支持，因此你无法开启验证码功能。)',
 );
