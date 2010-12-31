@@ -1,6 +1,7 @@
 $(document).ready(function() {
         var containerDiv=new Array('overviewContainer','configContainer','message_container','ip_container','pluginContainer');
 	$.ajax({ type: "GET", url: 'index.php', data: { action: "getSysJSON" }, success: function(data){ languageTips=data;}, dataType: 'json'});
+        $('span.check_span').show();
 	/* jqModal */
 	$('#ex2').jqm({ajax: '@href', trigger: 'a.ex2trigger'});
 	$('#deleteallLink').click(function(){ if(window.confirm(languageTips.DEL_ALL_CONFIRM)){window.open('index.php?controller=post&action=deleteAll','_self'); }return false;});
