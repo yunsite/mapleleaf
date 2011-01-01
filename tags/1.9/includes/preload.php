@@ -3,8 +3,9 @@ if(!defined('IN_MP')){die('Access denied!');}
 if(version_compare(PHP_VERSION,'5.1.0','<')){die('PHP Version 5.1.0+ required!');}
 date_default_timezone_set('UTC');
 //error_reporting(E_ALL & ~E_DEPRECATED);
+error_reporting(0);
 //若用于调试，请把上面一行注释掉，打开下面这一行
-error_reporting(E_ALL);
+#error_reporting(E_ALL);
 
 /**
  * 尝试禁用magic_quotes_gpc，magic_quotes_runtime，magic_quotes_sybase

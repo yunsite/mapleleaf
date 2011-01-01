@@ -17,7 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/gpl-2.0.html/
 session_start();
 define('IN_MP',true);
 define('APPROOT', dirname(__FILE__));
-define('DEBUG_MODE', true);
+#define('DEBUG_MODE', true);
+define('DEBUG_MODE', false);
 require_once('./includes/preload.php');
 $webapp= ZFramework::createApp();
 $webapp->run();
