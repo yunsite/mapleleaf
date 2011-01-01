@@ -19,9 +19,9 @@ User-agent: *
 Crawl-delay: 10
 # Directories
 Disallow: /data/
-Disallow: /misc/
 Disallow: /includes/
 Disallow: /themes/
+Disallow: /sites/
 # Files
 # Paths (no clean URLs)
 Disallow: /?action=control_panel
