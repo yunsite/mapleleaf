@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>欢迎使用枫叶留言板1.6</title>
+</head>
+<body>
+<center><a href="#intro">简介</a>&nbsp;<a href="#install">安装</a>&nbsp;<a href="#changelog">更新记录</a>&nbsp;<a href="#license">许可</a>&nbsp;<a href="#developer">开发者</a></center>
+<a name="intro">简介</a>
+<p>枫叶留言板是什么？</p>
+<p>一个简易的留言板程序，用PHP写成。本程序的最大特色是没有使用数据库，适合小型博客使用。</p>
+<p>作为一个轻巧灵便的文本留言板，枫叶留言板提供了更便捷的使用方法。<p>
+<p>使用它，您可以：</p>
+	<ul>
+		<li>1.用来作为个人空间的留言板程序。</li>
+		<li>2.在此基础上进行改造，打造您独特的留言板。</li>
+	</ul>
+<hr />
+<a name="install">安装</a>
+<p>服务器需求</p>
+	<p>1.Apache 或者 IIS 等其他webserver<br />
+	  2.PHP 5以后版本
+	</p>
+	<ul>
+<li>上传文件至您的服务器空间。请注意不要与您在服务器上的其他文件名重复。</li>
+		<li>修改服务器上的以下文件的属性为646:data/gb.txt,data/reply.txt,data/gb_index.txt,site.conf.php</li>
+		<li>修改服务器上的以下目录的属性为777:compiled,data</li>
+		<li>登录管理界面，修改管理员(admin)的密码，默认是admin.设置站点各项信息</li>
+		<li>That's all.</li>
+	</ul>
+<p>好了，安装完成了。告诉你的好友吧，一起来分享快乐。</p>
+<hr />
+<a name="changelog">更新记录</a>
+<pre>
+枫叶留言板1.7更新记录
+1.实现了单一入口 index.php
+2.重写了maple.class.php中多个文件操作函数
+3.增加了屏蔽IP，删除留言，更新回复，备份文件等功能。
+4.data目录增加了.htaccess文件，在Apache下保护.txt文件不被浏览
+5.删除 adm 目录，将其下的 site.conf.php 移至程序根目录
+6.不再支持PHP4
+
+更新日期：2009-08-12
+
+枫叶留言板1.6更新记录
+1.实现了PHP与HTML的分离,对界面显示进行调整。模板引擎为templatelite。
+2.多主题支持，目前的版本提供了两个：simple和default
+3.不再使用fckeditor
+4.实现了maple.class.php。
+
+更新日期：2009-06-01
+
+枫叶留言板1.5更新记录
+1.增加str_ireplace在php4中的替代函数
+2.增加htmlspecialchars_decode在php4中的替代函数
+3.判断常量GD_VERSION是否可用
+
+更新日期：2009-04-30
+
+1.将文件结构进行了整理，更清晰。
+2.更改了fckeditor的配置，默认显示工具条，并增加了“图像”，“表情”和“输入特殊字符”功能。简化了“链接”功能。
+3.增加了.htaccess文件，若http软件是Apache,对关键文件起保护作用。
+4.增加了留言回复功能。
+5.增加了站点管理功能。
+
+更新日期：2009-01-15
+
+1.修正了IE下注销无法显示页面的问题
+2.修正了IE下登录页面中登录框不居中的问题
+更新日期:2008-01-30
+------------------------------------------
+1.4版本更新日志
+-1.增加了Fckeditor.
+时间：2008-11-24
+------------------------------------------
+1.3版本更新日志
+-1.分离了HTML与CSS。
+-2.更新了管理页面背景音乐链接。
+-3.解决了首页和管理页面出现的“Undefined offset”问题
+-4.取消了魔术引用
+-7.将留言时间由index.php移到了process.php
+-8.将保存留言的分隔符由“|”改为“"”(双引号)
+-9.提供了时间设定功能，可以设置当前时区
+时间：2008-09-10
+</pre>
+<hr />
+<a name="license">许可</a>
+<p>枫叶留言板是开源的PHP应用程序，遵循GPL版权。</p>
+<p>您可以自由使用，修改，再次发行它。</p>
+<p>若您用于自己的站点，请保留枫叶留言板链接。</p>
+<hr />
+<a name="developer">开发者</a>
+<pre>
+
+作者：风舞六月
+MSN:rainyjune@live.cn
+Email:348106409@163.com
+QQ:764271378
+
+作者：hellojinjie
+Email:hellojinjie@gmail.com
+
+贡献者
+
+作者：友情‰枫叶
+Email:fenye2113@126.com
+QQ:273314328
+</pre>
+<p>等待你的参与！建议，意见，Bug反馈，请访问 <a href="http://maple.dreamneverfall.cn/forum/">官方网站论坛</a> 或 email 至:<a href="mailto:rainyjune@live.cn">rainyjune@live.cn</a></p>
+</body>
+</html>
