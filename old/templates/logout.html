@@ -1,0 +1,26 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="txt/html;charset=utf-8" />
+<title>管理退出</title>
+<link rel="stylesheet" type="text/css" href="../themes/{$theme}/logout.css"  />
+<script type="text/javascript" src="../includes/logout.js"></script>
+{if $old_user==true}
+        <meta http-equiv="Refresh" content="5;URL=../index.php" />
+{/if}
+</head>
+<body>
+<div id="lay">
+<h1>退出管理</h1>
+{if $old_user==true}
+您已成功退出.<img src='../smileys/images/smile.gif'>
+您将在 <span id="sss"></span> 秒后返回主页
+<script type="text/javascript">
+counts();
+</script>
+{else}
+您没有登录，所以您无需退出。 <img src='../smileys/images/smile.gif'>
+<a href="../index.php">返回留言板首页</a>
+{/if}
+</div>
+</body>
+</html>
