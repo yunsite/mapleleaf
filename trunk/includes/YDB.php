@@ -7,7 +7,7 @@ class YDB {
         $dbms=$_url['scheme'];
         if(in_array($dbms, self::$allowdDBMS)){
             $DBClass='Y'.$dbms;
-            include APPROOT.'/includes/'.$DBClass.'.php';
+            include_once APPROOT.'/includes/'.$DBClass.'.php';
             return new $DBClass($url);
         }else{
             die("DBMS '$dbms' is not supported.");

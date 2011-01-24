@@ -5,14 +5,15 @@ class SiteController extends BaseController
     protected   $_verifyCode;
     public function  __construct()
     {
-        #$this->_model=new JuneTxtDB();
-        #$this->_model->select_db(DB);
+        global $db_url;
+        $this->_model=  YDB::factory($db_url);
         $this->_verifyCode=new FLEA_Helper_ImgCode();
     }
     //展示首页
     public function actionIndex()
     {
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
+        var_dump($data);exit;
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
         $nums=$this->_model->num_rows($data);
         $pages=ceil($nums/ZFramework::app()->num_perpage);
@@ -138,6 +139,7 @@ class SiteController extends BaseController
     public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false)
     {
         $data=array();
+        /*
 	if(($data=$this->_model->select(MESSAGETABLE))===FALSE)
 	    die($this->_model->error());
         if(($reply_data=$this->_model->select(REPLYTABLE))===FALSE)
@@ -169,6 +171,9 @@ class SiteController extends BaseController
             }
         }
         $data=array_reverse($data);
+         * 
+         */
+        $data=$this->_model->queryAll("SELECT p.uid ,p.uname,u.username AS b_username ,p.content AS content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid");
         return $data;
     }
     /**
