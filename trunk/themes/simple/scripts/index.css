@@ -1,0 +1,35 @@
+@charset "utf-8";
+h1{
+    text-align:center;
+}
+#toggleForm{
+    display: none;
+    text-indent: 3em;
+    background-color:#66CCFF;
+}
+#smileys{
+	display:none;
+}
+a:link
+{
+	color:silver;
+	text-decoration:none;
+}
+a:hover{
+	color:#FFCC33;
+}
+a:visited{
+	text-decoration:none;
+}
+.pointer {
+	cursor:pointer;
+}
+#smileysTable{
+    border: solid 1px #66CCFF;
+}
+#smileysTable img{
+    cursor:pointer;
+}
+#smileysTable td{
+    padding: 1px;
+}

@@ -1,0 +1,106 @@
+@charset "utf-8";
+body{
+    background-color:#CCCCCC;
+}
+/* Message Management DIV */
+#message_container{
+    padding-top:1em;
+    height:570px;
+    overflow:auto;
+    width:900px;
+}
+#configContainer{
+    height:570px;
+    overflow: auto;
+}
+/* IP Management DIV */
+#ip_container{
+    margin-top:15px;
+    padding-top:10px;
+    margin-bottom:20px;
+    height:400px;
+    overflow:auto;
+    width:700px;
+    margin:0 auto;
+}
+h1{
+    color:#CCCC99;
+    text-align:center;
+}
+
+a:link{
+    color:blue;
+    text-decoration:none;
+}
+a:hover{
+    color:gray;
+}
+/* Show all tags*/
+#tags {
+    padding: 0em;
+    margin:0em 0em 0em 3em;
+    width: 100%;
+    height: 1.77em;
+    *height:1.73em;
+}
+#tags li {
+    background: url(../images/tagleft.gif) no-repeat left bottom;
+    list-style-type:none;
+    float: left;
+}
+#tags li a{
+    padding: 0em 1em 0em 1em;
+    color:#999999;
+    background: url(../images/tagright.gif) no-repeat right bottom;
+    float: left;
+    height:1.7em;
+    text-decoration: none;
+}
+#tags li.selectTag {
+    background-position: left top;
+    margin-bottom: -2px;
+    position: relative;
+}
+#tags li.selectTag a{
+    background-position: right top;
+    color: #000000;
+}
+
+#tagContent {
+    background: url(../images/bg.gif) repeat-x;
+    border:#aecbd4 1px solid;
+    padding:0em 0em;
+    background-color: #fff;
+    height: 50.00em;
+    *height:48.75em;
+    min-height:650px;
+}
+.tagContent {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em 1em;
+    display: none;
+    width: 53.85em;
+    color: #474747;
+    min-width: 800px;
+}
+/* DIV seleted was displayed */
+#tagContent div.selectTag {
+    display: block;
+}
+
+#hd{
+    text-align:right;
+    padding-top: 1em;
+}
+.hidden {
+    display:none;
+}
+
+textarea.span-9{
+    height: 40px;
+}
+/* 隐藏 “选择所有”等按钮 */
+.check_span{
+    display: none;
+}

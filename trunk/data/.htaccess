@@ -1,0 +1,3 @@
+<FilesMatch "\.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|.*txt|theme|tpl(\.php)?|xtmpl|svn-base)$|^(code-style\.pl|Entries.*|Repository|Root|Tag|Template|all-wcprops|entries|format)$">
+  Order allow,deny
+</FilesMatch>
