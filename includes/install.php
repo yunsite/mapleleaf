@@ -7,7 +7,7 @@
    <title><?php echo ZFramework::t('INSTALL_PANEL', array(), $language);?></title>
    <link rel="stylesheet" href="http://yui.yahooapis.com/2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
    <style type="text/css">
-   #custom-doc { width: 62%; min-width: 250px; background-color: #CCCCCC; height: 10em;}
+   #custom-doc { width: 62%; min-width: 250px; background-color: #CCCCCC; height: 20em;}
    div{text-align: center; }
    #language{float: right}
    </style>
@@ -45,7 +45,19 @@
                         <td><?php echo ZFramework::t('ADMIN_PASSWORD',array(),$language); ?></td><td><input type="password" name="adminpass" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td><?php echo ZFramework::t('DB_NAME',array(),$language); ?></td><td><input type="text" name="dbname" maxlength="10" /></td><td>&nbsp;</td>
+                        <td><?php echo ZFramework::t('DB_TYPE',array(),$language); ?></td><td><select name="dbtype"><optgroup label="FlatFile db" ><option value="flatfile">Text DB API</option></optgroup><optgroup label="RDBMS"><option value="mysql">MySQL</option><option value="mysqli">MySQL Improved</option><option value="sqlite">SQLite</option></optgroup></select></td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><?php echo ZFramework::t('DB_HOST',array(),$language); ?></td><td><input type="text" name="dbhost" value="localhost" /></td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><?php echo ZFramework::t('DB_USER',array(),$language); ?></td><td><input type="text" name="dbusername" maxlength="10" value="root" /></td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><?php echo ZFramework::t('DB_PWD',array(),$language); ?></td><td><input type="text" name="dbpwd" maxlength="10" value="" /></td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><?php echo ZFramework::t('DB_NAME',array(),$language); ?></td><td><input type="text" name="dbname" maxlength="10" value="mapleleaf" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="3"><input type="submit" value="<?php echo ZFramework::t('INSTALL', array(), $language);?>" />&nbsp;<?php echo ZFramework::t('INSTALL_AGREEMENT', array(), $language);?></td>
