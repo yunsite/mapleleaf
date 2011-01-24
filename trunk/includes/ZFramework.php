@@ -44,7 +44,7 @@ class ZFramework{
     private function  __construct(){
         $this->preloadAllControllers();
         $this->registerPlugins();
-        $this->performIPFilter();
+        #$this->performIPFilter();
         $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
         $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
         $this->is_installed();
@@ -80,8 +80,8 @@ class ZFramework{
             die('Access denied!');
     }
     protected function is_installed(){
-        $db=new JuneTxtDB();
-        if(!$db->_db_exists(DB)){
+        global $db_url;
+        if($db_url=='dummydb://username:password@localhost/databasename'){
             $this->_controller='SiteController';
             $this->_action='actionInstall';
         }
