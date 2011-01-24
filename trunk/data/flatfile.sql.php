@@ -3,7 +3,7 @@ CREATE TABLE post (pid inc,uid int,uname str DEFAULT 'anonymous',content str,pos
 CREATE TABLE reply (rid inc,pid int,content str,r_time int)
 CREATE TABLE badip (ip str)
 CREATE TABLE sysvar (varname str,varvalue str)
-INSERT INTO post VALUES (NULL,NULL,'rainyjune','Welcome to our site.','{time}','{ip}')
+INSERT INTO post ( uname , content , post_time , ip ) VALUES ('rainyjune','Welcome to our site.','{time}','{ip}')
 INSERT INTO sysvar VALUES ('board_name','test')
 INSERT INTO sysvar VALUES ('site_close','0')
 INSERT INTO sysvar VALUES ('close_reason','Off line now.')
