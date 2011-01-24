@@ -43,14 +43,18 @@ class BadipController extends BaseController
     }
     public static  function is_baned($ip)
     {
+        global $db_url;
         $all_baned_ips=array();
-        $model=new JuneTxtDB();
-        $model->select_db(DB);
-        $all_baned_ips=$model->select(BADIPTABLE);
+        $db=YDB::factory($db_url);
+        //$model=new JuneTxtDB();
+        //$model->select_db(DB);
+        //$all_baned_ips=$model->select(BADIPTABLE);
+        $all_baned_ips=$db->queryAll("SELECT * FROM badip");
+        //var_dump($all_baned_ips);exit;
         if($all_baned_ips){
-            foreach ($all_baned_ips as &$value) {
-                $value=$value['ip'];
-            }
+//            foreach ($all_baned_ips as &$value) {
+//                $value=$value['ip'];
+//            }
             if (in_array($ip,$all_baned_ips))
                 return TRUE;
         }

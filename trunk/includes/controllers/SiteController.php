@@ -13,9 +13,10 @@ class SiteController extends BaseController
     public function actionIndex()
     {
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
-        //var_dump($data);exit;
+        var_dump($data);exit;
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-        $nums=$this->_model->num_rows($data);
+        #$nums=$this->_model->num_rows($data);
+        $nums=count($data);
         $pages=ceil($nums/ZFramework::app()->num_perpage);
         if($current_page>=$pages)
             $current_page=$pages-1;
@@ -173,7 +174,7 @@ class SiteController extends BaseController
         $data=array_reverse($data);
          * 
          */
-        $data=$this->_model->queryAll("SELECT p.uid ,p.uname,u.username AS b_username ,p.content AS content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid");
+        $data=$this->_model->queryAll("SELECT p.uid ,p.uname AS user,u.username AS b_username ,p.content AS content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid");
         #$data=$this->_model->queryAll("SELECT * FROM post");
         return $data;
     }

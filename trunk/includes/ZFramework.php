@@ -16,6 +16,7 @@ class ZFramework{
     public      $defaultController='SiteController';
     public      $defaultAction='actionIndex';
     static      $_instance;
+    protected   $_db;
 
     public static function createApp(){
         if(!(self::$_instance instanceof  self)){
@@ -30,24 +31,31 @@ class ZFramework{
     }
 
     public function  __get($name) {
-        if(file_exists(conf_path().'/config.php')){
-            include conf_path().'/config.php';
-        } else{
-            include './sites/default/default.config.php';
-        }
-        if(isset ($$name))
-            return $$name;
+//        if(file_exists(conf_path().'/config.php')){
+//            include conf_path().'/config.php';
+//        } else{
+//            include './sites/default/default.config.php';
+//        }
+        $result=$this->_db->queryAll("SELECT * FROM sysvar WHERE varname='$name'");
+        $result=$result[0]['varvalue'];
+        //var_dump($result);exit;
+        if($result)
+            return $result;
         else
             return null;
     }
 
     private function  __construct(){
+        global $db_url;
         $this->preloadAllControllers();
         $this->registerPlugins();
         #$this->performIPFilter();
         $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
         $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
-        $this->is_installed();
+        if($this->is_installed()){
+            $this->performIPFilter();
+            $this->_db=YDB::factory($db_url);
+        }
         foreach ($_GET as $key=>$value) {
             $this->_params[$key]=$value;
         }
@@ -84,7 +92,9 @@ class ZFramework{
         if($db_url=='dummydb://username:password@localhost/databasename'){
             $this->_controller='SiteController';
             $this->_action='actionInstall';
+            return false;
         }
+        return true;
     }
     protected function is_closedMode(){
         $disabledAction=array('PostController/actionCreate','SiteController/actionIndex','UserController/actionCreate');
