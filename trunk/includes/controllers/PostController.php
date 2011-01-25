@@ -1,16 +1,13 @@
 <?php
-class PostController extends BaseController
-{
+class PostController extends BaseController{
     public  $_model;
     public  $_verifyCode;
-    public function  __construct()
-    {
-        $this->_model=new JuneTxtDB();
-        $this->_model->select_db(DB);
+    public function  __construct(){
+        global $db_url;
+        $this->_model=  YDB::factory($db_url);
         $this->_verifyCode=new FLEA_Helper_ImgCode();
     }
-    public function actionCreate()
-    {
+    public function actionCreate(){
         if(isset ($_POST)){
             $new_data=array();
             $user=isset($_POST['user'])?$_POST['user']:'';
@@ -19,11 +16,8 @@ class PostController extends BaseController
             $admin_name_array=array(ZFramework::app()->admin);
             if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
                 $user='anonymous';
-            $allUsers=  $this->_model->select(USERTABLE);
-            foreach ($allUsers as &$eachuser){
-                $eachuser=$eachuser['user'];
-            }
-            if (in_array($_POST['user'], $allUsers) && (@$_SESSION['user']!=$_POST['user']) )
+            $allUsers=$this->_model->queryAll("SELECT * FROM user WHERE username='".$user."'");
+            if($allUsers && (@$_SESSION['user']!=$_POST['user']))
                 $user='anonymous';
             $content =isset($_POST['content'])?ZFramework::maple_quotes($_POST['content']):'';
             $content = nl2br($content);
@@ -44,8 +38,13 @@ class PostController extends BaseController
                     ZFramework::show_message($new_data_error_msg,true,'index.php');
             }
 
-            $new_data=array(NULL,$user,$content,$time,$current_ip);
-            if(!$this->_model->insert(MESSAGETABLE, $new_data))
+            #$new_data=array(NULL,$user,$content,$time,$current_ip);
+            if(isset ($_SESSION['uid']))
+                $sql_insert=sprintf("INSERT INTO post ( uid , content , post_time , ip ) VALUES ( %d , '%s' , %d , '%s' )",$_SESSION['uid'],$content,time(),  getIp());
+            else
+                $sql_insert=sprintf ("INSERT INTO post ( uname , content , post_time , ip ) VALUES ( '%s' , '%s' , %d , '%s')", $user,$content,  time (),  getIp ());
+            #if(!$this->_model->insert(MESSAGETABLE, $new_data))
+            if(!$this->_model->query($sql_insert))
                 die($this->_model->error());
             if(isset($_POST['ajax'])){
                 echo 'OK';
@@ -54,11 +53,9 @@ class PostController extends BaseController
         }
         header("Location:index.php");
     }
-    public function actionUpdate()
-    {
+    public function actionUpdate(){
         is_admin();
-	if(isset($_POST['Submit']))
-	{
+	if(isset($_POST['Submit'])){
 	    $mid=0;
 	    $mid=(int)$_POST['mid'];
 	    $author=$_POST['author'];
@@ -74,8 +71,7 @@ class PostController extends BaseController
 	    else
 		header("Location:index.php?action=control_panel&subtab=message");
 	}
-	if(!isset($_GET['mid']))
-	{
+	if(!isset($_GET['mid'])){
 	    header("location:index.php?action=control_panel&subtab=message");exit;
 	}
         $mid=intval($_GET['mid']);
@@ -89,8 +85,7 @@ class PostController extends BaseController
             'mid'=>$mid,
         ));
     }
-    public function actionDelete()
-    {
+    public function actionDelete(){
         is_admin();
         $mid=isset ($_GET['mid'])?(int)$_GET['mid']:null;
         if(!$mid){
@@ -110,8 +105,7 @@ class PostController extends BaseController
         if(!isset($_POST['select_mid'])){header("location:index.php?action=control_panel&subtab=message");exit;}
 	$del_ids=$_POST['select_mid'];
         $del_num=count($del_ids);
-        for($i=0;$i<$del_num;$i++)
-        {
+        for($i=0;$i<$del_num;$i++){
             $deleted_id=(int)$del_ids[$i];
             $condition=array('id'=>$deleted_id);
             $this->_model->delete(MESSAGETABLE, $condition);
@@ -121,8 +115,7 @@ class PostController extends BaseController
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
 
-    public  function actionDeleteAll()
-    {
+    public  function actionDeleteAll(){
         is_admin();
         $this->_model->truncate(DB, MESSAGETABLE);
         $this->_model->truncate(DB, REPLYTABLE);
