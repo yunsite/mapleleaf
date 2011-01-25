@@ -91,13 +91,8 @@ class PostController extends BaseController{
         if(!$mid){
             header("Location:index.php?action=control_panel&amp;subtab=message");exit;
         }
-        $condition=array('id'=>$mid);
-        if(!$this->_model->delete(MESSAGETABLE, $condition))
-            die($this->_model->error());
-        if((int)$_GET['reply']){
-            $condition=array('id'=>$mid);
-            $this->_model->delete(REPLYTABLE, $condition);
-        }
+        $this->_model->query("DELETE FROM post WHERE pid=$mid");
+        $this->_model->query("DELETE FROM reply WHERE pid=$mid");
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
     public  function actionDelete_multi_messages(){
