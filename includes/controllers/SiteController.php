@@ -104,11 +104,15 @@ class SiteController extends BaseController
         $themes= ZFramework::get_all_themes();
         $plugins= ZFramework::get_all_plugins();
         $data=$this->get_all_data(TRUE,false,TRUE,TRUE);
-        $reply_data=  $this->_model->select(REPLYTABLE);
-        $ban_ip_info=  $this->_model->select(BADIPTABLE);
+        #$reply_data=  $this->_model->select(REPLYTABLE);
+        $reply_data=  $this->_model->queryAll("SELECT * FROM reply");
+        #$ban_ip_info=  $this->_model->select(BADIPTABLE);
+        $ban_ip_info=  $this->_model->queryAll("SELECT * FROM badip");
 
-        $nums=$this->_model->num_rows($data);
-        $reply_num=$this->_model->num_rows($reply_data);
+        #$nums=$this->_model->num_rows($data);
+        $nums=count($data);
+        #$reply_num=$this->_model->num_rows($reply_data);
+        $reply_num=count($reply_data);
 
         if($gd_exist)
 	{
@@ -176,7 +180,7 @@ class SiteController extends BaseController
         $data=array_reverse($data);
          * 
          */
-        $data=$this->_model->queryAll("SELECT p.uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid");
+        $data=$this->_model->queryAll("SELECT p.pid AS id, p.ip AS ip , p.uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid");
         #$data=$this->_model->queryAll("SELECT * FROM post");
         return $data;
     }
