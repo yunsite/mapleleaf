@@ -31,13 +31,8 @@ class ZFramework{
     }
 
     public function  __get($name) {
-//        if(file_exists(conf_path().'/config.php')){
-//            include conf_path().'/config.php';
-//        } else{
-//            include './sites/default/default.config.php';
-//        }
         $result=$this->_db->queryAll("SELECT * FROM sysvar WHERE varname='$name'");
-        $result=$result[0]['varvalue'];
+        $result=@$result[0]['varvalue'];
         //var_dump($result);exit;
         if($result)
             return $result;
@@ -46,16 +41,21 @@ class ZFramework{
     }
 
     private function  __construct(){
+        
         global $db_url;
         $this->preloadAllControllers();
+        
         $this->registerPlugins();
+        
         #$this->performIPFilter();
         $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
         $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
+        //var_dump($this->is_installed());exit;
         if($this->is_installed()){
             $this->performIPFilter();
             $this->_db=YDB::factory($db_url);
         }
+        //die('construct');
         foreach ($_GET as $key=>$value) {
             $this->_params[$key]=$value;
         }
@@ -89,12 +89,14 @@ class ZFramework{
     }
     protected function is_installed(){
         global $db_url;
+        
         if($db_url=='dummydb://username:password@localhost/databasename'){
             $this->_controller='SiteController';
             $this->_action='actionInstall';
             return false;
         }
         return true;
+        //die ('is_installed');
     }
     protected function is_closedMode(){
         $disabledAction=array('PostController/actionCreate','SiteController/actionIndex','UserController/actionCreate');
@@ -102,14 +104,20 @@ class ZFramework{
             self::show_message($this->close_reason);
     }
     public function run(){
+        //die ('s');
         try {
-            $this->is_closedMode();
+            if($this->is_installed()){
+                $this->is_closedMode();
+            }
+#            die ($this->_action);
             if(class_exists($this->getController())){
                 $rc=new ReflectionClass($this->getController());
                 if($rc->isSubclassOf('BaseController')){
                     if($rc->hasMethod($this->getAction())){
+                        //die ('sf');
                         $controller=$rc->newInstance();
                         $method=$rc->getMethod($this->getAction());
+                        //die('g');
                         $method->invoke($controller);
                         $this->performEvent();
                     }else{

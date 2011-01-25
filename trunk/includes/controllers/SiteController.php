@@ -6,14 +6,15 @@ class SiteController extends BaseController
     public function  __construct()
     {
         global $db_url;
-        $this->_model=  YDB::factory($db_url);
+        if($db_url !='dummydb://username:password@localhost/databasename')
+            $this->_model=  YDB::factory($db_url);
         $this->_verifyCode=new FLEA_Helper_ImgCode();
     }
     //展示首页
     public function actionIndex()
     {
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
-        var_dump($data);exit;
+        //var_dump($data);exit;
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
         #$nums=$this->_model->num_rows($data);
         $nums=count($data);
@@ -47,6 +48,7 @@ class SiteController extends BaseController
     //安装程序
     public function actionInstall()
     {
+        //die('actionInstall');
         $languages=ZFramework::get_all_langs();
         if(!isset($_GET['l']) || !in_array($_GET['l'],$languages) || $_GET['l']=='en'){	$language='en';}
         else
@@ -174,7 +176,7 @@ class SiteController extends BaseController
         $data=array_reverse($data);
          * 
          */
-        $data=$this->_model->queryAll("SELECT p.uid ,p.uname AS user,u.username AS b_username ,p.content AS content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid");
+        $data=$this->_model->queryAll("SELECT p.uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid");
         #$data=$this->_model->queryAll("SELECT * FROM post");
         return $data;
     }
