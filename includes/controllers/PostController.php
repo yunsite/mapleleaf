@@ -58,25 +58,18 @@ class PostController extends BaseController{
 	if(isset($_POST['Submit'])){
 	    $mid=0;
 	    $mid=(int)$_POST['mid'];
-	    $author=$_POST['author'];
-	    $m_time=$_POST['m_time'];
 	    $update_content = ZFramework::maple_quotes($_POST['update_content']);
 	    $update_content = nl2br($update_content);
 	    $update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
-	    $ip=$_POST['ip'];
-	    $input=array($mid,$author,$update_content,$m_time,$ip);
-	    $condition=array('id'=>$mid);
-	    if(!$this->_model->update(MESSAGETABLE, $condition, $input))
-		die($this->_model->error());
-	    else
-		header("Location:index.php?action=control_panel&subtab=message");
+            $this->_model->query("UPDATE post SET content='$update_content' WHERE pid=$mid");
+            header("Location:index.php?action=control_panel&subtab=message");
 	}
 	if(!isset($_GET['mid'])){
 	    header("location:index.php?action=control_panel&subtab=message");exit;
 	}
         $mid=intval($_GET['mid']);
 	$condition=array('id'=>$mid);
-	$message_info=$this->_model->select(MESSAGETABLE, $condition);
+        $message_info=$this->_model->queryAll("SELECT * FROM post WHERE pid=$mid");
         if(!$message_info)
             ZFramework::show_message(ZFramework::t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
 	$message_info=$message_info[0];
