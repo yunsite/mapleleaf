@@ -1,18 +1,15 @@
 <?php
-class SiteController extends BaseController
-{
+class SiteController extends BaseController{
     protected   $_model;
     protected   $_verifyCode;
-    public function  __construct()
-    {
+    public function  __construct(){
         global $db_url;
         if($db_url !='dummydb://username:password@localhost/databasename')
             $this->_model=  YDB::factory($db_url);
         $this->_verifyCode=new FLEA_Helper_ImgCode();
     }
     //展示首页
-    public function actionIndex()
-    {
+    public function actionIndex(){
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
         //var_dump($data);exit;
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
@@ -46,8 +43,7 @@ class SiteController extends BaseController
     }
 
     //安装程序
-    public function actionInstall()
-    {
+    public function actionInstall(){
         //die('actionInstall');
         $languages=ZFramework::get_all_langs();
         if(!isset($_GET['l']) || !in_array($_GET['l'],$languages) || $_GET['l']=='en'){	$language='en';}
@@ -96,8 +92,7 @@ class SiteController extends BaseController
         $current_tab='overview';
         $tabs_array=array('overview','siteset','message','ban_ip','plugin');
 	$tabs_name_array=array(ZFramework::t('ACP_OVERVIEW'),ZFramework::t('ACP_CONFSET'),ZFramework::t('ACP_MANAGE_POST'),ZFramework::t('ACP_MANAGE_IP'),ZFramework::t('PLUGIN'));
-        if(isset($_GET['subtab']))
-        {
+        if(isset($_GET['subtab'])){
 	    if(in_array($_GET['subtab'],$tabs_array))
 		    $current_tab=$_GET['subtab'];
         }
@@ -114,8 +109,7 @@ class SiteController extends BaseController
         #$reply_num=$this->_model->num_rows($reply_data);
         $reply_num=count($reply_data);
 
-        if($gd_exist)
-	{
+        if($gd_exist){
             $gd_info=gd_version();
 	    $gd_version=$gd_info?$gd_info:'<font color="red">'.ZFramework::t('UNKNOWN').'</font>';
         }
@@ -143,8 +137,7 @@ class SiteController extends BaseController
             'plugins'=>$plugins));
     }
 
-    public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false)
-    {
+    public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false){
         $data=array();
         /*
 	if(($data=$this->_model->select(MESSAGETABLE))===FALSE)
@@ -188,8 +181,7 @@ class SiteController extends BaseController
      * 过滤敏感词语
      * @param array $input
      */
-    public  function filter_words($input)
-    {
+    public  function filter_words($input){
 	$filter_array=explode(',',  ZFramework::app()->filter_words);
 	$input=str_ireplace($filter_array,'***',$input);
 	return $input;
@@ -200,22 +192,19 @@ class SiteController extends BaseController
      * @param $image_url
      * @param $smileys
      */
-    public  function parse_smileys($str = '', $image_url = '', $smileys = NULL)
-    {
+    public  function parse_smileys($str = '', $image_url = '', $smileys = NULL){
 	if ($image_url == '')
 	    return $str;
 	if (!is_array($smileys))
 	    return $str;
 	// Add a trailing slash to the file path if needed
 	$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
-	foreach ($smileys as $key => $val)
-	{
+	foreach ($smileys as $key => $val){
 	    $str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
 	}
 	return $str;
     }
-    public  function page_wrapper($data,$current_page)
-    {
+    public  function page_wrapper($data,$current_page){
         $start=$current_page*ZFramework::app()->num_perpage;
         $data=array_slice($data,$start,  ZFramework::app()->num_perpage);
         return $data;
@@ -231,10 +220,8 @@ class SiteController extends BaseController
     /**
      * 显示表情
      */
-    public  function show_smileys_table()
-    {
+    public  function show_smileys_table(){
 	$smiley=  require dirname(dirname(__FILE__)).'/showSmiley.php';
 	return $smiley;
-    }
-    
+    } 
 }
