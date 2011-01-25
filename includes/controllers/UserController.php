@@ -103,6 +103,7 @@ class UserController extends BaseController
 	    if( ($user==ZFramework::app()->admin) && ($password==ZFramework::app()->password) )//若使用管理员帐户成功登录
 	    {
 		$_SESSION['admin']=$_POST['user'];
+                #$_SESSION[]
 		header("Location:index.php?action=control_panel");
 		exit;
 	    }
