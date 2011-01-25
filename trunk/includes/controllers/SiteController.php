@@ -180,7 +180,7 @@ class SiteController extends BaseController
         $data=array_reverse($data);
          * 
          */
-        $data=$this->_model->queryAll("SELECT p.pid AS id, p.ip AS ip , p.uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid");
+        $data=$this->_model->queryAll("SELECT p.pid AS id, p.ip AS ip , p.uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid ORDER BY p.post_time DESC");
         #$data=$this->_model->queryAll("SELECT * FROM post");
         return $data;
     }
