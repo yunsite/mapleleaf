@@ -111,7 +111,7 @@ class UserController extends BaseController
 		#$user_result=$this->_model->select(USERTABLE,array('user'=>$user));
                 $user_result=  $this->_model->queryAll("SELECT * FROM user");
 		$user_result=@$user_result[0];
-		if($user_result && $password==$user_result['pwd']){
+		if($user_result && $password==@$user_result['pwd']){
 		    $_SESSION['user']=$_POST['user'];
 		    $_SESSION['uid']=$user_result['uid'];
 		    header("Location:index.php");exit;
