@@ -4,8 +4,10 @@ class UserController extends BaseController
     public $_model;
     public function  __construct()
     {
-        $this->_model=new JuneTxtDB();
-        $this->_model->select_db(DB);
+        global $db_url;
+        if($db_url !='dummydb://username:password@localhost/databasename')
+            $this->_model=  YDB::factory($db_url);
+        #$this->_model->select_db(DB);
     }
     public function actionCreate()
     {
@@ -105,7 +107,8 @@ class UserController extends BaseController
 		exit;
 	    }
 	    else{//使用普通用户登录
-		$user_result=$this->_model->select(USERTABLE,array('user'=>$user));
+		#$user_result=$this->_model->select(USERTABLE,array('user'=>$user));
+                $user_result=  $this->_model->queryAll("SELECT * FROM user");
 		$user_result=@$user_result[0];
 		if($user_result && $password==$user_result['pwd']){
 		    $_SESSION['user']=$_POST['user'];

@@ -173,7 +173,7 @@
 			    <td><?php echo $m['user'];?></td>
 			    <td  class='admin_message'>
                                <div style='word-wrap: break-word;word-break:break-all;width:590px;'>
-                                    <?php echo $m['content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo $m['time'];?>
+                                    <?php echo $m['reply_content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo $m['time'];?>
                                     <?php if(@$m['reply']==true){?>
                                     <br />
                                      <?php echo ZFramework::t('YOU_REPLIED',array('{reply_time}'=>$m['reply']['reply_time'],'{reply_content}'=>$m['reply']['reply_content']));?>
