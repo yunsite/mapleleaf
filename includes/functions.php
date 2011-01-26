@@ -194,4 +194,10 @@
       $conf = "$confdir/default";
       return $conf;
     }
+    function is_flatfile(){
+        global $db_url;
+        if(substr($db_url, 0, 8)=='flatfile')
+            return true;
+        return false;
+    }
 ?>

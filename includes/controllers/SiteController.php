@@ -11,9 +11,7 @@ class SiteController extends BaseController{
     //展示首页
     public function actionIndex(){
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
-        //var_dump($data);exit;
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
-        #$nums=$this->_model->num_rows($data);
         $nums=count($data);
         $pages=ceil($nums/ZFramework::app()->num_perpage);
         if($current_page>=$pages)
@@ -44,7 +42,6 @@ class SiteController extends BaseController{
 
     //安装程序
     public function actionInstall(){
-        //die('actionInstall');
         $languages=ZFramework::get_all_langs();
         if(!isset($_GET['l']) || !in_array($_GET['l'],$languages) || $_GET['l']=='en'){	$language='en';}
         else
@@ -88,7 +85,6 @@ class SiteController extends BaseController{
     public function actionControl_panel(){
         global $gd_exist,$zip_support;
         is_admin();
-        // Which tab should be displayed?
         $current_tab='overview';
         $tabs_array=array('overview','siteset','message','ban_ip','plugin');
 	$tabs_name_array=array(ZFramework::t('ACP_OVERVIEW'),ZFramework::t('ACP_CONFSET'),ZFramework::t('ACP_MANAGE_POST'),ZFramework::t('ACP_MANAGE_IP'),ZFramework::t('PLUGIN'));
@@ -99,14 +95,10 @@ class SiteController extends BaseController{
         $themes= ZFramework::get_all_themes();
         $plugins= ZFramework::get_all_plugins();
         $data=$this->get_all_data(TRUE,false,TRUE,TRUE);
-        #$reply_data=  $this->_model->select(REPLYTABLE);
         $reply_data=  $this->_model->queryAll("SELECT * FROM reply");
-        #$ban_ip_info=  $this->_model->select(BADIPTABLE);
         $ban_ip_info=  $this->_model->queryAll("SELECT * FROM badip");
 
-        #$nums=$this->_model->num_rows($data);
         $nums=count($data);
-        #$reply_num=$this->_model->num_rows($reply_data);
         $reply_num=count($reply_data);
 
         if($gd_exist){
