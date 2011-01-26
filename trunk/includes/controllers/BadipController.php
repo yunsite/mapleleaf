@@ -1,14 +1,12 @@
 <?php
-class BadipController extends BaseController
-{
+class BadipController extends BaseController{
     public $_model;
-    public function  __construct()
-    {
-        $this->_model=new JuneTxtDB();
-        $this->_model->select_db(DB);
+    public function  __construct(){
+        global $db_url;
+        if($db_url !='dummydb://username:password@localhost/databasename')
+            $this->_model=  YDB::factory($db_url);
     }
-    public function actionCreate()
-    {
+    public function actionCreate(){
         is_admin();
         $ip=isset ($_GET['ip'])?$_GET['ip']:'';
         if (valid_ip($ip)==false){
@@ -17,47 +15,27 @@ class BadipController extends BaseController
         if(self::is_baned($ip)){
             header("Location:index.php?action=control_panel&subtab=ban_ip");exit;
         }
-        $insert_string=$ip."\n";
-	$ip_filename=$this->_model->_table_path(DB, BADIPTABLE).$this->_model->get_data_ext();
-        file_put_contents($ip_filename, $insert_string, FILE_APPEND | LOCK_EX);
+        $this->_model->query("INSERT INTO badip ( ip ) VALUES ( '$ip' )");
         header("Location:index.php?action=control_panel&subtab=ban_ip");
     }
-    public function actionUpdate()
-    {
+    public function actionUpdate(){
         is_admin();
         @$ip_update_array=$_POST['select_ip'];
         if(!$ip_update_array){
             header("Location:index.php?action=control_panel&subtab=ban_ip");exit;
         }
-        $ip_array=$this->_model->select(BADIPTABLE);
-        foreach ($ip_array as &$value) {
-            $value=$value['ip'];
+        foreach ($ip_update_array as $_ip) {
+            $this->_model->query("DELETE FROM badip WHERE ip = '$_ip'");
         }
-        $new_ip_array=array_diff($ip_array,$ip_update_array);
-        $new_ip_string=implode("\n",$new_ip_array);
-        if ($new_ip_array)
-	    $new_ip_string.="\n";
-        $ip_filename=$this->_model->_table_path(DB, BADIPTABLE).$this->_model->get_data_ext();
-        file_put_contents($ip_filename, $new_ip_string);
         header("Location:index.php?action=control_panel&subtab=ban_ip");
     }
-    public static  function is_baned($ip)
-    {
+    public static  function is_baned($ip){
         global $db_url;
         $all_baned_ips=array();
         $db=YDB::factory($db_url);
-        //$model=new JuneTxtDB();
-        //$model->select_db(DB);
-        //$all_baned_ips=$model->select(BADIPTABLE);
-        $all_baned_ips=$db->queryAll("SELECT * FROM badip");
-        //var_dump($all_baned_ips);exit;
-        if($all_baned_ips){
-//            foreach ($all_baned_ips as &$value) {
-//                $value=$value['ip'];
-//            }
-            if (in_array($ip,$all_baned_ips))
-                return TRUE;
-        }
-        return FALSE;
+        $result=$db->queryAll("SELECT * FROM badip WHERE ip='$ip'");
+        if($result)
+            return true;
+        return false;
     }
 }

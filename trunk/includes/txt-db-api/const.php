@@ -34,7 +34,7 @@ $LIKE_CASE_SENSITIVE=0;     // 0=LIKE is case insensitive, 1=LIKE is case sensit
 $ORDER_CASE_SENSITIVE=0;	// 0=ORDER BY is case insensitive, 1=ORDER BY is case sensitive
 $ASSUMED_RECORD_SIZE=30;    // Set this to the average size of one record, if in doubt 
                             // leave the default value. DON'T set it to <1! int's only!
-$PRINT_ERRORS=1;			// 0 = Errors are NOT displayed, 1 = Errors are displayed
+$PRINT_ERRORS=0;			// 0 = Errors are NOT displayed, 1 = Errors are displayed
 $PRINT_WARNINGS=0;			// 0 = Warnings are NOT displayed, 1 = Warnings are displayed
 
 
