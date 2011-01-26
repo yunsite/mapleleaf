@@ -25,12 +25,12 @@
 	  <div class="inputbox">
 		    <dl>
 			<dt><?php echo ZFramework::t('USERNAME');?></dt>
-			<dd><input type="text" readonly="readonly" value="<?php echo $user_data['user'];?>" name="user" id="user" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
+			<dd><input type="text" readonly="readonly" value="<?php echo $user_data['username'];?>" name="user" id="user" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 			</dd>
 		    </dl>
 		    <dl>
 			<dt><?php echo ZFramework::t('PASSWORD');?></dt>
-			<dd><input type="password" value="<?php echo $user_data['pwd'];?>" id="password" name="pwd" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
+			<dd><input type="password" value="<?php echo $user_data['password'];?>" id="password" name="pwd" size="20" onfocus="this.style.borderColor='#F93'" onblur="this.style.borderColor='#888'" />
 			</dd>
 		    </dl>
 		    <dl>
