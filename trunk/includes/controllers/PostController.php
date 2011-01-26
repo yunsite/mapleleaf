@@ -38,12 +38,10 @@ class PostController extends BaseController{
                     ZFramework::show_message($new_data_error_msg,true,'index.php');
             }
 
-            #$new_data=array(NULL,$user,$content,$time,$current_ip);
             if(isset ($_SESSION['uid']))
                 $sql_insert=sprintf("INSERT INTO post ( uid , content , post_time , ip ) VALUES ( %d , '%s' , %d , '%s' )",$_SESSION['uid'],$content,time(),  getIp());
             else
                 $sql_insert=sprintf ("INSERT INTO post ( uname , content , post_time , ip ) VALUES ( '%s' , '%s' , %d , '%s')", $user,$content,  time (),  getIp ());
-            #if(!$this->_model->insert(MESSAGETABLE, $new_data))
             if(!$this->_model->query($sql_insert))
                 die($this->_model->error());
             if(isset($_POST['ajax'])){
@@ -95,18 +93,16 @@ class PostController extends BaseController{
         $del_num=count($del_ids);
         for($i=0;$i<$del_num;$i++){
             $deleted_id=(int)$del_ids[$i];
-            $condition=array('id'=>$deleted_id);
-            $this->_model->delete(MESSAGETABLE, $condition);
-            if ($_POST[$deleted_id]==1)
-                $this->_model->delete(REPLYTABLE, $condition);
+            $this->_model->query("DELETE FROM post WHERE pid=$deleted_id");
+            $this->_model->query("DELETE FROM reply WHERE pid=$deleted_id");
         }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
 
     public  function actionDeleteAll(){
         is_admin();
-        $this->_model->truncate(DB, MESSAGETABLE);
-        $this->_model->truncate(DB, REPLYTABLE);
+        $this->_model->query("DELETE FROM post");
+        $this->_model->query("DELETE FROM reply");
         header("location:index.php?action=control_panel&subtab=message");
     }
 }
