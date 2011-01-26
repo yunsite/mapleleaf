@@ -113,7 +113,8 @@ class UserController extends BaseController{
 	    session_destroy();
 	}
         if(isset($_SESSION['admin'])){
-            #BackupController::delete_backup_files();
+            if(is_flatfile ())
+                BackupController::delete_backup_files();
             unset($_SESSION['admin']);
             session_destroy();
         }

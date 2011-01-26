@@ -196,7 +196,7 @@
 				<input type='submit' value='<?php echo ZFramework::t('DELETE_CHECKED');?>' />&nbsp;
 				<a id="deleteallLink" href="index.php?controller=post&amp;action=deleteAll"><?php echo ZFramework::t('DELETE_ALL');?></a>&nbsp;
                                 <a id="deleteallreplyLink" href="index.php?controller=reply&amp;action=deleteAll"><?php echo ZFramework::t('DELETE_ALL_REPLY');?></a>
-				<a href="index.php?controller=backup&amp;action=create"><?php echo ZFramework::t('BACKUP');?></a>
+                                <?php if(is_flatfile()):?><a href="index.php?controller=backup&amp;action=create"><?php echo ZFramework::t('BACKUP');endif;?></a>
 			    </td></tr>
 
 			</table>
