@@ -140,6 +140,7 @@ return array(
     'QUERY_ERROR'=>'查询出错',
     'REPLY_EMPTY'=>'回复不可为空',
     'BACKUP_NOTSUPPORT'=>'你的服务器不支持此功能！',
+    'BACKUP_TYPE_NOTSUPPORT'=>'目前只支持备份文本数据库的数据!',
     'FILL_NOT_COMPLETE'=>"你没有填写完成",
     'WORDS_TOO_LONG'=>"您的话语太多了",
     'CAPTCHA_WRONG'=>"验证码错误.",

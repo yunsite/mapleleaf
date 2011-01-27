@@ -144,6 +144,7 @@ return array(
     'QUERY_ERROR'=>'Query Error',
     'REPLY_EMPTY'=>'The reply should not be empty',
     'BACKUP_NOTSUPPORT'=>'Your server does not support backup!',
+    'BACKUP_TYPE_NOTSUPPORT'=>'Only flatfile data backup supported!',
     'FILL_NOT_COMPLETE'=>"You have not finished all the fileds",
     'WORDS_TOO_LONG'=>"Your words was too much",
     'CAPTCHA_WRONG'=>"The code you entered is wrong",
