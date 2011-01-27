@@ -5,26 +5,17 @@ class ReplyController extends BaseController{
         global $db_url;
         $this->_model=  YDB::factory($db_url);
     }
-    /**
-     * create and update
-     */
     public function actionReply(){
         is_admin();
 	if($_POST){
-	    $mid=0;
 	    $mid=(int)$_POST['mid'];
-	    $reply_content = ZFramework::maple_quotes($_POST['content']);
-	    $reply_content = nl2br($reply_content);
-	    $reply_content = str_replace(array("\n", "\r\n", "\r"), '', $reply_content);
-	    $time=time();
+	    $reply_content = $this->_model->escape_string(str_replace(array("\n", "\r\n", "\r"), '', nl2br($_POST['content'])));
 	    if (trim($reply_content)=='')
 		ZFramework::show_message(ZFramework::t('REPLY_EMPTY'),true,'index.php?action=control_panel&subtab=message',3);
-	    if(isset($_POST['update'])){
-                $this->_model->query("UPDATE reply SET content='$reply_content' WHERE pid=$mid");
-	    }
-	    else{
-                $this->_model->query("INSERT INTO reply ( pid , content , r_time ) VALUES ( $mid , '$reply_content' , $time )");
-	    }
+	    if(isset($_POST['update']))
+                $this->_model->query(sprintf("UPDATE reply SET content='%s' WHERE pid=%d",$reply_content,$mid));
+	    else
+                $this->_model->query(sprintf("INSERT INTO reply ( pid , content , r_time ) VALUES ( %d , '%s' , %d )",$mid,$reply_content,time()));
 	    header("Location:index.php?action=control_panel&subtab=message");exit;
 	}
 	$reply_data=$this->loadModel();
@@ -34,22 +25,19 @@ class ReplyController extends BaseController{
 
     protected function loadModel(){
 	if(!isset($_GET['mid'])){
-	    header("location:index.php?action=control_panel&subtab=message");
-	    exit;
+	    header("location:index.php?action=control_panel&subtab=message");exit;
 	}
 	$mid=(int)$_GET['mid'];
-        $reply_data=$this->_model->queryAll("SELECT * FROM reply WHERE pid=$mid");
+        $reply_data=$this->_model->queryAll(sprintf("SELECT * FROM reply WHERE pid=%d",$mid));
         if($reply_data)
             $reply_data=$reply_data[0];
         return $reply_data;
-	    #ZFramework::show_message(ZFramework::t("QUERY_ERROR"),TRUE,'index.php?action=control_panel&subtab=message');
-
     }
     public  function actionDelete(){
         is_admin();
         $mid=isset($_GET['mid'])?(int)$_GET['mid']:null;
         if($mid!==null){
-            $this->_model->query("DELETE FROM reply WHERE pid=$mid");
+            $this->_model->query(sprintf("DELETE FROM reply WHERE pid=%d",$mid));
         }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
