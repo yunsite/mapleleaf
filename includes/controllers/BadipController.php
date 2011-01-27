@@ -7,14 +7,14 @@ class BadipController extends BaseController{
     }
     public function actionCreate(){
         is_admin();
-        $ip=isset ($_GET['ip'])?$_GET['ip']:'';
+        $ip=@$_GET['ip'];
         if (valid_ip($ip)==false){
             header("Location:index.php?action=control_panel&subtab=message");exit;
         }
         if(is_baned($ip)){
             header("Location:index.php?action=control_panel&subtab=ban_ip");exit;
         }
-        $this->_model->query("INSERT INTO badip ( ip ) VALUES ( '$ip' )");
+        $this->_model->query(sprintf("INSERT INTO badip ( ip ) VALUES ( '%s' )",$ip));
         header("Location:index.php?action=control_panel&subtab=ban_ip");
     }
     public function actionUpdate(){
@@ -24,9 +24,8 @@ class BadipController extends BaseController{
             header("Location:index.php?action=control_panel&subtab=ban_ip");exit;
         }
         foreach ($ip_update_array as $_ip) {
-            $this->_model->query("DELETE FROM badip WHERE ip = '$_ip'");
+            $this->_model->query(sprintf("DELETE FROM badip WHERE ip = '%s'",$_ip));
         }
         header("Location:index.php?action=control_panel&subtab=ban_ip");
     }
-    
 }
