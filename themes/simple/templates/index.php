@@ -49,9 +49,9 @@
                     <tr>
                         <td><?php echo $m['user']?$m['user']:$m['b_username'];?></td>
                         <td><div style='word-wrap: break-word;word-break:break-all;width:450px;'><?php echo $m['post_content'];?><br />
-                            <?php if(@$m['reply']){ echo ZFramework::t('ADMIN_REPLIED',array('{admin_name}'=>ZFramework::app()->admin,'{reply_time}'=>$m['reply']['reply_time'],'{reply_content}'=>$m['reply']['reply_content']));}?></div>
+                            <?php if(@$m['reply_content']){ echo ZFramework::t('ADMIN_REPLIED',array('{admin_name}'=>ZFramework::app()->admin,'{reply_time}'=>$m['reply_time'],'{reply_content}'=>$m['reply_content']));}?></div>
                         </td>
-                        <td><?php echo date('y-m-d H:i:s',$m['time']+ZFramework::app()->timezone * 3600);?></td>
+                        <td><?php echo $m['time'];?></td>
                     </tr>
                     <?php }?>
                 </table>
