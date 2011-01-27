@@ -11,7 +11,7 @@ class PostController extends BaseController{
         if(isset ($_POST)){
             //插入到数据库前的验证
             $new_data_error_msg='';
-            if (empty ($_POST['user']) || empty ($_POST['content']))
+            if ( !strlen(trim($_POST['user'])) || !strlen(trim($_POST['content'])))
                 $new_data_error_msg=ZFramework::t('FILL_NOT_COMPLETE');
             elseif(strlen($_POST['content']>580))
                 $new_data_error_msg=ZFramework::t('WORDS_TOO_LONG');
