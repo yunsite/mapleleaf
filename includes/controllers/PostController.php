@@ -48,20 +48,13 @@ class PostController extends BaseController{
     public function actionUpdate(){
         is_admin();
 	if(isset($_POST['Submit'])){
-	    $mid=0;
 	    $mid=(int)$_POST['mid'];
-	    $update_content = ZFramework::maple_quotes($_POST['update_content']);
-	    $update_content = nl2br($update_content);
-	    $update_content = str_replace(array("\n", "\r\n", "\r"), '', $update_content);
-            $this->_model->query("UPDATE post SET content='$update_content' WHERE pid=$mid");
+	    $update_content = $this->_model->escape_string(str_replace(array("\n", "\r\n", "\r"), '', nl2br($_POST['update_content'])));
+            $this->_model->query(sprintf("UPDATE post SET content='%s' WHERE pid=%d",$update_content,$mid));
             header("Location:index.php?action=control_panel&subtab=message");
 	}
-	if(!isset($_GET['mid'])){
-	    header("location:index.php?action=control_panel&subtab=message");exit;
-	}
-        $mid=intval($_GET['mid']);
-	$condition=array('id'=>$mid);
-        $message_info=$this->_model->queryAll("SELECT * FROM post WHERE pid=$mid");
+        $mid=(int)$_GET['mid'];
+        $message_info=$this->_model->queryAll(sprintf("SELECT * FROM post WHERE pid=%d",$mid));
         if(!$message_info)
             ZFramework::show_message(ZFramework::t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
 	$message_info=$message_info[0];
@@ -84,9 +77,7 @@ class PostController extends BaseController{
         is_admin();
         if(!isset($_POST['select_mid'])){header("location:index.php?action=control_panel&subtab=message");exit;}
 	$del_ids=$_POST['select_mid'];
-        $del_num=count($del_ids);
-        for($i=0;$i<$del_num;$i++){
-            $deleted_id=(int)$del_ids[$i];
+        foreach($del_ids as $deleted_id){
             $this->_model->query("DELETE FROM post WHERE pid=$deleted_id");
             $this->_model->query("DELETE FROM reply WHERE pid=$deleted_id");
         }
