@@ -48,14 +48,7 @@ if(file_exists(conf_path().'/config.php'))
     include_once conf_path().'/config.php';
 else
     include './sites/default/default.config.php';
-/*
-define('DB', $dbname);
-define('MESSAGETABLE', 'gb');
-define('REPLYTABLE', 'reply');
-define('BADIPTABLE', 'ban');
-define('USERTABLE', 'user');
- * 
- */
+
 define('CONFIGFILE', conf_path().'/config.php');
 define('MP_VERSION','2.0 alpha');
 define('THEMEDIR', 'themes/');
