@@ -219,4 +219,13 @@
 	}
 	$d->close();
     }
+    function is_baned($ip){
+        global $db_url;
+        $all_baned_ips=array();
+        $db=YDB::factory($db_url);
+        $result=$db->queryAll("SELECT * FROM badip WHERE ip='$ip'");
+        if($result)
+            return true;
+        return false;
+    }
 ?>

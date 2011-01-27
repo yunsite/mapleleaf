@@ -84,7 +84,7 @@ class ZFramework{
     }
     protected function performIPFilter(){
         $clientIP=getIp();
-        if(BadipController::is_baned($clientIP))
+        if(is_baned($clientIP))
             die('Access denied!');
     }
     protected function is_installed(){
