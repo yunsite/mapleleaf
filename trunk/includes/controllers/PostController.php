@@ -9,39 +9,33 @@ class PostController extends BaseController{
     }
     public function actionCreate(){
         if(isset ($_POST)){
-            $new_data=array();
-            $user=isset($_POST['user'])?$_POST['user']:'';
-            $current_ip=getIp();
-            $user=ZFramework::maple_quotes($user);
-            $admin_name_array=array(ZFramework::app()->admin);
-            if(!isset($_SESSION['admin']) && in_array(strtolower($user),$admin_name_array))
-                $user='anonymous';
-            $allUsers=$this->_model->queryAll("SELECT * FROM user WHERE username='".$user."'");
-            if($allUsers && (@$_SESSION['user']!=$_POST['user']))
-                $user='anonymous';
-            $content =isset($_POST['content'])?ZFramework::maple_quotes($_POST['content']):'';
-            $content = nl2br($content);
-            $content = str_replace(array("\n", "\r\n", "\r"), '', $content);
-            $time=time();
-            if(empty($user) or empty($content))
+            //插入到数据库前的验证
+            $new_data_error_msg='';
+            if (empty ($_POST['user']) || empty ($_POST['content']))
                 $new_data_error_msg=ZFramework::t('FILL_NOT_COMPLETE');
-            elseif(strlen($content)>580)
+            elseif(strlen($_POST['content']>580))
                 $new_data_error_msg=ZFramework::t('WORDS_TOO_LONG');
-            elseif(ZFramework::app()->valid_code_open==1 && gd_loaded()){
-                if(!$this->_verifyCode->check($_POST['valid_code']))
-                    $new_data_error_msg=ZFramework::t('CAPTCHA_WRONG');
+            elseif (ZFramework::app()->valid_code_open==1 && gd_loaded() && !$this->_verifyCode->check($_POST['valid_code']))
+                $new_data_error_msg=ZFramework::t('CAPTCHA_WRONG');
+            if($new_data_error_msg){
+                if(!empty ($_POST['ajax']))
+                    die ($new_data_error_msg);
+                else
+                    ZFramework::show_message ($new_data_error_msg, true, 'index.php');
             }
-            if(isset ($new_data_error_msg)){
-                if(isset($_POST['ajax'])){
-                    die($new_data_error_msg);
-                }else
-                    ZFramework::show_message($new_data_error_msg,true,'index.php');
-            }
-
+            //准备插入数据
+            $user=  $this->_model->escape_string($_POST['user']);
+            if(!isset($_SESSION['admin']) && $_POST['user']==ZFramework::app()->admin )
+                $user='anonymous';
+            $userExists=  $this->_model->queryAll(sprintf("SELECT * FROM user WHERE username='%s'",  $this->_model->escape_string($_POST['user'])));
+            if($userExists && (@$_SESSION['user']!=$_POST['user']))
+                $user='anonymous';
+            $content = $this->_model->escape_string(str_replace(array("\n", "\r\n", "\r"), '', nl2br($_POST['content'])));
             if(isset ($_SESSION['uid']))
-                $sql_insert=sprintf("INSERT INTO post ( uid , content , post_time , ip ) VALUES ( %d , '%s' , %d , '%s' )",$_SESSION['uid'],$content,time(),  getIp());
+                $sql_insert= sprintf ("INSERT INTO post ( uid , content , post_time , ip ) VALUES ( %d , '%s' , %d , '%s' )", $_SESSION['uid'],$content,  time (),  getIp ());
             else
-                $sql_insert=sprintf ("INSERT INTO post ( uname , content , post_time , ip ) VALUES ( '%s' , '%s' , %d , '%s')", $user,$content,  time (),  getIp ());
+                $sql_insert = sprintf ("INSERT INTO post ( uname , content , post_time , ip ) VALUES ( '%s' ,'%s' , %d , '%s')", $user,$content,  time (),  getIp ());
+            //写入数据库
             if(!$this->_model->query($sql_insert))
                 die($this->_model->error());
             if(isset($_POST['ajax'])){

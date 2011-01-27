@@ -4,11 +4,10 @@ class SiteController extends BaseController{
     protected   $_verifyCode;
     public function  __construct(){
         global $db_url;
-        if($db_url !='dummydb://username:password@localhost/databasename')
-            $this->_model=  YDB::factory($db_url);
+        $this->_model=  YDB::factory($db_url);
         $this->_verifyCode=new FLEA_Helper_ImgCode();
     }
-    //展示首页
+
     public function actionIndex(){
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
