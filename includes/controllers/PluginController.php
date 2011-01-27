@@ -1,6 +1,5 @@
 <?php
-class PluginController extends BaseController
-{
+class PluginController extends BaseController{
     public function actionConfig(){
         is_admin();
         $all_plugin=ZFramework::get_all_plugins();
