@@ -3,8 +3,7 @@ class UserController extends BaseController{
     public $_model;
     public function  __construct(){
         global $db_url;
-        if($db_url !='dummydb://username:password@localhost/databasename')
-            $this->_model=  YDB::factory($db_url);
+        $this->_model=  YDB::factory($db_url);
     }
     public function actionCreate(){
         if(isset ($_SESSION['admin']) || isset ($_SESSION['user'])){
@@ -86,17 +85,17 @@ class UserController extends BaseController{
             header("Location:index.php");exit;
         }
         if(isset($_POST['user']) && isset($_POST['password'])){//若用户提交了登录表单
-            $user=ZFramework::maple_quotes($_POST['user']);
-            $password=ZFramework::maple_quotes($_POST['password']);
+            $user=  $this->_model->escape_string($_POST['user']);
+            $password=$this->_model->escape_string($_POST['password']);
 	    if( ($user==ZFramework::app()->admin) && ($password==ZFramework::app()->password) ){//若使用管理员帐户成功登录
 		$_SESSION['admin']=$_POST['user'];
 		header("Location:index.php?action=control_panel");
 		exit;
 	    }
 	    else{//使用普通用户登录
-                $user_result=  $this->_model->queryAll("SELECT * FROM user");
+                $user_result=  $this->_model->queryAll(sprintf("SELECT * FROM user WHERE username='%s' AND password='%s'",$user,$password));
 		$user_result=@$user_result[0];
-		if($user_result && $password==@$user_result['pwd']){
+		if($user_result){
 		    $_SESSION['user']=$_POST['user'];
 		    $_SESSION['uid']=$user_result['uid'];
 		    header("Location:index.php");exit;
@@ -118,6 +117,6 @@ class UserController extends BaseController{
             unset($_SESSION['admin']);
             session_destroy();
         }
-        header("Location:index.php");exit;
+        header("Location:index.php");
     }
 }
