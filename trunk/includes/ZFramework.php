@@ -25,15 +25,13 @@ class ZFramework{
         return self::$_instance;
     }
 
-    public static function app()
-    {
+    public static function app(){
         return self::$_instance;
     }
 
     public function  __get($name) {
         $result=$this->_db->queryAll("SELECT * FROM sysvar WHERE varname='$name'");
         $result=@$result[0]['varvalue'];
-        //var_dump($result);exit;
         if($result)
             return $result;
         else
@@ -41,21 +39,15 @@ class ZFramework{
     }
 
     private function  __construct(){
-        
         global $db_url;
         $this->preloadAllControllers();
-        
         $this->registerPlugins();
-        
-        #$this->performIPFilter();
         $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
         $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
-        //var_dump($this->is_installed());exit;
         if($this->is_installed()){
             $this->performIPFilter();
             $this->_db=YDB::factory($db_url);
         }
-        //die('construct');
         foreach ($_GET as $key=>$value) {
             $this->_params[$key]=$value;
         }
@@ -96,7 +88,6 @@ class ZFramework{
             return false;
         }
         return true;
-        //die ('is_installed');
     }
     protected function is_closedMode(){
         $disabledAction=array('PostController/actionCreate','SiteController/actionIndex','UserController/actionCreate');
@@ -104,20 +95,16 @@ class ZFramework{
             self::show_message($this->close_reason);
     }
     public function run(){
-        //die ('s');
         try {
-            if($this->is_installed()){
+            if($this->is_installed())
                 $this->is_closedMode();
-            }
-#            die ($this->_action);
             if(class_exists($this->getController())){
                 $rc=new ReflectionClass($this->getController());
                 if($rc->isSubclassOf('BaseController')){
                     if($rc->hasMethod($this->getAction())){
-                        //die ('sf');
+                        
                         $controller=$rc->newInstance();
                         $method=$rc->getMethod($this->getAction());
-                        //die('g');
                         $method->invoke($controller);
                         $this->performEvent();
                     }else{
@@ -176,27 +163,22 @@ class ZFramework{
     public static function getSmileys(){
         return include  dirname(__FILE__).'/smiley.php';
     }
-    public static function maple_quotes($var,$charset='UTF-8')
-    {
+    public static function maple_quotes($var,$charset='UTF-8'){
         return htmlspecialchars(trim($var),ENT_QUOTES,  $charset);
     }
     /**
      * 显示信息
      */
-    public static  function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
-    {
-        include 'themes/'.self::createApp()->theme.'/templates/'."show_message.php";
-        exit;
+    public static  function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3){
+        include 'themes/'.self::createApp()->theme.'/templates/'."show_message.php"; exit;
     }
         /**
      * 得到所有可用的主题
      */
-    public static  function get_all_themes()
-    {
+    public static  function get_all_themes(){
         $themes=array();
         $d=dir(THEMEDIR);
-        while(false!==($entry=$d->read()))
-        {
+        while(false!==($entry=$d->read())){
             if(substr($entry,0,1)!='.')
                 $themes[$entry]=$entry;
         }
@@ -207,28 +189,24 @@ class ZFramework{
     public function get_all_plugins(){
         $plugins=array();
         $d=dir(PLUGINDIR);
-        while(false!==($entry=$d->read()))
-        {
+        while(false!==($entry=$d->read())){
             if(substr($entry,0,1)!='.')
                 $plugins[substr($entry,0,-4)]=substr($entry,0,-4);
         }
         $d->close();
         return $plugins;
     }
-    public static  function get_all_langs()
-    {
+    public static  function get_all_langs(){
     	$langs=array();
         $d=dir(self::get_lang_directory());
-        while(false!==($entry=$d->read()))
-        {
+        while(false!==($entry=$d->read())){
             if(substr($entry,0,1)!='.')
                 $langs[substr($entry,0,-4)]=substr($entry,0,-4);
         }
         $d->close();
         return $langs;
     }
-    public static  function get_all_timezone()
-    {
+    public static  function get_all_timezone(){
         $timezone=  include APPROOT.'/languages/'.self::app()->lang.'.php';
     	return $timezone['TZ_ZONES'];
     }
@@ -239,8 +217,7 @@ class ZFramework{
      * 替换被过滤的词语
      * @param array $filter_words
      */
-    public static  function fix_filter_string($filter_words)
-    {
+    public static  function fix_filter_string($filter_words){
 	$new_string=trim($filter_words,',');
 	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
 	return $new_string;
