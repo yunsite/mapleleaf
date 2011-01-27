@@ -24,24 +24,4 @@ class BackupController extends BaseController{
         $zip->close();
         header("Location:$filename");
     }
-    /**
-     * 删除服务器上的备份文件，会在管理员注销登录时执行
-     */
-    public static  function delete_backup_files(){
-        global $db_url;
-        $url = parse_url($db_url);
-        $url['path'] = urldecode($url['path']);
-        $dbname=substr($url['path'], 1);
-        is_admin();
-        is_admin();
-        $dir=dirname(dirname(dirname(__FILE__))).'/data/'.$dbname;
-	$d=dir($dir);
-	while(false!==($entry=$d->read())){
-	    if (strlen($entry)==19){
-		$d_file=$dir.'/'.$entry;
-		unlink($d_file);
-	    }
-	}
-	$d->close();
-    }
 }

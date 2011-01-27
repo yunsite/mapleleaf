@@ -200,4 +200,23 @@
             return true;
         return false;
     }
+    /**
+     * 删除服务器上的备份文件，会在管理员注销登录时执行
+     */
+    function delete_backup_files(){
+        global $db_url;
+        is_admin();
+        $url = parse_url($db_url);
+        $url['path'] = urldecode($url['path']);
+        $dbname=substr($url['path'], 1);
+        $dir=APPROOT.'/data/'.$dbname;
+	$d=dir($dir);
+	while(false!==($entry=$d->read())){
+	    if (strlen($entry)==19){
+		$d_file=$dir.'/'.$entry;
+		unlink($d_file);
+	    }
+	}
+	$d->close();
+    }
 ?>
