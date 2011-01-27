@@ -131,42 +131,24 @@ class SiteController extends BaseController{
 
     public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false){
         $data=array();
-        /*
-	if(($data=$this->_model->select(MESSAGETABLE))===FALSE)
-	    die($this->_model->error());
-        if(($reply_data=$this->_model->select(REPLYTABLE))===FALSE)
-	    die($this->_model->error());
-	$new_reply_data=array();
-	foreach($reply_data as $reply_data_item)
-	{
-	    $new_key=$reply_data_item["id"];
-	    $new_reply_data[$new_key]=$reply_data_item;
-	}
-        foreach ($data as &$data_per)
-        {
-            if($filter_words)
-                $data_per['content']=$this->filter_words($data_per['content']);
-            if($parse_smileys)
-                $data_per['content']=  $this->parse_smileys ($data_per['content'], SMILEYDIR, ZFramework::getSmileys());
-            if($processUsername)
-                $data_per['user']=($data_per['user']==ZFramework::app()->admin)?"<font color='red'>{$data_per['user']}</font>":$data_per['user'];
-            if($processTime)
-                $data_per['time']=date('m-d H:i',$data_per['time']+ZFramework::app()->timezone*60*60);
-            $mid=intval($data_per['id']);
-            if(isset($new_reply_data[$mid]))
-            {
-                $data_per['reply']=$new_reply_data[$mid];
-                if($processTime)
-                    $data_per['reply']['reply_time']=date('m-d H:i',$data_per['reply']['reply_time']+ZFramework::app()->timezone*60*60);
-                if($parse_smileys)
-                    $data_per['reply']['reply_content']=$this->parse_smileys($data_per['reply']['reply_content'], SMILEYDIR, ZFramework::getSmileys());
-            }
-        }
-        $data=array_reverse($data);
-         * 
-         */
         $data=$this->_model->queryAll("SELECT p.pid AS id, p.ip AS ip , p.uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid ORDER BY p.post_time DESC");
-        #$data=$this->_model->queryAll("SELECT * FROM post");
+        foreach ($data as &$_data) {
+            if($parse_smileys){
+                $_data['post_content']=$this->parse_smileys ($_data['post_content'], SMILEYDIR,  ZFramework::getSmileys());
+                $_data['reply_content']=$this->parse_smileys ($_data['reply_content'], SMILEYDIR,  ZFramework::getSmileys());
+            }
+            if($filter_words)
+                $_data['post_content']=$this->filter_words($_data['post_content']);
+            if($processUsername)
+                $_data['user']=($_data['user']==ZFramework::app()->admin)?"<font color='red'>{$_data['user']}</font>":$_data['user'];
+            if($processTime){
+                $_data['time']=date('m-d H:i',$_data['time']+ZFramework::app()->timezone*60*60);
+                $_data['reply_time']=date('m-d H:i',$_data['reply_time']+ZFramework::app()->timezone*60*60);
+            }
+            
+        }   
+        //echo '<pre>';
+        //var_dump($data);exit;
         return $data;
     }
     /**

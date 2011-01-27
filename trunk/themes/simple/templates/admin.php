@@ -173,10 +173,10 @@
 			    <td><?php echo $m['user']?$m['user']:$m['b_username'];?></td>
 			    <td  class='admin_message'>
                                <div style='word-wrap: break-word;word-break:break-all;width:590px;'>
-                                    <?php echo $m['post_content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo date('y-m-d H:i',$m['time']);?>
+                                    <?php echo $m['post_content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo $m['time'];?>
                                     <?php if($m['reply_content']){?>
                                     <br />
-                                     <?php echo ZFramework::t('YOU_REPLIED',array('{reply_time}'=>date('y-m-d H:i',(int)$m['reply_time']+ ZFramework::app()->timezone * 60 *60),'{reply_content}'=>$m['reply_content']));?>
+                                     <?php echo ZFramework::t('YOU_REPLIED',array('{reply_time}'=>$m['reply_time'],'{reply_content}'=>$m['reply_content']));?>
                                     <span>&nbsp;<a href="index.php?controller=reply&amp;action=delete&amp;mid=<?php echo $m['id'];?>"><?php echo ZFramework::t('DELETE_THIS_REPLY');?></a></span>
                                     <?php }?>
                                </div>
