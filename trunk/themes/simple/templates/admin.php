@@ -170,7 +170,7 @@
 			    <td><input type='checkbox' name='select_mid[]' value='<?php echo $m['id'];?>' />
 				<input type='hidden' name='<?php echo $m['id'];?>' value='<?php if(@$m['reply']){ echo "1";}else{echo "0";}?>' />
 			    </td>
-			    <td><?php echo $m['user']?$m['user']:$m['b_username'];?></td>
+			    <td><?php echo $m['uid']?$m['b_username']:$m['user'];?></td>
 			    <td  class='admin_message'>
                                <div style='word-wrap: break-word;word-break:break-all;width:590px;'>
                                     <?php echo $m['post_content'];?><br /><?php echo ZFramework::t('TIME');?>：<?php echo $m['time'];?>

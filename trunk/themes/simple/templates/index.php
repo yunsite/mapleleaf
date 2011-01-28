@@ -47,7 +47,7 @@
                     </thead>
                     <?php foreach($data as $m){?>
                     <tr>
-                        <td><?php echo $m['user']?$m['user']:$m['b_username'];?></td>
+                        <td><?php echo $m['uid']?$m['b_username']:$m['user'];?></td>
                         <td><div style='word-wrap: break-word;word-break:break-all;width:450px;'><?php echo $m['post_content'];?><br />
                             <?php if(@$m['reply_content']){ echo ZFramework::t('ADMIN_REPLIED',array('{admin_name}'=>ZFramework::app()->admin,'{reply_time}'=>$m['reply_time'],'{reply_content}'=>$m['reply_content']));}?></div>
                         </td>
