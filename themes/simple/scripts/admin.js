@@ -1,5 +1,5 @@
 $(document).ready(function() {
-        var containerDiv=new Array('overviewContainer','configContainer','message_container','ip_container','pluginContainer');
+        var containerDiv=new Array('overviewContainer','configContainer','message_container','ip_container');
 	$.ajax({ type: "GET", url: 'index.php', data: { action: "getSysJSON" }, success: function(data){ languageTips=data;}, dataType: 'json'});
         $('span.check_span').show();
 	/* jqModal */

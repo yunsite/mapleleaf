@@ -85,14 +85,14 @@ class SiteController extends BaseController{
         global $gd_exist,$zip_support;
         is_admin();
         $current_tab='overview';
-        $tabs_array=array('overview','siteset','message','ban_ip','plugin');
-	$tabs_name_array=array(ZFramework::t('ACP_OVERVIEW'),ZFramework::t('ACP_CONFSET'),ZFramework::t('ACP_MANAGE_POST'),ZFramework::t('ACP_MANAGE_IP'),ZFramework::t('PLUGIN'));
+        $tabs_array=array('overview','siteset','message','ban_ip');
+	$tabs_name_array=array(ZFramework::t('ACP_OVERVIEW'),ZFramework::t('ACP_CONFSET'),ZFramework::t('ACP_MANAGE_POST'),ZFramework::t('ACP_MANAGE_IP'));
         if(isset($_GET['subtab'])){
 	    if(in_array($_GET['subtab'],$tabs_array))
 		    $current_tab=$_GET['subtab'];
         }
         $themes= ZFramework::get_all_themes();
-        $plugins= ZFramework::get_all_plugins();
+
         $data=$this->get_all_data(TRUE,false,TRUE,TRUE);
         $reply_data=  $this->_model->queryAll("SELECT * FROM reply");
         $ban_ip_info=  $this->_model->queryAll("SELECT * FROM badip");
@@ -125,7 +125,7 @@ class SiteController extends BaseController{
             'languages'=>$languages,
             'data'=>$data,
             'ban_ip_info'=>$ban_ip_info,
-            'plugins'=>$plugins));
+            ));
     }
 
     public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false){
