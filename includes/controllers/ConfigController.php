@@ -48,7 +48,7 @@ class ConfigController extends BaseController{
     }
 
     private function set_copyright_info(){
-        @$copyright_info=$_POST['copyright_info']?ZFramework::maple_quotes($_POST['copyright_info']):'Copyright &copy; 2010 mapleleaf.ourplanet.tk';
+        @$copyright_info=$_POST['copyright_info']?ZFramework::maple_quotes($_POST['copyright_info']):'Copyright &copy; 2010 mapleleaf.googlecode.com';
         $this->_model->query("UPDATE sysvar SET varvalue='$copyright_info' WHERE varname='copyright_info'");
     }
 
