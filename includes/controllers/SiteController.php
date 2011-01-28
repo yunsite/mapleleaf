@@ -68,7 +68,7 @@ class SiteController extends BaseController{
                 file_put_contents(CONFIGFILE, $url_string);
                 $sql_file=APPROOT.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.$_POST['dbtype'].'.sql.php';
                 $sql_array=file($sql_file);
-                $translate=array('{time}'=>  time(),'{ip}'=>  getIp(),'{admin}'=>$adminname,'{adminpass}'=>$adminpass,'{lang}'=>$language);
+                $translate=array('{time}'=>  time(),'{ip}'=>  getIP(),'{admin}'=>$adminname,'{adminpass}'=>$adminpass,'{lang}'=>$language);
                 foreach ($sql_array as $sql) {
                     $_sql=strtr(trim($sql),$translate);
                     $db->query($_sql);
