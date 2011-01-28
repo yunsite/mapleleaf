@@ -222,18 +222,7 @@
 			    </table>
 			</form>
 		    </div><!-- Bad IPs -->
-		    <div id="pluginContainer" <?php if($current_tab=='plugin'){?> class="tagContent selectTag" <?php } else {?> class="tagContent" <?php }?>>
-			
-			    <?php foreach($plugins as $plugin): ?>
-			    <h2><?php echo $plugin;?></h2>
-			    <?php
-				include_once PLUGINDIR.$plugin.'.php';
-				$configFuncName=$plugin.'_config';
-				$configFuncName(true);
-			    ?>    
-			    <?php endforeach; ?>
-			
-		    </div><!-- Plugins -->
+		    
 		</div>
 	    </div><!-- yui-g  -->
 	</div><!-- body -->

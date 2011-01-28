@@ -41,7 +41,7 @@ class ZFramework{
     private function  __construct(){
         global $db_url;
         $this->preloadAllControllers();
-        $this->registerPlugins();
+        
         $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
         $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
         if($this->is_installed()){
@@ -62,18 +62,7 @@ class ZFramework{
         }
         $d->close();
     }
-    //为已经配置过的插件注册到对应的 action 的事件中
-    protected function registerPlugins(){
-        $d=dir(PLUGINDIR);
-        while(false!==($entry=$d->read()))
-        {
-            if(substr($entry, 0,1)!='.' && file_exists(conf_path().'/.'.  substr($entry, 0,-4).'.conf.php')){
-                include PLUGINDIR.$entry;
-                include conf_path().'/.'.  substr($entry, 0,-4).'.conf.php';
-            }
-        }
-        $d->close();
-    }
+
     protected function performIPFilter(){
         if(is_baned(getIP()))
             die('Access denied!');
@@ -185,16 +174,7 @@ class ZFramework{
         return $themes;
     }
 
-    public function get_all_plugins(){
-        $plugins=array();
-        $d=dir(PLUGINDIR);
-        while(false!==($entry=$d->read())){
-            if(substr($entry,0,1)!='.')
-                $plugins[substr($entry,0,-4)]=substr($entry,0,-4);
-        }
-        $d->close();
-        return $plugins;
-    }
+
     public static  function get_all_langs(){
     	$langs=array();
         $d=dir(self::get_lang_directory());

@@ -159,7 +159,7 @@ return array(
     'EMAIL'=>'Email',
     'REGISTER'=>'Register',
 
-    'PLUGIN'=>'Plugins',
+
 
     'USERUPDATEFAILED'=>'Update failed!',
 
