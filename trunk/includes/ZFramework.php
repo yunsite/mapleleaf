@@ -75,8 +75,7 @@ class ZFramework{
         $d->close();
     }
     protected function performIPFilter(){
-        $clientIP=getIp();
-        if(is_baned($clientIP))
+        if(is_baned(getIP()))
             die('Access denied!');
     }
     protected function is_installed(){
