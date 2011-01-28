@@ -1,9 +1,0 @@
-pid#uid#uname#content#post_time#ip
-inc#int#str#str#int#str
-##anonymous###
-1#0#rainyjune#Welcome to our site.#1295868892#127.0.0.1
-2#1##test test content#1295868899#192.168.0.2
-3#2#anonymous#sss#1296173863#127.0.0.1
-4#2#anonymous#ffffffffffffffffffffffffffff#1296173868#127.0.0.1
-5#2#anonymous#ssssssssssssssssssssssssssssss#1296173872#127.0.0.1
-6#0#root#:-S#1296174808#127.0.0.1

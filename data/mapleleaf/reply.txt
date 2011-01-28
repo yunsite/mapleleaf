@@ -1,3 +1,0 @@
-rid#pid#content#r_time
-inc#int#str#int
-###
