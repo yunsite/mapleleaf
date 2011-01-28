@@ -1,5 +1,0 @@
-uid#username#password#email#reg_time
-inc#str#str#str#int
-####
-1#test#pass#admin@ourplanet.tk#1925542
-2#chenkang#f#chek@gmail.com#1296173856
