@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Mapleleaf Guestbook version 1.9 Installation
 
 First of all,make sure your server supports PHP.
 
