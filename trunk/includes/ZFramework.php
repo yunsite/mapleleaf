@@ -89,12 +89,10 @@ class ZFramework{
             if(class_exists($this->getController())){
                 $rc=new ReflectionClass($this->getController());
                 if($rc->isSubclassOf('BaseController')){
-                    if($rc->hasMethod($this->getAction())){
-                        
+                    if($rc->hasMethod($this->getAction())){                        
                         $controller=$rc->newInstance();
                         $method=$rc->getMethod($this->getAction());
                         $method->invoke($controller);
-                        $this->performEvent();
                     }else{
                         throw new Exception("Controller <font color='blue'>".$this->getController()."</font> does not have the action named <font color='red'>{$this->getAction()}</font>");
                     }
@@ -115,14 +113,7 @@ class ZFramework{
             }
         }
     }
-    protected function performEvent(){
-        global  $actionEvent;
-        if(isset ($actionEvent["{$this->_controller}/{$this->_action}"])){
-            foreach ($actionEvent["{$this->_controller}/{$this->_action}"] as $evt) {
-                $evt();
-            }
-        }
-    }
+
     public function getParams(){
         return $this->_params;
     }

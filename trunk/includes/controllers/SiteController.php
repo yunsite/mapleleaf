@@ -4,7 +4,8 @@ class SiteController extends BaseController{
     protected   $_verifyCode;
     public function  __construct(){
         global $db_url;
-        $this->_model=  YDB::factory($db_url);
+        if($db_url !='dummydb://username:password@localhost/databasename')
+            $this->_model=  YDB::factory($db_url);
         $this->_verifyCode=new FLEA_Helper_ImgCode();
     }
 
