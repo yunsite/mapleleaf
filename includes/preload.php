@@ -42,8 +42,8 @@ function maple_unset_globals()
 }
 maple_unset_globals();
 require 'functions.php';
-require APPROOT.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'txt-db-api'.DIRECTORY_SEPARATOR.'txt-db-api.php';
-require APPROOT.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'YDB.php';
+require APPROOT.'/includes/txt-db-api/txt-db-api.php';
+require APPROOT.'/includes/database/YDB.php';
 if(file_exists(conf_path().'/config.php'))
     include_once conf_path().'/config.php';
 else
