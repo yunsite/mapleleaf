@@ -4,8 +4,7 @@
  *
  * @author rainyjune
  * @license GPL 2
- * @link http://projects.ourplanet.tk/
- * @copyright 2010 OurPlanet Team
+ * @link http://mapleleaf.googlecode.com/
  */
 abstract  class YDBBase {
     abstract public function query($sql);
