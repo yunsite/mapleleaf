@@ -66,7 +66,7 @@ class SiteController extends BaseController{
             }else{
                 $url_string="<?php\n\$db_url = '$url';\n?>";
                 file_put_contents(CONFIGFILE, $url_string);
-                $sql_file=APPROOT.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.$_POST['dbtype'].'.sql.php';
+                $sql_file=APPROOT.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.$_POST['dbtype'].'.sql';
                 $sql_array=file($sql_file);
                 $translate=array('{time}'=>  time(),'{ip}'=>  getIP(),'{admin}'=>$adminname,'{adminpass}'=>$adminpass,'{lang}'=>$language);
                 foreach ($sql_array as $sql) {
