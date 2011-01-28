@@ -4,44 +4,35 @@
     * Borrowed from CI
     * Updated version suggested by Geert De Deckere
     *
-    * @access	public
-    * @param	string
-    * @return	string
+    * @access public
+    * @param string
+    * @return string
     */
-    function valid_ip($ip)
-    {
+    function valid_ip($ip){
 	$ip_segments = explode('.', $ip);
 	// Always 4 segments needed
 	if (count($ip_segments) != 4)
-	{
 	    return FALSE;
-	}
 	// IP can not start with 0
 	if ($ip_segments[0][0] == '0')
-	{
 	    return FALSE;
-	}
 	// Check each segment
-	foreach ($ip_segments as $segment)
-	{
+	foreach ($ip_segments as $segment){
 	    // IP segments must be digits and can not be
 	    // longer than 3 digits or greater then 255
 	    if ($segment == '' OR preg_match("/[^0-9]/", $segment) OR $segment > 255 OR strlen($segment) > 3)
-	    {
 		return FALSE;
-	    }
 	}
 	return TRUE;
     }
+    
     /**
-     * 检查当前用户是否是管理员
+     * Finds wether the user is admin , redirect browser to the login page if not admin.
+     *
      */
-    function is_admin()
-    {
-	if (!isset($_SESSION['admin']))
-	{
-	    header("Location:index.php?controller=user&action=login");
-            exit;
+    function is_admin(){
+	if (!isset($_SESSION['admin'])){
+	    header("Location:index.php?controller=user&action=login");exit;
         }
     }
 
@@ -51,14 +42,10 @@
      * @access	public
      * @return	bool
      */
-    function gd_loaded()
-    {
-	if ( ! extension_loaded('gd'))
-	{
+    function gd_loaded(){
+	if ( ! extension_loaded('gd')){
 	    if ( ! @dl('gd.so'))
-	    {
 		return FALSE;
-	    }
 	}
 	return TRUE;
     }
@@ -69,13 +56,11 @@
      * @access	public
      * @return	mixed
      */
-    function gd_version()
-    {
+    function gd_version(){
 	$gd_version=FALSE;
 	if (defined('GD_VERSION'))
 	    $gd_version=GD_VERSION;
-	elseif(function_exists('gd_info'))
-	{
+	elseif(function_exists('gd_info')){
 	    $gd_version = @gd_info();
 	    $gd_version = $gd_version['GD Version'];
 	}
@@ -96,56 +81,70 @@
 	$ip=$ip?$ip:'127.0.0.1';
 	return $ip;
     }
-    
+
+    /**
+     * Finds whether a value is a valid email
+     *
+     * @param string $value
+     * @return bool
+     */
     function is_email($value){
-        //return preg_match('/^[a-z0-9]+[._\-\+]*@([a-z0-9]+[-a-z0-9]*\.)+[a-z0-9]+$/i', $value);
         return preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $value);
     }
+
+    /**
+     * Attach one event to an action
+     *
+     * @global array $actionEvent
+     * @param string $action <p>The name of action</p>
+     * @param string $evt <p>The name of event</p>
+     */
     function attachEvent($action,$evt){
         global $actionEvent;
         if (!@in_array($evt, $actionEvent[$action]))
             $actionEvent[$action][]=$evt;
     }
+    
     /**
- * Find the appropriate configuration directory.
- *
- * Try finding a matching configuration directory by stripping the website's
- * hostname from left to right and pathname from right to left. The first
- * configuration file found will be used; the remaining will ignored. If no
- * configuration file is found, return a default value '$confdir/default'.
- *
- * Example for a fictitious site installed at
- * http://www.drupal.org:8080/mysite/test/ the 'settings.php' is searched in
- * the following directories:
- *
- *  1. $confdir/8080.www.drupal.org.mysite.test
- *  2. $confdir/www.drupal.org.mysite.test
- *  3. $confdir/drupal.org.mysite.test
- *  4. $confdir/org.mysite.test
- *
- *  5. $confdir/8080.www.drupal.org.mysite
- *  6. $confdir/www.drupal.org.mysite
- *  7. $confdir/drupal.org.mysite
- *  8. $confdir/org.mysite
- *
- *  9. $confdir/8080.www.drupal.org
- * 10. $confdir/www.drupal.org
- * 11. $confdir/drupal.org
- * 12. $confdir/org
- *
- * 13. $confdir/default
- *
- * @param $require_settings
- *   Only configuration directories with an existing settings.php file
- *   will be recognized. Defaults to TRUE. During initial installation,
- *   this is set to FALSE so that Drupal can detect a matching directory,
- *   then create a new settings.php file in it.
- * @param reset
- *   Force a full search for matching directories even if one had been
- *   found previously.
- * @return
- *   The path of the matching directory.
- */
+     * Find the appropriate configuration directory.
+     *
+     * Try finding a matching configuration directory by stripping the website's
+     * hostname from left to right and pathname from right to left. The first
+     * configuration file found will be used; the remaining will ignored. If no
+     * configuration file is found, return a default value '$confdir/default'.
+     *
+     * Example for a fictitious site installed at
+     * http://www.drupal.org:8080/mysite/test/ the 'settings.php' is searched in
+     * the following directories:
+     *
+     *  1. $confdir/8080.www.drupal.org.mysite.test
+     *  2. $confdir/www.drupal.org.mysite.test
+     *  3. $confdir/drupal.org.mysite.test
+     *  4. $confdir/org.mysite.test
+     *
+     *  5. $confdir/8080.www.drupal.org.mysite
+     *  6. $confdir/www.drupal.org.mysite
+     *  7. $confdir/drupal.org.mysite
+     *  8. $confdir/org.mysite
+     *
+     *  9. $confdir/8080.www.drupal.org
+     * 10. $confdir/www.drupal.org
+     * 11. $confdir/drupal.org
+     * 12. $confdir/org
+     *
+     * 13. $confdir/default
+     *
+     * @param $require_settings
+     *   Only configuration directories with an existing settings.php file
+     *   will be recognized. Defaults to TRUE. During initial installation,
+     *   this is set to FALSE so that Drupal can detect a matching directory,
+     *   then create a new settings.php file in it.
+     * @param reset
+     *   Force a full search for matching directories even if one had been
+     *   found previously.
+     * @return
+     *   The path of the matching directory.
+     */
     function conf_path($require_settings = TRUE, $reset = FALSE) {
       static $conf = '';//静态变量
 
@@ -168,14 +167,24 @@
       $conf = "$confdir/default";
       return $conf;
     }
+
+    /**
+     * Finds whether the database type of guest book is flatfile (Php Textfile DB API)
+     *
+     * @global string $db_url
+     * @return bool
+     */
     function is_flatfile(){
         global $db_url;
         if(substr($db_url, 0, 8)=='flatfile')
             return true;
         return false;
     }
+    
     /**
-     * 删除服务器上的备份文件，会在管理员注销登录时执行
+     * Delete backuped data , only triggered by admin logout
+     *
+     * @global string $db_url 
      */
     function delete_backup_files(){
         global $db_url;
@@ -193,11 +202,19 @@
 	}
 	$d->close();
     }
+
+    /**
+     * Finds whether an IP address is bloked by guest book
+     *
+     * @global string $db_url
+     * @param string $ip
+     * @return bool
+     */
     function is_baned($ip){
         global $db_url;
         $all_baned_ips=array();
         $db=YDB::factory($db_url);
-        $result=$db->queryAll("SELECT * FROM badip WHERE ip='$ip'");
+        $result=$db->queryAll(sprintf("SELECT * FROM badip WHERE ip='%s'",$db->escape_string($ip)));
         if($result)
             return true;
         return false;
