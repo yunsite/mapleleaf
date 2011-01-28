@@ -1,0 +1,15 @@
+#summary One-sentence summary of this page.
+
+First of all,make sure your server supports PHP.
+
+  * Get code from here and then upload to your server.
+  * If OS of your server is Unix like OS, please run 
+{{{
+chmod 0777 data
+chmod 0777 sites/default
+}}}
+  * Copy `sites/default/default.config.php` to `sites/default/config.php`,and make sure the file is writable by the web server.
+  * Refresh your application page , follow the tips to install it.
+  * Remove or rename the file `includes/install.php`
+  * Please protected your data especially your server is not Apache.
+    
