@@ -10,6 +10,6 @@ chmod 0777 sites/default
 }}}
   * Copy `sites/default/default.config.php` to `sites/default/config.php`,and make sure the file is writable by the web server.
   * Refresh your application page , follow the tips to install it.
-  * Remove or rename the file `includes/install.php`
+  * Remove or rename the file `includes/install.php` after installation finished.
   * Please protect your data especially your server is not Apache.
     
