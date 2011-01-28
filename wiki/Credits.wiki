@@ -3,9 +3,10 @@
 Mapleleaf Guestbook uses work done by other people.
 We would like to thanks them for their work, and give them credits.
 
-Mapleleaf Guestbook
-Author : Kang Chen
+Author : Kang Chen & hellojinjie
+
 Website : http://mapleleaf.googlecode.com
+
 Copyright (c) Kang Chen 2008 - 2011
 
 
