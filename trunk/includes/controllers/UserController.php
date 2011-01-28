@@ -12,14 +12,14 @@ class UserController extends BaseController{
 	if(isset ($_POST['register'])){
 	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
                 if(strlen(trim($_POST['user']))>=2){
-                    $user=ZFramework::maple_quotes($_POST['user']);
-                    $pwd=ZFramework::maple_quotes($_POST['pwd']);
+                    $user=  $this->_model->escape_string($_POST['user']);
+                    $pwd=  $this->_model->escape_string($_POST['pwd']);
                     $email=$_POST['email'];
                     $time=time();
                     if(is_email($email)){
-                        $user_exists=$this->_model->queryAll("SELECT * FROM user WHERE username='$user'");
+                        $user_exists=$this->_model->queryAll(sprintf("SELECT * FROM user WHERE username='%s'",$user));
                         if(!$user_exists && $user!= ZFramework::app()->admin){
-                            if($this->_model->query("INSERT INTO user ( username , password , email , reg_time ) VALUES ( '$user' , '$pwd' , '$email' , $time )")){
+                            if($this->_model->query(sprintf("INSERT INTO user ( username , password , email , reg_time ) VALUES ( '%s' , '%s' , '%s' , %d )",$user,$pwd,$email,$time))){
                                 $_SESSION['user']=$user;
                                 $_SESSION['uid']=  $this->_model->insert_id();
                                 if(isset ($_POST['ajax'])){
@@ -54,11 +54,11 @@ class UserController extends BaseController{
 	$uid=$_GET['uid'];
 	if(isset ($_POST['user'])){
 	    if(!empty ($_POST['user']) && !empty ($_POST['pwd']) && !empty ($_POST['email'])){
-		$user=ZFramework::maple_quotes($_POST['user']);
-		$pwd=ZFramework::maple_quotes($_POST['pwd']);
+                $user=  $this->_model->escape_string($_POST['user']);
+                $pwd=  $this->_model->escape_string($_POST['pwd']);
 		$email=$_POST['email'];
 		if(is_email($email)){
-		    if($this->_model->query("UPDATE user SET password = '$pwd' , email = '$email' WHERE uid = $uid")){
+		    if($this->_model->query(sprintf("UPDATE user SET password = '%s' , email = '%s' WHERE uid = %d",$pwd,$email,$uid))){
 			header("Location:index.php");exit;
 		    }else{
 			$errorMsg=ZFramework::t('USERUPDATEFAILED');
@@ -70,7 +70,7 @@ class UserController extends BaseController{
 		$errorMsg=ZFramework::t('FILL_NOT_COMPLETE');
 	    }
 	}
-        $user_data=  $this->_model->queryAll("SELECT * FROM user WHERE uid=$uid");
+        $user_data=  $this->_model->queryAll(sprintf("SELECT * FROM user WHERE uid=%d",$uid));
 	$user_data=$user_data[0];
 	include 'themes/'.ZFramework::app()->theme.'/templates/'."user_update.php";
     }
