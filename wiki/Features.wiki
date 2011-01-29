@@ -20,7 +20,7 @@ You can modify how the posts are shown, the position of fields, etc... without m
 
 === Easy to use ===
 
-Your visitors won't need to learn BBCode. The WYSIWYG text editor lets your visitors format their entries easily. 
+
 
 
 === Powerful admin center ===
