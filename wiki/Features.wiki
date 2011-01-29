@@ -15,8 +15,7 @@ Mapleleaf Guestbook uses several techniques to fight spam :
 
 === Themes and styles ===
 
-Mapleleaf Guestbook uses a template system for theming. It uses the light, yet powerful, XTemplate system.
-You can modify how the posts are shown, the position of fields, etc... without modifying the core PHP files. 
+Mapleleaf Guestbook supports multi-themes.
 
 === Easy to use ===
 
