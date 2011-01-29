@@ -198,6 +198,7 @@ return array(
     'DB_USER'=>'DB Username',
     'DB_PWD'=>'DB Password',
     'DB_HOST'=>'Server host',
+    'TB_PREFIX'=>'Table prefix',
     'INSTALL'=>'Install',
     'FINISHED'=>'<p>Installation finished! :) Go <a href="index.php">Index</a>, or Go <a href="index.php?action=control_panel">ACP</a></p><p>Dont\'t forget to delete or rename the file install.php in directory <code>includes</code></p>',
     'RETRY'=>'Retry',

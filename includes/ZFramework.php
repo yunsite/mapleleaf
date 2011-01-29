@@ -30,7 +30,7 @@ class ZFramework{
     }
 
     public function  __get($name) {
-        $result=$this->_db->queryAll("SELECT * FROM sysvar WHERE varname='$name'");
+        $result=$this->_db->queryAll(sprintf(parse_tbprefix("SELECT * FROM <sysvar> WHERE varname='%s'"),  $this->_db->escape_string($name)));
         $result=@$result[0]['varvalue'];
         if($result)
             return $result;

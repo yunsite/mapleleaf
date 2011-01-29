@@ -196,6 +196,7 @@ return array(
     'DB_USER'=>'数据库用户名',
     'DB_PWD'=>'用户密码',
     'DB_HOST'=>'服务器地址',
+    'TB_PREFIX'=>'数据表前缀',
     'INSTALL'=>'安装',
     'FINISHED'=>'<p>安装完成！现在进入 <a href="index.php">前台</a>，或者登陆 <a href="index.php?action=control_panel">管理面板</a></p><p>记得一定要删除或重命名 <code>includes</code> 目录中的 install.php</p>',
     'RETRY'=>'刷新重试',

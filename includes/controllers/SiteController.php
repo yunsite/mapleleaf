@@ -60,17 +60,17 @@ class SiteController extends BaseController{
             $adminname=ZFramework::maple_quotes($_POST['adminname']);
             $adminpass=ZFramework::maple_quotes($_POST['adminpass']);
             $dbname=  ZFramework::maple_quotes($_POST['dbname']);
-
+            $tbprefix=$_POST['tbprefix'];
             $url=$_POST['dbtype'].'://'.$_POST['dbusername'].':'.$_POST['dbpwd'].'@'.$_POST['dbhost'].'/'.$_POST['dbname'];
             $db=YDB::factory($url);
             if(!$db){
                 $formError=ZFramework::t('DB_CONNECT_ERROR', array(), $language);
             }else{
-                $url_string="<?php\n\$db_url = '$url';\n?>";
+                $url_string="<?php\n\$db_url = '$url';\n\$db_prefix = '$tbprefix';\n?>";
                 file_put_contents(CONFIGFILE, $url_string);
                 $sql_file=APPROOT.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.$_POST['dbtype'].'.sql';
                 $sql_array=file($sql_file);
-                $translate=array('{time}'=>  time(),'{ip}'=>  getIP(),'{admin}'=>$adminname,'{adminpass}'=>$adminpass,'{lang}'=>$language);
+                $translate=array('{time}'=>  time(),'{ip}'=>  getIP(),'{admin}'=>$adminname,'{adminpass}'=>$adminpass,'{lang}'=>$language,'<'=>$tbprefix,'>'=>'');
                 foreach ($sql_array as $sql) {
                     $_sql=strtr(trim($sql),$translate);
                     $db->query($_sql);
@@ -96,8 +96,8 @@ class SiteController extends BaseController{
         $themes= ZFramework::get_all_themes();
 
         $data=$this->get_all_data(TRUE,false,TRUE,TRUE);
-        $reply_data=  $this->_model->queryAll("SELECT * FROM reply");
-        $ban_ip_info=  $this->_model->queryAll("SELECT * FROM badip");
+        $reply_data=  $this->_model->queryAll(parse_tbprefix("SELECT * FROM <reply>"));
+        $ban_ip_info=  $this->_model->queryAll(parse_tbprefix("SELECT * FROM <badip>"));
 
         $nums=count($data);
         $reply_num=count($reply_data);
@@ -132,7 +132,7 @@ class SiteController extends BaseController{
 
     public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false){
         $data=array();
-        $data=$this->_model->queryAll("SELECT p.pid AS id, p.ip AS ip , p.uid AS uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid ORDER BY p.post_time DESC");
+        $data=$this->_model->queryAll(parse_tbprefix("SELECT p.pid AS id, p.ip AS ip , p.uid AS uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM <post> AS p LEFT JOIN <reply> AS r ON p.pid=r.pid LEFT JOIN <user> AS u ON p.uid=u.uid ORDER BY p.post_time DESC"));
         foreach ($data as &$_data) {
             if($parse_smileys){
                 $_data['post_content']=$this->parse_smileys ($_data['post_content'], SMILEYDIR,  ZFramework::getSmileys());
