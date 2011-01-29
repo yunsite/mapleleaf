@@ -47,7 +47,7 @@ $(document).ready(function() {
                                 $.getJSON('index.php',{ajax:'yes',pid:$('#pid').val()},function(data){
                                     $("#main_table tr:not('.header')").remove();
                                     $.each(data.messages,function(i,item){
-                                        var trString="<tr>\n<td>"+ (item.user?item.user:item.b_username) +"</td>\n<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>"+item.post_content+"<br />";
+                                        var trString="<tr>\n<td>"+ (item.uid?item.b_username:item.user) +"</td>\n<td><div style='word-wrap: break-word;word-break:break-all;width:450px;'>"+item.post_content+"<br />";
                                             if(item.reply){
                                                 var _A = [languageTips.ADMIN_NAME_INDEX,item.reply.reply_time,item.reply.reply_content];
                                                 var _B = ['{admin_name}','{reply_time}','{reply_content}'];

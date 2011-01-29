@@ -11,6 +11,7 @@ class SiteController extends BaseController{
 
     public function actionIndex(){
         $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
+        #echo '<pre>';var_dump($data);exit;
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
         $nums=count($data);
         $pages=ceil($nums/ZFramework::app()->num_perpage);
@@ -131,7 +132,7 @@ class SiteController extends BaseController{
 
     public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false){
         $data=array();
-        $data=$this->_model->queryAll("SELECT p.pid AS id, p.ip AS ip , p.uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid ORDER BY p.post_time DESC");
+        $data=$this->_model->queryAll("SELECT p.pid AS id, p.ip AS ip , p.uid AS uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM post AS p LEFT JOIN reply AS r ON p.pid=r.pid LEFT JOIN user AS u ON p.uid=u.uid ORDER BY p.post_time DESC");
         foreach ($data as &$_data) {
             if($parse_smileys){
                 $_data['post_content']=$this->parse_smileys ($_data['post_content'], SMILEYDIR,  ZFramework::getSmileys());
