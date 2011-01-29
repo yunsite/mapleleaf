@@ -18,6 +18,7 @@ $(document).ready(function() {
     $('#toggleForm').css('display','inline');
     //隐藏留言表单
     $("#add_table").hide();
+    $("#search").click(function(){$(this).val('')});
     //显示“Press Ctrl+Enter to post”
     $('#post_shortcut').show();
     //为“点击留言”应用鼠标手势
@@ -27,7 +28,7 @@ $(document).ready(function() {
     var post={
         message:null,
         init:function(){
-            $('form').submit(function(e){
+            $('form#guestbook').submit(function(e){
                 e.preventDefault();
                 if(post.validate()){
                     $.ajax({

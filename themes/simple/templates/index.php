@@ -108,6 +108,12 @@
                 </table>
                 </form>
             </div>
+                <div class="clear">
+                    <form action="index.php?controller=search" method="post">
+				<input id="search" type="text" size="10" value="Search" name="s">
+				<input type="image" src="http://aguestbook.sourceforge.net/demo/images/posts/search.gif" value="Search" alt="Search" name="searchImg">
+                    </form>
+                </div>
         </div><!-- body -->
         <div class="clear"><?php echo htmlspecialchars_decode(ZFramework::app()->copyright_info);?> <a href="mailto:<?php echo ZFramework::app()->admin_email;?>"><?php echo ZFramework::t('ADMIN_EMAIL');?></a> <?php if(!isset($_SESSION['user'])): ?><a href="index.php?action=control_panel"><?php echo ZFramework::t('ACP');?></a><?php endif;?> Powered by <a href="http://mapleleaf.googlecode.com/" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a></div><!-- footer -->
 

@@ -207,4 +207,7 @@ return array(
     'INSTALL_AGREEMENT'=>'为了安装此程序，你必须遵守 <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GPL 2 </a>',
 
     'GD_DISABLED_NOTICE'=>'(GD 不支持，因此你无法开启验证码功能。)',
+
+    'SEARCH_NOTFOUND'=>'没有找到符合您查询条件的记录',
+    'SEARCH_FOUND'=>'符合记录的条数 : {result_num}',
 );
