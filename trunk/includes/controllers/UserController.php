@@ -17,9 +17,9 @@ class UserController extends BaseController{
                     $email=$_POST['email'];
                     $time=time();
                     if(is_email($email)){
-                        $user_exists=$this->_model->queryAll(sprintf("SELECT * FROM user WHERE username='%s'",$user));
+                        $user_exists=$this->_model->queryAll(sprintf(parse_tbprefix("SELECT * FROM <user> WHERE username='%s'"),$user));
                         if(!$user_exists && $user!= ZFramework::app()->admin){
-                            if($this->_model->query(sprintf("INSERT INTO user ( username , password , email , reg_time ) VALUES ( '%s' , '%s' , '%s' , %d )",$user,$pwd,$email,$time))){
+                            if($this->_model->query(sprintf(parse_tbprefix("INSERT INTO <user> ( username , password , email , reg_time ) VALUES ( '%s' , '%s' , '%s' , %d )"),$user,$pwd,$email,$time))){
                                 $_SESSION['user']=$user;
                                 $_SESSION['uid']=  $this->_model->insert_id();
                                 if(isset ($_POST['ajax'])){
@@ -58,7 +58,7 @@ class UserController extends BaseController{
                 $pwd=  $this->_model->escape_string($_POST['pwd']);
 		$email=$_POST['email'];
 		if(is_email($email)){
-		    if($this->_model->query(sprintf("UPDATE user SET password = '%s' , email = '%s' WHERE uid = %d",$pwd,$email,$uid))){
+		    if($this->_model->query(sprintf(parse_tbprefix("UPDATE <user> SET password = '%s' , email = '%s' WHERE uid = %d"),$pwd,$email,$uid))){
 			header("Location:index.php");exit;
 		    }else{
 			$errorMsg=ZFramework::t('USERUPDATEFAILED');
@@ -70,7 +70,7 @@ class UserController extends BaseController{
 		$errorMsg=ZFramework::t('FILL_NOT_COMPLETE');
 	    }
 	}
-        $user_data=  $this->_model->queryAll(sprintf("SELECT * FROM user WHERE uid=%d",$uid));
+        $user_data=  $this->_model->queryAll(sprintf(parse_tbprefix("SELECT * FROM <user> WHERE uid=%d"),$uid));
 	$user_data=$user_data[0];
 	include 'themes/'.ZFramework::app()->theme.'/templates/'."user_update.php";
     }
@@ -93,7 +93,7 @@ class UserController extends BaseController{
 		exit;
 	    }
 	    else{//使用普通用户登录
-                $user_result=  $this->_model->queryAll(sprintf("SELECT * FROM user WHERE username='%s' AND password='%s'",$user,$password));
+                $user_result=  $this->_model->queryAll(sprintf(parse_tbprefix("SELECT * FROM <user> WHERE username='%s' AND password='%s'"),$user,$password));
 		$user_result=@$user_result[0];
 		if($user_result){
 		    $_SESSION['user']=$_POST['user'];

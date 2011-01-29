@@ -27,14 +27,15 @@ class PostController extends BaseController{
             $user=  $this->_model->escape_string($_POST['user']);
             if(!isset($_SESSION['admin']) && $_POST['user']==ZFramework::app()->admin )
                 $user='anonymous';
-            $userExists=  $this->_model->queryAll(sprintf("SELECT * FROM user WHERE username='%s'",  $this->_model->escape_string($_POST['user'])));
+            $userExists=  $this->_model->queryAll(sprintf(parse_tbprefix("SELECT * FROM <user> WHERE username='%s'"),  $this->_model->escape_string($_POST['user'])));
             if($userExists && (@$_SESSION['user']!=$_POST['user']))
                 $user='anonymous';
-            $content = $this->_model->escape_string(str_replace(array("\n", "\r\n", "\r"), '', nl2br($_POST['content'])));
+            #$content = $this->_model->escape_string(str_replace(array("\n", "\r\n", "\r"), '', nl2br($_POST['content'])));
+            $content = $this->_model->escape_string($_POST['content']);
             if(isset ($_SESSION['uid']))
-                $sql_insert= sprintf ("INSERT INTO post ( uid , content , post_time , ip ) VALUES ( %d , '%s' , %d , '%s' )", $_SESSION['uid'],$content,  time (),  getIp ());
+                $sql_insert= sprintf (parse_tbprefix("INSERT INTO <post> ( uid , content , post_time , ip ) VALUES ( %d , '%s' , %d , '%s' )"), $_SESSION['uid'],$content,  time (),  getIp ());
             else
-                $sql_insert = sprintf ("INSERT INTO post ( uname , content , post_time , ip ) VALUES ( '%s' ,'%s' , %d , '%s')", $user,$content,  time (),  getIp ());
+                $sql_insert = sprintf (parse_tbprefix("INSERT INTO <post> ( uname , content , post_time , ip ) VALUES ( '%s' ,'%s' , %d , '%s')"), $user,$content,  time (),  getIp ());
             //写入数据库
             if(!$this->_model->query($sql_insert))
                 die($this->_model->error());
@@ -50,11 +51,11 @@ class PostController extends BaseController{
 	if(isset($_POST['Submit'])){
 	    $mid=(int)$_POST['mid'];
 	    $update_content = $this->_model->escape_string(str_replace(array("\n", "\r\n", "\r"), '', nl2br($_POST['update_content'])));
-            $this->_model->query(sprintf("UPDATE post SET content='%s' WHERE pid=%d",$update_content,$mid));
+            $this->_model->query(sprintf(parse_tbprefix("UPDATE <post> SET content='%s' WHERE pid=%d"),$update_content,$mid));
             header("Location:index.php?action=control_panel&subtab=message");
 	}
         $mid=(int)$_GET['mid'];
-        $message_info=$this->_model->queryAll(sprintf("SELECT * FROM post WHERE pid=%d",$mid));
+        $message_info=$this->_model->queryAll(sprintf(parse_tbprefix("SELECT * FROM <post> WHERE pid=%d"),$mid));
         if(!$message_info)
             ZFramework::show_message(ZFramework::t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
 	$message_info=$message_info[0];
@@ -69,8 +70,8 @@ class PostController extends BaseController{
         if(!$mid){
             header("Location:index.php?action=control_panel&amp;subtab=message");exit;
         }
-        $this->_model->query("DELETE FROM post WHERE pid=$mid");
-        $this->_model->query("DELETE FROM reply WHERE pid=$mid");
+        $this->_model->query(parse_tbprefix("DELETE FROM <post> WHERE pid=$mid"));
+        $this->_model->query(parse_tbprefix("DELETE FROM <reply> WHERE pid=$mid"));
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
     public  function actionDelete_multi_messages(){
@@ -78,16 +79,16 @@ class PostController extends BaseController{
         if(!isset($_POST['select_mid'])){header("location:index.php?action=control_panel&subtab=message");exit;}
 	$del_ids=$_POST['select_mid'];
         foreach($del_ids as $deleted_id){
-            $this->_model->query("DELETE FROM post WHERE pid=$deleted_id");
-            $this->_model->query("DELETE FROM reply WHERE pid=$deleted_id");
+            $this->_model->query(parse_tbprefix("DELETE FROM <post> WHERE pid=$deleted_id"));
+            $this->_model->query(parse_tbprefix("DELETE FROM <reply> WHERE pid=$deleted_id"));
         }
         header("Location:index.php?action=control_panel&subtab=message&randomvalue=".rand());
     }
 
     public  function actionDeleteAll(){
         is_admin();
-        $this->_model->query("DELETE FROM post");
-        $this->_model->query("DELETE FROM reply");
+        $this->_model->query(parse_tbprefix("DELETE FROM <post>"));
+        $this->_model->query(parse_tbprefix("DELETE FROM <reply>"));
         header("location:index.php?action=control_panel&subtab=message");
     }
 }

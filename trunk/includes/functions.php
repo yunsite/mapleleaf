@@ -214,9 +214,13 @@
         global $db_url;
         $all_baned_ips=array();
         $db=YDB::factory($db_url);
-        $result=$db->queryAll(sprintf("SELECT * FROM badip WHERE ip='%s'",$db->escape_string($ip)));
+        $result=$db->queryAll(sprintf(parse_tbprefix("SELECT * FROM <badip> WHERE ip='%s'"),$db->escape_string($ip)));
         if($result)
             return true;
         return false;
+    }
+    function parse_tbprefix($str){
+        global $db_prefix;
+        return strtr($str,array('<'=>$db_prefix,'>'=>''));
     }
 ?>
