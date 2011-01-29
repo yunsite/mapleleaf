@@ -130,6 +130,39 @@ class SiteController extends BaseController{
             ));
     }
 
+    public function actionRSS(){
+        $data=$this->get_all_data(true, true);
+        header('Content-Type: text/xml; charset=utf-8', true);
+        $now = date("D, d M Y H:i:s T");
+        $borad_name=ZFramework::app()->board_name;
+        $output =<<<HERE
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+    <title>$borad_name</title>
+    <link>{$_SERVER['HTTP_HOST']}{$_SERVER['PHP_SELF']}</link>
+    <language>en</language>
+    <pubDate>$now</pubDate>
+    <lastBuildDate>$now</lastBuildDate>
+    <docs>http://someurl.com</docs>
+    <managingEditor>you@youremail.com</managingEditor>
+    <webMaster>you@youremail.com</webMaster>\n
+HERE;
+        foreach ($data as $m) {
+            $output .= "\t<item><title>";
+            if((int)$m['uid']>0)
+                $output.=htmlentities ($m['b_username']);
+            else
+                $output.=htmlentities ($m['user']);
+            $output .= "</title><pubDate>".date("D, d M Y H:i:s T", $m['time'])."</pubDate><description><![CDATA[".$m['post_content'];
+            if(@$m['reply_content'])
+                $output.="<br />".strip_tags (ZFramework::t('ADMIN_REPLIED',array('{admin_name}'=>ZFramework::app()->admin,'{reply_time}'=>date("D, d M Y H:i:s T",$m['reply_time']),'{reply_content}'=>$m['reply_content'])));
+            $output .="]]></description></item>\n";
+        }
+        $output.="\t</channel>\n</rss>";
+        echo $output;
+    }
+
     public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false){
         $data=array();
         $data=$this->_model->queryAll(parse_tbprefix("SELECT p.pid AS id, p.ip AS ip , p.uid AS uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM <post> AS p LEFT JOIN <reply> AS r ON p.pid=r.pid LEFT JOIN <user> AS u ON p.uid=u.uid ORDER BY p.post_time DESC"));
