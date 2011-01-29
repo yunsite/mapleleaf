@@ -219,8 +219,75 @@
             return true;
         return false;
     }
+    /**
+     * 
+     *
+     * @global string $db_prefix
+     * @param string $str
+     * @return string
+     */
     function parse_tbprefix($str){
         global $db_prefix;
         return strtr($str,array('<'=>$db_prefix,'>'=>''));
+    }
+
+    function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false){
+        global $db_url;
+        $db=YDB::factory($db_url);
+        $data=array();
+        $data=$db->queryAll(parse_tbprefix("SELECT p.pid AS id, p.ip AS ip , p.uid AS uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM <post> AS p LEFT JOIN <reply> AS r ON p.pid=r.pid LEFT JOIN <user> AS u ON p.uid=u.uid ORDER BY p.post_time DESC"));
+        foreach ($data as &$_data) {
+            if($parse_smileys){
+                $_data['post_content']=parse_smileys ($_data['post_content'], SMILEYDIR,  ZFramework::getSmileys());
+                $_data['reply_content']=parse_smileys ($_data['reply_content'], SMILEYDIR,  ZFramework::getSmileys());
+            }
+            if($filter_words)
+                $_data['post_content']=filter_words($_data['post_content']);
+            if($processUsername)
+                $_data['user']=($_data['user']==ZFramework::app()->admin)?"<font color='red'>{$_data['user']}</font>":$_data['user'];
+            if($processTime){
+                $_data['time']=date('m-d H:i',$_data['time']+ZFramework::app()->timezone*60*60);
+                $_data['reply_time']=date('m-d H:i',$_data['reply_time']+ZFramework::app()->timezone*60*60);
+            }
+
+        }
+        //echo '<pre>';
+        //var_dump($data);exit;
+        return $data;
+    }
+
+    /**
+     * 将表情符号转换为表情图案
+     * @param $str
+     * @param $image_url
+     * @param $smileys
+     */
+    function parse_smileys($str = '', $image_url = '', $smileys = NULL){
+	if ($image_url == '')
+	    return $str;
+	if (!is_array($smileys))
+	    return $str;
+	// Add a trailing slash to the file path if needed
+	$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
+	foreach ($smileys as $key => $val){
+	    $str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
+	}
+	return $str;
+    }
+    /**
+     * 过滤敏感词语
+     * @param array $input
+     */
+    function filter_words($input){
+	$filter_array=explode(',',  ZFramework::app()->filter_words);
+	$input=str_ireplace($filter_array,'***',$input);
+	return $input;
+    }
+    /**
+     * 显示表情
+     */
+    function show_smileys_table(){
+	$smiley=  require APPROOT.'/includes/showSmiley.php';
+	return $smiley;
     }
 ?>

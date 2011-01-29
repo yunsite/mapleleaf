@@ -10,7 +10,7 @@ class SiteController extends BaseController{
     }
 
     public function actionIndex(){
-        $data=$this->get_all_data(TRUE,TRUE,TRUE,TRUE);
+        $data=get_all_data(TRUE,TRUE,TRUE,TRUE);
         #echo '<pre>';var_dump($data);exit;
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
         $nums=count($data);
@@ -28,7 +28,7 @@ class SiteController extends BaseController{
         }
         $admin=isset($_SESSION['admin'])?true:false;
         $adminName=  ZFramework::app()->admin;
-        $smileys=$this->show_smileys_table();
+        $smileys=show_smileys_table();
         
         $this->render('index',array(
             'data'=>$data,
@@ -95,7 +95,7 @@ class SiteController extends BaseController{
         }
         $themes= ZFramework::get_all_themes();
 
-        $data=$this->get_all_data(TRUE,false,TRUE,TRUE);
+        $data=get_all_data(TRUE,false,TRUE,TRUE);
         $reply_data=  $this->_model->queryAll(parse_tbprefix("SELECT * FROM <reply>"));
         $ban_ip_info=  $this->_model->queryAll(parse_tbprefix("SELECT * FROM <badip>"));
 
@@ -131,7 +131,7 @@ class SiteController extends BaseController{
     }
 
     public function actionRSS(){
-        $data=$this->get_all_data(true, true);
+        $data=get_all_data(true, true);
         header('Content-Type: text/xml; charset=utf-8', true);
         $now = date("D, d M Y H:i:s T");
         $borad_name=ZFramework::app()->board_name;
@@ -163,55 +163,6 @@ HERE;
         echo $output;
     }
 
-    public  function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false){
-        $data=array();
-        $data=$this->_model->queryAll(parse_tbprefix("SELECT p.pid AS id, p.ip AS ip , p.uid AS uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM <post> AS p LEFT JOIN <reply> AS r ON p.pid=r.pid LEFT JOIN <user> AS u ON p.uid=u.uid ORDER BY p.post_time DESC"));
-        foreach ($data as &$_data) {
-            if($parse_smileys){
-                $_data['post_content']=$this->parse_smileys ($_data['post_content'], SMILEYDIR,  ZFramework::getSmileys());
-                $_data['reply_content']=$this->parse_smileys ($_data['reply_content'], SMILEYDIR,  ZFramework::getSmileys());
-            }
-            if($filter_words)
-                $_data['post_content']=$this->filter_words($_data['post_content']);
-            if($processUsername)
-                $_data['user']=($_data['user']==ZFramework::app()->admin)?"<font color='red'>{$_data['user']}</font>":$_data['user'];
-            if($processTime){
-                $_data['time']=date('m-d H:i',$_data['time']+ZFramework::app()->timezone*60*60);
-                $_data['reply_time']=date('m-d H:i',$_data['reply_time']+ZFramework::app()->timezone*60*60);
-            }
-            
-        }   
-        //echo '<pre>';
-        //var_dump($data);exit;
-        return $data;
-    }
-    /**
-     * 过滤敏感词语
-     * @param array $input
-     */
-    public  function filter_words($input){
-	$filter_array=explode(',',  ZFramework::app()->filter_words);
-	$input=str_ireplace($filter_array,'***',$input);
-	return $input;
-    }
-    /**
-     * 将表情符号转换为表情图案
-     * @param $str
-     * @param $image_url
-     * @param $smileys
-     */
-    public  function parse_smileys($str = '', $image_url = '', $smileys = NULL){
-	if ($image_url == '')
-	    return $str;
-	if (!is_array($smileys))
-	    return $str;
-	// Add a trailing slash to the file path if needed
-	$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
-	foreach ($smileys as $key => $val){
-	    $str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
-	}
-	return $str;
-    }
     public  function page_wrapper($data,$current_page){
         $start=$current_page*ZFramework::app()->num_perpage;
         $data=array_slice($data,$start,  ZFramework::app()->num_perpage);
@@ -225,11 +176,5 @@ HERE;
         $langArray['ADMIN_NAME_INDEX']=ZFramework::app()->admin;
         echo json_encode($langArray);
     }
-    /**
-     * 显示表情
-     */
-    public  function show_smileys_table(){
-	$smiley=  require dirname(dirname(__FILE__)).'/showSmiley.php';
-	return $smiley;
-    } 
+     
 }
