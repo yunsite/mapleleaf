@@ -1,3 +1,10 @@
+=== Databases ===
+
+Mapleleaf supports the following databases:
+  * MySQL (mysql and mysqli)
+  * SQLite
+  * php Textfile DB API (a database engine written in php)
+
 === Anti-spam measures ===
 
 Mapleleaf Guestbook uses several techniques to fight spam : 
