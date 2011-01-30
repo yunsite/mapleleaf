@@ -212,4 +212,7 @@ return array(
 
     'SEARCH_NOTFOUND'=>'There is no posts meeting your query\'s requirements',
     'SEARCH_FOUND'=>'Number of results : {result_num}',
+
+    'ONLY_POST'=>'Only POST permitted.',
+    'NO_SEARCH_PARAM'=>'No search parameter specified.',
 );

@@ -210,4 +210,7 @@ return array(
 
     'SEARCH_NOTFOUND'=>'没有找到符合您查询条件的记录',
     'SEARCH_FOUND'=>'符合记录的条数 : {result_num}',
+
+    'ONLY_POST'=>'只接受 POST 数据',
+    'NO_SEARCH_PARAM'=>'没有指定查询参数',
 );

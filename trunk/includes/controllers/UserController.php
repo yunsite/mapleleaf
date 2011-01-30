@@ -88,6 +88,10 @@ class UserController extends BaseController{
             $user=  $this->_model->escape_string($_POST['user']);
             $password=$this->_model->escape_string($_POST['password']);
 	    if( ($user==ZFramework::app()->admin) && ($password==ZFramework::app()->password) ){//若使用管理员帐户成功登录
+                if(defined('API_MODE')){
+                    $json_array=array('user'=>$_POST['user']);
+                    die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+                }
 		$_SESSION['admin']=$_POST['user'];
 		header("Location:index.php?action=control_panel");
 		exit;
@@ -96,6 +100,10 @@ class UserController extends BaseController{
                 $user_result=  $this->_model->queryAll(sprintf(parse_tbprefix("SELECT * FROM <user> WHERE username='%s' AND password='%s'"),$user,$password));
 		$user_result=@$user_result[0];
 		if($user_result){
+                    if(defined('API_MODE')){
+                        $json_array=array('user'=>$_POST['user'],'uid'=>$user_result['uid']);
+                        die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+                    }
 		    $_SESSION['user']=$_POST['user'];
 		    $_SESSION['uid']=$user_result['uid'];
 		    header("Location:index.php");exit;
@@ -103,6 +111,10 @@ class UserController extends BaseController{
 		    $errormsg=ZFramework::t('LOGIN_ERROR');
 		}
 	    }
+        }
+        if(defined('API_MODE') && isset ($errormsg)){
+            $json_array=array('error_msg'=>$errormsg);
+            die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
         }
 	include 'themes/'.ZFramework::app()->theme.'/templates/'."login.php";
     }

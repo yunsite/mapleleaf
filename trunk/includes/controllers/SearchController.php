@@ -15,13 +15,21 @@ class SearchController extends BaseController{
                 if(strpos($_data['user'],$s)!==false || strpos($_data['post_content'], $s)!==false || strpos($_data['reply_content'], $s)!==false || strpos($_data['b_username'], $s)!==false)
                     $result_array[]=$_data;
             }
+            if (defined('API_MODE')) {
+                $json_array=array('messages'=>$data,'nums'=>  count($data));
+                die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+            }
             $nums=count($result_array);
             $this->render('search_result',array(
             'data'=>$result_array,
             'nums'=>$nums,
             ));
         }
-        else
+        elseif (defined('API_MODE')) {
+            $json_array=array('error_msg'=>ZFramework::t('NO_SEARCH_PARAM'));
+            die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+        }else{
             header("Location:index.php");
+        }
     }
 }
