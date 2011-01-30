@@ -17,6 +17,24 @@ class ZFramework{
     public      $defaultAction='actionIndex';
     static      $_instance;
     protected   $_db;
+    protected   $allow_request_api=array(
+        'SiteController/actionIndex',
+        'SiteController/actionCaptcha',
+        'SiteController/actionRss',
+        'PostController/actionCreate',
+        'PostController/actionDelete',
+        'PostController/actionDeleteAll',
+        'PostController/actionDelete_multi_messages',
+        'PostController/actionUpdate',
+        'ReplyController/actionReply',
+        'ReplyController/actionDelete',
+        'ReplyController/actionDeleteAll',
+        'SearchController/actionIndex',
+        'UserController/actionCreate',
+        'UserController/actionLogin',
+        'UserController/actionLogout',
+        'UserController/actionUpdate',
+        );
 
     public static function createApp(){
         if(!(self::$_instance instanceof  self)){
@@ -83,6 +101,10 @@ class ZFramework{
             self::show_message($this->close_reason);
     }
     public function run(){
+        #var_dump($this->_controller.'/'.$this->_action);exit;
+        if (defined('API_MODE') && !in_array($this->_controller.'/'.$this->_action, $this->allow_request_api)){
+            die (self::t('API_REQUEST_ERROR'));
+        }
         try {
             if($this->is_installed())
                 $this->is_closedMode();
@@ -170,7 +192,7 @@ class ZFramework{
 
     public static  function get_all_langs(){
     	$langs=array();
-        $d=dir(self::get_lang_directory());
+        $d=dir(APPROOT.'/languages/');
         while(false!==($entry=$d->read())){
             if(substr($entry,0,1)!='.')
                 $langs[substr($entry,0,-4)]=substr($entry,0,-4);
@@ -181,9 +203,5 @@ class ZFramework{
     public static  function get_all_timezone(){
         $timezone=  include APPROOT.'/languages/'.self::app()->lang.'.php';
     	return $timezone['TZ_ZONES'];
-    }
-    public function get_lang_directory(){
-        return APPROOT.'/languages/';
-    }
-    
+    }    
 }
