@@ -213,4 +213,5 @@ return array(
 
     'ONLY_POST'=>'只接受 POST 数据',
     'NO_SEARCH_PARAM'=>'没有指定查询参数',
+    'API_REQUEST_ERROR'=>'无效的 API 请求',
 );
