@@ -185,13 +185,5 @@ class ZFramework{
     public function get_lang_directory(){
         return APPROOT.'/languages/';
     }
-    /**
-     * 替换被过滤的词语
-     * @param array $filter_words
-     */
-    public static  function fix_filter_string($filter_words){
-	$new_string=trim($filter_words,',');
-	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
-	return $new_string;
-    }
+    
 }
