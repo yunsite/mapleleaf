@@ -53,7 +53,7 @@ class ConfigController extends BaseController{
     }
 
     private function set_filter_words(){
-        $filter_words=$_POST['filter_words']?  ZFramework::fix_filter_string($_POST['filter_words']):'';
+        $filter_words=$_POST['filter_words']?  fix_filter_string($_POST['filter_words']):'';
         $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='filter_words'"),$filter_words));
     }
 

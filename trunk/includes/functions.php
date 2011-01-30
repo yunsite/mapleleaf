@@ -290,4 +290,13 @@
 	$smiley=  require APPROOT.'/includes/showSmiley.php';
 	return $smiley;
     }
+    /**
+     * 替换被过滤的词语
+     * @param array $filter_words
+     */
+    function fix_filter_string($filter_words){
+	$new_string=trim($filter_words,',');
+	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
+	return $new_string;
+    }
 ?>
