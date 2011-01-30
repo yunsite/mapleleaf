@@ -22,7 +22,7 @@
 	<?php } ?>
 
 	<div id="loginForm">
-	    <form action="index.php?controller=user&amp;action=login" method="post">
+            <form action="<?php echo $_SERVER['PHP_SELF'];?>?controller=user&amp;action=login" method="post">
                 <table>
                     <tr>
 		    <td><label><?php echo ZFramework::t('USERNAME');?></label></td>

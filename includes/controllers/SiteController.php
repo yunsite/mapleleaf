@@ -21,7 +21,7 @@ class SiteController extends BaseController{
             $current_page=0;
         if(ZFramework::app()->page_on)
             $data=$this->page_wrapper($data, $current_page);
-        if(isset ($_GET['ajax'])){
+        if(isset ($_GET['ajax']) || defined('API_MODE')){
             $data=array_reverse($data);
             $JSONDATA=array('messages'=>$data,'current_page'=>$current_page,'total'=>$nums,'pagenum'=>$pages);
             echo function_exists('json_encode') ? json_encode($JSONDATA) : CJSON::encode($JSONDATA);exit;

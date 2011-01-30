@@ -8,7 +8,7 @@ class PostController extends BaseController{
         $this->_verifyCode=new FLEA_Helper_ImgCode();
     }
     public function actionCreate(){
-        if(isset ($_POST)){
+        if(isset ($_POST['user'])){
             //插入到数据库前的验证
             $new_data_error_msg='';
             if ( !strlen(trim($_POST['user'])) || !strlen(trim($_POST['content'])))
@@ -18,6 +18,11 @@ class PostController extends BaseController{
             elseif (ZFramework::app()->valid_code_open==1 && gd_loaded() && !$this->_verifyCode->check($_POST['valid_code']))
                 $new_data_error_msg=ZFramework::t('CAPTCHA_WRONG');
             if($new_data_error_msg){
+                if(defined('API_MODE')){
+                    $json_array=array('error_msg'=>$new_data_error_msg);
+                    
+                    die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+                }
                 if(!empty ($_POST['ajax']))
                     die ($new_data_error_msg);
                 else
@@ -39,10 +44,18 @@ class PostController extends BaseController{
             //写入数据库
             if(!$this->_model->query($sql_insert))
                 die($this->_model->error());
+            if(defined('API_MODE')){
+                $json_array=array('insert_id'=>  $this->_model->insert_id());
+                die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+            }
             if(isset($_POST['ajax'])){
                 echo 'OK';
                 return TRUE;
             }
+        }
+        if(defined('API_MODE')){
+            $json_array=array('error_msg'=>  ZFramework::t('ONLY_POST'));
+            die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
         }
         header("Location:index.php");
     }

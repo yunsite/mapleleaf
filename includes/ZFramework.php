@@ -104,6 +104,8 @@ class ZFramework{
             }
         }
         catch (Exception $e){
+            if(defined('API_MODE'))
+                die ('error');
             if(defined('DEBUG_MODE')){
                 echo $e->getMessage();
                 echo '<pre>';
