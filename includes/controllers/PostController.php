@@ -7,8 +7,12 @@ class PostController extends BaseController{
         $this->_model=  YDB::factory($db_url);
         $this->_verifyCode=new FLEA_Helper_ImgCode();
     }
+    /**
+     *
+     * @return mixed
+     */
     public function actionCreate(){
-        if(isset ($_POST['user'])){
+        if(isset ($_POST['user'])){//只允许 POST 方式
             //插入到数据库前的验证
             $new_data_error_msg='';
             if ( !strlen(trim($_POST['user'])) || !strlen(trim($_POST['content'])))
@@ -34,7 +38,6 @@ class PostController extends BaseController{
             $userExists=  $this->_model->queryAll(sprintf(parse_tbprefix("SELECT * FROM <user> WHERE username='%s'"),  $this->_model->escape_string($_POST['user'])));
             if($userExists && (@$_SESSION['user']!=$_POST['user']))
                 $user='anonymous';
-            #$content = $this->_model->escape_string(str_replace(array("\n", "\r\n", "\r"), '', nl2br($_POST['content'])));
             $content = $this->_model->escape_string($_POST['content']);
             if(isset ($_SESSION['uid']))
                 $sql_insert= sprintf (parse_tbprefix("INSERT INTO <post> ( uid , content , post_time , ip ) VALUES ( %d , '%s' , %d , '%s' )"), $_SESSION['uid'],$content,  time (),  getIp ());
