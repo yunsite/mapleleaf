@@ -11,7 +11,6 @@ class SiteController extends BaseController{
 
     public function actionIndex(){
         $data=get_all_data(TRUE,TRUE,TRUE,TRUE);
-        #echo '<pre>';var_dump($data);exit;
         $current_page=isset($_GET['pid'])?(int)$_GET['pid']:0;
         $nums=count($data);
         $pages=ceil($nums/ZFramework::app()->num_perpage);
@@ -24,7 +23,7 @@ class SiteController extends BaseController{
         if(isset ($_GET['ajax']) || defined('API_MODE')){
             $data=array_reverse($data);
             $JSONDATA=array('messages'=>$data,'current_page'=>$current_page,'total'=>$nums,'pagenum'=>$pages);
-            echo function_exists('json_encode') ? json_encode($JSONDATA) : CJSON::encode($JSONDATA);exit;
+            die(function_exists('json_encode') ? json_encode($JSONDATA) : CJSON::encode($JSONDATA));
         }
         $admin=isset($_SESSION['admin'])?true:false;
         $adminName=  ZFramework::app()->admin;

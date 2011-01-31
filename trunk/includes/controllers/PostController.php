@@ -20,7 +20,6 @@ class PostController extends BaseController{
             if($new_data_error_msg){
                 if(defined('API_MODE')){
                     $json_array=array('error_msg'=>$new_data_error_msg);
-                    
                     die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
                 }
                 if(!empty ($_POST['ajax']))

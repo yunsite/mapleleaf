@@ -216,4 +216,6 @@ return array(
     'ONLY_POST'=>'Only POST permitted.',
     'NO_SEARCH_PARAM'=>'No search parameter specified.',
     'API_REQUEST_ERROR'=>'The request is not permitted.',
+    'LOGIN_REQUIRED'=>'Login required',
+    'PARAM_ERROR'=>'Parameter error',
 );
