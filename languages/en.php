@@ -218,4 +218,8 @@ return array(
     'API_REQUEST_ERROR'=>'The request is not permitted.',
     'LOGIN_REQUIRED'=>'Login required',
     'PARAM_ERROR'=>'Parameter error',
+
+    'USER_ADMIN'=>'User Management',
+
+    'DEL_ALLUSER_CONFIRM'=>'Are you sure to delete all users?',
 );
