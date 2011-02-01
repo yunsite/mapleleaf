@@ -216,4 +216,6 @@ return array(
     'API_REQUEST_ERROR'=>'无效的 API 请求',
     'LOGIN_REQUIRED'=>'需要登录',
     'PARAM_ERROR'=>'参数错误',
+    'USER_ADMIN'=>'用户管理',
+    'DEL_ALLUSER_CONFIRM'=>'你确定要删除所有注册用户？',
 );

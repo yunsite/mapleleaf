@@ -31,6 +31,7 @@
 			echo "\n<li class='$class'><a href='index.php?action=control_panel&subtab={$tabs_array[$i]}'>{$tabs_name_array[$i]}</a></li>\n";
 		    }
 		    ?>
+                    <li><a href="index.php?controller=user"><?php echo ZFramework::t('USER_ADMIN');?></a></li>
 		</ul>
 	    </div><!-- yui-g -->
 	    <div class="yui-g">

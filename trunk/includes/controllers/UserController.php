@@ -5,6 +5,16 @@ class UserController extends BaseController{
         global $db_url;
         $this->_model=  YDB::factory($db_url);
     }
+    public function actionIndex(){
+        is_admin();
+        $current_tab='user';
+        $tabs_array=array('overview','siteset','message','ban_ip','user');
+        $tabs_name_array=array(ZFramework::t('ACP_OVERVIEW'),ZFramework::t('ACP_CONFSET'),ZFramework::t('ACP_MANAGE_POST'),ZFramework::t('ACP_MANAGE_IP'),  ZFramework::t('USER_ADMIN'));
+        $user_data=$this->_model->queryAll(parse_tbprefix("SELECT * FROM <user>"));
+        //echo '<pre>';
+        //var_dump($user_data);exit;
+        $this->render('user_list',array('users'=>$user_data,'tabs_array'=>$tabs_array,'current_tab'=>$current_tab,'tabs_name_array'=>$tabs_name_array,));
+    }
     public function actionCreate(){
         if(isset ($_SESSION['admin']) || isset ($_SESSION['user'])){
 	    header("Location:index.php");exit;
@@ -93,7 +103,24 @@ class UserController extends BaseController{
 	include 'themes/'.ZFramework::app()->theme.'/templates/'."user_update.php";
     }
     public function actionDelete(){
-        
+        is_admin();
+        $uid=isset ($_GET['uid'])?(int)$_GET['uid']:null;
+        if(!$uid){
+            header("Location:index.php?controller=user");exit;
+        }
+        $this->_model->query(parse_tbprefix("DELETE FROM <user> WHERE uid=$uid"));
+        $this->_model->query(parse_tbprefix("UPDATE <post> SET uid=0 WHERE uid=$uid"));
+        header("Location:index.php?controller=user&randomvalue=".rand());
+    }
+    public  function actionDelete_multi(){
+        is_admin();
+        if(!isset($_POST['select_uid'])){header("location:index.php?controller=user");exit;}
+	$del_ids=$_POST['select_uid'];
+        foreach($del_ids as $deleted_id){
+            $this->_model->query(parse_tbprefix("DELETE FROM <user> WHERE uid=$deleted_id"));
+            $this->_model->query(parse_tbprefix("UPDATE <post> SET uid=0 WHERE uid=$deleted_id"));
+        }
+        header("Location:index.php?controller=user&randomvalue=".rand());
     }
     public function actionLogin(){
         $session_name=session_name();
@@ -164,5 +191,11 @@ class UserController extends BaseController{
             session_destroy();
         }
         header("Location:index.php");
+    }
+    public  function actionDeleteAll(){
+        is_admin();
+        $this->_model->query(parse_tbprefix("DELETE FROM <user>"));
+        $this->_model->query(parse_tbprefix("UPDATE <post> SET uid=0 WHERE uid>0"));
+        header("location:index.php?controller=user");
     }
 }
