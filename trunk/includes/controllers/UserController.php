@@ -112,6 +112,12 @@ class UserController extends BaseController{
         $this->_model->query(parse_tbprefix("UPDATE <post> SET uid=0 WHERE uid=$uid"));
         header("Location:index.php?controller=user&randomvalue=".rand());
     }
+    public  function actionDeleteAll(){
+        is_admin();
+        $this->_model->query(parse_tbprefix("DELETE FROM <user>"));
+        $this->_model->query(parse_tbprefix("UPDATE <post> SET uid = 0"));
+        header("location:index.php?controller=user");
+    }
     public  function actionDelete_multi(){
         is_admin();
         if(!isset($_POST['select_uid'])){header("location:index.php?controller=user");exit;}
@@ -192,10 +198,5 @@ class UserController extends BaseController{
         }
         header("Location:index.php");
     }
-    public  function actionDeleteAll(){
-        is_admin();
-        $this->_model->query(parse_tbprefix("DELETE FROM <user>"));
-        $this->_model->query(parse_tbprefix("UPDATE <post> SET uid=0 WHERE uid>0"));
-        header("location:index.php?controller=user");
-    }
+    
 }
