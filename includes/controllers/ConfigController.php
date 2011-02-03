@@ -2,6 +2,9 @@
 class ConfigController extends BaseController{
     private $_admin_password;
     public $_model;
+    const FILTER_TRIPTAGS=1;
+    const FILTER_ESCAPE=2;
+
     public function  __construct(){
         global $db_url;
         $this->_model=  YDB::factory($db_url);
@@ -24,6 +27,9 @@ class ConfigController extends BaseController{
         $this->set_admin_password();
         $this->set_lang();
         $this->set_time_zone();
+
+        $this->set_filter_type();
+        $this->set_allowed_tags();
         
         header("Location:index.php?action=control_panel&subtab=siteset");
     }
@@ -90,5 +96,13 @@ class ConfigController extends BaseController{
     private function set_admin_password(){
         $password=isset($_POST['password']) && !empty($_POST['password'])?ZFramework::maple_quotes($_POST['password']):$this->_admin_password;
         $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='password'"),$password));
+    }
+
+    private function set_filter_type(){
+        $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='filter_type'"),  $this->_model->escape_string($_POST['filter_type'])));
+    }
+
+    private function set_allowed_tags(){
+        $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='allowed_tags'"),  $this->_model->escape_string($_POST['allowed_tags'])));
     }
 }
