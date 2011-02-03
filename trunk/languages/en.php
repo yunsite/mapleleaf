@@ -222,4 +222,9 @@ return array(
     'USER_ADMIN'=>'User Management',
 
     'DEL_ALLUSER_CONFIRM'=>'Are you sure to delete all users?',
+    'ALLOWED_TAGS'=>'Allowed HTML tags:{allowed_tags}',
+    'FILTER_HTML_TAGS'=>'Filter HTML tags',
+    'STRIP_DISALLOWED_TAGS'=>'Strip disallowed tags',
+    'ESCAPE_ALL_TAGS'=>'Escape all tags',
+    'ALLOWED_HTML_TAGS'=>'Allowed HTML tags',
 );

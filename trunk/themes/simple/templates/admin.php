@@ -144,6 +144,12 @@
 				<tr>
 				    <td><?php echo ZFramework::t('POST_PERPAGE');?>：</td><td><input name="num_perpage" type="text" value="<?php echo ZFramework::app()->num_perpage;?>" /><?php echo ZFramework::t('PAGINATION_TIP');?></td>
 				</tr>
+                                <tr>
+				    <td><?php echo ZFramework::t('FILTER_HTML_TAGS');?>：</td><td><input name="filter_type" type="radio" value="1" <?php if(ZFramework::app()->filter_type==1){?> checked='checked' <?php }?> /><?php echo ZFramework::t('STRIP_DISALLOWED_TAGS');?><input name="filter_type" type="radio" value="2" <?php if(ZFramework::app()->filter_type==2){?> checked='checked'<?php }?> /><?php echo ZFramework::t('ESCAPE_ALL_TAGS');?></td>
+				</tr>
+                                <tr>
+				    <td><?php echo ZFramework::t('ALLOWED_HTML_TAGS');?>：</td><td><input name="allowed_tags" type="text" value="<?php echo ZFramework::app()->allowed_tags;?>" /></td>
+				</tr>
 			    </table>
 			    </fieldset>
 			    <fieldset>

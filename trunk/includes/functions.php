@@ -231,12 +231,19 @@
         return strtr($str,array('<'=>$db_prefix,'>'=>''));
     }
 
-    function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false){
+    function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=false,$processTime=false,$apply_filter=true){
         global $db_url;
         $db=YDB::factory($db_url);
         $data=array();
         $data=$db->queryAll(parse_tbprefix("SELECT p.pid AS id, p.ip AS ip , p.uid AS uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM <post> AS p LEFT JOIN <reply> AS r ON p.pid=r.pid LEFT JOIN <user> AS u ON p.uid=u.uid ORDER BY p.post_time DESC"));
         foreach ($data as &$_data) {
+            if($apply_filter && ZFramework::app()->filter_type==ConfigController::FILTER_TRIPTAGS){
+                $_data['post_content']=strip_tags ($_data['post_content'], ZFramework::app()->allowed_tags);
+                $_data['reply_content']=strip_tags ($_data['reply_content'], ZFramework::app()->allowed_tags);
+            }  else{
+                $_data['post_content']=  htmlentities($_data['post_content'],ENT_COMPAT,'UTF-8');
+                $_data['reply_content']=htmlentities($_data['reply_content'],ENT_COMPAT,'UTF-8');
+            }
             if($parse_smileys){
                 $_data['post_content']=parse_smileys ($_data['post_content'], SMILEYDIR,  ZFramework::getSmileys());
                 $_data['reply_content']=parse_smileys ($_data['reply_content'], SMILEYDIR,  ZFramework::getSmileys());

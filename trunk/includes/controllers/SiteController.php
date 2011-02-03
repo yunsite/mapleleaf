@@ -71,13 +71,12 @@ class SiteController extends BaseController{
                 $sql_array=file($sql_file);
                 $translate=array('{time}'=>  time(),'{ip}'=>  getIP(),'{admin}'=>$adminname,'{adminpass}'=>$adminpass,'{lang}'=>$language,'<'=>$tbprefix,'>'=>'');
                 foreach ($sql_array as $sql) {
-                    $_sql=strtr(trim($sql),$translate);
+                    $_sql=html_entity_decode(strtr(trim($sql),$translate),ENT_COMPAT,'UTF-8');
                     $db->query($_sql);
                 }
                 $installed=TRUE;
             }
-            //exit;
-        }
+        }//exit;
 	if(file_exists(dirname(dirname(__FILE__)).'/install.php')){
 	    include dirname(dirname(__FILE__)).'/install.php';
 	}
@@ -94,7 +93,7 @@ class SiteController extends BaseController{
         }
         $themes= ZFramework::get_all_themes();
 
-        $data=get_all_data(TRUE,false,TRUE,TRUE);
+        $data=get_all_data(TRUE,false,TRUE,TRUE,false);
         $reply_data=  $this->_model->queryAll(parse_tbprefix("SELECT * FROM <reply>"));
         $ban_ip_info=  $this->_model->queryAll(parse_tbprefix("SELECT * FROM <badip>"));
 

@@ -218,4 +218,9 @@ return array(
     'PARAM_ERROR'=>'参数错误',
     'USER_ADMIN'=>'用户管理',
     'DEL_ALLUSER_CONFIRM'=>'你确定要删除所有注册用户？',
+    'ALLOWED_TAGS'=>'允许如下标签:{allowed_tags}',
+    'FILTER_HTML_TAGS'=>'过滤 HTML 标签',
+    'STRIP_DISALLOWED_TAGS'=>'移除不允许的标签',
+    'ESCAPE_ALL_TAGS'=>'转义所有标签',
+    'ALLOWED_HTML_TAGS'=>'允许的 HTML 标签',
 );

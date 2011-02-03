@@ -92,7 +92,7 @@
                     <tr>
                         <td><?php echo ZFramework::t('CONTENT');?></td>
                         <td><textarea class="span-10" id="content" name="content" cols="45" rows="8" ></textarea></td>
-                        <td><div id='smileys'><?php echo $smileys;?></div>&nbsp;<br /></td>
+                        <td><div id='smileys'><?php echo $smileys;?></div>&nbsp;<br /><?php if(ConfigController::FILTER_TRIPTAGS==ZFramework::app()->filter_type){ echo ZFramework::t('ALLOWED_TAGS', array('{allowed_tags}'=> htmlentities(ZFramework::app()->allowed_tags)));}?></td>
                     </tr>
                     <?php if(ZFramework::app()->valid_code_open && gd_loaded()){?>
                     <tr>
