@@ -45,7 +45,21 @@
                         <td><?php echo ZFramework::t('ADMIN_PASSWORD',array(),$language); ?></td><td><input type="password" name="adminpass" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td><?php echo ZFramework::t('DB_TYPE',array(),$language); ?></td><td><select name="dbtype"><optgroup label="FlatFile db" ><option value="flatfile">Text DB API</option></optgroup><optgroup label="RDBMS"><option value="mysql">MySQL</option><option value="mysqli">MySQL Improved</option><option value="sqlite">SQLite</option></optgroup></select></td><td>&nbsp;</td>
+                        <td><?php echo ZFramework::t('DB_TYPE',array(),$language); ?></td>
+                        <td>
+                            <select name="dbtype">
+                                <optgroup label="FlatFile db" >
+                                    <option value="flatfile">Text DB API</option>
+                                </optgroup>
+                                <?php $db_types=get_supported_rdbms();if($db_types):?>
+                                    <optgroup label="RDBMS"> <!-- -->
+                                        <?php foreach ($db_types as $key => $value):?>
+                                            <option value="<?php echo $value;?>"><?php echo $key;?></option>
+                                        <?php endforeach;?><!-- -->
+                                    </optgroup>
+                                <?php endif;?>
+                            </select>
+                        </td><td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td><?php echo ZFramework::t('DB_HOST',array(),$language); ?></td><td><input type="text" name="dbhost" value="localhost" /></td><td>&nbsp;</td>

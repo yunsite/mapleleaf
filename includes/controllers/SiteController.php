@@ -76,10 +76,12 @@ class SiteController extends BaseController{
                 }
                 $installed=TRUE;
             }
-        }//exit;
+        }
 	if(file_exists(dirname(dirname(__FILE__)).'/install.php')){
 	    include dirname(dirname(__FILE__)).'/install.php';
-	}
+	}  else {
+            die ('Access denied!');
+        }
     }
     public function actionControl_panel(){
         global $gd_exist,$zip_support;

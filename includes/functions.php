@@ -306,4 +306,21 @@
 	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
 	return $new_string;
     }
+
+    /**
+     * Gets supported RDBMS type
+     *
+     * @return array
+     */
+    function get_supported_rdbms(){
+        $supported_rdbms=array();
+        $rdbms_functions=array('mysql'=>'mysql_connect','mysqli'=>'mysqli_connect','sqlite'=>'sqlite_open');
+        $rdbms_names=array('mysql'=>'MySQL','mysqli'=>'MySQL Improved','sqlite'=>'SQLite');
+        foreach ($rdbms_functions as $k => $v) {
+            if(function_exists($v)){
+                $supported_rdbms[$rdbms_names[$k]]=$k;
+            }
+        }
+        return $supported_rdbms;
+    }
 ?>
