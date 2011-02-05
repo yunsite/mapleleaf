@@ -174,7 +174,7 @@ HERE;
     public function actionGetSysJSON(){
         $langArray=ZFramework::getLangArray();
         $langArray['ADMIN_NAME_INDEX']=ZFramework::app()->admin;
-        echo json_encode($langArray);
+        echo function_exists('json_encode') ? json_encode($langArray) : CJSON::encode($langArray);
     }
      
 }

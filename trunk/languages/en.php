@@ -227,4 +227,6 @@ return array(
     'STRIP_DISALLOWED_TAGS'=>'Strip disallowed tags',
     'ESCAPE_ALL_TAGS'=>'Escape all tags',
     'ALLOWED_HTML_TAGS'=>'Allowed HTML tags',
+
+    'USER_NOT_EXISTS'=>'User not exists.'
 );

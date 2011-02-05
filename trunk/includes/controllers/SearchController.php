@@ -6,6 +6,7 @@ class SearchController extends BaseController{
         $this->_db=YDB::factory($db_url);
     }
     public function actionIndex(){
+        global $API_CODE;
         if(! empty($_REQUEST['s'])){
             $s=trim($_REQUEST['s']);
             $data=get_all_data(true, true, false, true);
@@ -25,8 +26,8 @@ class SearchController extends BaseController{
             ));
         }
         elseif (defined('API_MODE')) {
-            $json_array=array('error_msg'=>ZFramework::t('NO_SEARCH_PARAM'));
-            die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+            $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>ZFramework::t('NO_SEARCH_PARAM'));
+            die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
         }else{
             header("Location:index.php");
         }

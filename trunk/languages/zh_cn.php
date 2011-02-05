@@ -223,4 +223,6 @@ return array(
     'STRIP_DISALLOWED_TAGS'=>'移除不允许的标签',
     'ESCAPE_ALL_TAGS'=>'转义所有标签',
     'ALLOWED_HTML_TAGS'=>'允许的 HTML 标签',
+
+    'USER_NOT_EXISTS'=>'用户不存在.',
 );
