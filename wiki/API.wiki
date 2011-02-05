@@ -41,3 +41,37 @@ api.php?controller=search : Return records against the keyword you provided.
 
 ----
 ====api.php====
+Supported Formats
+  JSON
+HTTP Request Method
+  GET
+Requires Authentication
+  false
+Request Parameters
+||      || *Requires* || *Type and Range * || *Description* ||
+|| *pid*|| false      || int               || Get records according to page number , note start from 0 and ignored if Guestbook disabled pagination. || 
+
+Example
+{{{
+<?php
+// create curl resource
+$ch = curl_init();
+// set url
+curl_setopt($ch, CURLOPT_URL, "http://localhost/mapleleaf/api.php?pid=2");
+//return the transfer as a string
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// $output contains the output string
+$output = curl_exec($ch);
+echo '<pre>';
+var_dump($output);
+// close curl resource to free up system resources
+curl_close($ch);     
+?>
+}}}
+
+Response
+
+{{{
+<pre>string(1280) "{"messages":[{"0":"1","id":"1","1":"127.0.0.1","ip":"127.0.0.1","2":null,"uid":null,"3":"rainyjune","user":"rainyjune","4":"Welcome to our site.","post_content":"Welcome to our site.","5":"1296881181","time":"02-05 12:46","6":null,"reply_content":"","7":null,"reply_time":"01-01 08:00","8":null,"b_username":null},{"0":"2","id":"2","1":"127.0.0.1","ip":"127.0.0.1","2":null,"uid":null,"3":"anonymous","user":"anonymous","4":"test","post_content":"test","5":"1296881283","time":"02-05 12:48","6":null,"reply_content":"","7":null,"reply_time":"01-01 08:00","8":null,"b_username":null},{"0":"3","id":"3","1":"127.0.0.1","ip":"127.0.0.1","2":null,"uid":null,"3":"anonymous","user":"anonymous","4":"<strong>Strong<\/strong>","post_content":"<strong>Strong<\/strong>","5":"1296881296","time":"02-05 12:48","6":null,"reply_content":"","7":null,"reply_time":"01-01 08:00","8":null,"b_username":null},{"0":"4","id":"4","1":"127.0.0.1","ip":"127.0.0.1","2":null,"uid":null,"3":"anonymous","user":"anonymous","4":"<a href=\"http:\/\/google.com\">Google<\/a>","post_content":"<a href=\"http:\/\/google.com\">Google<\/a>","5":"1296881336","time":"02-05 12:48","6":null,"reply_content":"","7":null,"reply_time":"01-01 08:00","8":null,"b_username":null}],"current_page":2,"total":14,"pagenum":3}"
+
+}}}
