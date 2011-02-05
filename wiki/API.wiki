@@ -155,3 +155,35 @@ Response
 {{{
 {"insert_id":15}
 }}}
+
+====api.php?controller=user&action=login====
+
+Supported Formats
+  JSON
+HTTP Request Method
+  GET
+Requires Authentication
+  true
+Request Parameters
+
+||       || *Requires* || *Type and Range * || *Description* ||
+|| *user*|| true      || string             || User name     || 
+|| *password*|| true   || string             || User's password  ||
+
+Example
+{{{
+<?php
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'http://localhost/mapleleaf/api.php?controller=user&action=login&user=test1&password=test1');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$data = curl_exec($ch);
+var_dump($data);
+curl_close($ch);
+?>
+}}}
+
+Response
+
+{{{
+{"user":"test1","uid":"1","session_name":"PHPSESSID","session_value":"6d4blivuthkbvvk8ve06fkfhd2"}
+}}}
