@@ -219,5 +219,28 @@ curl_close($ch);
 Response
 
 {{{
-{"messages":[{"0":"15","id":"15","1":"127.0.0.1","ip":"127.0.0.1","2":null,"uid":null,"3":"testuser","user":"testuser","4":"test content","post_content":"test content","5":"1296893710","time":"02-05 16:15","6":null,"reply_content":"","7":null,"reply_time":"01-01 08:00","8":null,"b_username":null}],"nums":1}
+{"messages":[
+{
+  "0":"15",
+  "id":"15",
+  "1":"127.0.0.1",
+  "ip":"127.0.0.1",
+  "2":null,
+  "uid":null,
+  "3":"testuser",
+  "user":"testuser",
+  "4":"test content",
+  "post_content":"test content",
+  "5":"1296893710",
+  "time":"02-05 16:15",
+  "6":null,
+  "reply_content":"",
+  "7":null,
+  "reply_time":"01-01 08:00",
+  "8":null,
+  "b_username":null
+}
+],
+"nums":1
+}
 }}}
