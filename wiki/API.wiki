@@ -129,10 +129,12 @@ HTTP Request Method
 Requires Authentication
   false
 Request Parameters
+
 ||       || *Requires* || *Type and Range * || *Description* ||
 || *user*|| true      || string             || User name     || 
 || *content*|| true   || string             || Post content,the length should less than 580  ||
 || *valid_code*|| false ||  string || Required if Captcha feature is enabled ||
+
 Example
 {{{
 <?php
@@ -147,7 +149,9 @@ var_dump($data);
 curl_close($ch);
 ?>
 }}}
+
 Response
+
 {{{
 {"insert_id":15}
 }}}
