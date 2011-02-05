@@ -187,3 +187,37 @@ Response
 {{{
 {"user":"test1","uid":"1","session_name":"PHPSESSID","session_value":"6d4blivuthkbvvk8ve06fkfhd2"}
 }}}
+
+====api.php?controller=user&action=update====
+This part is complex and may be changed in future.
+
+====api.php?controller=search====
+
+Supported Formats
+  JSON
+HTTP Request Method
+  GET
+Requires Authentication
+  false
+Request Parameters
+
+||       || *Requires* || *Type and Range * || *Description* ||
+|| *s*|| true      || string             || key word     || 
+
+Example
+{{{
+<?php
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'http://localhost/mapleleaf/api.php?controller=search&s=content');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$data = curl_exec($ch);
+var_dump($data);
+curl_close($ch);
+?>
+}}}
+
+Response
+
+{{{
+{"messages":[{"0":"15","id":"15","1":"127.0.0.1","ip":"127.0.0.1","2":null,"uid":null,"3":"testuser","user":"testuser","4":"test content","post_content":"test content","5":"1296893710","time":"02-05 16:15","6":null,"reply_content":"","7":null,"reply_time":"01-01 08:00","8":null,"b_username":null}],"nums":1}
+}}}
