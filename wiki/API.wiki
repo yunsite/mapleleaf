@@ -29,7 +29,7 @@ When error occurs , a json string contains error related information was returne
 
 *User API*
 
-api.php?controller=user&action=login : Login with user account
+[#api.php?controller=user&action=login api.php?controller=user&action=login] : Login with user account
 
 api.php?controller=user&action=update : Get and/or update user account
 
