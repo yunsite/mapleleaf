@@ -36,7 +36,7 @@ api.php?controller=user&action=update : Get and/or update user account
 
 ===Search API===
 
-api.php?controller=search : Return records against the keyword you provided.
+[#api.php?controller=search api.php?controller=search] : Return records against the keyword you provided.
 
 
 ----
