@@ -25,7 +25,7 @@ When error occurs , a json string contains error related information was returne
 
 [#api.php api.php] : Return the latest posts
 
-[##api.php?controller=post&action=create api.php?controller=post&action=create] : Create a post
+[#api.php?controller=post&action=create api.php?controller=post&action=create] : Create a post
 
 *User API*
 
