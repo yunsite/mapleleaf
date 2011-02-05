@@ -58,16 +58,17 @@ class UserController extends BaseController{
 	include 'themes/'.ZFramework::app()->theme.'/templates/'."register.php";
     }
     public function actionUpdate(){
+        global $API_CODE;
         if(defined('API_MODE')){
             if(!isset ($_SESSION['admin']) && !isset ($_SESSION['uid']))
-                $json_array=array('error_msg'=>  ZFramework::t('LOGIN_REQUIRED'));
+                $error_array=array('error_code'=>'401','error'=>$API_CODE['401'],'error_detail'=>ZFramework::t('LOGIN_REQUIRED'));
             elseif(!isset ($_GET['uid']))
-                $json_array=array('error_msg'=>  ZFramework::t ('PARAM_ERROR'));
+                $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>ZFramework::t('PARAM_ERROR'));
             elseif ((!isset($_SESSION['admin']) && $_GET['uid']!=$_SESSION['uid'])) {
-                $json_array=array('error_msg'=>  ZFramework::t('PARAM_ERROR'));
+                $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>ZFramework::t('PARAM_ERROR'));
             }
-            if(isset ($json_array))
-                die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+            if(isset ($error_array))
+                die (function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
         }
         if((!isset($_SESSION['admin']) && !isset($_SESSION['uid'])) || !isset($_GET['uid']) || (!isset($_SESSION['admin']) && $_GET['uid']!=$_SESSION['uid'])){
 	    header("Location:index.php");exit;
@@ -87,6 +88,10 @@ class UserController extends BaseController{
 			header("Location:index.php");exit;
 		    }else{
 			$errorMsg=ZFramework::t('USERUPDATEFAILED');
+                        if(defined('API_MODE')){
+                            $error_array=array('error_code'=>'500','error'=>$API_CODE['500'],'error_detail'=>$errorMsg);
+                            die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
+                        }
 		    }
 		}else{
 		    $errorMsg=ZFramework::t('EMAIL_INVALID');
@@ -94,11 +99,21 @@ class UserController extends BaseController{
 	    }else{
 		$errorMsg=ZFramework::t('FILL_NOT_COMPLETE');
 	    }
+            if(defined('API_MODE') && isset ($errorMsg)){
+                $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>$errorMsg);
+                die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
+            }
 	}
         $user_data=  $this->_model->queryAll(sprintf(parse_tbprefix("SELECT * FROM <user> WHERE uid=%d"),$uid));
 	$user_data=$user_data[0];
         if(defined('API_MODE')){
-            die (function_exists('json_encode') ? json_encode($user_data) : CJSON::encode($user_data));
+            if($user_data){
+                die (function_exists('json_encode') ? json_encode($user_data) : CJSON::encode($user_data));
+            }
+            else{
+                $error_array=array('error_code'=>'404','error'=>$API_CODE['404'],'error_detail'=>ZFramework::t('USER_NOT_EXISTS'));
+                die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
+            }
         }
 	include 'themes/'.ZFramework::app()->theme.'/templates/'."user_update.php";
     }
@@ -129,6 +144,7 @@ class UserController extends BaseController{
         header("Location:index.php?controller=user&randomvalue=".rand());
     }
     public function actionLogin(){
+        global $API_CODE;
         $session_name=session_name();
         if (isset($_SESSION['admin'])){//若管理员已经登录
             if(defined('API_MODE')){
@@ -176,11 +192,11 @@ class UserController extends BaseController{
         }
         if(defined('API_MODE')){
             if(isset ($errormsg)){
-                $json_array=array('error_msg'=>$errormsg);
-                die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+                $error_array=array('error_code'=>'403','error'=>$API_CODE['403'],'error_detail'=>$errormsg);
+                die (function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
             }else{
-                $json_array=array('error_msg'=>  ZFramework::t('LOGIN_REQUIRED'));
-                die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+                $error_array=array('error_code'=>'401','error'=>$API_CODE['401'],'error_detail'=>ZFramework::t('LOGIN_REQUIRED'));
+                die (function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
             }
         }
 	include 'themes/'.ZFramework::app()->theme.'/templates/'."login.php";

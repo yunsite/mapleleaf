@@ -12,6 +12,7 @@ class PostController extends BaseController{
      * @return mixed
      */
     public function actionCreate(){
+        global $API_CODE;
         if(isset ($_POST['user'])){//只允许 POST 方式
             //插入到数据库前的验证
             $new_data_error_msg='';
@@ -23,8 +24,8 @@ class PostController extends BaseController{
                 $new_data_error_msg=ZFramework::t('CAPTCHA_WRONG');
             if($new_data_error_msg){
                 if(defined('API_MODE')){
-                    $json_array=array('error_msg'=>$new_data_error_msg);
-                    die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+                    $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>$new_data_error_msg);
+                    die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
                 }
                 if(!empty ($_POST['ajax']))
                     die ($new_data_error_msg);
@@ -56,8 +57,8 @@ class PostController extends BaseController{
             }
         }
         if(defined('API_MODE')){
-            $json_array=array('error_msg'=>  ZFramework::t('ONLY_POST'));
-            die (function_exists('json_encode') ? json_encode($json_array) : CJSON::encode($json_array));
+            $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>ZFramework::t('ONLY_POST'));
+            die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
         }
         header("Location:index.php");
     }

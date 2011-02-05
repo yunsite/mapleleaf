@@ -101,9 +101,11 @@ class ZFramework{
             self::show_message($this->close_reason);
     }
     public function run(){
+        global $API_CODE;
         #var_dump($this->_controller.'/'.$this->_action);exit;
         if (defined('API_MODE') && !in_array($this->_controller.'/'.$this->_action, $this->allow_request_api)){
-            die (self::t('API_REQUEST_ERROR'));
+            $error_array=array('error_code'=>'403','error'=>$API_CODE['403'],'error_detail'=>self::t('API_REQUEST_ERROR'));
+            die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
         }
         try {
             if($this->is_installed())
@@ -126,8 +128,10 @@ class ZFramework{
             }
         }
         catch (Exception $e){
-            if(defined('API_MODE'))
-                die ('error');
+            if(defined('API_MODE')){
+                $error_array=array('error_code'=>'403','error'=>$API_CODE['403'],'error_detail'=>'Request is not allowed.');
+                die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
+            }
             if(defined('DEBUG_MODE')){
                 echo $e->getMessage();
                 echo '<pre>';
