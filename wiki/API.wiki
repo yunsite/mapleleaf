@@ -119,3 +119,5 @@ Response
 "pagenum":3
 }
 }}}
+
+====api.php?controller=post&action=create====
