@@ -1,0 +1,43 @@
+#summary API Doc
+
+We only support JSON at present.
+
+===Status Code===
+  * 200 OK
+  * 304 Not Modified
+  * 400 Bad Request
+  * 401 Not Authorized
+  * 403 Forbidden
+  * 404 Not Found
+  * 500 Internal Server Error
+  * 502 Bad Gateway
+  * 503 Service Unavailable
+
+*Tips*
+When error occurs , a json string contains error related information was returned, like the following
+
+{{{
+{"error_code":"401","error":"Not Authorized","error_detail":"Login required"}
+}}}
+
+===Basic API===
+*Post Access API*
+
+[api.php] : Return the latest posts
+
+api.php?controller=post&action=create : Create a post
+
+*User API*
+
+api.php?controller=user&action=login : Login with user account
+
+api.php?controller=user&action=update : Get and/or update user account
+
+
+===Search API===
+
+api.php?controller=search : Return records against the keyword you provided.
+
+
+----
+====api.php====
