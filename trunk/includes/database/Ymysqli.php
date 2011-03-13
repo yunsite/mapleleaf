@@ -24,9 +24,9 @@ class Ymysqli extends YDBBase {
             $url['port'] = 3306;
         }
         
-        $connection = new mysqli($url['host'],$url['user'],$url['pass'],substr($url['path'], 1),$url['port']);
+        @$connection = new mysqli($url['host'],$url['user'],$url['pass'],substr($url['path'], 1),$url['port']);
         if (mysqli_connect_errno()) {
-            die(mysqli_connect_error());
+            throw new Exception(mysqli_connect_error());
         }
         $this->database=substr($url['path'], 1);
         // Force MySQL to use the UTF-8 character set. Also set the collation, if a

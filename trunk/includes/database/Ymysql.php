@@ -31,7 +31,7 @@ class Ymysql extends YDBBase {
         $connection = @mysql_connect($url['host'], $url['user'], $url['pass'], TRUE, 2);
         if (!$connection || !mysql_select_db(substr($url['path'], 1))) {
         // Show error screen otherwise
-            die(mysql_error());
+            throw new Exception(mysql_error());
         }
         $this->database=substr($url['path'], 1);
         // Force MySQL to use the UTF-8 character set. Also set the collation, if a
