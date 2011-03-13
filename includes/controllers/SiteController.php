@@ -61,10 +61,15 @@ class SiteController extends BaseController{
             $dbname=  ZFramework::maple_quotes($_POST['dbname']);
             $tbprefix=$_POST['tbprefix'];
             $url=$_POST['dbtype'].'://'.$_POST['dbusername'].':'.$_POST['dbpwd'].'@'.$_POST['dbhost'].'/'.$_POST['dbname'];
-            $db=YDB::factory($url);
-            if(!$db){
-                $formError=ZFramework::t('DB_CONNECT_ERROR', array(), $language);
-            }else{
+            #$db=YDB::factory($url);
+            $formError='';
+            try{
+                $db=YDB::factory($url);
+            }
+            catch (Exception $e){
+                $formError=$e->getMessage();
+            }
+            if(!$formError){
                 $url_string="<?php\n\$db_url = '$url';\n\$db_prefix = '$tbprefix';\n?>";
                 file_put_contents(CONFIGFILE, $url_string);
                 $sql_file=APPROOT.DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.$_POST['dbtype'].'.sql';
