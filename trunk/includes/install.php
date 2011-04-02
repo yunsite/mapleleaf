@@ -44,12 +44,6 @@
 	    <form action="index.php?action=install&l=<?php echo $language;?>" method="post">
                 <table align="center">
                     <tr>
-                        <td><?php echo ZFramework::t('ADMIN_USERNAME',array(),$language); ?> <span class="require">*</span></td><td><input type="text" name="adminname" />&nbsp;</td><td><?php echo ZFramework::t('ADMIN_USERNAME_MIN', array(), $language);?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo ZFramework::t('ADMIN_PASSWORD',array(),$language); ?><span class="require">*</span></td><td><input type="password" name="adminpass" /></td><td>&nbsp;</td>
-                    </tr>
-                    <tr>
                         <td><?php echo ZFramework::t('DB_TYPE',array(),$language); ?><span class="require">*</span></td>
                         <td>
                             <select name="dbtype">
@@ -80,6 +74,12 @@
                     </tr>
                     <tr>
                         <td><?php echo ZFramework::t('TB_PREFIX',array(),$language); ?></td><td><input type="text" name="tbprefix" maxlength="10" value="mp_" /></td><td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td><?php echo ZFramework::t('ADMIN_USERNAME',array(),$language); ?> <span class="require">*</span></td><td><input type="text" name="adminname" />&nbsp;</td><td><?php echo ZFramework::t('ADMIN_USERNAME_MIN', array(), $language);?></td>
+                    </tr>
+                    <tr>
+                        <td><?php echo ZFramework::t('ADMIN_PASSWORD',array(),$language); ?><span class="require">*</span></td><td><input type="password" name="adminpass" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="3"><input type="submit" value="<?php echo ZFramework::t('INSTALL', array(), $language);?>" />&nbsp;<?php echo ZFramework::t('INSTALL_AGREEMENT', array(), $language);?></td>
