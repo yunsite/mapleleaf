@@ -43,7 +43,7 @@
 
     </div>
     <div class="copyright">
-	    Powered by MapleLeaf <?php echo MP_VERSION;?>  Copyright &copy;2008-2010
+	    Powered by MapleLeaf <?php echo MP_VERSION;?>  Copyright &copy;2008-2011
     </div>
 </body>
 </html>
