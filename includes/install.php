@@ -10,6 +10,7 @@
    #custom-doc { width: 62%; min-width: 250px; background-color: #CCCCCC; height: 20em;}
    div{text-align: center; }
    #language{float: right}
+   .require {color: red;}
    </style>
 </head>
 <body>
@@ -39,13 +40,13 @@
 	    <form action="index.php?action=install&l=<?php echo $language;?>" method="post">
                 <table align="center">
                     <tr>
-                        <td><?php echo ZFramework::t('ADMIN_USERNAME',array(),$language); ?> </td><td><input type="text" name="adminname" />&nbsp;</td><td><?php echo ZFramework::t('ADMIN_USERNAME_MIN', array(), $language);?></td>
+                        <td><?php echo ZFramework::t('ADMIN_USERNAME',array(),$language); ?> <span class="require">*</span></td><td><input type="text" name="adminname" />&nbsp;</td><td><?php echo ZFramework::t('ADMIN_USERNAME_MIN', array(), $language);?></td>
                     </tr>
                     <tr>
-                        <td><?php echo ZFramework::t('ADMIN_PASSWORD',array(),$language); ?></td><td><input type="password" name="adminpass" /></td><td>&nbsp;</td>
+                        <td><?php echo ZFramework::t('ADMIN_PASSWORD',array(),$language); ?><span class="require">*</span></td><td><input type="password" name="adminpass" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td><?php echo ZFramework::t('DB_TYPE',array(),$language); ?></td>
+                        <td><?php echo ZFramework::t('DB_TYPE',array(),$language); ?><span class="require">*</span></td>
                         <td>
                             <select name="dbtype">
                                 <optgroup label="FlatFile db" >
@@ -62,16 +63,16 @@
                         </td><td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td><?php echo ZFramework::t('DB_HOST',array(),$language); ?></td><td><input type="text" name="dbhost" value="localhost" /></td><td>&nbsp;</td>
+                        <td><?php echo ZFramework::t('DB_HOST',array(),$language); ?><span class="require">*</span></td><td><input type="text" name="dbhost" value="localhost" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td><?php echo ZFramework::t('DB_USER',array(),$language); ?></td><td><input type="text" name="dbusername" maxlength="10" value="root" /></td><td>&nbsp;</td>
+                        <td><?php echo ZFramework::t('DB_USER',array(),$language); ?><span class="require">*</span></td><td><input type="text" name="dbusername" maxlength="10" value="root" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td><?php echo ZFramework::t('DB_PWD',array(),$language); ?></td><td><input type="text" name="dbpwd" maxlength="10" value="" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td><?php echo ZFramework::t('DB_NAME',array(),$language); ?></td><td><input type="text" name="dbname" maxlength="10" value="mapleleaf" /></td><td>&nbsp;</td>
+                        <td><?php echo ZFramework::t('DB_NAME',array(),$language); ?><span class="require">*</span></td><td><input type="text" name="dbname" maxlength="10" value="mapleleaf" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td><?php echo ZFramework::t('TB_PREFIX',array(),$language); ?></td><td><input type="text" name="tbprefix" maxlength="10" value="mp_" /></td><td>&nbsp;</td>
