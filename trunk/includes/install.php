@@ -7,13 +7,17 @@
    <title><?php echo ZFramework::t('INSTALL_PANEL', array(), $language);?></title>
    <link rel="stylesheet" href="http://yui.yahooapis.com/2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
    <style type="text/css">
-   #custom-doc { width: 62%; min-width: 250px; background-color: #CCCCCC; height: 20em;}
+   #custom-doc { width: 62%; min-width: 250px; background-color: #CCCCCC; height: 20em; margin-top:10px;}
    div{text-align: center; }
    #language{float: right}
    .require {color: red;}
    </style>
 </head>
 <body>
+
+<div class="yui-t7">
+<p><a href="http://mapleleaf.googlecode.com"><img src="themes/simple/images/help.png" alt="Help" /></a></p>
+</div>
 
 <div id="custom-doc" class="yui-t7">
     <?php
