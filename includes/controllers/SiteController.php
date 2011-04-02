@@ -148,10 +148,7 @@ class SiteController extends BaseController{
     <link>{$_SERVER['HTTP_HOST']}{$_SERVER['PHP_SELF']}</link>
     <language>en</language>
     <pubDate>$now</pubDate>
-    <lastBuildDate>$now</lastBuildDate>
-    <docs>http://someurl.com</docs>
-    <managingEditor>you@youremail.com</managingEditor>
-    <webMaster>you@youremail.com</webMaster>\n
+    <lastBuildDate>$now</lastBuildDate>\n
 HERE;
         foreach ($data as $m) {
             $output .= "\t<item><title>";
