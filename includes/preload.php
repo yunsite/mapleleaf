@@ -41,24 +41,30 @@ function maple_unset_globals()
     }
 }
 maple_unset_globals();
+
+//载入函数
 require 'functions.php';
+//载入文本数据库引擎
 require APPROOT.'/includes/txt-db-api/txt-db-api.php';
+//载入数据库类
 require APPROOT.'/includes/database/YDB.php';
+//载入配置文件，若尚未安装则载入默认的配置文件
 if(file_exists(conf_path().'/config.php'))
     include_once conf_path().'/config.php';
 else
     include './sites/default/default.config.php';
-
+//定义常量
 define('CONFIGFILE', conf_path().'/config.php');
 define('MP_VERSION','2.0 alpha');
 define('THEMEDIR', 'themes/');
-
 define('SMILEYDIR', 'http://mapleleaf.googlecode.com/files/');
 
-if (!function_exists('json_encode')){    include 'CJSON.php'; }
+if (!function_exists('json_encode')){ include 'CJSON.php'; }
 include_once 'Imgcode.php';
+//载入框架类
 require 'ZFramework.php';
 
+//检查服务器支持情况
 $gd_exist=gd_loaded();
 $zip_support=class_exists('ZipArchive')?'On':'Off';
 ?>
