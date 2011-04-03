@@ -201,7 +201,6 @@ return array(
     'FINISHED'=>'<p>安装完成！现在进入 <a href="index.php">前台</a>，或者登陆 <a href="index.php?action=control_panel">管理面板</a></p><p>记得一定要删除或重命名 <code>includes</code> 目录中的 install.php</p>',
     'RETRY'=>'刷新重试',
     'DATADIR_NOT_WRITABLE'=>'目录 data 不可写。请更改目录权限。',
-    'CONFIGDIR_NOT_WRITABLE'=>'配置目录不可写。请更改目录权限。',
     'DB_CONNECT_ERROR'=>'数据库连接失败!',
     'INSTALL_NEED_HELP'=>'需要帮助？',
     'INSTALL_AGREEMENT'=>'为了安装此程序，你必须遵守 <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GPL 2 </a>',
