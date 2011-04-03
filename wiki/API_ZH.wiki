@@ -42,8 +42,6 @@ api.php?controller=user&action=update : 得到或者更新用户的信息
 
 ----
 ====api.php====
-支持的格式
-  JSON
 HTTP 请求的类型
   GET
 是否需要认证
@@ -129,8 +127,6 @@ pagenum:总页码数
 
 ====api.php?controller=post&action=create====
 
-支持的格式
-  JSON
 HTTP 请求的类型
   POST
 是否需要认证
@@ -162,8 +158,6 @@ insert_id:新发表的留言的id
 
 ====api.php?controller=user&action=login====
 
-支持的格式
-  JSON
 HTTP 请求的类型
   GET
 是否需要认证
@@ -198,8 +192,6 @@ session_value:用于发送给服务器的 session 的值
 
 ====api.php?controller=search====
 
-支持的格式
-  JSON
 HTTP 请求类型
   GET
 是否需要认证
