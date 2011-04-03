@@ -40,14 +40,10 @@ class ZFramework{
 	 * 返回一个本类的实例
 	 *
 	 */
-    public static function createApp(){
+    public static function app(){
         if(!(self::$_instance instanceof  self)){
             self::$_instance=new self();
         }
-        return self::$_instance;
-    }
-
-    public static function app(){
         return self::$_instance;
     }
 
@@ -228,7 +224,7 @@ class ZFramework{
                 return include APPROOT.'/languages/'.$userSpecifiedLanguage.'.php';
             }
         }
-        return include APPROOT.'/languages/'.self::createApp()->lang.'.php';
+        return include APPROOT.'/languages/'.self::app()->lang.'.php';
     }
 
 	/**
@@ -251,7 +247,7 @@ class ZFramework{
      * 显示信息
      */
     public static  function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3){
-        include 'themes/'.self::createApp()->theme.'/templates/'."show_message.php"; exit;
+        include 'themes/'.self::app()->theme.'/templates/'."show_message.php"; exit;
     }
 
     /**

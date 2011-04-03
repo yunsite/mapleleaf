@@ -20,4 +20,4 @@ define('APPROOT', dirname(__FILE__));
 define('DEBUG_MODE', true);
 #define('DEBUG_MODE', false);
 require_once('./includes/preload.php');
-ZFramework::createApp()->run();
+ZFramework::app()->run();
