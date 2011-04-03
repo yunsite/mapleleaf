@@ -32,7 +32,7 @@ class Ysqlite extends YDBBase {
         return sqlite_escape_string($item);
     }
     public function queryAll($sql){
-        $result=sqlite_array_query($this->lnk,$sql);
+        $result=sqlite_array_query($this->lnk,$sql,SQLITE_ASSOC);
         return $result;
     }
     public function insert_id(){
