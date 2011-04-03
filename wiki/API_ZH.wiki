@@ -48,7 +48,7 @@ HTTP 请求的类型
   GET
 是否需要认证
   无须
-请求的格式
+请求的参数
 ||      || *是否必需* || *类型和范围 * || *描述* ||
 || *pid*|| 否      || 整数               || 得到指定页的留言，注意仅在留言板开启分页时有意义，从 0 开始。 || 
 
@@ -144,17 +144,9 @@ HTTP 请求的类型
 
 例子
 {{{
-<?php
-$post_data=array('user'=>'testuser','content'=>'test content');
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'http://localhost/mapleleaf/api.php?controller=post&action=create');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
-$data = curl_exec($ch);
-var_dump($data);
-curl_close($ch);
-?>
+http://localhost/mapleleaf/api.php?controller=post&action=create
+Post包体格式：
+user=testuser&content=xxx&valid_code=xxx
 }}}
 
 响应
@@ -184,14 +176,7 @@ HTTP 请求的类型
 
 例子
 {{{
-<?php
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'http://localhost/mapleleaf/api.php?controller=user&action=login&user=test1&password=test1');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-$data = curl_exec($ch);
-var_dump($data);
-curl_close($ch);
-?>
+http://localhost/mapleleaf/api.php?controller=user&action=login&user=test1&password=test1
 }}}
 
 响应
@@ -226,14 +211,7 @@ HTTP 请求类型
 
 例子
 {{{
-<?php
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, 'http://localhost/mapleleaf/api.php?controller=search&s=content');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-$data = curl_exec($ch);
-var_dump($data);
-curl_close($ch);
-?>
+http://localhost/mapleleaf/api.php?controller=search&s=keyword
 }}}
 
 响应
