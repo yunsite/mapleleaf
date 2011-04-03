@@ -22,4 +22,4 @@ define('API_MODE', true);
 include APPROOT.'/includes/api_code.php';
 #define('DEBUG_MODE', false);
 require_once('./includes/preload.php');
-ZFramework::createApp()->run();
+ZFramework::app()->run();
