@@ -53,8 +53,6 @@ class SiteController extends BaseController{
             $tips=ZFramework::t('CONFIG_FILE_NOTWRITABLE',array('{config_file}'=>CONFIGFILE),$language);
         elseif(!is_writable(APPROOT.'/data/'))
             $tips= ZFramework::t ('DATADIR_NOT_WRITABLE', array(), $language);
-        elseif(!is_writable(conf_path()))
-            $tips= ZFramework::t ('CONFIGDIR_NOT_WRITABLE', array(), $language);
         if(!empty ($_POST['adminname']) && !empty($_POST['adminpass']) && !empty ($_POST['dbtype']) &&!empty ($_POST['dbusername']) && !empty ($_POST['dbname']) && !empty ($_POST['dbhost']) && strlen(trim($_POST['adminname']))>2 ){
             $adminname=ZFramework::maple_quotes($_POST['adminname']);
             $adminpass=ZFramework::maple_quotes($_POST['adminpass']);

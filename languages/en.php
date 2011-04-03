@@ -203,7 +203,6 @@ return array(
     'FINISHED'=>'<p>Installation finished! :) Go <a href="index.php">Index</a>, or Go <a href="index.php?action=control_panel">ACP</a></p><p>Dont\'t forget to delete or rename the file install.php in directory <code>includes</code></p>',
     'RETRY'=>'Retry',
     'DATADIR_NOT_WRITABLE'=>'Directory `data/` is not writable,please change directory permission so that it is writable by the web server',
-    'CONFIGDIR_NOT_WRITABLE'=>'Configuration directory is not writable,please change directory permission so that it is writable by the web server',
     'DB_CONNECT_ERROR'=>'Connected to DB failed!',
     'INSTALL_NEED_HELP'=>'Need help?',
     'INSTALL_AGREEMENT'=>'To install this software, you must agree to <a href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GPL 2</a>',
