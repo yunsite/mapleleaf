@@ -1,0 +1,262 @@
+#summary API 中文文档
+#labels Phase-Implementation
+
+目前只返回 JSON 格式的数据。
+
+===状态码===
+  * 200 一切正常
+  * 304 未改变
+  * 400 坏的请求
+  * 401 未认证
+  * 403 禁止访问
+  * 404 未找到
+  * 500 服务器内部错误
+  * 502 坏网关
+  * 503 服务不可用
+
+*提示*
+当出现错误时，一个包含错误信息的 json 字符串被返回，如下
+
+{{{
+{"error_code":"401","error":"Not Authorized","error_detail":"Login required"}
+}}}
+
+===基本 API===
+*留言访问 API*
+
+[#api.php api.php] : 返回最新的留言
+
+[#api.php?controller=post&action=create api.php?controller=post&action=create] : 发表一条留言
+
+*用户 API*
+
+[#api.php?controller=user&action=login api.php?controller=user&action=login] : 用户登录
+
+api.php?controller=user&action=update : 得到或者更新用户的信息
+
+
+===搜索 API===
+
+[#api.php?controller=search api.php?controller=search] : 返回你搜索的记录
+
+
+----
+====api.php====
+支持的格式
+  JSON
+HTTP 请求的类型
+  GET
+是否需要认证
+  无须
+请求的格式
+||      || *是否必需* || *类型和范围 * || *描述* ||
+|| *pid*|| 否      || 整数               || 得到指定页的留言，注意仅在留言板开启分页时有意义，从 0 开始。 || 
+
+例子
+{{{
+<?php
+// create curl resource
+$ch = curl_init();
+// set url
+curl_setopt($ch, CURLOPT_URL, "http://localhost/mapleleaf/api.php?pid=2");
+//return the transfer as a string
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+// $output contains the output string
+$output = curl_exec($ch);
+var_dump($output);
+// close curl resource to free up system resources
+curl_close($ch);     
+?>
+}}}
+
+响应
+
+{{{
+{"messages":
+  [
+    {
+      "0":"1",
+      "id":"1",
+      "1":"127.0.0.1",
+      "ip":"127.0.0.1",
+      "2":null,
+      "uid":null,
+      "3":"rainyjune",
+      "user":"rainyjune",
+      "4":"Welcome to our site.",
+      "post_content":"Welcome to our site.",
+      "5":"1296881181",
+      "time":"02-05 12:46",
+      "6":null,
+      "reply_content":"",
+      "7":null,
+      "reply_time":"01-01 08:00",
+      "8":null,
+      "b_username":null
+    },
+    {
+      "0":"3",
+      "id":"3",
+      "1":"127.0.0.1",
+      "ip":"127.0.0.1",
+      "2":null,
+      "uid":null,
+      "3":"anonymous",
+      "user":"anonymous",
+      "4":"<strong>Strong<\/strong>",
+      "post_content":"<strong>Strong<\/strong>",
+      "5":"1296881296",
+      "time":"02-05 12:48",
+      "6":null,
+      "reply_content":"",
+      "7":null,
+      "reply_time":"01-01 08:00",
+      "8":null,
+      "b_username":null
+    }
+],
+"current_page":2,
+"total":6,
+"pagenum":3
+}
+}}}
+
+====api.php?controller=post&action=create====
+
+支持的格式
+  JSON
+HTTP 请求的类型
+  POST
+是否需要认证
+  无需
+请求的参数
+
+||       || *是否必需* || *类型和范围 * || *描述* ||
+|| *user*|| 是      || 字符串             || 用户名     || 
+|| *content*|| 是   || 字符串             || 留言的内容，应当少于 580 字  ||
+|| *valid_code*|| 否 ||  字符串 || 若留言板开启了验证码功能，则需要提供此参数 ||
+
+例子
+{{{
+<?php
+$post_data=array('user'=>'testuser','content'=>'test content');
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'http://localhost/mapleleaf/api.php?controller=post&action=create');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+$data = curl_exec($ch);
+var_dump($data);
+curl_close($ch);
+?>
+}}}
+
+响应
+
+{{{
+{"insert_id":15}
+}}}
+
+====api.php?controller=user&action=login====
+
+支持的格式
+  JSON
+HTTP 请求的类型
+  GET
+是否需要认证
+  是
+请求的参数
+
+||       || *是否必需* || *类型和范围* || *描述* ||
+|| *user*|| 是      || 字符串             || 用户名     || 
+|| *password*|| 是   || 字符串             || 密码  ||
+
+例子
+{{{
+<?php
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'http://localhost/mapleleaf/api.php?controller=user&action=login&user=test1&password=test1');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$data = curl_exec($ch);
+var_dump($data);
+curl_close($ch);
+?>
+}}}
+
+响应
+
+{{{
+{"user":"test1","uid":"1","session_name":"PHPSESSID","session_value":"6d4blivuthkbvvk8ve06fkfhd2"}
+}}}
+
+====api.php?controller=user&action=update====
+此部分复杂，以后可能会更改.
+
+====api.php?controller=search====
+
+支持的格式
+  JSON
+HTTP 请求类型
+  GET
+是否需要认证
+  否
+请求的参数
+
+||       || *是否必需* || *类型和范围 * || *描述* ||
+|| *s*|| 是      || 字符串             || 要搜索的关键字     || 
+
+例子
+{{{
+<?php
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, 'http://localhost/mapleleaf/api.php?controller=search&s=content');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$data = curl_exec($ch);
+var_dump($data);
+curl_close($ch);
+?>
+}}}
+
+响应
+
+{{{
+{"messages":[
+ {
+  "0":"15",
+  "id":"15",
+  "1":"127.0.0.1",
+  "ip":"127.0.0.1",
+  "2":null,
+  "uid":null,
+  "3":"testuser",
+  "user":"testuser",
+  "4":"test content",
+  "post_content":"test content",
+  "5":"1296893710",
+  "time":"02-05 16:15",
+  "6":null,
+  "reply_content":"",
+  "7":null,
+  "reply_time":"01-01 08:00",
+  "8":null,
+  "b_username":null
+ }
+],
+"nums":1
+}
+}}}
+
+字段说明
+{{{
+messages:搜索到的相关留言
+  id:留言ID
+  ip:留言者的IP地址
+  uid:留言者的 ID
+  user:匿名用户的用户名
+  post_content:留言的内容
+  time:留言发表的日期
+  reply_content:管理员回复的内容
+  reply_time:管理员回复的时间
+  b_username:留言者的用户名
+nums:搜索到的相关留言的数量
+}}}
