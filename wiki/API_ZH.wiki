@@ -62,43 +62,25 @@ http://localhost/mapleleaf/api.php?pid=2
 {"messages":
   [
     {
-      "0":"1",
       "id":"1",
-      "1":"127.0.0.1",
       "ip":"127.0.0.1",
-      "2":null,
       "uid":null,
-      "3":"rainyjune",
       "user":"rainyjune",
-      "4":"Welcome to our site.",
       "post_content":"Welcome to our site.",
-      "5":"1296881181",
       "time":"02-05 12:46",
-      "6":null,
       "reply_content":"",
-      "7":null,
       "reply_time":"01-01 08:00",
-      "8":null,
       "b_username":null
     },
     {
-      "0":"3",
       "id":"3",
-      "1":"127.0.0.1",
       "ip":"127.0.0.1",
-      "2":null,
       "uid":null,
-      "3":"anonymous",
       "user":"anonymous",
-      "4":"<strong>Strong<\/strong>",
       "post_content":"<strong>Strong<\/strong>",
-      "5":"1296881296",
       "time":"02-05 12:48",
-      "6":null,
       "reply_content":"",
-      "7":null,
       "reply_time":"01-01 08:00",
-      "8":null,
       "b_username":null
     }
 ],
@@ -211,23 +193,14 @@ http://localhost/mapleleaf/api.php?controller=search&s=keyword
 {{{
 {"messages":[
  {
-  "0":"15",
   "id":"15",
-  "1":"127.0.0.1",
   "ip":"127.0.0.1",
-  "2":null,
   "uid":null,
-  "3":"testuser",
   "user":"testuser",
-  "4":"test content",
   "post_content":"test content",
-  "5":"1296893710",
   "time":"02-05 16:15",
-  "6":null,
   "reply_content":"",
-  "7":null,
   "reply_time":"01-01 08:00",
-  "8":null,
   "b_username":null
  }
 ],
