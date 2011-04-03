@@ -121,6 +121,23 @@ curl_close($ch);
 }
 }}}
 
+{{{
+字段说明
+messages:获得的数据
+  id:留言ID
+  ip:留言者的IP地址
+  uid:留言者的 ID
+  user:匿名用户的用户名
+  post_content:留言的内容
+  time:留言发表的日期
+  reply_content:管理员回复的内容
+  reply_time:管理员回复的时间
+  b_username:留言者的用户名
+current_page:当前的页码数，注意从0开始，2意味着是第三页
+total:留言的数目
+pagenum:总页码数
+}}}
+
 ====api.php?controller=post&action=create====
 
 支持的格式
