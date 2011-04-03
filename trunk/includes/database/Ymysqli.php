@@ -54,7 +54,7 @@ class Ymysqli extends YDBBase {
         if(is_object($query_result)){
             if($query_result->num_rows){
                 $result_array=array();
-                while($line=$query_result->fetch_array(MYSQLI_BOTH)){
+                while($line=$query_result->fetch_array(MYSQLI_ASSOC)){
                     $result_array[]=$line;
                 }
                 return $result_array;

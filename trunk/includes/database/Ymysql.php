@@ -60,7 +60,7 @@ class Ymysql extends YDBBase {
         if(is_resource($query_result)){
             if(mysql_num_rows($query_result)>0){
                 $result_array=array();
-                while($line=  mysql_fetch_array($query_result)){
+                while($line=  mysql_fetch_assoc($query_result)){
                     $result_array[]=$line;
                 }
                 return $result_array;
