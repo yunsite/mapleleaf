@@ -342,4 +342,15 @@
     function maple_quotes($var,$charset='UTF-8'){
         return htmlspecialchars(trim($var),ENT_QUOTES,  $charset);
     }
+	
+	function getConfigVar($name){
+		global $db_url;
+		$db=YDB::factory($db_url);
+		$result=$db->queryAll(sprintf(parse_tbprefix("SELECT * FROM <sysvar> WHERE varname='%s'"),  $db->escape_string($name)));
+        $result=@$result[0]['varvalue'];
+        if($result)
+            return $result;
+        else
+            return null;
+	}
 ?>

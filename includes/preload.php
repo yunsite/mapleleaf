@@ -73,6 +73,6 @@ if(is_installed()){//若已经安装，执行IP检查
         die('Access denied!');
 }
 elseif($_GET['action']!='install'){
-	header("Location:index.php?action=install");
+	header("Location:index.php?action=install");exit;
 }
 ?>

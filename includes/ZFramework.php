@@ -16,7 +16,6 @@ class ZFramework{
     public      $defaultController='SiteController';
     public      $defaultAction='actionIndex';
     static      $_instance;
-    protected   $_db;
     protected   $allow_request_api=array(
         'SiteController/actionIndex',
         'SiteController/actionCaptcha',
@@ -48,12 +47,7 @@ class ZFramework{
     }
 
     public function  __get($name) {
-        $result=$this->_db->queryAll(sprintf(parse_tbprefix("SELECT * FROM <sysvar> WHERE varname='%s'"),  $this->_db->escape_string($name)));
-        $result=@$result[0]['varvalue'];
-        if($result)
-            return $result;
-        else
-            return null;
+		return getConfigVar($name);
     }
 
 	/**
@@ -61,11 +55,9 @@ class ZFramework{
 	 *
 	 */
     private function  __construct(){
-        global $db_url;
         $this->preloadAllControllers();
         $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
         $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
-		$this->_db=YDB::factory($db_url);
         foreach ($_GET as $key=>$value) {
             $this->_params[$key]=$value;
         }
