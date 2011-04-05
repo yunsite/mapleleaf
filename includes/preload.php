@@ -67,4 +67,12 @@ require 'ZFramework.php';
 //检查服务器支持情况
 $gd_exist=gd_loaded();
 $zip_support=class_exists('ZipArchive')?'On':'Off';
+
+if(is_installed()){//若已经安装，执行IP检查
+    if(is_baned(getIP()))
+        die('Access denied!');
+}
+elseif($_GET['action']!='install'){
+	header("Location:index.php?action=install");
+}
 ?>

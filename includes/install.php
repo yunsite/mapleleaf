@@ -34,7 +34,7 @@
 	<?php
         if(isset ($tips)){
             echo '<font color="red">'.$tips."</font>";
-            echo "<a href='{$_SERVER["PHP_SELF"]}?l=$language&amp;s=".  rand()."'>".ZFramework::t('RETRY', array(), $language)."</a>&nbsp;";
+            echo "<a href='{$_SERVER["PHP_SELF"]}?action=install&l=$language&amp;s=".  rand()."'>".ZFramework::t('RETRY', array(), $language)."</a>&nbsp;";
             echo "<a href='http://mapleleaf.googlecode.com/' target='_blank'>".ZFramework::t('INSTALL_NEED_HELP', array(), $language)."</a>";
         }else{
             if(@$formError){
