@@ -323,4 +323,23 @@
         }
         return $supported_rdbms;
     }
+	/**
+	 * 判断是否已安装
+	 *
+	 * @return bool
+	 */
+    function is_installed(){
+        global $db_url;
+        if($db_url=='dummydb://username:password@localhost/databasename')
+            return false;
+        return true;
+    }
+	
+	/**
+	 * 转义字符串
+	 *
+	 */
+    function maple_quotes($var,$charset='UTF-8'){
+        return htmlspecialchars(trim($var),ENT_QUOTES,  $charset);
+    }
 ?>

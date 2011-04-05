@@ -54,9 +54,9 @@ class SiteController extends BaseController{
         elseif(!is_writable(APPROOT.'/data/'))
             $tips= ZFramework::t ('DATADIR_NOT_WRITABLE', array(), $language);
         if(!empty ($_POST['adminname']) && !empty($_POST['adminpass']) && !empty ($_POST['dbtype']) &&!empty ($_POST['dbusername']) && !empty ($_POST['dbname']) && !empty ($_POST['dbhost']) && strlen(trim($_POST['adminname']))>2 ){
-            $adminname=ZFramework::maple_quotes($_POST['adminname']);
-            $adminpass=ZFramework::maple_quotes($_POST['adminpass']);
-            $dbname=  ZFramework::maple_quotes($_POST['dbname']);
+            $adminname=maple_quotes($_POST['adminname']);
+            $adminpass=maple_quotes($_POST['adminpass']);
+            $dbname=  maple_quotes($_POST['dbname']);
             $tbprefix=$_POST['tbprefix'];
             $url=$_POST['dbtype'].'://'.$_POST['dbusername'].':'.$_POST['dbpwd'].'@'.$_POST['dbhost'].'/'.$_POST['dbname'];
             #$db=YDB::factory($url);

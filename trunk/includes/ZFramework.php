@@ -63,13 +63,9 @@ class ZFramework{
     private function  __construct(){
         global $db_url;
         $this->preloadAllControllers();
-        
         $this->_controller=!empty ($_GET['controller'])?ucfirst($_GET['controller']).'Controller':$this->defaultController;
         $this->_action=!empty ($_GET['action'])?'action'.ucfirst($_GET['action']):$this->defaultAction;
-        if($this->is_installed()){
-            $this->performIPFilter();
-            $this->_db=YDB::factory($db_url);
-        }
+		$this->_db=YDB::factory($db_url);
         foreach ($_GET as $key=>$value) {
             $this->_params[$key]=$value;
         }
@@ -88,31 +84,6 @@ class ZFramework{
             }
         }
         $d->close();
-    }
-
-	/**
-	 * 执行IP过滤
-	 *
-	 */
-    protected function performIPFilter(){
-        if(is_baned(getIP()))
-            die('Access denied!');
-    }
-
-	/**
-	 * 判断是否已安装
-	 *
-	 * @return bool
-	 */
-    protected function is_installed(){
-        global $db_url;
-        
-        if($db_url=='dummydb://username:password@localhost/databasename'){
-            $this->_controller='SiteController';
-            $this->_action='actionInstall';
-            return false;
-        }
-        return true;
     }
 
 	/**
@@ -137,7 +108,7 @@ class ZFramework{
             die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
         }
         try {
-            if($this->is_installed())
+            if(is_installed())
                 $this->is_closedMode();
             if(class_exists($this->getController())){
                 $rc=new ReflectionClass($this->getController());
@@ -235,13 +206,7 @@ class ZFramework{
         return include  dirname(__FILE__).'/smiley.php';
     }
 
-	/**
-	 * 转义字符串
-	 *
-	 */
-    public static function maple_quotes($var,$charset='UTF-8'){
-        return htmlspecialchars(trim($var),ENT_QUOTES,  $charset);
-    }
+	
 
     /**
      * 显示信息

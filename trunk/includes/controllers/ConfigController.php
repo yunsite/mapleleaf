@@ -34,7 +34,7 @@ class ConfigController extends BaseController{
         header("Location:index.php?action=control_panel&subtab=siteset");
     }
     private function set_board_name(){
-        $board_name=$_POST['board_name']?ZFramework::maple_quotes($_POST['board_name']):'MapleLeaf';
+        $board_name=$_POST['board_name']?maple_quotes($_POST['board_name']):'MapleLeaf';
         $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='board_name'"),$board_name));
     }
 
@@ -44,17 +44,17 @@ class ConfigController extends BaseController{
     }
 
     private function set_close_reason(){
-        $close_reason=ZFramework::maple_quotes($_POST['close_reason']);
+        $close_reason=maple_quotes($_POST['close_reason']);
         $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='close_reason'"),$close_reason));
     }
 
     private function set_admin_email(){
-        $admin_email=$_POST['admin_email']?ZFramework::maple_quotes($_POST['admin_email']):'dreamneverfall@gmail.com';
+        $admin_email=$_POST['admin_email']?maple_quotes($_POST['admin_email']):'dreamneverfall@gmail.com';
         $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='admin_email'"),$admin_email));
     }
 
     private function set_copyright_info(){
-        @$copyright_info=$_POST['copyright_info']?ZFramework::maple_quotes($_POST['copyright_info']):'Copyright &copy; 2011 mapleleaf.googlecode.com';
+        @$copyright_info=$_POST['copyright_info']?maple_quotes($_POST['copyright_info']):'Copyright &copy; 2011 mapleleaf.googlecode.com';
         $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='copyright_info'"),$copyright_info));
     }
 
@@ -94,7 +94,7 @@ class ConfigController extends BaseController{
     }
 
     private function set_admin_password(){
-        $password=isset($_POST['password']) && !empty($_POST['password'])?ZFramework::maple_quotes($_POST['password']):$this->_admin_password;
+        $password=isset($_POST['password']) && !empty($_POST['password'])?maple_quotes($_POST['password']):$this->_admin_password;
         $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='password'"),$password));
     }
 
