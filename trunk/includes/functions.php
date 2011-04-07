@@ -421,4 +421,19 @@
         include 'themes/'.getConfigVar('theme').'/templates/'."show_message.php"; exit;
     }
 
+    
+	/**
+	 * 得到指定语言的语言翻译信息
+	 *
+	 * @param mixed $userSpecifiedLanguage
+	 * @return array
+	 */
+    function getLangArray($userSpecifiedLanguage=null){
+        if($userSpecifiedLanguage){
+            if(file_exists(APPROOT.'/languages/'.$userSpecifiedLanguage.'.php')){
+                return include APPROOT.'/languages/'.$userSpecifiedLanguage.'.php';
+            }
+        }
+        return include APPROOT.'/languages/'.getConfigVar('lang').'.php';
+    }
 ?>

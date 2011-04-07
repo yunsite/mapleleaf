@@ -169,25 +169,10 @@ class ZFramework{
 	 * @return string
 	 */
     public static function t($message,$params=array(),$userSpecifiedLanguage=null){
-        $messages=self::getLangArray($userSpecifiedLanguage);
+        $messages=getLangArray($userSpecifiedLanguage);
         if(isset ($messages[$message]) && $messages[$message]!=='')
             $message=$messages[$message];
         return $params!==array()?strtr($message, $params):$message;
-    }
-    
-	/**
-	 * 得到指定语言的语言翻译信息
-	 *
-	 * @param mixed $userSpecifiedLanguage
-	 * @return array
-	 */
-    public static function getLangArray($userSpecifiedLanguage=null){
-        if($userSpecifiedLanguage){
-            if(file_exists(APPROOT.'/languages/'.$userSpecifiedLanguage.'.php')){
-                return include APPROOT.'/languages/'.$userSpecifiedLanguage.'.php';
-            }
-        }
-        return include APPROOT.'/languages/'.self::app()->lang.'.php';
     }
 
 }
