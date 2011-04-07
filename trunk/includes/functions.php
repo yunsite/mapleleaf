@@ -368,4 +368,37 @@
     }
 
 	
+    /**
+     * 得到所有可用的主题
+     */
+    function get_all_themes(){
+        $themes=array();
+        $d=dir(THEMEDIR);
+        while(false!==($entry=$d->read())){
+            if(substr($entry,0,1)!='.')
+                $themes[$entry]=$entry;
+        }
+        $d->close();
+        return array_filter($themes,'_removeIndex');
+    }
+
+	/**
+	 * 得到所有可用的语言。在 languages/ 目录里搜寻语言文件
+	 *
+	 * @return array
+	 */
+    function get_all_langs(){
+    	$langs=array();
+        $d=dir(APPROOT.'/languages/');
+        while(false!==($entry=$d->read())){
+            if(substr($entry,0,1)!='.')
+                $langs[substr($entry,0,-4)]=substr($entry,0,-4);
+        }
+        $d->close();
+        return array_filter($langs,'_removeIndex');
+    }
+
+	function _removeIndex($var){
+		return (!($var == 'index' || $var == 'index.php'));
+	}
 ?>
