@@ -1,4 +1,9 @@
 <?php
+/**
+ * 控制器基础类
+ *
+ *
+ */
 class BaseController{
     public function render($tplFile,$vars=NULL){
         if ($vars)
@@ -8,6 +13,11 @@ class BaseController{
         include $file.'.php';
     }
 }
+
+/**
+ * 框架类，核心是 URL 路由分配
+ *
+ */
 class ZFramework{
     protected   $_controller;
     protected   $_action;
@@ -45,7 +55,12 @@ class ZFramework{
         }
         return self::$_instance;
     }
-
+	
+	/**
+	 * getConfigVar 的代理函数
+	 * @param $name 
+	 * @return mixed
+	 */
     public function  __get($name) {
 		return getConfigVar($name);
     }
@@ -79,29 +94,16 @@ class ZFramework{
     }
 
 	/**
-	 * 判断是否是关闭模式
-	 *
-	 */
-    protected function is_closedMode(){
-        $disabledAction=array('PostController/actionCreate','SiteController/actionIndex','UserController/actionCreate');
-        if($this->site_close==1 && !isset ($_SESSION['admin']) && in_array($this->_controller.'/'.$this->_action, $disabledAction))
-            show_message($this->close_reason);
-    }
-
-	/**
 	 * 执行任务
 	 *
 	 */
     public function run(){
         global $API_CODE;
-        #var_dump($this->_controller.'/'.$this->_action);exit;
         if (defined('API_MODE') && !in_array($this->_controller.'/'.$this->_action, $this->allow_request_api)){
             $error_array=array('error_code'=>'403','error'=>$API_CODE['403'],'error_detail'=>self::t('API_REQUEST_ERROR'));
             die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
         }
         try {
-            if(is_installed())
-                $this->is_closedMode();
             if(class_exists($this->getController())){
                 $rc=new ReflectionClass($this->getController());
                 if($rc->isSubclassOf('BaseController')){
@@ -159,6 +161,4 @@ class ZFramework{
     public function getAction(){
         return $this->_action;
     }
-
-
 }

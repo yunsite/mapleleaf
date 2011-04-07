@@ -451,4 +451,14 @@
             $message=$messages[$message];
         return $params!==array()?strtr($message, $params):$message;
     }
+
+	/**
+	 * 判断是否是关闭模式
+	 *
+	 */
+    function is_closedMode(){
+        $disabledAction=array('PostController/actionCreate','SiteController/actionIndex','UserController/actionCreate');
+        if(getConfigVar('site_close')==1 && !isset ($_SESSION['admin']) && in_array((isset($_GET['controller'])?$_GET['controller']:'SiteController').'/'.(isset($_GET['action'])?$_GET['action']:'actionIndex'), $disabledAction))
+            show_message(getConfigVar('close_reason'));
+    }
 ?>
