@@ -2,7 +2,7 @@
 if(!defined('IN_MP')){die('Access denied!');}
 $smileyString="<table id='smileysTable' cellpadding='4'>\n";
 $numPerRow=8;
-$smileyArray=array_pad(ZFramework::getSmileys(), ceil(count(ZFramework::getSmileys())/$numPerRow)*$numPerRow, '');
+$smileyArray=array_pad(getSmileys(), ceil(count(getSmileys())/$numPerRow)*$numPerRow, '');
 $smileyArray=array_chunk($smileyArray,$numPerRow,true);
 foreach ($smileyArray as $value){
     $smileyString.="<tr>\n";

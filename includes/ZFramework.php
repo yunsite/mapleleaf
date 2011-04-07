@@ -190,15 +190,6 @@ class ZFramework{
         return include APPROOT.'/languages/'.self::app()->lang.'.php';
     }
 
-	/**
-	 * 得到表情图案
-	 *
-	 */
-    public static function getSmileys(){
-        return include  dirname(__FILE__).'/smiley.php';
-    }
-
-	
 
     /**
      * 显示信息

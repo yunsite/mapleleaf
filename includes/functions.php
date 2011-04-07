@@ -245,8 +245,8 @@
                 $_data['reply_content']=htmlentities($_data['reply_content'],ENT_COMPAT,'UTF-8');
             }
             if($parse_smileys){
-                $_data['post_content']=parse_smileys ($_data['post_content'], SMILEYDIR,  ZFramework::getSmileys());
-                $_data['reply_content']=parse_smileys ($_data['reply_content'], SMILEYDIR,  ZFramework::getSmileys());
+                $_data['post_content']=parse_smileys ($_data['post_content'], SMILEYDIR,  getSmileys());
+                $_data['reply_content']=parse_smileys ($_data['reply_content'], SMILEYDIR,  getSmileys());
             }
             if($filter_words)
                 $_data['post_content']=filter_words($_data['post_content']);
@@ -270,41 +270,41 @@
      * @param $smileys
      */
     function parse_smileys($str = '', $image_url = '', $smileys = NULL){
-	if ($image_url == '')
-	    return $str;
-	if (!is_array($smileys))
-	    return $str;
-	// Add a trailing slash to the file path if needed
-	$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
-	foreach ($smileys as $key => $val){
-	    $str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
-	}
-	return $str;
+		if ($image_url == '')
+			return $str;
+		if (!is_array($smileys))
+			return $str;
+		// Add a trailing slash to the file path if needed
+		$image_url = preg_replace("/(.+?)\/*$/", "\\1/",  $image_url);
+		foreach ($smileys as $key => $val){
+			$str = str_replace($key, "<img src=\"".$image_url.$smileys[$key][0]."\" width=\"".$smileys[$key][1]."\" height=\"".$smileys[$key][2]."\" title=\"".$smileys[$key][3]."\" alt=\"".$smileys[$key][3]."\" style=\"border:0;\" />", $str);
+		}
+		return $str;
     }
     /**
      * 过滤敏感词语
      * @param array $input
      */
     function filter_words($input){
-	$filter_array=explode(',',  ZFramework::app()->filter_words);
-	$input=str_ireplace($filter_array,'***',$input);
-	return $input;
+		$filter_array=explode(',',  ZFramework::app()->filter_words);
+		$input=str_ireplace($filter_array,'***',$input);
+		return $input;
     }
     /**
      * 显示表情
      */
     function show_smileys_table(){
-	$smiley=  require APPROOT.'/includes/showSmiley.php';
-	return $smiley;
+		$smiley=  require APPROOT.'/includes/showSmiley.php';
+		return $smiley;
     }
     /**
      * 替换被过滤的词语
      * @param array $filter_words
      */
     function fix_filter_string($filter_words){
-	$new_string=trim($filter_words,',');
-	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
-	return $new_string;
+		$new_string=trim($filter_words,',');
+		$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
+		return $new_string;
     }
 
     /**
@@ -343,6 +343,11 @@
         return htmlspecialchars(trim($var),ENT_QUOTES,  $charset);
     }
 	
+	/**
+	 * 得到留言板的配置参数
+	 * @param $name 配置参数名
+	 * @return mixed 配置参数值或者NULL
+	 */	
 	function getConfigVar($name){
 		global $db_url;
 		$db=YDB::factory($db_url);
@@ -353,4 +358,14 @@
         else
             return null;
 	}
+
+	/**
+	 * 得到表情图案
+	 * @return array
+	 */
+    function getSmileys(){
+        return include  dirname(__FILE__).'/smiley.php';
+    }
+
+	
 ?>
