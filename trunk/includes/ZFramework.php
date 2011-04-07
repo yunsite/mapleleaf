@@ -160,19 +160,5 @@ class ZFramework{
         return $this->_action;
     }
 
-	/**
-	 * 翻译指定信息
-	 *
- 	 * @param mixed $message
-	 * @param array $params
-	 * @param mixed $userSpecifiedLanguage
-	 * @return string
-	 */
-    public static function t($message,$params=array(),$userSpecifiedLanguage=null){
-        $messages=getLangArray($userSpecifiedLanguage);
-        if(isset ($messages[$message]) && $messages[$message]!=='')
-            $message=$messages[$message];
-        return $params!==array()?strtr($message, $params):$message;
-    }
 
 }
