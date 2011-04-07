@@ -172,7 +172,7 @@ HERE;
 	$this->_verifyCode->image(2,4,900,array('borderColor'=>'#66CCFF','bgcolor'=>'#FFCC33'));
     }
     public function actionGetSysJSON(){
-        $langArray=ZFramework::getLangArray();
+        $langArray=getLangArray();
         $langArray['ADMIN_NAME_INDEX']=ZFramework::app()->admin;
         echo function_exists('json_encode') ? json_encode($langArray) : CJSON::encode($langArray);
     }
