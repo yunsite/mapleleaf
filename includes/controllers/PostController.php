@@ -17,11 +17,11 @@ class PostController extends BaseController{
             //插入到数据库前的验证
             $new_data_error_msg='';
             if ( !strlen(trim($_POST['user'])) || !strlen(trim($_POST['content'])))
-                $new_data_error_msg=ZFramework::t('FILL_NOT_COMPLETE');
+                $new_data_error_msg=t('FILL_NOT_COMPLETE');
             elseif(strlen($_POST['content']>580))
-                $new_data_error_msg=ZFramework::t('WORDS_TOO_LONG');
+                $new_data_error_msg=t('WORDS_TOO_LONG');
             elseif (ZFramework::app()->valid_code_open==1 && gd_loaded() && !$this->_verifyCode->check($_POST['valid_code']))
-                $new_data_error_msg=ZFramework::t('CAPTCHA_WRONG');
+                $new_data_error_msg=t('CAPTCHA_WRONG');
             if($new_data_error_msg){
                 if(defined('API_MODE')){
                     $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>$new_data_error_msg);
@@ -57,7 +57,7 @@ class PostController extends BaseController{
             }
         }
         if(defined('API_MODE')){
-            $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>ZFramework::t('ONLY_POST'));
+            $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>t('ONLY_POST'));
             die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
         }
         header("Location:index.php");
@@ -73,7 +73,7 @@ class PostController extends BaseController{
         $mid=(int)$_GET['mid'];
         $message_info=$this->_model->queryAll(sprintf(parse_tbprefix("SELECT * FROM <post> WHERE pid=%d"),$mid));
         if(!$message_info)
-            show_message(ZFramework::t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
+            show_message(t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
 	$message_info=$message_info[0];
         $this->render('update', array(
             'message_info'=>$message_info,

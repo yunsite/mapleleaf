@@ -1,7 +1,7 @@
 <?php if(!defined('IN_MP')){die('Access denied!');} ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head><title><?php echo ZFramework::t('TIPS');?></title>
+    <head><title><?php echo t('TIPS');?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/screen.css" type="text/css" media="screen, projection" />
 <link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/print.css" type="text/css" media="print" />
@@ -21,7 +21,7 @@ echo "<meta http-equiv='Refresh' content='$time_delay;URL=$redirect_url' />";
 </head>
 <body>
     <div class="container">
-        <h2><?php echo ZFramework::t('MESSAGE');?></h2>
+        <h2><?php echo t('MESSAGE');?></h2>
 
 <?php
 echo '<pre>';

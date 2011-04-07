@@ -48,11 +48,11 @@ class SiteController extends BaseController{
             $language=$_GET['l'];
         $installed=FALSE;
         if(!file_exists(CONFIGFILE))        //先检查配置文件是否存在和可写
-            $tips=ZFramework::t('CONFIG_FILE_NOTEXISTS',array('{config_file}'=>CONFIGFILE),$language);
+            $tips=t('CONFIG_FILE_NOTEXISTS',array('{config_file}'=>CONFIGFILE),$language);
         elseif(!is_writable(CONFIGFILE))
-            $tips=ZFramework::t('CONFIG_FILE_NOTWRITABLE',array('{config_file}'=>CONFIGFILE),$language);
+            $tips=t('CONFIG_FILE_NOTWRITABLE',array('{config_file}'=>CONFIGFILE),$language);
         elseif(!is_writable(APPROOT.'/data/'))
-            $tips= ZFramework::t ('DATADIR_NOT_WRITABLE', array(), $language);
+            $tips= t ('DATADIR_NOT_WRITABLE', array(), $language);
         if(!empty ($_POST['adminname']) && !empty($_POST['adminpass']) && !empty ($_POST['dbtype']) &&!empty ($_POST['dbusername']) && !empty ($_POST['dbname']) && !empty ($_POST['dbhost']) && strlen(trim($_POST['adminname']))>2 ){
             $adminname=maple_quotes($_POST['adminname']);
             $adminpass=maple_quotes($_POST['adminpass']);
@@ -91,7 +91,7 @@ class SiteController extends BaseController{
         is_admin();
         $current_tab='overview';
         $tabs_array=array('overview','siteset','message','ban_ip');
-	$tabs_name_array=array(ZFramework::t('ACP_OVERVIEW'),ZFramework::t('ACP_CONFSET'),ZFramework::t('ACP_MANAGE_POST'),ZFramework::t('ACP_MANAGE_IP'));
+	$tabs_name_array=array(t('ACP_OVERVIEW'),t('ACP_CONFSET'),t('ACP_MANAGE_POST'),t('ACP_MANAGE_IP'));
         if(isset($_GET['subtab'])){
 	    if(in_array($_GET['subtab'],$tabs_array))
 		    $current_tab=$_GET['subtab'];
@@ -107,10 +107,10 @@ class SiteController extends BaseController{
 
         if($gd_exist){
             $gd_info=gd_version();
-	    $gd_version=$gd_info?$gd_info:'<font color="red">'.ZFramework::t('UNKNOWN').'</font>';
+	    $gd_version=$gd_info?$gd_info:'<font color="red">'.t('UNKNOWN').'</font>';
         }
         else
-            $gd_version='<font color="red">GD'.ZFramework::t('NOT_SUPPORT').'</font>';
+            $gd_version='<font color="red">GD'.t('NOT_SUPPORT').'</font>';
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
         $languages= get_all_langs();
@@ -156,7 +156,7 @@ HERE;
                 $output.=htmlentities ($m['user']);
             $output .= "</title><pubDate>".date("D, d M Y H:i:s T", $m['time'])."</pubDate><description><![CDATA[".$m['post_content'];
             if(@$m['reply_content'])
-                $output.="<br />".strip_tags (ZFramework::t('ADMIN_REPLIED',array('{admin_name}'=>ZFramework::app()->admin,'{reply_time}'=>date("D, d M Y H:i:s T",$m['reply_time']),'{reply_content}'=>$m['reply_content'])));
+                $output.="<br />".strip_tags (t('ADMIN_REPLIED',array('{admin_name}'=>ZFramework::app()->admin,'{reply_time}'=>date("D, d M Y H:i:s T",$m['reply_time']),'{reply_content}'=>$m['reply_content'])));
             $output .="]]></description></item>\n";
         }
         $output.="\t</channel>\n</rss>";
