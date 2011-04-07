@@ -79,7 +79,7 @@ class ConfigController extends BaseController{
     }
 
     private function set_theme(){
-        $theme=in_array($_POST['theme'], ZFramework::get_all_themes())?$_POST['theme']:'simple';
+        $theme=in_array($_POST['theme'], get_all_themes())?$_POST['theme']:'simple';
         $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='theme'"),$theme));
     }
 
@@ -89,7 +89,7 @@ class ConfigController extends BaseController{
     }
 
     private function set_lang(){
-        $lang=(isset($_POST['lang']) && in_array($_POST['lang'],  ZFramework::get_all_langs()))?$_POST['lang']:'en';
+        $lang=(isset($_POST['lang']) && in_array($_POST['lang'],  get_all_langs()))?$_POST['lang']:'en';
         $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='lang'"),$lang));
     }
 

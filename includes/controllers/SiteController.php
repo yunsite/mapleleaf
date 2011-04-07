@@ -42,7 +42,7 @@ class SiteController extends BaseController{
 
     //安装程序
     public function actionInstall(){
-        $languages=ZFramework::get_all_langs();
+        $languages=get_all_langs();
         if(!isset($_GET['l']) || !in_array($_GET['l'],$languages) || $_GET['l']=='en'){	$language='en';}
         else
             $language=$_GET['l'];
@@ -96,7 +96,7 @@ class SiteController extends BaseController{
 	    if(in_array($_GET['subtab'],$tabs_array))
 		    $current_tab=$_GET['subtab'];
         }
-        $themes= ZFramework::get_all_themes();
+        $themes= get_all_themes();
 
         $data=get_all_data(TRUE,false,TRUE,TRUE,false);
         $reply_data=  $this->_model->queryAll(parse_tbprefix("SELECT * FROM <reply>"));
@@ -113,7 +113,7 @@ class SiteController extends BaseController{
             $gd_version='<font color="red">GD'.ZFramework::t('NOT_SUPPORT').'</font>';
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
-        $languages= ZFramework::get_all_langs();
+        $languages= get_all_langs();
         $timezone_array=  ZFramework::get_all_timezone();
         $this->render('admin',array(
             'tabs_array'=>$tabs_array,
