@@ -85,7 +85,7 @@ class ZFramework{
     protected function is_closedMode(){
         $disabledAction=array('PostController/actionCreate','SiteController/actionIndex','UserController/actionCreate');
         if($this->site_close==1 && !isset ($_SESSION['admin']) && in_array($this->_controller.'/'.$this->_action, $disabledAction))
-            self::show_message($this->close_reason);
+            show_message($this->close_reason);
     }
 
 	/**
@@ -188,14 +188,6 @@ class ZFramework{
             }
         }
         return include APPROOT.'/languages/'.self::app()->lang.'.php';
-    }
-
-
-    /**
-     * 显示信息
-     */
-    public static  function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3){
-        include 'themes/'.self::app()->theme.'/templates/'."show_message.php"; exit;
     }
 
 }
