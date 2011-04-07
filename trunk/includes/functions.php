@@ -401,4 +401,16 @@
 	function _removeIndex($var){
 		return (!($var == 'index' || $var == 'index.php'));
 	}
+	
+
+	/**
+	 * 得到所有的时区，翻译后的时区信息
+	 *
+	 * @return array
+	 */
+    function get_all_timezone(){
+        $timezone=  include APPROOT.'/languages/'.getConfigVar('lang').'.php';
+    	return $timezone['TZ_ZONES'];
+    }    
+
 ?>

@@ -198,16 +198,4 @@ class ZFramework{
         include 'themes/'.self::app()->theme.'/templates/'."show_message.php"; exit;
     }
 
-	
-
-	/**
-	 * 得到所有的时区，翻译后的时区信息
-	 *
-	 * @return array
-	 */
-    public static  function get_all_timezone(){
-        $timezone=  include APPROOT.'/languages/'.self::app()->lang.'.php';
-    	return $timezone['TZ_ZONES'];
-    }    
-
 }
