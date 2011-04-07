@@ -14,13 +14,13 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://mapleleaf.googlecode.com/files/jqModal.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/user_index.js';?>"></script>
-<title><?php echo ZFramework::t('ACP_INDEX');?></title>
+<title><?php echo t('ACP_INDEX');?></title>
 </head>
 
 <body>
     <div class="container">
 	<div id="hd">
-		<?php if(ZFramework::app()->site_close):?><span class="notice"><?php echo ZFramework::t('OFF_LINE_MODE');?></span><?php endif;?><a href="index.php"><?php echo ZFramework::t('HOME');?></a>&nbsp;<a href="index.php?controller=user&amp;action=logout" title="<?php echo ZFramework::t('LOGOUT');?>"><?php echo ZFramework::t('LOGOUT');?></a>
+		<?php if(ZFramework::app()->site_close):?><span class="notice"><?php echo t('OFF_LINE_MODE');?></span><?php endif;?><a href="index.php"><?php echo t('HOME');?></a>&nbsp;<a href="index.php?controller=user&amp;action=logout" title="<?php echo t('LOGOUT');?>"><?php echo t('LOGOUT');?></a>
 	</div><!-- header -->
 	<div id="bd">
 	    <div class="yui-g">
@@ -42,7 +42,7 @@
 			<table width="800px">
                             <thead>
                                 <tr class="header">
-                                    <th class="span-1"><?php echo ZFramework::t('SELECT');?></th><th class="span-3"><?php echo ZFramework::t('NICKNAME');?></th><th class="span-6"><?php echo ZFramework::t('EMAIL');?></th><th><?php echo ZFramework::t('OPERATION');?></th>
+                                    <th class="span-1"><?php echo t('SELECT');?></th><th class="span-3"><?php echo t('NICKNAME');?></th><th class="span-6"><?php echo t('EMAIL');?></th><th><?php echo t('OPERATION');?></th>
                                 </tr>
                             </thead>
 			<?php foreach($users as $u){?>
@@ -50,20 +50,20 @@
 			    <td><input type='checkbox' name='select_uid[]' value='<?php echo $u['uid'];?>' /></td>
 			    <td><?php echo $u['username'];?></td>
 			    <td><?php echo $u['email'];?></td>
-                            <td><a href='index.php?controller=user&amp;action=delete&amp;uid=<?php echo $u['uid'];?>'><?php echo ZFramework::t('DELETE');?></a>    
-                                <a class="ex2trigger" href='index.php?controller=user&amp;action=update&amp;uid=<?php echo $u['uid'];?>'><?php echo ZFramework::t('UPDATE');?></a>
+                            <td><a href='index.php?controller=user&amp;action=delete&amp;uid=<?php echo $u['uid'];?>'><?php echo t('DELETE');?></a>    
+                                <a class="ex2trigger" href='index.php?controller=user&amp;action=update&amp;uid=<?php echo $u['uid'];?>'><?php echo t('UPDATE');?></a>
 			    </td>
 			</tr>
 		       <?php }?>
 
 			<tr>
 			    <td colspan='4'>
-                                <span class="check_span"><a href="#" id="m_checkall"><?php echo ZFramework::t('CHECK_ALL');?></a> &nbsp;
-				<a href="#" id="m_checknone"><?php echo ZFramework::t('CHECK_NONE');?></a> &nbsp;
-				<a href="#" id="m_checkxor"><?php echo ZFramework::t('CHECK_INVERT');?></a>&nbsp;</span>
-				<input type='submit' value='<?php echo ZFramework::t('DELETE_CHECKED');?>' />&nbsp;
-				<a id="deleteallLink" href="index.php?controller=post&amp;action=deleteAll"><?php echo ZFramework::t('DELETE_ALL');?></a>&nbsp;
-                                <?php if(is_flatfile()):?><a href="index.php?controller=backup&amp;action=create"><?php echo ZFramework::t('BACKUP');endif;?></a>
+                                <span class="check_span"><a href="#" id="m_checkall"><?php echo t('CHECK_ALL');?></a> &nbsp;
+				<a href="#" id="m_checknone"><?php echo t('CHECK_NONE');?></a> &nbsp;
+				<a href="#" id="m_checkxor"><?php echo t('CHECK_INVERT');?></a>&nbsp;</span>
+				<input type='submit' value='<?php echo t('DELETE_CHECKED');?>' />&nbsp;
+				<a id="deleteallLink" href="index.php?controller=post&amp;action=deleteAll"><?php echo t('DELETE_ALL');?></a>&nbsp;
+                                <?php if(is_flatfile()):?><a href="index.php?controller=backup&amp;action=create"><?php echo t('BACKUP');endif;?></a>
 			    </td></tr>
 
 			</table>

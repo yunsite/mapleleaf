@@ -11,7 +11,7 @@ class ReplyController extends BaseController{
 	    $mid=(int)$_POST['mid'];
 	    $reply_content = $this->_model->escape_string(str_replace(array("\n", "\r\n", "\r"), '', nl2br($_POST['content'])));
 	    if (trim($reply_content)=='')
-		show_message(ZFramework::t('REPLY_EMPTY'),true,'index.php?action=control_panel&subtab=message',3);
+		show_message(t('REPLY_EMPTY'),true,'index.php?action=control_panel&subtab=message',3);
 	    if(isset($_POST['update']))
                 $this->_model->query(sprintf(parse_tbprefix("UPDATE <reply> SET content='%s' WHERE pid=%d"),$reply_content,$mid));
 	    else

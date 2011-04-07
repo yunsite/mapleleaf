@@ -15,22 +15,22 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="http://mapleleaf.googlecode.com/files/jqModal.js"></script>
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/index.js';?>"></script>
-<title><?php echo ZFramework::t('WELCOME',array('{site_name}'=>ZFramework::app()->board_name));?></title>
+<title><?php echo t('WELCOME',array('{site_name}'=>ZFramework::app()->board_name));?></title>
 </head>
 
 <body>
     <div class="container">
         <div id="hd">
             <div class="right">
-                <?php if(ZFramework::app()->site_close):?><span class="notice"><?php echo ZFramework::t('OFF_LINE_MODE');?></span><?php endif;?>
+                <?php if(ZFramework::app()->site_close):?><span class="notice"><?php echo t('OFF_LINE_MODE');?></span><?php endif;?>
 
                 <?php
                 if(!isset ($_SESSION['admin']) && !isset ($_SESSION['user']))
-                    echo '<a class="thickbox" href="index.php?controller=user&amp;action=create&amp;width=630&amp;height=45%">'.ZFramework::t('REGISTER').'</a>&nbsp;<a href="index.php?controller=user&amp;action=login">'.ZFramework::t('LOGIN').'</a>';
+                    echo '<a class="thickbox" href="index.php?controller=user&amp;action=create&amp;width=630&amp;height=45%">'.t('REGISTER').'</a>&nbsp;<a href="index.php?controller=user&amp;action=login">'.t('LOGIN').'</a>';
                 if(isset ($_SESSION['user']) || isset ($_SESSION['admin']))
-                    echo '<a href="index.php?controller=user&amp;action=logout">'.ZFramework::t('LOGOUT').'</a>';
+                    echo '<a href="index.php?controller=user&amp;action=logout">'.t('LOGOUT').'</a>';
                 if(isset ($_SESSION['user']))
-                    echo '&nbsp;<a class="thickbox" href="index.php?controller=user&amp;action=update&amp;uid='.$_SESSION['uid'].'&amp;width=600&amp;height=50%">'.ZFramework::t('UPDATE').'</a>';
+                    echo '&nbsp;<a class="thickbox" href="index.php?controller=user&amp;action=update&amp;uid='.$_SESSION['uid'].'&amp;width=600&amp;height=50%">'.t('UPDATE').'</a>';
                 ?>
             </div>
             <h3><a href="index.php">Home</a></h3>
@@ -38,27 +38,27 @@
         <div id="bd">
             <div class="yui-g">
                 <?php if($nums>0):?>
-                <p><?php echo ZFramework::t('SEARCH_FOUND',array('{result_num}'=>$nums));?></p>
+                <p><?php echo t('SEARCH_FOUND',array('{result_num}'=>$nums));?></p>
                 <table id="main_table">
                     <thead>
                         <tr class="header">
-                            <th class="span-4"><?php echo ZFramework::t('NICKNAME');?></th>
-                            <th class="span-17"><?php echo ZFramework::t('MESSAGE');?></th>
-                            <th class="span-3"><?php echo ZFramework::t('TIME');?></th>
+                            <th class="span-4"><?php echo t('NICKNAME');?></th>
+                            <th class="span-17"><?php echo t('MESSAGE');?></th>
+                            <th class="span-3"><?php echo t('TIME');?></th>
                         </tr>
                     </thead>
                     <?php foreach($data as $m){?>
                     <tr>
                         <td><?php echo (int)$m['uid']?$m['b_username']:$m['user'];?></td>
                         <td><div style='word-wrap: break-word;word-break:break-all;width:450px;'><?php echo nl2br($m['post_content']);?><br />
-                            <?php if(@$m['reply_content']){ echo ZFramework::t('ADMIN_REPLIED',array('{admin_name}'=>ZFramework::app()->admin,'{reply_time}'=>$m['reply_time'],'{reply_content}'=>$m['reply_content']));}?></div>
+                            <?php if(@$m['reply_content']){ echo t('ADMIN_REPLIED',array('{admin_name}'=>ZFramework::app()->admin,'{reply_time}'=>$m['reply_time'],'{reply_content}'=>$m['reply_content']));}?></div>
                         </td>
                         <td><?php echo $m['time'];?></td>
                     </tr>
                     <?php }?>
                 </table>
                 <?php else:?>
-                <p><?php echo ZFramework::t('SEARCH_NOTFOUND');?></p>
+                <p><?php echo t('SEARCH_NOTFOUND');?></p>
                 <?php endif;?>
             </div>
                 <div class="clear">
@@ -68,7 +68,7 @@
                     </form>
                 </div>
         </div><!-- body -->
-        <div class="clear"><?php echo htmlspecialchars_decode(ZFramework::app()->copyright_info);?> <a href="mailto:<?php echo ZFramework::app()->admin_email;?>"><?php echo ZFramework::t('ADMIN_EMAIL');?></a> <?php if(!isset($_SESSION['user'])): ?><a href="index.php?action=control_panel"><?php echo ZFramework::t('ACP');?></a><?php endif;?> Powered by <a href="http://mapleleaf.googlecode.com/" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a></div><!-- footer -->
+        <div class="clear"><?php echo htmlspecialchars_decode(ZFramework::app()->copyright_info);?> <a href="mailto:<?php echo ZFramework::app()->admin_email;?>"><?php echo t('ADMIN_EMAIL');?></a> <?php if(!isset($_SESSION['user'])): ?><a href="index.php?action=control_panel"><?php echo t('ACP');?></a><?php endif;?> Powered by <a href="http://mapleleaf.googlecode.com/" target="_blank" title="Find More">MapleLeaf <?php echo MP_VERSION;?></a></div><!-- footer -->
 
 	<!-- jqModal window -->
 	<div id="modalWindow" class="jqmWindow">

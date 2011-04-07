@@ -9,7 +9,7 @@ class UserController extends BaseController{
         is_admin();
         $current_tab='user';
         $tabs_array=array('overview','siteset','message','ban_ip','user');
-        $tabs_name_array=array(ZFramework::t('ACP_OVERVIEW'),ZFramework::t('ACP_CONFSET'),ZFramework::t('ACP_MANAGE_POST'),ZFramework::t('ACP_MANAGE_IP'),  ZFramework::t('USER_ADMIN'));
+        $tabs_name_array=array(t('ACP_OVERVIEW'),t('ACP_CONFSET'),t('ACP_MANAGE_POST'),t('ACP_MANAGE_IP'),  t('USER_ADMIN'));
         $user_data=$this->_model->queryAll(parse_tbprefix("SELECT * FROM <user>"));
         //echo '<pre>';
         //var_dump($user_data);exit;
@@ -40,16 +40,16 @@ class UserController extends BaseController{
                                 die($this->_model->error());
                             }
                         }else{
-                            $errorMsg=ZFramework::t('USERNAME_NOT_AVAILABLE');
+                            $errorMsg=t('USERNAME_NOT_AVAILABLE');
                         }
                     }else{
-                        $errorMsg=ZFramework::t('EMAIL_INVALID');
+                        $errorMsg=t('EMAIL_INVALID');
                     }
                 }else{
-                    $errorMsg=ZFramework::t('USERNAME_TOO_SHORT');
+                    $errorMsg=t('USERNAME_TOO_SHORT');
                 }
 	    }else{
-		$errorMsg=ZFramework::t('FILL_NOT_COMPLETE');
+		$errorMsg=t('FILL_NOT_COMPLETE');
 	    }
 	    if(isset ($_POST['ajax'])){
 		die ($errorMsg);
@@ -61,11 +61,11 @@ class UserController extends BaseController{
         global $API_CODE;
         if(defined('API_MODE')){
             if(!isset ($_SESSION['admin']) && !isset ($_SESSION['uid']))
-                $error_array=array('error_code'=>'401','error'=>$API_CODE['401'],'error_detail'=>ZFramework::t('LOGIN_REQUIRED'));
+                $error_array=array('error_code'=>'401','error'=>$API_CODE['401'],'error_detail'=>t('LOGIN_REQUIRED'));
             elseif(!isset ($_GET['uid']))
-                $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>ZFramework::t('PARAM_ERROR'));
+                $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>t('PARAM_ERROR'));
             elseif ((!isset($_SESSION['admin']) && $_GET['uid']!=$_SESSION['uid'])) {
-                $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>ZFramework::t('PARAM_ERROR'));
+                $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>t('PARAM_ERROR'));
             }
             if(isset ($error_array))
                 die (function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
@@ -87,17 +87,17 @@ class UserController extends BaseController{
                         }
 			header("Location:index.php");exit;
 		    }else{
-			$errorMsg=ZFramework::t('USERUPDATEFAILED');
+			$errorMsg=t('USERUPDATEFAILED');
                         if(defined('API_MODE')){
                             $error_array=array('error_code'=>'500','error'=>$API_CODE['500'],'error_detail'=>$errorMsg);
                             die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
                         }
 		    }
 		}else{
-		    $errorMsg=ZFramework::t('EMAIL_INVALID');
+		    $errorMsg=t('EMAIL_INVALID');
 		}
 	    }else{
-		$errorMsg=ZFramework::t('FILL_NOT_COMPLETE');
+		$errorMsg=t('FILL_NOT_COMPLETE');
 	    }
             if(defined('API_MODE') && isset ($errorMsg)){
                 $error_array=array('error_code'=>'400','error'=>$API_CODE['400'],'error_detail'=>$errorMsg);
@@ -111,7 +111,7 @@ class UserController extends BaseController{
                 die (function_exists('json_encode') ? json_encode($user_data) : CJSON::encode($user_data));
             }
             else{
-                $error_array=array('error_code'=>'404','error'=>$API_CODE['404'],'error_detail'=>ZFramework::t('USER_NOT_EXISTS'));
+                $error_array=array('error_code'=>'404','error'=>$API_CODE['404'],'error_detail'=>t('USER_NOT_EXISTS'));
                 die(function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
             }
         }
@@ -186,7 +186,7 @@ class UserController extends BaseController{
                     }	    
 		    header("Location:index.php");exit;
 		}else{
-		    $errormsg=ZFramework::t('LOGIN_ERROR');
+		    $errormsg=t('LOGIN_ERROR');
 		}
 	    }
         }
@@ -195,7 +195,7 @@ class UserController extends BaseController{
                 $error_array=array('error_code'=>'403','error'=>$API_CODE['403'],'error_detail'=>$errormsg);
                 die (function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
             }else{
-                $error_array=array('error_code'=>'401','error'=>$API_CODE['401'],'error_detail'=>ZFramework::t('LOGIN_REQUIRED'));
+                $error_array=array('error_code'=>'401','error'=>$API_CODE['401'],'error_detail'=>t('LOGIN_REQUIRED'));
                 die (function_exists('json_encode') ? json_encode($error_array) : CJSON::encode($error_array));
             }
         }

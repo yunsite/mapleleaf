@@ -6,7 +6,7 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
 <meta http-equiv="expires" content="0" />
-<title><?php echo ZFramework::t('LOGIN');?></title>
+<title><?php echo t('LOGIN');?></title>
 <link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/screen.css" type="text/css" media="screen, projection" />
 <link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/print.css" type="text/css" media="print" />
 <!--[if lt IE 8]><link rel="stylesheet" href="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/';?>blueprint/ie.css" type="text/css" media="screen, projection" /><![endif]-->
@@ -15,7 +15,7 @@
 <script type="text/javascript" src="<?php echo './themes/'.ZFramework::app()->theme.'/scripts/login.js';?>"></script>
 </head>
 <body>
-<div id="backtoindex"><a href="index.php" title="<?php echo ZFramework::t('WHERE_AM_I');?>">&larr; <?php echo ZFramework::t('BACK');?></a></div>
+<div id="backtoindex"><a href="index.php" title="<?php echo t('WHERE_AM_I');?>">&larr; <?php echo t('BACK');?></a></div>
     <div class="container">
 	<?php if(@$errormsg){?>
 	    <div id="login_error" class="error"><?php echo $errormsg;?><br /></div>
@@ -25,16 +25,16 @@
             <form action="<?php echo $_SERVER['PHP_SELF'];?>?controller=user&amp;action=login" method="post">
                 <table>
                     <tr>
-		    <td><label><?php echo ZFramework::t('USERNAME');?></label></td>
+		    <td><label><?php echo t('USERNAME');?></label></td>
                     <td><input type="text" name="user" id="user" size="20" /></td>
 		    </tr>
 		    <tr>
-                        <td><label><?php echo ZFramework::t('ADMIN_PWD');?></label></td>
+                        <td><label><?php echo t('ADMIN_PWD');?></label></td>
 			<td><input type="password" id="password" name="password" size="20" /></td>
 		    </tr>
                     <tr>
 		    <td colspan="2">
-		        <input id="submit_button" name="submit" type="submit" value="<?php echo ZFramework::t('SUBMIT');?>" />
+		        <input id="submit_button" name="submit" type="submit" value="<?php echo t('SUBMIT');?>" />
 		    </td>
                     </tr>
                 </table>
