@@ -84,7 +84,7 @@ class ConfigController extends BaseController{
     }
 
     private function set_time_zone(){
-        $timezone=(isset($_POST['timezone']) && in_array($_POST['timezone'],array_keys(ZFramework::get_all_timezone())))?$_POST['timezone']:'0';
+        $timezone=(isset($_POST['timezone']) && in_array($_POST['timezone'],array_keys(get_all_timezone())))?$_POST['timezone']:'0';
         $this->_model->query(sprintf(parse_tbprefix("UPDATE <sysvar> SET varvalue='%s' WHERE varname='timezone'"),$timezone));
     }
 

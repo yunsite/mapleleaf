@@ -114,7 +114,7 @@ class SiteController extends BaseController{
         $register_globals=ini_get("register_globals") ? 'On' : 'Off';
         $magic_quotes_gpc=ini_get("magic_quotes_gpc") ? 'On' : 'Off';
         $languages= get_all_langs();
-        $timezone_array=  ZFramework::get_all_timezone();
+        $timezone_array=  get_all_timezone();
         $this->render('admin',array(
             'tabs_array'=>$tabs_array,
             'current_tab'=>$current_tab,
