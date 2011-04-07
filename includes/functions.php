@@ -413,4 +413,12 @@
     	return $timezone['TZ_ZONES'];
     }    
 
+
+    /**
+     * 显示信息
+     */
+    function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3){
+        include 'themes/'.getConfigVar('theme').'/templates/'."show_message.php"; exit;
+    }
+
 ?>

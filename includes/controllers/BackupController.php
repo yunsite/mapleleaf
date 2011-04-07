@@ -8,9 +8,9 @@ class BackupController extends BaseController{
         is_admin();
         $dir="data/$dbname/";
         if(!class_exists('ZipArchive'))
-            ZFramework::show_message(ZFramework::t('BACKUP_NOTSUPPORT'),true,'index.php?action=control_panel&subtab=message');
+            show_message(ZFramework::t('BACKUP_NOTSUPPORT'),true,'index.php?action=control_panel&subtab=message');
         if(!is_flatfile())
-            ZFramework::show_message(ZFramework::t('BACKUP_TYPE_NOTSUPPORT'),true,'index.php?action=control_panel&subtab=message');
+            show_message(ZFramework::t('BACKUP_TYPE_NOTSUPPORT'),true,'index.php?action=control_panel&subtab=message');
         $zip = new ZipArchive();
         $filename = $dir."backup-".date('Ymd',time()).".zip";
         if ($zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE)

@@ -30,7 +30,7 @@ class PostController extends BaseController{
                 if(!empty ($_POST['ajax']))
                     die ($new_data_error_msg);
                 else
-                    ZFramework::show_message ($new_data_error_msg, true, 'index.php');
+                    show_message ($new_data_error_msg, true, 'index.php');
             }
             //准备插入数据
             $user=  $this->_model->escape_string($_POST['user']);
@@ -73,7 +73,7 @@ class PostController extends BaseController{
         $mid=(int)$_GET['mid'];
         $message_info=$this->_model->queryAll(sprintf(parse_tbprefix("SELECT * FROM <post> WHERE pid=%d"),$mid));
         if(!$message_info)
-            ZFramework::show_message(ZFramework::t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
+            show_message(ZFramework::t('QUERY_ERROR'),TRUE,'index.php?action=control_panel&subtab=message');
 	$message_info=$message_info[0];
         $this->render('update', array(
             'message_info'=>$message_info,
