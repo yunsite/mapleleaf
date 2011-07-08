@@ -238,18 +238,23 @@
         $data=$db->queryAll(parse_tbprefix("SELECT p.pid AS id, p.ip AS ip , p.uid AS uid ,p.uname AS user,p.content AS post_content,p.post_time AS time,r.content AS reply_content,r.r_time AS reply_time ,u.username AS b_username FROM <post> AS p LEFT JOIN <reply> AS r ON p.pid=r.pid LEFT JOIN <user> AS u ON p.uid=u.uid ORDER BY p.post_time DESC"));
         foreach ($data as &$_data) {
             if($apply_filter && ZFramework::app()->filter_type==ConfigController::FILTER_TRIPTAGS){
-				$_data['post_content'] = preg_replace_callback('|<code>(.*)</code>|sU', create_function(
-					// single quotes are essential here,
-					// or alternative escape all $ as \$
-					'$matches',
-					'return "<code>".str_replace(">","&gt;",str_replace("<","&lt;",$matches[1]))."</code>";'
-				),$_data['post_content']);
-				$_data['reply_content'] = preg_replace_callback('|<code>(.*)</code>|sU', create_function(
-					// single quotes are essential here,
-					// or alternative escape all $ as \$
-					'$matches',
-					'return "<code>".str_replace(">","&gt;",str_replace("<","&lt;",$matches[1]))."</code>";'
-				),$_data['reply_content']);
+				if(strstr(ZFramework::app()->allowed_tags, 'code')){//若允许了 code 标签，执行替换
+					$_data['post_content'] = preg_replace_callback('|<code>(.*)</code>|sU', create_function(
+						// single quotes are essential here,
+						// or alternative escape all $ as \$
+						'$matches',
+						'return "<pre class=\'prettyprint\'>".str_replace(">","&gt;",str_replace("<","&lt;",$matches[1]))."</pre>";'
+					),$_data['post_content']);
+					$_data['reply_content'] = preg_replace_callback('|<code>(.*)</code>|sU', create_function(
+						// single quotes are essential here,
+						// or alternative escape all $ as \$
+						'$matches',
+						'return "<pre class=\'prettyprint\'>".str_replace(">","&gt;",str_replace("<","&lt;",$matches[1]))."</pre>";'
+					),$_data['reply_content']);
+					if(!strstr(ZFramework::app()->allowed_tags, 'pre')){//若允许了 code 但不允许 pre ，允许 pre
+						ZFramework::app()->allowed_tags .= "<pre>";
+					}
+				}
                 $_data['post_content']=strip_tags ($_data['post_content'], ZFramework::app()->allowed_tags);
                 $_data['reply_content']=strip_tags ($_data['reply_content'], ZFramework::app()->allowed_tags);
             }  else{

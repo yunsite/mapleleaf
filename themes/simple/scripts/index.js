@@ -76,7 +76,8 @@ $(document).ready(function() {
                                             pagenumString+="</a>&nbsp;";
                                         }
                                         $('span#pagenumString').html(pagenumString);
-                                    }
+                                    };
+									prettyPrint();//页面刷新后执行代码高亮
                                 });
                             }else{
                                 post.message=data;
@@ -232,4 +233,5 @@ $(document).ready(function() {
         onHide: closeModal,
         onShow: openInFrame
     });
+	prettyPrint();//页面载入后执行代码高亮
 });
