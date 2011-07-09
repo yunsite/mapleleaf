@@ -5,6 +5,7 @@
 <head>
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
    <title><?php echo t('INSTALL_PANEL', array(), $language);?></title>
+   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
    <link rel="stylesheet" href="http://yui.yahooapis.com/2.8.0r4/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
    <style type="text/css">
    #custom-doc { width: 62%; min-width: 250px; background-color: #CCCCCC; height: 20em; margin-top:10px;}
@@ -12,6 +13,20 @@
    #language{float: right}
    .require {color: red;}
    </style>
+   <script type="text/javascript">
+   //<![CDATA[
+   $(document).ready(function(){
+       $("#submitButton").attr('disabled',"disabled");
+       $("#agree").click(function(){
+           if($("#agree").attr("checked")){
+               $("#submitButton").attr('disabled',"");
+           } else {
+               $("#submitButton").attr('disabled',"disabled");
+           }
+       });
+   });
+   //]]>
+   </script>
 </head>
 <body>
 
@@ -82,7 +97,10 @@
                         <td><?php echo t('ADMIN_PASSWORD',array(),$language); ?><span class="require">*</span></td><td><input type="password" name="adminpass" /></td><td>&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="3"><input type="submit" value="<?php echo t('INSTALL', array(), $language);?>" />&nbsp;<?php echo t('INSTALL_AGREEMENT', array(), $language);?></td>
+                        <td colspan="3"><input type="checkbox" name="agree" id="agree" />&nbsp;<?php echo t('INSTALL_AGREEMENT', array(), $language);?></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><input id="submitButton" type="submit" value="<?php echo t('INSTALL', array(), $language);?>" /></td>
                     </tr>
                 </table>
 	    </form>
