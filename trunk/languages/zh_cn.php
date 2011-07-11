@@ -191,6 +191,7 @@ return array(
     'ADMIN_USERNAME'=>'管理员用户名',
     'ADMIN_USERNAME_MIN'=>'至少三个字符',
     'ADMIN_PASSWORD'=>'管理员密码',
+    'DB_TYPE_SELECT'=>'请选择数据库类型',
     'DB_TYPE'=>'数据库类型',
     'DB_NAME'=>'数据库名字',
     'DB_USER'=>'数据库用户名',
