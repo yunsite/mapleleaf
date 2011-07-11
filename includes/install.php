@@ -24,6 +24,15 @@
                $("#submitButton").attr('disabled',"disabled");
            }
        });
+       
+       $('form').submit(function(){
+           if($("#dbtype").val()==""){
+               alert("<?php echo t('DB_TYPE_SELECT',array(),$language);?>");
+               return false;
+           }
+           return true;
+       });
+       
    });
    //]]>
    </script>
@@ -31,7 +40,7 @@
 <body>
 
 <div class="yui-t7">
-<p><a href="http://mapleleaf.googlecode.com"><img src="themes/simple/images/help.png" alt="Help" /></a></p>
+<p><a href="http://mapleleaf.googlecode.com" target="_blank"><img src="themes/simple/images/help.png" alt="Help" /></a></p>
 </div>
 
 <div id="custom-doc" class="yui-t7">
@@ -61,7 +70,8 @@
                     <tr>
                         <td><?php echo t('DB_TYPE',array(),$language); ?><span class="require">*</span></td>
                         <td>
-                            <select name="dbtype">
+                            <select id="dbtype" name="dbtype">
+                                <option value=""><?php echo t('DB_TYPE_SELECT',array(),$language);?></option>
                                 <optgroup label="FlatFile db" >
                                     <option value="flatfile">Text DB API</option>
                                 </optgroup>

@@ -193,6 +193,7 @@ return array(
     'ADMIN_USERNAME'=>'Admin Username',
     'ADMIN_USERNAME_MIN'=>'at least 3 characters',
     'ADMIN_PASSWORD'=>'Admin Password',
+    'DB_TYPE_SELECT'=>'Please select database type',
     'DB_TYPE'=>'Database Type',
     'DB_NAME'=>'Database Name',
     'DB_USER'=>'DB Username',
