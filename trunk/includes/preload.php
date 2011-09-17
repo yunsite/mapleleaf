@@ -1,13 +1,17 @@
 <?php
+/**
+ * Bootstrap file
+ *
+ * @author rainyjune <dreamneverfall@gmail.com>
+ * @version $Rev$ $Date$
+ */
 if(!defined('IN_MP')){die('Access denied!');}
 if(version_compare(PHP_VERSION,'5.1.0','<')){die('PHP Version 5.1.0+ required!');}
 date_default_timezone_set('UTC');
-#error_reporting(0);
-//若用于调试，请把上面一行注释掉，打开下面这一行
 error_reporting(E_ALL);
 
 /**
- * 尝试禁用magic_quotes_gpc，magic_quotes_runtime，magic_quotes_sybase
+ * If you are sure that your server has been disabled magic quotes,you can remove these lines from 17 to 47 to improve performance. 
  */
 ini_set('arg_separator.output',     '&amp;');
 ini_set('magic_quotes_runtime',     0);
@@ -76,4 +80,3 @@ if(is_installed()){//若已经安装，执行IP检查
 elseif($_GET['action']!='install'){
 	header("Location:index.php?action=install");exit;
 }
-?>
