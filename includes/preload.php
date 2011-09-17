@@ -3,12 +3,14 @@
  * Bootstrap file
  *
  * @author rainyjune <dreamneverfall@gmail.com>
- * @version $Rev$ $Date$
+ * @version $Id$
  */
 if(!defined('IN_MP')){die('Access denied!');}
 if(version_compare(PHP_VERSION,'5.1.0','<')){die('PHP Version 5.1.0+ required!');}
 date_default_timezone_set('UTC');
 error_reporting(E_ALL);
+//载入函数
+require 'functions.php';
 
 /**
  * If you are sure that your server has been disabled magic quotes,you can remove these lines from 17 to 47 to improve performance. 
@@ -18,11 +20,6 @@ ini_set('magic_quotes_runtime',     0);
 ini_set('magic_quotes_sybase',      0);
 if(get_magic_quotes_gpc())
 {
-    function stripslashes_deep($value)
-    {
-        $value=is_array($value)?array_map('stripslashes_deep',$value):stripslashes($value);
-        return $value;
-    }
     $_POST	=array_map('stripslashes_deep',$_POST);
     $_GET	=array_map('stripslashes_deep',$_GET);
     $_COOKIE=array_map('stripslashes_deep',$_COOKIE);
@@ -46,8 +43,6 @@ function maple_unset_globals()
 }
 maple_unset_globals();
 
-//载入函数
-require 'functions.php';
 //载入文本数据库引擎
 require APPROOT.'/includes/txt-db-api/txt-db-api.php';
 //载入数据库类
