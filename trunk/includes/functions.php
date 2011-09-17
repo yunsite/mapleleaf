@@ -9,11 +9,11 @@
  * Borrowed from CI
  * Updated version suggested by Geert De Deckere
  *
- * @access public
- * @param string
- * @return string
+ * @param string $ip
+ * @return boolean 
  */
-function valid_ip($ip){
+function valid_ip($ip)
+{
 	$ip_segments = explode('.', $ip);
 	// Always 4 segments needed
 	if (count($ip_segments) != 4)
@@ -32,11 +32,13 @@ function valid_ip($ip){
 }
 
 /**
- * Finds wether the user is admin , redirect browser to the login page if not admin.
+ * Finds whether the user is admin or not , redirect browser to the login page if not admin.
  *
  */
-function is_admin(){
-	if (!isset($_SESSION['admin'])){
+function is_admin()
+{
+	if (!isset($_SESSION['admin']))
+	{
 		header("Location:index.php?controller=user&action=login");exit;
 	}
 }
@@ -47,8 +49,10 @@ function is_admin(){
  * @access	public
  * @return	bool
  */
-function gd_loaded(){
-	if ( ! extension_loaded('gd')){
+function gd_loaded()
+{
+	if ( ! extension_loaded('gd'))
+	{
 		if ( ! @dl('gd.so'))
 			return FALSE;
 	}
@@ -61,11 +65,13 @@ function gd_loaded(){
  * @access	public
  * @return	mixed
  */
-function gd_version(){
+function gd_version()
+{
 	$gd_version=FALSE;
 	if (defined('GD_VERSION'))
 		$gd_version=GD_VERSION;
-	elseif(function_exists('gd_info')){
+	elseif(function_exists('gd_info'))
+	{
 		$gd_version = @gd_info();
 		$gd_version = $gd_version['GD Version'];
 	}
@@ -77,7 +83,8 @@ function gd_version(){
  * 
  * @return string 
  */
-function getIP(){
+function getIP()
+{
 	$ip = $_SERVER['REMOTE_ADDR'];
 	if (!empty($_SERVER['HTTP_CLIENT_IP']))
 		$ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -93,7 +100,8 @@ function getIP(){
  * @param string $value
  * @return bool
  */
-function is_email($value){
+function is_email($value)
+{
 	return preg_match('/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i', $value);
 }
 
@@ -104,7 +112,8 @@ function is_email($value){
  * @param string $action <p>The name of action</p>
  * @param string $evt <p>The name of event</p>
  */
-function attachEvent($action,$evt){
+function attachEvent($action,$evt)
+{
 	global $actionEvent;
 	if (!@in_array($evt, $actionEvent[$action]))
 		$actionEvent[$action][]=$evt;
@@ -150,7 +159,8 @@ function attachEvent($action,$evt){
  * @return
  *   The path of the matching directory.
  */
-function conf_path($require_settings = TRUE, $reset = FALSE) {
+function conf_path($require_settings = TRUE, $reset = FALSE) 
+{
 	static $conf = '';//静态变量
 
 	if ($conf && !$reset) {//若静态变量有值，并且 $reset 为默认
@@ -179,7 +189,8 @@ function conf_path($require_settings = TRUE, $reset = FALSE) {
  * @global string $db_url
  * @return bool
  */
-function is_flatfile(){
+function is_flatfile()
+{
 	global $db_url;
 	if(substr($db_url, 0, 8)=='flatfile')
 		return true;
@@ -191,7 +202,8 @@ function is_flatfile(){
  *
  * @global string $db_url 
  */
-function delete_backup_files(){
+function delete_backup_files()
+{
 	global $db_url;
 	is_admin();
 	$url = parse_url($db_url);
@@ -199,8 +211,10 @@ function delete_backup_files(){
 	$dbname=substr($url['path'], 1);
 	$dir=APPROOT.'/data/'.$dbname;
 	$d=dir($dir);
-	while(false!==($entry=$d->read())){
-		if (strlen($entry)==19){
+	while(false!==($entry=$d->read()))
+	{
+		if (strlen($entry)==19)
+		{
 			$d_file=$dir.'/'.$entry;
 			unlink($d_file);
 		}
@@ -215,7 +229,8 @@ function delete_backup_files(){
  * @param string $ip
  * @return bool
  */
-function is_baned($ip){
+function is_baned($ip)
+{
 	global $db_url;
 	$all_baned_ips=array();
 	$db=YDB::factory($db_url);
@@ -231,7 +246,8 @@ function is_baned($ip){
  * @param string $str
  * @return string
  */
-function parse_tbprefix($str){
+function parse_tbprefix($str)
+{
 	global $db_prefix;
 	return strtr($str,array('<'=>$db_prefix,'>'=>''));
 }
@@ -289,7 +305,8 @@ function get_all_data($parse_smileys=true,$filter_words=false,$processUsername=f
  * @param $image_url
  * @param $smileys
  */
-function parse_smileys($str = '', $image_url = '', $smileys = NULL){
+function parse_smileys($str = '', $image_url = '', $smileys = NULL)
+{
 	if ($image_url == '')
 		return $str;
 	if (!is_array($smileys))
@@ -305,7 +322,8 @@ function parse_smileys($str = '', $image_url = '', $smileys = NULL){
  * 过滤敏感词语
  * @param array $input
  */
-function filter_words($input){
+function filter_words($input)
+{
 	$filter_array=explode(',',  ZFramework::app()->filter_words);
 	$input=str_ireplace($filter_array,'***',$input);
 	return $input;
@@ -313,7 +331,8 @@ function filter_words($input){
 /**
  * 显示表情
  */
-function show_smileys_table(){
+function show_smileys_table()
+{
 	$smiley=  require APPROOT.'/includes/showSmiley.php';
 	return $smiley;
 }
@@ -321,7 +340,8 @@ function show_smileys_table(){
  * 替换被过滤的词语
  * @param array $filter_words
  */
-function fix_filter_string($filter_words){
+function fix_filter_string($filter_words)
+{
 	$new_string=trim($filter_words,',');
 	$new_string=str_replace(array("\t","\r","\n",'  ',' '),'',$new_string);
 	return $new_string;
@@ -332,7 +352,8 @@ function fix_filter_string($filter_words){
  *
  * @return array
  */
-function get_supported_rdbms(){
+function get_supported_rdbms()
+{
 	$supported_rdbms=array();
 	$rdbms_functions=array('mysql'=>'mysql_connect','mysqli'=>'mysqli_connect','sqlite'=>'sqlite_open');
 	$rdbms_names=array('mysql'=>'MySQL','mysqli'=>'MySQL Improved','sqlite'=>'SQLite');
@@ -348,7 +369,8 @@ function get_supported_rdbms(){
  *
  * @return bool
  */
-function is_installed(){
+function is_installed()
+{
 	global $db_url;
 	if($db_url=='dummydb://username:password@localhost/databasename')
 		return false;
@@ -359,7 +381,8 @@ function is_installed(){
  * 转义字符串
  *
  */
-function maple_quotes($var,$charset='UTF-8'){
+function maple_quotes($var,$charset='UTF-8')
+{
 	return htmlspecialchars(trim($var),ENT_QUOTES,  $charset);
 }
 
@@ -368,7 +391,8 @@ function maple_quotes($var,$charset='UTF-8'){
  * @param $name 配置参数名
  * @return mixed 配置参数值或者NULL
  */	
-function getConfigVar($name){
+function getConfigVar($name)
+{
 	global $db_url;
 	$db=YDB::factory($db_url);
 	$result=$db->queryAll(sprintf(parse_tbprefix("SELECT * FROM <sysvar> WHERE varname='%s'"),  $db->escape_string($name)));
@@ -383,7 +407,8 @@ function getConfigVar($name){
  * 得到表情图案
  * @return array
  */
-function getSmileys(){
+function getSmileys()
+{
 	return include  dirname(__FILE__).'/smiley.php';
 }
 
@@ -391,7 +416,8 @@ function getSmileys(){
 /**
  * 得到所有可用的主题
  */
-function get_all_themes(){
+function get_all_themes()
+{
 	$themes=array();
 	$d=dir(THEMEDIR);
 	while(false!==($entry=$d->read())){
@@ -407,7 +433,8 @@ function get_all_themes(){
  *
  * @return array
  */
-function get_all_langs(){
+function get_all_langs()
+{
 	$langs=array();
 	$d=dir(APPROOT.'/languages/');
 	while(false!==($entry=$d->read())){
@@ -428,7 +455,8 @@ function _removeIndex($var){
  *
  * @return array
  */
-function get_all_timezone(){
+function get_all_timezone()
+{
 	$timezone=  include APPROOT.'/languages/'.getConfigVar('lang').'.php';
 	return $timezone['TZ_ZONES'];
 }    
@@ -437,7 +465,8 @@ function get_all_timezone(){
 /**
  * 显示信息
  */
-function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3){
+function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay=3)
+{
 	include 'themes/'.getConfigVar('theme').'/templates/'."show_message.php"; exit;
 }
 
@@ -448,9 +477,12 @@ function show_message($msg,$redirect=false,$redirect_url='index.php',$time_delay
  * @param mixed $userSpecifiedLanguage
  * @return array
  */
-function getLangArray($userSpecifiedLanguage=null){
-	if($userSpecifiedLanguage){
-		if(file_exists(APPROOT.'/languages/'.$userSpecifiedLanguage.'.php')){
+function getLangArray($userSpecifiedLanguage=null)
+{
+	if($userSpecifiedLanguage)
+	{
+		if(file_exists(APPROOT.'/languages/'.$userSpecifiedLanguage.'.php'))
+		{
 			return include APPROOT.'/languages/'.$userSpecifiedLanguage.'.php';
 		}
 	}
@@ -465,7 +497,8 @@ function getLangArray($userSpecifiedLanguage=null){
  * @param mixed $userSpecifiedLanguage
  * @return string
  */
-function t($message,$params=array(),$userSpecifiedLanguage=null){
+function t($message,$params=array(),$userSpecifiedLanguage=null)
+{
 	$messages=getLangArray($userSpecifiedLanguage);
 	if(isset ($messages[$message]) && $messages[$message]!=='')
 		$message=$messages[$message];
@@ -476,7 +509,8 @@ function t($message,$params=array(),$userSpecifiedLanguage=null){
  * 判断是否是关闭模式
  *
  */
-function is_closedMode(){
+function is_closedMode()
+{
 	$disabledAction=array('PostController/actionCreate','SiteController/actionIndex','UserController/actionCreate');
 	if(getConfigVar('site_close')==1 && !isset ($_SESSION['admin']) && in_array((isset($_GET['controller'])?$_GET['controller']:'SiteController').'/'.(isset($_GET['action'])?$_GET['action']:'actionIndex'), $disabledAction))
 		show_message(getConfigVar('close_reason'));
@@ -491,4 +525,21 @@ function is_closedMode(){
 function stripslashes_deep($value)
 {
 	return is_array($value)?array_map('stripslashes_deep',$value):stripslashes($value);
+}
+
+/**
+ * 反设置所有被禁止的全局变量.
+ * @return void
+ */
+function maple_unset_globals()
+{
+    if (ini_get('register_globals') && (strtolower(ini_get('register_globals'))!='off'))
+    {
+        $allowed = array('_ENV' => 1, '_GET' => 1, '_POST' => 1, '_COOKIE' => 1,'_SESSION'=>1,'_FILES' => 1, '_SERVER' => 1, '_REQUEST' => 1, 'GLOBALS' => 1);
+        foreach ($GLOBALS as $key => $value)
+        {
+            if (!isset($allowed[$key]))
+                unset($GLOBALS[$key]);
+        }
+    }
 }
