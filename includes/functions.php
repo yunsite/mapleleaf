@@ -6,29 +6,13 @@
 
 /**
  * Validate IP Address
- * Borrowed from CI
- * Updated version suggested by Geert De Deckere
  *
  * @param string $ip
  * @return boolean 
  */
 function valid_ip($ip)
 {
-	$ip_segments = explode('.', $ip);
-	// Always 4 segments needed
-	if (count($ip_segments) != 4)
-		return FALSE;
-	// IP can not start with 0
-	if ($ip_segments[0][0] == '0')
-		return FALSE;
-	// Check each segment
-	foreach ($ip_segments as $segment){
-		// IP segments must be digits and can not be
-		// longer than 3 digits or greater then 255
-		if ($segment == '' OR preg_match("/[^0-9]/", $segment) OR $segment > 255 OR strlen($segment) > 3)
-			return FALSE;
-	}
-	return TRUE;
+	return filter_var($ip,FILTER_VALIDATE_IP);
 }
 
 /**
