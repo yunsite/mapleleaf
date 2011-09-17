@@ -9,7 +9,6 @@ if(!defined('IN_MP')){die('Access denied!');}
 if(version_compare(PHP_VERSION,'5.1.0','<')){die('PHP Version 5.1.0+ required!');}
 date_default_timezone_set('UTC');
 error_reporting(E_ALL);
-//载入函数
 require 'functions.php';
 
 /**
@@ -31,7 +30,7 @@ if(get_magic_quotes_gpc())
  */
 function maple_unset_globals()
 {
-    if (ini_get('register_globals'))
+    if (ini_get('register_globals') && (strtolower(ini_get('register_globals'))!='off'))
     {
         $allowed = array('_ENV' => 1, '_GET' => 1, '_POST' => 1, '_COOKIE' => 1,'_SESSION'=>1,'_FILES' => 1, '_SERVER' => 1, '_REQUEST' => 1, 'GLOBALS' => 1);
         foreach ($GLOBALS as $key => $value)
