@@ -11,9 +11,6 @@ date_default_timezone_set('UTC');
 error_reporting(E_ALL);
 require 'functions.php';
 
-/**
- * If you are sure that your server has been disabled magic quotes,you can remove these lines from 17 to 47 to improve performance. 
- */
 ini_set('arg_separator.output',     '&amp;');
 ini_set('magic_quotes_runtime',     0);
 ini_set('magic_quotes_sybase',      0);
@@ -25,21 +22,6 @@ if(get_magic_quotes_gpc())
     $_REQUEST=array_map('stripslashes_deep',$_REQUEST);
 }
 
-/**
- * 反设置所有被禁止的全局变量.
- */
-function maple_unset_globals()
-{
-    if (ini_get('register_globals') && (strtolower(ini_get('register_globals'))!='off'))
-    {
-        $allowed = array('_ENV' => 1, '_GET' => 1, '_POST' => 1, '_COOKIE' => 1,'_SESSION'=>1,'_FILES' => 1, '_SERVER' => 1, '_REQUEST' => 1, 'GLOBALS' => 1);
-        foreach ($GLOBALS as $key => $value)
-        {
-            if (!isset($allowed[$key]))
-                unset($GLOBALS[$key]);
-        }
-    }
-}
 maple_unset_globals();
 
 //载入文本数据库引擎
